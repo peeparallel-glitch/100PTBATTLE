@@ -4888,7 +4888,6 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     if (isCrit && target.skill !== 'fudo') {
       dmg = actor.attack;
       if (actor.strengthenTurns > 0) dmg = Math.floor(dmg * 1.5);
-      if (isCharged) dmg *= 2;
       dmg = Math.floor(dmg);
 
       if (isDefending) dmg = Math.floor(dmg / 2);
@@ -4902,7 +4901,6 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       if (target.paperarmorTurns > 0) def = Math.floor(def / 2);
 
       dmg = Math.max(0, atk - def);
-      if (isCharged) dmg *= 2;
       dmg = Math.floor(dmg);
 
       if (isDefending) dmg = Math.floor(dmg / 2);
@@ -4954,14 +4952,12 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
 
     if (sk === 'gigabreak') {
       let dmg = actor.attack + actor.luck;
-      if (isCharged) dmg *= 2;
       dmg = Math.floor(dmg);
       if (isDefending) dmg = Math.floor(dmg / 2);
       processDamage(actorSide, actor, targetSide, target, dmg, false, false, onComplete);
 
     } else if (sk === 'moroha') {
       let dmg = actor.attack * 2;
-      if (isCharged) dmg *= 2;
       dmg = Math.floor(dmg);
       if (isDefending) dmg = Math.floor(dmg / 2);
       
@@ -4978,13 +4974,11 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       actor.nextTurnPriority = true; // absolute priority next turn
       actor.defense = 0; // defense to 0 for this turn
       let dmg = actor.attack;
-      if (isCharged) dmg *= 2;
       dmg = Math.floor(dmg); // ignore defense!
       processDamage(actorSide, actor, targetSide, target, dmg, true, false, onComplete);
 
     } else if (sk === 'shuriken') {
       let dmg = actor.attack * 0.75;
-      if (isCharged) dmg *= 2;
       dmg = Math.floor(dmg); // ignores defense
       processDamage(actorSide, actor, targetSide, target, dmg, true, false, onComplete);
 
@@ -5054,7 +5048,6 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     } else if (sk === 'haisui') {
       if (actor.cur <= actor.max / 2) {
         let dmg = actor.attack * 1.5;
-        if (isCharged) dmg *= 2;
         dmg = Math.floor(dmg);
         // Guaranteed Critical
         processDamage(actorSide, actor, targetSide, target, dmg, true, false, onComplete);
@@ -5228,7 +5221,6 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         actor.jackpotActive = true;
         addLog(`🎰 ジャックポット！ 運が相手より高いため、このターン確定クリティカル！`, 'log-skill');
         let dmg = actor.attack;
-        if (isCharged) dmg *= 2;
         dmg = Math.floor(dmg);
         processDamage(actorSide, actor, targetSide, target, dmg, true, false, onComplete);
       } else {
