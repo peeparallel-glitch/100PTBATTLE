@@ -1526,6 +1526,18 @@
       color: #e2e8f0;
     }
 
+    /* スマートフォン・縦長画面向けのスクロールサポート */
+    @media (max-width: 768px) {
+      #battle-screen {
+        overflow-y: auto !important;
+      }
+      .battle-wrapper-169 {
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+      }
+    }
+
     /* 3-Column layout (Enemy 5 / Spacer 2 / Player 5) */
     .battle-grid-3col {
       display: grid;
