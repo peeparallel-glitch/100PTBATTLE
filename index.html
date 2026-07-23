@@ -2888,31 +2888,93 @@ document.addEventListener('click', function initFullscreen() {
   document.removeEventListener('click', initFullscreen);
 }, { once: true });
 
-function toggleFullscreen() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(err => {
-      console.warn("Fullscreen request rejected:", err);
+// デバイス・OS自動判定対応フルスクリーン要求
+function requestDeviceFullscreen() {
+  const el = document.documentElement;
+  const ua = navigator.userAgent.toLowerCase();
+  
+  // デバイスの簡易判別
+  const isIOS = /iphone|ipad|ipod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isAndroid = /android/.test(ua);
+  const isMobile = isIOS || isAndroid || /mobi|mini|fennec|iemobile|opera mobi/i.test(ua);
+
+  // 標準および各ベンダーのフルスクリーンAPI
+  const requestFS = el.requestFullscreen || 
+                    el.webkitRequestFullscreen || 
+                    el.mozRequestFullScreen || 
+                    el.msRequestFullscreen;
+
+  if (requestFS) {
+    requestFS.call(el).then(() => {
+      // モバイル端末で画面向きロックが利用可能な場合は、ゲーム向きの横画面(landscape)にロック
+      if (isMobile && screen.orientation && screen.orientation.lock) {
+        screen.orientation.lock("landscape").catch(err => {
+          console.warn("Orientation lock rejected:", err);
+        });
+      }
+    }).catch(err => {
+      console.warn("Fullscreen request rejected, switching to virtual mode:", err);
+      fallbackVirtualFullscreen();
     });
   } else {
-    document.exitFullscreen();
+    // API非対応デバイス（主にiPhone Safari）は仮想フルスクリーンにフォールバック
+    fallbackVirtualFullscreen();
+  }
+}
+
+// 仮想フルスクリーン（CSSで画面最大化）
+function fallbackVirtualFullscreen() {
+  const ua = navigator.userAgent.toLowerCase();
+  const isIOS = /iphone|ipad|ipod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  
+  if (isIOS) {
+    // iOS Safari用アドレスバー自動非表示化ハック
+    window.scrollTo(0, 1);
+  }
+  
+  document.body.classList.add('virtual-fullscreen');
+  
+  // メタタグのviewportをピンチズーム無効・画面幅最大に更新
+  let viewport = document.querySelector("meta[name=viewport]");
+  if (viewport) {
+    viewport.setAttribute("content", "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover");
+  }
+}
+
+// フルスクリーン解除
+function exitDeviceFullscreen() {
+  const exitFS = document.exitFullscreen || 
+                 document.webkitExitFullscreen || 
+                 document.mozCancelFullScreen || 
+                 document.msExitFullscreen;
+                 
+  if (exitFS && (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement)) {
+    exitFS.call(document).catch(err => console.warn(err));
+  }
+  document.body.classList.remove('virtual-fullscreen');
+}
+
+function toggleFullscreen() {
+  const isFS = document.fullscreenElement || 
+               document.webkitFullscreenElement || 
+               document.mozFullScreenElement || 
+               document.msFullscreenElement;
+
+  if (!isFS && !document.body.classList.contains('virtual-fullscreen')) {
+    requestDeviceFullscreen();
+  } else {
+    exitDeviceFullscreen();
   }
 }
 
 function autoFullscreen() {
-  if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen().catch(err => {
-      console.warn("Auto-fullscreen rejected:", err);
-    });
-  }
+  // 自動判別フルスクリーン
+  requestDeviceFullscreen();
 }
 
 function showNameDialog() {
-  // Request fullscreen on user interaction trigger
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen().catch(err => {
-      console.warn("Auto-fullscreen on start rejected:", err);
-    });
-  }
+  // ユーザーのインタラクション契機で最適フルスクリーンを起動
+  requestDeviceFullscreen();
   goScreen('name-dialog');
 }
 
