@@ -2876,12 +2876,14 @@ function goScreen(name) {
 
 // 1. Title -> Name input
 
-// 全体の最初のクリックで自動的にフルスクリーン化するグローバルリスナー
+// 全体の最初のクリックで自動的に最適フルスクリーン化するグローバルリスナー
 document.addEventListener('click', function initFullscreen() {
-  if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen().catch(err => {
-      console.warn("Global click auto-fullscreen rejected:", err);
-    });
+  const isFS = document.fullscreenElement || 
+               document.webkitFullscreenElement || 
+               document.mozFullScreenElement || 
+               document.msFullscreenElement;
+  if (!isFS && !document.body.classList.contains('virtual-fullscreen')) {
+    requestDeviceFullscreen();
   }
   document.removeEventListener('click', initFullscreen);
 }, { once: true });
