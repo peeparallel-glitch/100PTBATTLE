@@ -1526,11 +1526,17 @@
       color: #e2e8f0;
     }
 
-    /* スマートフォン・縦長画面向けのスクロールサポート */
-    @media (max-width: 768px) {
-      #battle-screen {
+    /* スマートフォン・縦長画面・高さの低い端末向けのスクロールサポート */
+    @media (max-width: 768px), (max-height: 750px) {
+      body {
         overflow-y: auto !important;
         height: auto !important;
+      }
+      #battle-screen {
+        overflow-y: visible !important;
+        height: auto !important;
+        max-height: none !important;
+        display: block !important;
         -webkit-overflow-scrolling: touch;
       }
       .battle-wrapper-169 {
@@ -2879,11 +2885,11 @@ function goScreen(name) {
   }
 
   if (name === 'battle') {
-    // モバイル（768px以下）ではスクロール許可、PCではoverflow hidden
-    if (window.innerWidth > 768) {
+    // モバイル画面幅または高さが低い場合はスクロールを全面的に許可
+    if (window.innerWidth > 768 && window.innerHeight > 750) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = 'visible';
       document.body.style.overflowY = 'auto';
     }
     initBattle();
