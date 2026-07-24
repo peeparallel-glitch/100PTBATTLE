@@ -1530,24 +1530,7 @@
       container-type: inline-size;
     }
 
-    /* スマートフォン・小型画面向け：16:9比率を崩さず全表示スケール */
-    @media (max-width: 768px) {
-      .cyber-card [id^="fn-"] {
-        font-size: 20px !important;
-      }
-      .cyber-card .fighter-icon {
-        font-size: 70px !important;
-      }
-      .cyber-card img {
-        max-height: 70px !important;
-      }
-      .battle-log {
-        font-size: 14px !important;
-      }
-      #manual-commands-panel .go-scouting-btn {
-        font-size: 16px !important;
-      }
-    }
+
 
     /* 3-Column layout (Enemy 5 / Spacer 2 / Player 5) */
     .battle-grid-3col {
@@ -1758,6 +1741,7 @@
 </style>
 </head>
 <body>
+<div id="game-viewport">
 
 
 <!-- ============ SKILLS LIBRARY OVERLAY ============ -->
@@ -2331,6 +2315,7 @@
 
 
 <!-- ============ RESULT OVERLAY ============ -->
+</div> <!-- End #game-viewport -->
 <div class="battle-result-overlay" id="result-overlay">
   <div class="result-banner" id="result-banner">VICTORY</div>
   <div class="result-sub" id="result-sub"></div>
@@ -5884,7 +5869,24 @@ function resultLab() {
 //  BOOT
 // ============================================================
 
+function updateGameScale() {
+  const vp = document.getElementById('game-viewport');
+  if (!vp) return;
+  const baseW = 1280;
+  const baseH = 720;
+  const winW = window.innerWidth;
+  const winH = window.innerHeight;
+  
+  // Calculate scale factor to fit inside current window
+  const scale = Math.min(winW / baseW, winH / baseH);
+  vp.style.transform = `translate(-50%, -50%) scale(${scale})`;
+}
+
+window.addEventListener('resize', updateGameScale);
+window.addEventListener('orientationchange', updateGameScale);
+
 function init() {
+  updateGameScale();
   load();
   prepareStage();
   updateRecord();
