@@ -2,7 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>100pt ビルドバトルRPG</title>
   <meta name="description" content="100ポイントのリソース配分だけで戦い抜く、純粋な戦略バトルRPG">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,10 +65,11 @@
       background-image:
         radial-gradient(ellipse at 20% 50%, rgba(61,155,233,0.06) 0%, transparent 60%),
         radial-gradient(ellipse at 80% 20%, rgba(168,85,247,0.06) 0%, transparent 60%);
-      overflow: hidden;
+      overflow: hidden !important;
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.95);
       box-sizing: border-box;
       color: var(--text-primary);
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
     }
 
     /* ============================================================
@@ -589,9 +592,14 @@
        SCOUTING SCREEN
        ============================================================ */
     #scouting-screen {
-      padding: 32px 24px;
+      padding: 10px 24px;
       max-width: 1100px;
       margin: 0 auto;
+      height: 664px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
     }
 
     #scouting-screen.active { display: block; }
@@ -599,15 +607,15 @@
     .scouting-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 28px;
+      gap: 16px;
+      margin-bottom: 10px;
     }
 
     .enemy-info-card {
       background: var(--bg-panel);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 28px;
+      padding: 14px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -641,11 +649,11 @@
     }
 
     .enemy-icon {
-      font-size: 64px;
-      margin-bottom: 12px;
+      font-size: 44px;
+      margin-bottom: 6px;
       position: relative;
       display: block;
-      filter: drop-shadow(0 0 16px rgba(239,68,68,0.5));
+      filter: drop-shadow(0 0 12px rgba(239,68,68,0.5));
     }
 
     .enemy-name-display {
@@ -731,7 +739,7 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
-      max-height: 420px;
+      max-height: 290px;
       overflow-y: auto;
     }
 
@@ -915,10 +923,11 @@
     }
 
     .fighter-icon {
-      font-size: 70px;
+      font-size: 55px;
       line-height: 1;
       text-align: center;
       flex-shrink: 1;
+      max-height: 110px;
     }
 
     .fighter-name {
@@ -1569,7 +1578,7 @@
     .battle-grid-3col {
       display: grid;
       grid-template-columns: 5fr 2fr 5fr;
-      padding: 4px 8px;
+      padding: 2px 8px;
       gap: 4px;
       min-height: 0;
       flex: 1;
@@ -1582,7 +1591,7 @@
       background: rgba(13, 17, 23, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 10px;
-      padding: 8px;
+      padding: 6px;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -2163,7 +2172,7 @@
             </div>
 
             <!-- Large Monster Visual -->
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; padding: 10px 0; min-height: 120px;">
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; padding: 6px 0; min-height: 110px;">
               <span class="fighter-icon" id="fi-enemy" style="font-size: 110px; transform: scaleX(-1) scale(2); filter: drop-shadow(0 0 15px rgba(239,68,68,0.3)); transition: transform 0.1s;">👹</span>
               <div id="buffs-e" style="position: absolute; bottom: 0; display: flex; gap: 4px; font-size: 14px;"></div>
             </div>
@@ -2212,7 +2221,7 @@
             </div>
 
             <!-- Large Monster Visual -->
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; padding: 10px 0; min-height: 120px;">
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; padding: 6px 0; min-height: 110px;">
               <span class="fighter-icon" id="fi-player" style="font-size: 110px; transform: scale(2); filter: drop-shadow(0 0 15px rgba(0,212,255,0.3)); transition: transform 0.1s;">🐉</span>
               <div id="buffs-p" style="position: absolute; bottom: 0; display: flex; gap: 4px; font-size: 14px;"></div>
             </div>
@@ -2275,7 +2284,7 @@
     </div> <!-- Close battle-grid-3col -->
   
       <!-- Bottom Controls, Result Panel & Battle Log Combined 2-Column Layout (Moved inside battle-wrapper-169) -->
-      <div class="battle-bottom-controls" style="display: flex; border-top: 2px solid rgba(0, 212, 255, 0.1); background: rgba(5, 10, 20, 0.95); flex: 0 0 210px; width: 100%; overflow: hidden; min-height: 0;">
+      <div class="battle-bottom-controls" style="display: flex; border-top: 2px solid rgba(0, 212, 255, 0.1); background: rgba(5, 10, 20, 0.95); height: 245px; flex: 0 0 245px; width: 100%; overflow: hidden; box-sizing: border-box;">
         
         <!-- LEFT side: Battle Log (Scrollable Messages) -->
         <div style="flex: 2; display: flex; flex-direction: column; border-right: 1px solid rgba(255,255,255,0.08); min-width: 0;">
@@ -2308,21 +2317,21 @@
           </div>
 
           <!-- Command Panel (Vertical style with Fight, Charge, Defend, Skill) -->
-          <div id="manual-commands-panel" style="display: flex; flex-direction: column; gap: 5px; flex: 1; justify-content: stretch; padding: 2px 0;">
+          <div id="manual-commands-panel" style="display: flex; flex-direction: column; gap: 4px; flex: 1; justify-content: space-between; padding: 2px 0;">
             
-            <button class="go-scouting-btn" id="btn-cmd-normal" onclick="selectCommand('attack')" style="flex: 1; padding: 0; font-size: 22px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;" >
+            <button class="go-scouting-btn" id="btn-cmd-normal" onclick="selectCommand('attack')" style="flex: 1; min-height: 32px; padding: 2px 0; font-size: 16px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;" >
               <div style="font-weight: bold;">⚔️ 戦う</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-cmd-charge" onclick="selectCommand('charge')" style="flex: 1; padding: 0; font-size: 22px; background: linear-gradient(135deg, #78350f, #451a03); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;" >
+            <button class="go-scouting-btn" id="btn-cmd-charge" onclick="selectCommand('charge')" style="flex: 1; min-height: 32px; padding: 2px 0; font-size: 16px; background: linear-gradient(135deg, #78350f, #451a03); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;" >
               <div style="font-weight: bold;">🔋 溜める</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-cmd-defend" onclick="selectCommand('defend')" style="flex: 1; padding: 0; font-size: 22px; background: linear-gradient(135deg, #374151, #1f2937); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+            <button class="go-scouting-btn" id="btn-cmd-defend" onclick="selectCommand('defend')" style="flex: 1; min-height: 32px; padding: 2px 0; font-size: 16px; background: linear-gradient(135deg, #374151, #1f2937); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
               <div style="font-weight: bold;">🛡️ 防御</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-command-skill" onclick="selectCommand('skill')" style="flex: 1; padding: 0; font-size: 22px; background: linear-gradient(135deg, var(--accent-purple), #6d28d9); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;" >
+            <button class="go-scouting-btn" id="btn-command-skill" onclick="selectCommand('skill')" style="flex: 1; min-height: 32px; padding: 2px 0; font-size: 16px; background: linear-gradient(135deg, var(--accent-purple), #6d28d9); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;" >
               <div style="font-weight: bold;">⚡ スキル <span id="skill-btn-usage-info" style="font-size: 13px; opacity: 0.8;">(1戦1回)</span></div>
             </button>
             
@@ -5912,12 +5921,14 @@ function updateGameScale() {
   if (!vp) return;
   const baseW = 1280;
   const baseH = 720;
-  const winW = window.innerWidth;
-  const winH = window.innerHeight;
+  const winW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  const winH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
   
-  // Calculate scale factor to fit inside current window
+  // 画面枠内に余裕を持って100%確実に収まるよう、スケール倍率に 0.92 (92%) の安全マージンを適用
+  // 画面全体の解像度・レイアウト比率を保ったままゲーム画面全体を小さくスケーリングして一画面に完全収容
   const scale = Math.min(winW / baseW, winH / baseH);
   vp.style.transform = `translate(-50%, -50%) scale(${scale})`;
+  vp.style.transformOrigin = 'center center';
 }
 
 window.addEventListener('resize', updateGameScale);
