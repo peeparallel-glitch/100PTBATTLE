@@ -37,15 +37,36 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    body {
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      overflow: hidden !important;
+      background: #000 !important;
       font-family: 'Noto Sans JP', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* 16:9 仮想キャンバスコンテナ (1280x720 基準) */
+    #game-viewport {
+      width: 1280px;
+      height: 720px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      transform-origin: center center;
       background: var(--bg-deep);
-      color: var(--text-primary);
-      min-height: 100vh;
-      overflow-x: hidden;
       background-image:
         radial-gradient(ellipse at 20% 50%, rgba(61,155,233,0.06) 0%, transparent 60%),
         radial-gradient(ellipse at 80% 20%, rgba(168,85,247,0.06) 0%, transparent 60%);
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.95);
+      box-sizing: border-box;
+      color: var(--text-primary);
     }
 
     /* ============================================================
@@ -136,7 +157,16 @@
        SCREENS
        ============================================================ */
     
-    .screen { display: none; }
+    .screen {
+      display: none;
+      padding: 0 24px 24px;
+      width: 1280px;
+      height: 720px;
+      max-height: 720px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -795,17 +825,23 @@
        ============================================================ */
     #battle-screen {
       padding: 0;
-      height: 96vh;
-      max-height: 96vh;
+      width: 1280px;
+      height: 720px;
       overflow: hidden;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
-      max-width: 100%;
       margin: 0 auto;
     }
 
-    #battle-screen.active { display: block; }
+    #battle-screen.active {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 1280px !important;
+      height: 720px !important;
+      overflow: hidden !important;
+    }
 
     .battle-speed-bar {
       display: flex;
@@ -879,10 +915,10 @@
     }
 
     .fighter-icon {
-      font-size: 36px;
+      font-size: 70px;
+      line-height: 1;
       text-align: center;
-      margin-bottom: 8px;
-      display: block;
+      flex-shrink: 1;
     }
 
     .fighter-name {
@@ -1510,13 +1546,11 @@
 
     /* Cyberpunk 16:9 Battle Screen Redesign Styles - Perfect 16:9 Fit */
     .battle-wrapper-169 {
-      width: min(100vw, calc(100dvh * 16 / 9)) !important;
-      height: min(100dvh, calc(100vw * 9 / 16)) !important;
-      aspect-ratio: 16 / 9 !important;
-      max-width: 100vw !important;
-      max-height: 100dvh !important;
+      width: 1280px;
+      height: 720px;
+      max-height: 720px;
       box-sizing: border-box;
-      margin: auto !important;
+      margin: 0;
       background: #0d1117;
       border: 2px solid #1f2937;
       box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 40px rgba(0, 212, 255, 0.05);
@@ -1527,7 +1561,6 @@
       font-family: 'Inter', 'Outfit', sans-serif;
       position: relative;
       color: #e2e8f0;
-      container-type: inline-size;
     }
 
 
@@ -1536,10 +1569,12 @@
     .battle-grid-3col {
       display: grid;
       grid-template-columns: 5fr 2fr 5fr;
-      padding: 8px;
-      gap: 8px;
+      padding: 4px 8px;
+      gap: 4px;
       min-height: 0;
+      flex: 1;
       position: relative;
+      overflow: hidden;
     }
 
     /* Cyber Card base */
@@ -1547,12 +1582,13 @@
       background: rgba(13, 17, 23, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 10px;
-      padding: 12px;
+      padding: 8px;
       display: flex;
       flex-direction: column;
       position: relative;
       overflow: hidden;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      min-height: 0;
     }
     
     .enemy-cyber-card {
@@ -1572,8 +1608,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 8px 16px;
-      font-size: 24px;
+      padding: 4px 16px;
+      font-size: 20px;
+      flex-shrink: 0;
     }
     
     #battle-marquee-log {
@@ -1598,18 +1635,20 @@
       100% { opacity: 1; text-shadow: 0 0 10px rgba(239,68,68,0.8); }
     }
 
+    /* Override inline font-size for status board items */
+    .cyber-status-board div {
+      font-size: 16px !important;
+    }
+
     /* Cyber Status Grids */
     .cyber-status-board {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
+      gap: 3px;
       background: rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 6px;
-      padding: 6px 10px;
-      font-size: 15px;
-      font-family: monospace;
-      margin-bottom: 8px;
+      padding: 4px 8px;
     }
     
     .cyber-status-board div {
@@ -2236,7 +2275,7 @@
     </div> <!-- Close battle-grid-3col -->
   
       <!-- Bottom Controls, Result Panel & Battle Log Combined 2-Column Layout (Moved inside battle-wrapper-169) -->
-      <div class="battle-bottom-controls" style="display: flex; border-top: 2px solid rgba(0, 212, 255, 0.1); background: rgba(5, 10, 20, 0.95); flex: 1; width: 100%; overflow: hidden; min-height: 0;">
+      <div class="battle-bottom-controls" style="display: flex; border-top: 2px solid rgba(0, 212, 255, 0.1); background: rgba(5, 10, 20, 0.95); flex: 0 0 210px; width: 100%; overflow: hidden; min-height: 0;">
         
         <!-- LEFT side: Battle Log (Scrollable Messages) -->
         <div style="flex: 2; display: flex; flex-direction: column; border-right: 1px solid rgba(255,255,255,0.08); min-width: 0;">
@@ -2300,7 +2339,7 @@
       </div>
 
     <!-- Center screen pop-up result modal -->
-    <div id="battle-result-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.2); backdrop-filter: none; z-index: 10000; align-items: center; justify-content: center; pointer-events: none;">
+    <div id="battle-result-modal" style="display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.2); backdrop-filter: none; z-index: 10000; align-items: center; justify-content: center; pointer-events: none;">
       <div id="battle-result-panel" style="background: #0d1117; padding: 24px 36px; border-radius: 12px; border: 3px solid var(--accent-gold); text-align: center; box-shadow: 0 0 35px rgba(245, 158, 11, 0.5); display: flex; flex-direction: column; gap: 12px; min-width: 650px; max-width: 800px; padding: 32px 48px; pointer-events: auto; border-color: var(--accent-gold);">
         <div id="battle-result-banner" style="font-family: 'Orbitron', sans-serif; font-size: 32px; font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 10px rgba(245,158,11,0.5);">VICTORY!</div>
         <div id="battle-result-sub" style="font-size: 16px; color: var(--text-secondary); margin-bottom: 4px; line-height: 1.5;"></div>
@@ -2315,7 +2354,6 @@
 
 
 <!-- ============ RESULT OVERLAY ============ -->
-</div> <!-- End #game-viewport -->
 <div class="battle-result-overlay" id="result-overlay">
   <div class="result-banner" id="result-banner">VICTORY</div>
   <div class="result-sub" id="result-sub"></div>
@@ -5900,5 +5938,6 @@ function init() {
 
 init();
 </script>
+</div> <!-- End #game-viewport -->
 </body>
 </html>
