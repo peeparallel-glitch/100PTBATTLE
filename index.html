@@ -57,10 +57,10 @@
       width: 1280px;
       height: 720px;
       position: absolute;
-      top: 50%;
+      top: 0;
       left: 50%;
-      transform: translate(-50%, -50%) scale(1);
-      transform-origin: center center;
+      transform: translate(-50%, 0) scale(1);
+      transform-origin: center top;
       background: var(--bg-deep);
       background-image:
         radial-gradient(ellipse at 20% 50%, rgba(61,155,233,0.06) 0%, transparent 60%),
@@ -1011,56 +1011,13 @@
 
     /* Battle Log */
     .battle-log {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      height: 240px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 4px;
+      padding: 3px 6px;
       overflow-y: auto;
       font-size: 13px;
-      line-height: 1.7;
-    }
-
-    .battle-log::-webkit-scrollbar { width: 4px; }
-    .battle-log::-webkit-scrollbar-track { background: transparent; }
-    .battle-log::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
-
-    .log-entry {
-      opacity: 0;
-      transform: translateX(-8px);
-      animation: logIn 0.25s ease forwards;
-      padding: 3px 6px;
-      border-radius: 3px;
-      margin-bottom: 1px;
-    }
-
-    @keyframes logIn {
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    .log-divider  { color: var(--text-dim); font-size: 22px; border-top: 1px solid var(--border); padding-top: 6px; margin-top: 6px; }
-    .log-info     { color: var(--accent-cyan); font-style: normal; font-size: 22px; }
-    .log-normal   { color: var(--text-primary); }
-    .log-crit     { color: var(--accent-gold); font-weight: 700; }
-    .log-miss     { color: var(--text-dim); }
-    .log-skill    { color: var(--accent-purple); font-weight: 500; }
-    .log-dmg-p    { color: var(--accent-cyan); }
-    .log-dmg-e    { color: var(--accent-red); }
-    .log-win      { color: var(--accent-gold); font-weight: 900; font-size: 15px; }
-    .log-lose     { color: var(--accent-red); font-weight: 900; font-size: 15px; }
-
-    /* Result overlay */
-    .battle-result-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 200;
-      background: rgba(5,10,26,0.85);
-      backdrop-filter: blur(6px);
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 20px;
+      line-height: 1.3;
     }
 
     .battle-result-overlay.visible { display: flex; }
@@ -1183,6 +1140,8 @@
       width: 100% !important;
       box-sizing: border-box !important;
       text-align: center !important;
+      font-size: 19px !important;
+      font-weight: bold !important;
     }
     .title-btn:hover {
       transform: translateY(-2px);
@@ -1283,6 +1242,69 @@
         grid-template-columns: 1fr;
       }
     }
+
+    /* Battle Log */
+    .battle-log {
+      background: rgba(0, 0, 0, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 4px;
+      padding: 3px 6px;
+      overflow-y: auto;
+      font-size: 1.2rem !important;
+      line-height: 1.4 !important;
+    }
+
+    .battle-log div, .battle-log p, .battle-log span {
+      font-size: 1.2rem !important;
+      line-height: 1.4 !important;
+    }
+
+    .battle-log::-webkit-scrollbar { width: 4px; }
+    .battle-log::-webkit-scrollbar-track { background: transparent; }
+    .battle-log::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+    .log-entry {
+      opacity: 0;
+      transform: translateX(-8px);
+      animation: logIn 0.25s ease forwards;
+      padding: 2px 4px;
+      border-radius: 3px;
+      margin-bottom: 2px;
+      font-size: 1.2rem !important;
+      line-height: 1.4 !important;
+    }
+
+    @keyframes logIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .log-divider  { color: var(--text-dim); font-size: 1.2rem !important; font-weight: bold; border-top: 1px solid var(--border); padding-top: 4px; margin-top: 4px; }
+    .log-info     { color: var(--accent-cyan); font-style: normal; font-size: 1.2rem !important; font-weight: bold; }
+    .log-normal   { color: var(--text-primary); font-size: 1.2rem !important; }
+    .log-crit     { color: var(--accent-gold); font-weight: 700; font-size: 1.2rem !important; }
+    .log-miss     { color: var(--text-dim); font-size: 1.2rem !important; }
+    .log-skill    { color: var(--accent-purple); font-weight: 500; font-size: 1.2rem !important; }
+    .log-dmg-p    { color: var(--accent-cyan); font-size: 1.2rem !important; font-weight: bold; }
+    .log-dmg-e    { color: var(--accent-red); font-size: 1.2rem !important; font-weight: bold; }
+    .log-win      { color: var(--accent-gold); font-weight: 900; font-size: 1.3rem !important; }
+    .log-lose     { color: var(--accent-red); font-weight: 900; font-size: 1.3rem !important; }
+
+    /* Result overlay */
+    .battle-result-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(5,10,26,0.85);
+      backdrop-filter: blur(6px);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .battle-result-overlay.visible { display: flex; }
+
     .monster-card-6 {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -1633,9 +1655,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 4px 16px;
+      padding: 0px 16px;
       font-size: 20px;
       flex-shrink: 0;
+      margin-top: 0;
     }
     
     #battle-marquee-log {
@@ -1856,8 +1879,8 @@
 
 
 <!-- ============ SKILLS LIBRARY OVERLAY ============ -->
-<div id="skills-library-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center;">
-  <div style="background:var(--bg-card); border:2px solid var(--border); border-radius:12px; width:95%; max-width:550px; height:80vh; display:flex; flex-direction:column; padding:20px; box-shadow:var(--glow-gold);">
+<div id="skills-library-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center;">
+  <div style="background:var(--bg-card); border:2px solid var(--border); border-radius:12px; width:95%; max-width:550px; height:80%; display:flex; flex-direction:column; padding:20px; box-shadow:var(--glow-gold);">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
       <div style="font-size:16px; font-weight:bold; color:var(--accent-gold);">📜 獲得スキル図鑑</div>
       <button class="btn-secondary" style="padding:4px 12px; font-size:16px; border-color:var(--border);" onclick="closeSkillsLibrary()">✕ 閉じる</button>
@@ -1894,7 +1917,7 @@
     <div class="error-msg" id="name-error">名前を入力してください（空白のみは不可）</div>
     <button class="title-btn" style="padding:10px 30px; font-size:15px;" onclick="confirmPlayerName()">確定</button>
   </div>
-</div
+</div>
 
 <!-- ============ MAIN MENU ============ -->
 <div id="main-menu-screen" class="screen fade-in" style="display:none;">
@@ -1940,7 +1963,7 @@
 </div>
 
 <!-- ============ SCROLL REWARD OVERLAY ============ -->
-<div id="scroll-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
+<div id="scroll-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
   <div style="text-align:center; max-width:500px; padding:30px;">
     <div style="font-size:24px; font-weight:bold; color:var(--accent-gold); margin-bottom:8px;">🎊 リーグ戦 優勝おめでとう！</div>
     <div style="font-size:13px; color:var(--text-secondary); margin-bottom:30px;">秘伝の書を1枚選んで、新たなスキルを修得しよう</div>
@@ -1965,7 +1988,6 @@
   </div>
 </div>
 
->
 
 <!-- ============ HEADER (Initially hidden) ============ -->
 <header id="header" style="display: none;">
@@ -2009,16 +2031,16 @@
 </div>
 
 <!-- ============ LAB DETAIL MODAL ============ -->
-<div id="lab-detail-modal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-  <div class="cyber-card" style="width: 90%; max-width: 440px; max-height: 90vh; overflow-y: auto; background: var(--bg-card); border: 2px solid var(--accent-cyan); border-radius: 12px; padding: 24px; box-shadow: 0 0 20px rgba(0,212,255,0.2); position: relative;">
+<div id="lab-detail-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+  <div class="cyber-card" style="width: 90%; max-width: 440px; max-height: 85%; overflow-y: auto; background: var(--bg-card); border: 2px solid var(--accent-cyan); border-radius: 12px; padding: 24px; box-shadow: 0 0 20px rgba(0,212,255,0.2); position: relative;">
     <button onclick="closeLabDetailModal()" style="position: absolute; top: 8px; right: 14px; background: transparent; border: none; color: #fff; font-size: 28px; cursor: pointer; opacity: 0.7; z-index: 10;">&times;</button>
     <div id="lab-modal-content-area"></div>
   </div>
 </div>
 
 <!-- ============ IMAGE ZOOM MODAL ============ -->
-<div id="image-zoom-modal" class="modal-overlay" onclick="closeImageZoomModal()" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(8px); cursor: pointer;">
-  <div style="position: relative; max-width: 90%; max-height: 90%; display: flex; flex-direction: column; align-items: center;">
+<div id="image-zoom-modal" onclick="closeImageZoomModal()" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(8px); cursor: pointer;">
+  <div style="position: relative; max-width: 90%; max-height: 85%; display: flex; flex-direction: column; align-items: center;">
     <div id="image-zoom-content" style="display: flex; align-items: center; justify-content: center; transition: transform 0.2s;"></div>
     <div style="margin-top: 20px; font-size: 16px; color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.6); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">画面のどこかをクリックで閉じる</div>
   </div>
@@ -2347,55 +2369,55 @@
     </div> <!-- Close battle-grid-3col -->
   
       <!-- Bottom Controls, Result Panel & Battle Log Combined 2-Column Layout (Moved inside battle-wrapper-169) -->
-      <div class="battle-bottom-controls" style="display: flex; border-top: 2px solid rgba(255, 255, 255, 0.7); background: rgba(5, 10, 20, 0.95); flex: 1; width: 100%; overflow: hidden; min-height: 0; box-sizing: border-box;">
+      <div class="battle-bottom-controls" style="display: flex; border-top: 2px solid rgba(255, 255, 255, 0.7); background: rgba(5, 10, 20, 0.95); flex: 1; min-height: 0; width: 100%; overflow: hidden; box-sizing: border-box; padding: 4px; gap: 4px; margin-bottom: 14px;">
         
         <!-- LEFT side: Battle Log (Scrollable Messages) -->
-        <div style="flex: 2; display: flex; flex-direction: column; border-right: 2px solid rgba(255, 255, 255, 0.7); min-width: 0; box-sizing: border-box;">
-          <div class="battle-log" id="battle-log" style="flex: 1; margin: 0; background: rgba(0, 0, 0, 0.2); font-size: 13px; padding: 4px 6px; overflow-y: auto; line-height: 1.3; border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 4px; box-sizing: border-box; box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);"></div>
+        <div style="flex: 2; display: flex; flex-direction: column; border-right: 2px solid rgba(255, 255, 255, 0.7); min-width: 0; box-sizing: border-box; height: 100%;">
+          <div class="battle-log" id="battle-log" style="flex: 1; margin: 0; background: rgba(0, 0, 0, 0.2); font-size: 1.2rem; padding: 3px 6px; overflow-y: auto; line-height: 1.4; border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 4px; box-sizing: border-box; box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);"></div>
         </div>
 
         <!-- RIGHT side: Commands, Advisories & Results -->
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 4px 8px; gap: 3px; min-width: 0; box-sizing: border-box;">
+        <div style="flex: 1; display: flex; flex-direction: column; padding: 4px; gap: 4px; min-width: 0; box-sizing: border-box; border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 4px; box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); height: 100%; overflow: hidden;">
           
           <!-- Strategy Modes switcher -->
-          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 3px; margin-bottom: 2px;">
-            <span style="font-size: 13px; font-weight: bold; color: var(--accent-gold);">⚡ バトル速度:</span>
-            <div class="battle-speed-bar" style="display: flex; gap: 6px;">
-              <button class="speed-btn active" id="spd-1" onclick="setSpeed(1)" style="padding: 1px 8px; font-size: 12px; height: auto;">×1</button>
-              <button class="speed-btn" id="spd-2" onclick="setSpeed(2)" style="padding: 1px 8px; font-size: 12px; height: auto;">×2</button>
-              <button class="speed-btn" id="spd-3" onclick="setSpeed(3)" style="padding: 1px 8px; font-size: 12px; height: auto;">×3</button>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; margin-bottom: 1px; flex-shrink: 0;">
+            <span style="font-size: 11px; font-weight: bold; color: var(--accent-gold);">⚡ バトル速度:</span>
+            <div class="battle-speed-bar" style="display: flex; gap: 4px;">
+              <button class="speed-btn active" id="spd-1" onclick="setSpeed(1)" style="padding: 1px 5px; font-size: 10px; height: 16px; line-height: 12px;">×1</button>
+              <button class="speed-btn" id="spd-2" onclick="setSpeed(2)" style="padding: 1px 5px; font-size: 10px; height: 16px; line-height: 12px;">×2</button>
+              <button class="speed-btn" id="spd-3" onclick="setSpeed(3)" style="padding: 1px 5px; font-size: 10px; height: 16px; line-height: 12px;">×3</button>
             </div>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; opacity: 0.8;">
-            <div style="display: flex; gap: 6px;">
-              <button class="nav-tab active" id="btn-mode-manual" onclick="setBattleMode('manual')" style="padding: 1px 6px; font-size: 12px; height: auto;">手動コマンド</button>
-              <button class="nav-tab" id="btn-mode-auto" onclick="setBattleMode('auto')" style="padding: 1px 6px; font-size: 12px; height: auto;">オート</button>
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; opacity: 0.8; flex-shrink: 0; margin-bottom: 2px;">
+            <div style="display: flex; gap: 4px;">
+              <button class="nav-tab active" id="btn-mode-manual" onclick="setBattleMode('manual')" style="padding: 1px 5px; font-size: 11px; height: 16px; line-height: 12px;">手動</button>
+              <button class="nav-tab" id="btn-mode-auto" onclick="setBattleMode('auto')" style="padding: 1px 5px; font-size: 11px; height: 16px; line-height: 12px;">オート</button>
             </div>
             <!-- Auto Battle strategy row -->
             <div id="auto-strategy-panel" style="display: none; gap: 4px;">
-              <button class="nav-tab active" id="strat-gangan" onclick="setStrategy('gangan')" style="padding: 1px 5px; font-size: 12px;">ガンガン</button>
-              <button class="nav-tab" id="strat-inochi" onclick="setStrategy('inochi')" style="padding: 1px 5px; font-size: 12px;">いのち</button>
-              <button class="nav-tab" id="strat-batchiri" onclick="setStrategy('batchiri')" style="padding: 1px 5px; font-size: 12px;">バッチリ</button>
+              <button class="nav-tab active" id="strat-gangan" onclick="setStrategy('gangan')" style="padding: 1px 4px; font-size: 10px; height: 16px; line-height: 12px;">ガンガン</button>
+              <button class="nav-tab" id="strat-inochi" onclick="setStrategy('inochi')" style="padding: 1px 4px; font-size: 10px; height: 16px; line-height: 12px;">いのち</button>
+              <button class="nav-tab" id="strat-batchiri" onclick="setStrategy('batchiri')" style="padding: 1px 4px; font-size: 10px; height: 16px; line-height: 12px;">バッチリ</button>
             </div>
           </div>
 
           <!-- Command Panel (Vertical style with Fight, Charge, Defend, Skill) -->
-          <div id="manual-commands-panel" style="display: flex; flex-direction: column; gap: 2px; flex: 1; justify-content: space-between; padding: 1px 0; width: 100%; box-sizing: border-box;">
+          <div id="manual-commands-panel" style="display: flex; flex-direction: column; gap: 4px; padding: 1px 0; width: 100%; box-sizing: border-box; flex: 1; min-height: 0; overflow: hidden;">
             
-            <button class="go-scouting-btn" id="btn-cmd-normal" onclick="selectCommand('attack')" style="flex: 1; min-height: 28px; padding: 2px 0; font-size: 14px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 6px rgba(255,255,255,0.2);" >
-              <div style="font-weight: bold;">⚔️ 戦う</div>
+            <button class="go-scouting-btn" id="btn-cmd-normal" onclick="selectCommand('attack')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.2);" >
+              <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">⚔️ 戦う</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-cmd-charge" onclick="selectCommand('charge')" style="flex: 1; min-height: 28px; padding: 2px 0; font-size: 14px; background: linear-gradient(135deg, #78350f, #451a03); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 6px rgba(255,255,255,0.2);" >
-              <div style="font-weight: bold;">🔋 溜める</div>
+            <button class="go-scouting-btn" id="btn-cmd-charge" onclick="selectCommand('charge')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #78350f, #451a03); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.2);" >
+              <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">🔋 溜める</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-cmd-defend" onclick="selectCommand('defend')" style="flex: 1; min-height: 28px; padding: 2px 0; font-size: 14px; background: linear-gradient(135deg, #374151, #1f2937); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 6px rgba(255,255,255,0.2);">
-              <div style="font-weight: bold;">🛡️ 防御</div>
+            <button class="go-scouting-btn" id="btn-cmd-defend" onclick="selectCommand('defend')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #374151, #1f2937); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.2);">
+              <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">🛡️ 防御</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-command-skill" onclick="selectCommand('skill')" style="flex: 1; min-height: 28px; padding: 2px 0; font-size: 14px; background: linear-gradient(135deg, var(--accent-purple), #6d28d9); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 6px rgba(255,255,255,0.2);" >
-              <div style="font-weight: bold;">⚡ スキル <span id="skill-btn-usage-info" style="font-size: 11px; opacity: 0.8;">(1戦1回)</span></div>
+            <button class="go-scouting-btn" id="btn-command-skill" onclick="selectCommand('skill')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, var(--accent-purple), #6d28d9); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.2);" >
+              <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">⚡ スキル <span id="skill-btn-usage-info" style="font-size: 12px; font-weight: normal; opacity: 0.85; margin-left: 2px;">(1戦1回)</span></div>
             </button>
             
           </div>
@@ -2403,7 +2425,7 @@
           <!-- Inline Result Panel Removed to Modal -->
 
           <!-- ADVICE BOX (Real-time Meta Help) -->
-          <div id="battle-advice-box" style="background: rgba(0, 212, 255, 0.04); border: 1px solid rgba(0, 212, 255, 0.15); border-radius: 4px; padding: 2px 6px; font-size: 11px; color: #00d4ff; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;">
+          <div id="battle-advice-box" style="margin-top: auto; background: rgba(0, 212, 255, 0.04); border: 1px solid rgba(0, 212, 255, 0.15); border-radius: 4px; padding: 2px 6px; font-size: 10px; color: #00d4ff; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; height: 18px; line-height: 12px; box-sizing: border-box; flex-shrink: 0;">
             [ADVICE] バトルフィールドスキャン中...
           </div>
 
@@ -6028,8 +6050,8 @@ function updateGameScale() {
   // 画面枠内に余裕を持って100%確実に収まるよう、スケール倍率に 0.92 (92%) の安全マージンを適用
   // 画面全体の解像度・レイアウト比率を保ったままゲーム画面全体を小さくスケーリングして一画面に完全収容
   const scale = Math.min(winW / baseW, winH / baseH);
-  vp.style.transform = `translate(-50%, -50%) scale(${scale})`;
-  vp.style.transformOrigin = 'center center';
+  vp.style.transform = `translate(-50%, 0) scale(${scale})`;
+  vp.style.transformOrigin = 'center top';
 }
 
 window.addEventListener('resize', updateGameScale);
