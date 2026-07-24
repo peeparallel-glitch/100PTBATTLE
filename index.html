@@ -1526,31 +1526,124 @@
       color: #e2e8f0;
     }
 
-    /* スマートフォン・縦長画面・高さの低い端末向けのスクロールサポート */
-    @media (max-width: 768px), (max-height: 750px) {
+    /* スマートフォン・縦画面向け：完全に1画面(100dvh)に収めるコンパクトレスポンシブ */
+    @media (max-width: 768px) {
       body {
-        overflow-y: auto !important;
-        height: auto !important;
+        overflow: hidden !important;
+        height: 100dvh !important;
+        height: 100vh !important;
       }
       #battle-screen.active {
-        overflow-y: visible !important;
-        height: auto !important;
-        max-height: none !important;
-        display: block !important;
-        -webkit-overflow-scrolling: touch;
+        overflow: hidden !important;
+        height: 100dvh !important;
+        height: 100vh !important;
+        max-height: 100dvh !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 0 !important;
       }
       .battle-wrapper-169 {
-        height: auto !important;
-        max-height: none !important;
-        overflow: visible !important;
-      }
-      .battle-bottom-controls {
-        overflow: visible !important;
+        height: 100dvh !important;
+        height: 100vh !important;
+        max-height: 100dvh !important;
+        border: none !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        display: flex !important;
         flex-direction: column !important;
       }
+      .battle-marquee-header {
+        padding: 3px 8px !important;
+        font-size: 12px !important;
+        flex-shrink: 0 !important;
+      }
       .battle-grid-3col {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
         gap: 4px !important;
+        padding: 4px !important;
+        flex-shrink: 0 !important;
+      }
+      /* 中央の VS スペーサーは非表示 */
+      .battle-grid-3col > div:nth-child(2) {
+        display: none !important;
+      }
+      .cyber-card {
+        padding: 4px 6px !important;
+      }
+      .cyber-card [id^="fn-"] {
+        font-size: 15px !important;
+        margin-bottom: 2px !important;
+        padding-bottom: 2px !important;
+      }
+      .cyber-card .fighter-icon {
+        font-size: 40px !important;
+      }
+      .cyber-card img {
+        max-height: 45px !important;
+      }
+      .cyber-status-board {
+        gap: 2px !important;
+      }
+      .cyber-status-board div[style*="font-size: 20px"] {
+        font-size: 11px !important;
+      }
+      #player-skill-box, #enemy-skill-box {
+        min-height: 24px !important;
+        padding: 2px 4px !important;
+      }
+      #player-skill-name, #enemy-skill-name {
+        font-size: 12px !important;
+      }
+      #player-skill-desc {
+        display: none !important;
+      }
+
+      /* 下部ログ & コマンドコントロール */
+      .battle-bottom-controls {
+        flex-direction: column !important;
+        flex: 1 !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+      }
+      .battle-bottom-controls > div:first-child {
+        flex: 1 !important;
+        min-height: 0 !important;
+      }
+      .battle-log {
+        font-size: 13px !important;
+        padding: 4px 6px !important;
+        line-height: 1.35 !important;
+      }
+      .battle-bottom-controls > div:last-child {
+        flex: none !important;
+        padding: 4px 6px !important;
+        gap: 3px !important;
+      }
+
+      /* コマンドパネルを 2x2 のコンパクト格子配置へ変更 */
+      #manual-commands-panel {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        grid-template-rows: 1fr 1fr !important;
+        gap: 4px !important;
+        height: auto !important;
+        padding: 0 !important;
+      }
+      #manual-commands-panel .go-scouting-btn {
+        padding: 5px 0 !important;
+        font-size: 14px !important;
+        height: auto !important;
+        border-radius: 4px !important;
+      }
+      #manual-commands-panel .go-scouting-btn div {
+        font-size: 14px !important;
+      }
+      #skill-btn-usage-info {
+        display: none !important;
+      }
+      #battle-advice-box {
+        font-size: 10px !important;
+        padding: 1px 4px !important;
       }
     }
 
@@ -2651,6 +2744,20 @@ let activeTimers = [];
 //  PERSISTENCE & UTILITIES
 // ============================================================
 
+function setSpeed(spd) {
+  battleSpeedMul = spd;
+  [1, 2, 3].forEach(s => {
+    const btn = document.getElementById('spd-' + s);
+    if (btn) {
+      if (s === spd) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    }
+  });
+}
+
 function delay(ms) {
   return ms / (battleSpeedMul || 1);
 }
@@ -2885,13 +2992,7 @@ function goScreen(name) {
   }
 
   if (name === 'battle') {
-    // モバイル画面幅または高さが低い場合はスクロールを全面的に許可
-    if (window.innerWidth > 768 && window.innerHeight > 750) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'visible';
-      document.body.style.overflowY = 'auto';
-    }
+    document.body.style.overflow = 'hidden';
     initBattle();
   } else {
     document.body.style.overflow = '';
@@ -5048,6 +5149,53 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
 
     oppLastActiveSkill(target, sk); // Store last skill for copycat
     addLog(`⚡ ${actor.name} の「${(SKILLS[sk]||SKILLS.none).name}」！`, 'log-skill');
+
+    // 攻撃スキルの命中率・回避判定（通常攻撃と同等の回避率・パリィ・無敵判定）
+    const attackSkills = ['gigabreak', 'moroha', 'sutemi', 'shuriken', 'midare', 'ichigeki', 'weakmaker', 'haisui', '吸血', 'jackpot'];
+    if (attackSkills.includes(sk)) {
+      // 1. パリィ判定
+      if (parried) {
+        const t = setTimeout(() => {
+          addLog(`⚔️ ${target.name} はパッシブ「パリィ」を発動！ スキルを完全回避！`, 'log-skill');
+          if (isCharged) actor.charged = false;
+          onComplete();
+        }, delay(300));
+        activeTimers.push(t);
+        return;
+      }
+
+      // 2. 回避率判定 (相手のSPD, LUK, 残像, 煙幕等)
+      let pSpd = getEffectiveSpeed(actor);
+      let tSpd = getEffectiveSpeed(target);
+
+      let evasion = tSpd + (target.luck * 0.5) - (actor.luck * 0.5);
+      if (target.shadowstepTurns > 0) evasion += 20;
+      if (actor.enmakuTurns > 0) evasion += 50; 
+
+      evasion = Math.max(0, Math.min(100, evasion));
+
+      if (Math.random() * 100 < evasion) {
+        const t = setTimeout(() => {
+          addLog(`💫 ${target.name} はスキルの攻撃をかわした！ (回避率:${Math.round(evasion)}%)`, 'log-miss');
+          if (isCharged) actor.charged = false;
+          updateBuffsUI(actorSide, actor);
+          onComplete();
+        }, delay(300));
+        activeTimers.push(t);
+        return;
+      }
+
+      // 3. 無敵判定 (最後の砦)
+      if (target.fortressTurns > 0) {
+        const t = setTimeout(() => {
+          addLog(`🏰 ${target.name} は無敵状態！ スキルダメージを受けない！`, 'log-miss');
+          if (isCharged) actor.charged = false;
+          onComplete();
+        }, delay(300));
+        activeTimers.push(t);
+        return;
+      }
+    }
 
     if (sk === 'gigabreak') {
       let dmg = actor.attack + actor.luck;
