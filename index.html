@@ -1170,6 +1170,20 @@
       box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
       transition: all 0.2s;
     }
+    .go-scouting-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(61,155,233,0.5);
+    }
+
+    /* Force command buttons full-width stretch inside battle panel */
+    #manual-commands-panel {
+      align-items: stretch !important;
+    }
+    #manual-commands-panel button {
+      width: 100% !important;
+      box-sizing: border-box !important;
+      text-align: center !important;
+    }
     .title-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
@@ -1589,25 +1603,27 @@
     /* Cyber Card base */
     .cyber-card {
       background: rgba(13, 17, 23, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      border-radius: 6px;
       padding: 6px;
       display: flex;
       flex-direction: column;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       min-height: 0;
+      box-sizing: border-box;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
     }
     
     .enemy-cyber-card {
-      border-left: 4px solid var(--accent-red);
-      box-shadow: inset -10px 0 20px rgba(239, 68, 68, 0.02);
+      border-left: 3px solid var(--accent-red);
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3), inset -10px 0 20px rgba(239, 68, 68, 0.02);
     }
     
     .player-cyber-card {
-      border-right: 4px solid #00d4ff;
-      box-shadow: inset 10px 0 20px rgba(0, 212, 255, 0.02);
+      border-right: 3px solid #00d4ff;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3), inset 10px 0 20px rgba(0, 212, 255, 0.02);
     }
 
     /* Marquee Battle Log Header */
@@ -1786,6 +1802,53 @@
     #battle-log::-webkit-scrollbar-thumb:hover {
       background: rgba(0, 212, 255, 0.6);
     }
+
+    /* Force enemy images to face RIGHT (→) in both Scouting and Battle screens */
+    #scout-enemy-panel img, .enemy-cyber-card img {
+      transform: scaleX(-1) scale(1.15) !important;
+    }
+
+
+    /* UNIFIED ENEMY MONSTER IMAGE CSS (Right-facing for Scouting & Battle) */
+    .enemy-monster-img, #scout-enemy-panel img {
+      max-height: 120px !important;
+      max-width: 100% !important;
+      object-fit: contain !important;
+      transform: scale(1.15) !important;
+      filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.45)) !important;
+      vertical-align: middle !important;
+      pointer-events: none !important;
+    }
+
+
+    /* UNIFIED BATTLE CARD LAYOUT SYNC (Equal HP Bar Height & Monster Image Sizes) */
+    #fi-enemy, #fi-player {
+      height: 110px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    #fi-enemy img, #fi-player img {
+      max-height: 125px !important;
+      max-width: 100% !important;
+      object-fit: contain !important;
+      vertical-align: middle !important;
+      pointer-events: none !important;
+    }
+
+    /* Player monster scale alignment */
+    #fi-player img {
+      transform: scale(1.15) !important;
+      filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.45)) !important;
+    }
+
+    /* Enemy monster scale & RIGHT FACING alignment */
+    #fi-enemy img {
+      transform: scaleX(-1) scale(1.15) !important;
+      filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.45)) !important;
+    }
+
 </style>
 </head>
 <body>
@@ -2172,8 +2235,8 @@
             </div>
 
             <!-- Large Monster Visual -->
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; padding: 6px 0; min-height: 110px;">
-              <span class="fighter-icon" id="fi-enemy" style="font-size: 110px; transform: scaleX(-1) scale(2); filter: drop-shadow(0 0 15px rgba(239,68,68,0.3)); transition: transform 0.1s;">👹</span>
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; padding: 4px 0; min-height: 110px; overflow: visible; z-index: 5;">
+              <span class="fighter-icon" id="fi-enemy" style="font-size: 85px; transform: scaleX(-1) scale(1.4); filter: drop-shadow(0 0 15px rgba(239,68,68,0.3)); transition: transform 0.1s;">👹</span>
               <div id="buffs-e" style="position: absolute; bottom: 0; display: flex; gap: 4px; font-size: 14px;"></div>
             </div>
 
@@ -2189,8 +2252,8 @@
             </div>
 
             <!-- Skill Slot -->
-            <div style="background: rgba(239, 68, 68, 0.05); border: 1px dashed rgba(239, 68, 68, 0.3); border-radius: 6px; padding: 6px; text-align: center; display: flex; align-items: center; justify-content: center; min-height: 40px;" id="enemy-skill-box">
-              <span class="glitch-text" id="enemy-skill-name" data-text="[ ？？？？？？ ]" style="font-size: 20px;">[ ？？？？？？ ]</span>
+            <div style="background: rgba(239, 68, 68, 0.05); border: 1px dashed rgba(239, 68, 68, 0.3); border-radius: 6px; padding: 4px 6px; text-align: center; display: flex; align-items: center; justify-content: center; height: 52px; max-height: 52px; box-sizing: border-box;" id="enemy-skill-box">
+              <span class="glitch-text" id="enemy-skill-name" data-text="[ ？？？？？？ ]" style="font-size: 15px; font-weight: bold;">[ ？？？？？？ ]</span>
             </div>
           </div>
 
@@ -2221,8 +2284,8 @@
             </div>
 
             <!-- Large Monster Visual -->
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; padding: 6px 0; min-height: 110px;">
-              <span class="fighter-icon" id="fi-player" style="font-size: 110px; transform: scale(2); filter: drop-shadow(0 0 15px rgba(0,212,255,0.3)); transition: transform 0.1s;">🐉</span>
+            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; padding: 4px 0; min-height: 110px; overflow: visible; z-index: 5;">
+              <span class="fighter-icon" id="fi-player" style="font-size: 85px; transform: scale(1.4); filter: drop-shadow(0 0 15px rgba(0,212,255,0.3)); transition: transform 0.1s;">🐉</span>
               <div id="buffs-p" style="position: absolute; bottom: 0; display: flex; gap: 4px; font-size: 14px;"></div>
             </div>
 
@@ -2238,9 +2301,9 @@
             </div>
 
             <!-- Skill Slot -->
-            <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 6px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 40px;" id="player-skill-box">
-              <div style="font-weight: bold; font-size: 20px; color: #00d4ff;" id="player-skill-name">-</div>
-              <div style="font-size: 13px; color: var(--text-secondary); margin-top: 1px;" id="player-skill-desc">効果説明</div>
+            <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 4px 6px; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 52px; max-height: 52px; box-sizing: border-box; overflow: hidden;" id="player-skill-box">
+              <div style="font-weight: bold; font-size: 14px; color: #00d4ff; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="player-skill-name">-</div>
+              <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.2; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;" id="player-skill-desc">効果説明</div>
             </div>
           </div>
 
@@ -2284,55 +2347,55 @@
     </div> <!-- Close battle-grid-3col -->
   
       <!-- Bottom Controls, Result Panel & Battle Log Combined 2-Column Layout (Moved inside battle-wrapper-169) -->
-      <div class="battle-bottom-controls" style="display: flex; border-top: 2px solid rgba(0, 212, 255, 0.1); background: rgba(5, 10, 20, 0.95); height: 245px; flex: 0 0 245px; width: 100%; overflow: hidden; box-sizing: border-box;">
+      <div class="battle-bottom-controls" style="display: flex; border-top: 2px solid rgba(255, 255, 255, 0.7); background: rgba(5, 10, 20, 0.95); flex: 1; width: 100%; overflow: hidden; min-height: 0; box-sizing: border-box;">
         
         <!-- LEFT side: Battle Log (Scrollable Messages) -->
-        <div style="flex: 2; display: flex; flex-direction: column; border-right: 1px solid rgba(255,255,255,0.08); min-width: 0;">
-          <div class="battle-log" id="battle-log" style="flex: 1; margin: 0; background: rgba(0, 0, 0, 0.2); font-size: 20px; padding: 8px; overflow-y: auto; line-height: 1.5;"></div>
+        <div style="flex: 2; display: flex; flex-direction: column; border-right: 2px solid rgba(255, 255, 255, 0.7); min-width: 0; box-sizing: border-box;">
+          <div class="battle-log" id="battle-log" style="flex: 1; margin: 0; background: rgba(0, 0, 0, 0.2); font-size: 13px; padding: 4px 6px; overflow-y: auto; line-height: 1.3; border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 4px; box-sizing: border-box; box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);"></div>
         </div>
 
         <!-- RIGHT side: Commands, Advisories & Results -->
-        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 10px; gap: 8px; min-width: 0;">
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding: 4px 8px; gap: 3px; min-width: 0; box-sizing: border-box;">
           
           <!-- Strategy Modes switcher -->
-          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px; margin-bottom: 4px;">
-            <span style="font-size: 16px; font-weight: bold; color: var(--accent-gold);">⚡ バトル速度:</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 3px; margin-bottom: 2px;">
+            <span style="font-size: 13px; font-weight: bold; color: var(--accent-gold);">⚡ バトル速度:</span>
             <div class="battle-speed-bar" style="display: flex; gap: 6px;">
-              <button class="speed-btn active" id="spd-1" onclick="setSpeed(1)" style="padding: 2px 10px; font-size: 14px; height: auto;">×1</button>
-              <button class="speed-btn" id="spd-2" onclick="setSpeed(2)" style="padding: 2px 10px; font-size: 14px; height: auto;">×2</button>
-              <button class="speed-btn" id="spd-3" onclick="setSpeed(3)" style="padding: 2px 10px; font-size: 14px; height: auto;">×3</button>
+              <button class="speed-btn active" id="spd-1" onclick="setSpeed(1)" style="padding: 1px 8px; font-size: 12px; height: auto;">×1</button>
+              <button class="speed-btn" id="spd-2" onclick="setSpeed(2)" style="padding: 1px 8px; font-size: 12px; height: auto;">×2</button>
+              <button class="speed-btn" id="spd-3" onclick="setSpeed(3)" style="padding: 1px 8px; font-size: 12px; height: auto;">×3</button>
             </div>
           </div>
-          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; opacity: 0.8;">
+          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; opacity: 0.8;">
             <div style="display: flex; gap: 6px;">
-              <button class="nav-tab active" id="btn-mode-manual" onclick="setBattleMode('manual')" style="padding: 2px 8px; font-size: 14px; height: auto;">手動コマンド</button>
-              <button class="nav-tab" id="btn-mode-auto" onclick="setBattleMode('auto')" style="padding: 2px 8px; font-size: 14px; height: auto;">オート</button>
+              <button class="nav-tab active" id="btn-mode-manual" onclick="setBattleMode('manual')" style="padding: 1px 6px; font-size: 12px; height: auto;">手動コマンド</button>
+              <button class="nav-tab" id="btn-mode-auto" onclick="setBattleMode('auto')" style="padding: 1px 6px; font-size: 12px; height: auto;">オート</button>
             </div>
             <!-- Auto Battle strategy row -->
             <div id="auto-strategy-panel" style="display: none; gap: 4px;">
-              <button class="nav-tab active" id="strat-gangan" onclick="setStrategy('gangan')" style="padding: 2px 6px; font-size: 16px;">ガンガン</button>
-              <button class="nav-tab" id="strat-inochi" onclick="setStrategy('inochi')" style="padding: 2px 6px; font-size: 16px;">いのち</button>
-              <button class="nav-tab" id="strat-batchiri" onclick="setStrategy('batchiri')" style="padding: 2px 6px; font-size: 16px;">バッチリ</button>
+              <button class="nav-tab active" id="strat-gangan" onclick="setStrategy('gangan')" style="padding: 1px 5px; font-size: 12px;">ガンガン</button>
+              <button class="nav-tab" id="strat-inochi" onclick="setStrategy('inochi')" style="padding: 1px 5px; font-size: 12px;">いのち</button>
+              <button class="nav-tab" id="strat-batchiri" onclick="setStrategy('batchiri')" style="padding: 1px 5px; font-size: 12px;">バッチリ</button>
             </div>
           </div>
 
           <!-- Command Panel (Vertical style with Fight, Charge, Defend, Skill) -->
-          <div id="manual-commands-panel" style="display: flex; flex-direction: column; gap: 4px; flex: 1; justify-content: space-between; padding: 2px 0;">
+          <div id="manual-commands-panel" style="display: flex; flex-direction: column; gap: 2px; flex: 1; justify-content: space-between; padding: 1px 0; width: 100%; box-sizing: border-box;">
             
-            <button class="go-scouting-btn" id="btn-cmd-normal" onclick="selectCommand('attack')" style="flex: 1; min-height: 32px; padding: 2px 0; font-size: 16px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;" >
+            <button class="go-scouting-btn" id="btn-cmd-normal" onclick="selectCommand('attack')" style="flex: 1; min-height: 28px; padding: 2px 0; font-size: 14px; background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 6px rgba(255,255,255,0.2);" >
               <div style="font-weight: bold;">⚔️ 戦う</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-cmd-charge" onclick="selectCommand('charge')" style="flex: 1; min-height: 32px; padding: 2px 0; font-size: 16px; background: linear-gradient(135deg, #78350f, #451a03); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;" >
+            <button class="go-scouting-btn" id="btn-cmd-charge" onclick="selectCommand('charge')" style="flex: 1; min-height: 28px; padding: 2px 0; font-size: 14px; background: linear-gradient(135deg, #78350f, #451a03); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 6px rgba(255,255,255,0.2);" >
               <div style="font-weight: bold;">🔋 溜める</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-cmd-defend" onclick="selectCommand('defend')" style="flex: 1; min-height: 32px; padding: 2px 0; font-size: 16px; background: linear-gradient(135deg, #374151, #1f2937); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+            <button class="go-scouting-btn" id="btn-cmd-defend" onclick="selectCommand('defend')" style="flex: 1; min-height: 28px; padding: 2px 0; font-size: 14px; background: linear-gradient(135deg, #374151, #1f2937); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 6px rgba(255,255,255,0.2);">
               <div style="font-weight: bold;">🛡️ 防御</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-command-skill" onclick="selectCommand('skill')" style="flex: 1; min-height: 32px; padding: 2px 0; font-size: 16px; background: linear-gradient(135deg, var(--accent-purple), #6d28d9); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;" >
-              <div style="font-weight: bold;">⚡ スキル <span id="skill-btn-usage-info" style="font-size: 13px; opacity: 0.8;">(1戦1回)</span></div>
+            <button class="go-scouting-btn" id="btn-command-skill" onclick="selectCommand('skill')" style="flex: 1; min-height: 28px; padding: 2px 0; font-size: 14px; background: linear-gradient(135deg, var(--accent-purple), #6d28d9); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 6px rgba(255,255,255,0.2);" >
+              <div style="font-weight: bold;">⚡ スキル <span id="skill-btn-usage-info" style="font-size: 11px; opacity: 0.8;">(1戦1回)</span></div>
             </button>
             
           </div>
@@ -2340,7 +2403,7 @@
           <!-- Inline Result Panel Removed to Modal -->
 
           <!-- ADVICE BOX (Real-time Meta Help) -->
-          <div id="battle-advice-box" style="background: rgba(0, 212, 255, 0.04); border: 1px solid rgba(0, 212, 255, 0.15); border-radius: 6px; padding: 4px 8px; font-size: 13px; color: #00d4ff; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;">
+          <div id="battle-advice-box" style="background: rgba(0, 212, 255, 0.04); border: 1px solid rgba(0, 212, 255, 0.15); border-radius: 4px; padding: 2px 6px; font-size: 11px; color: #00d4ff; font-family: monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center;">
             [ADVICE] バトルフィールドスキャン中...
           </div>
 
@@ -3959,9 +4022,26 @@ function renderSelList() {
     const actSkills = m.skills.active.map(sk => SKILLS[sk] ? SKILLS[sk].name : sk).join(', ');
     const pasSkill = SKILLS[m.skills.passive[0]] ? SKILLS[m.skills.passive[0]].name : m.skills.passive[0];
 
+    const pImgTag = (function(sysKey){
+      const pStyle = "max-height: 45px; max-width: 45px; object-fit: contain;  vertical-align: middle;";
+      if (sysKey === 'dragon') return `<img src="IMG/dragon１A.png" style="${pStyle}">`;
+      if (sysKey === 'golem') return `<img src="IMG/go-remu1A.png" style="${pStyle}">`;
+      if (sysKey === 'bird') return `<img src="IMG/tori1A.png" style="${pStyle}">`;
+      if (sysKey === 'beast') return `<img src="IMG/kemono1A.png" style="${pStyle}">`;
+      if (sysKey === 'undead') return `<img src="IMG/anded1A.png" style="${pStyle}">`;
+      if (sysKey === 'slime') return `<img src="IMG/suraim1A.png" style="${pStyle}">`;
+      if (sysKey === 'devil') return `<img src="IMG/devil1A.png" style="${pStyle}">`;
+      if (sysKey === 'plant') return `<img src="IMG/natu1A.png" style="${pStyle}">`;
+      if (sysKey === 'metal') return `<img src="IMG/metar1A.png" style="${pStyle}">`;
+      return `<span style="font-size:28px;">🐲</span>`;
+    })(m.systemType);
+
     d.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-        <span style="font-weight:bold; color:var(--accent-gold);">${m.name}</span>
+        <div style="display:flex; align-items:center; gap:8px;">
+          ${pImgTag}
+          <span style="font-weight:bold; color:var(--accent-gold); font-size:16px;">${m.name}</span>
+        </div>
         <span style="font-size:14px; color:var(--text-dim);">${m.monsterClass} (${m.systemType})</span>
       </div>
       <div style="font-size:14px; color:var(--text-main); margin-bottom:4px;">
@@ -4112,6 +4192,86 @@ function prepareStage() {
   renderEnemyInfo();
 }
 
+
+
+const STAGE_IMAGES_LIST = [
+  "IMG2/01goburin.png",
+  "IMG2/02da-kub.png",
+  "IMG2/03aiang.png",
+  "IMG2/04megado.png",
+  "IMG2/05sta-.png",
+  "IMG2/06da-kumana.png",
+  "IMG2/07supi-do.png",
+  "IMG2/08ribinga-ma.png",
+  "IMG2/09ba-sa-ka.png",
+  "IMG2/10gyanbura-.png",
+  "IMG2/11asasinn.png",
+  "IMG2/12kong.png",
+  "IMG2/13vanpaia.png",
+  "IMG2/14go-st.png",
+  "IMG2/15sto-ngorem.png",
+  "IMG2/16nekuro.png",
+  "IMG2/17raitoba-fdo.png",
+  "IMG2/18o-ku.png",
+  "IMG2/19suko-pio.png",
+  "IMG2/20feari-.png",
+  "IMG2/21paradhin.png",
+  "IMG2/22fantomsi-fu.png",
+  "IMG2/23fensa-.png",
+  "IMG2/24kimaira.png",
+  "IMG2/25roiyaruga-do.png"
+];
+
+function getEnemyImageHTML(eObj) {
+  const imgClass = "enemy-monster-img";
+  const eName = (typeof eObj === 'string') ? eObj : (eObj ? eObj.name : '');
+  
+  // 1. Direct STAGE_ENEMIES index match if eObj is provided
+  if (typeof stageIndex !== 'undefined' && currentGameMode === 'league' && STAGE_IMAGES_LIST[stageIndex]) {
+    return `<img src="${STAGE_IMAGES_LIST[stageIndex]}" class="${imgClass}">`;
+  }
+
+  // 2. Name-based match with STAGE_ENEMIES order (01 to 25)
+  if (typeof STAGE_ENEMIES !== 'undefined') {
+    const idx = STAGE_ENEMIES.findIndex(x => x.name === eName);
+    if (idx !== -1 && STAGE_IMAGES_LIST[idx]) {
+      return `<img src="${STAGE_IMAGES_LIST[idx]}" class="${imgClass}">`;
+    }
+  }
+
+  // 3. Fallback map for special bosses/mobs
+  const getImg = (src) => `<img src="${src}" class="${imgClass}">`;
+  if (eName === 'アルファドラゴン') return getImg("IMG/dragon１B.png");
+  if (eName === 'インフェルノス') return getImg("IMG/dragon２B.png");
+  if (eName === 'オメガカイザー') return getImg("IMG/dragon３B.png");
+  if (eName === 'ストーンコング') return getImg("IMG/go-remu1B.png");
+  if (eName === 'ジェイドガーディアン') return getImg("IMG/go-remu2B.png");
+  if (eName === 'ギガストーン') return getImg("IMG/go-remu3B.png");
+  if (eName === 'ハーピィクイーン') return getImg("IMG/tori1B.png");
+  if (eName === 'ガルーダ') return getImg("IMG/tori2B.png");
+  if (eName === 'グリフォニクス') return getImg("IMG/tori3B.png");
+  if (eName === 'サーベルタイガー') return getImg("IMG/kemono1B.png");
+  if (eName === 'キマイラロード') return getImg("IMG/kemono2B.png");
+  if (eName === 'フェンリル') return getImg("IMG/kemono3B.png");
+  if (eName === 'マミースミス') return getImg("IMG/anded1B.png");
+  if (eName === 'ファントムナイト') return getImg("IMG/anded2B.png");
+  if (eName === 'デスサイズ') return getImg("IMG/anded3B.png");
+  if (eName === 'スライム') return getImg("IMG/suraim1B.png");
+  if (eName === 'キングスライム') return getImg("IMG/suraim2B.png");
+  if (eName === 'ゴッドゼリー') return getImg("IMG/suraim3B.png");
+  if (eName === 'プチデビル') return getImg("IMG/devil1B.png");
+  if (eName === 'サキュバス') return getImg("IMG/devil2B.png");
+  if (eName === 'ベルゼバブ') return getImg("IMG/devil3B.png");
+  if (eName === 'マンドラゴラ') return getImg("IMG/natu1B.png");
+  if (eName === 'アルラウネ') return getImg("IMG/natu2B.png");
+  if (eName === '世界樹の眷属') return getImg("IMG/natu3B.png");
+  if (eName === 'アイアンギガ') return getImg("IMG/metar1B.png");
+  if (eName === 'メタルビット') return getImg("IMG/metar2B.png");
+  if (eName === 'ジェノサイダー') return getImg("IMG/metar3B.png");
+
+  return `<span style="font-size: 65px; display: inline-block;">👾</span>`;
+}
+
 function renderEnemyInfo() {
   const panel = document.getElementById('scout-enemy-panel');
   if (!panel) return;
@@ -4126,7 +4286,7 @@ function renderEnemyInfo() {
   
   panel.innerHTML = `
     <div class="enemy-rank-badge">${badgeLabel}</div>
-    <span class="enemy-icon">${e.icon || '👾'}</span>
+    <div class="enemy-icon" style="height: 110px; display: flex; align-items: center; justify-content: center; margin: 4px 0;">${getEnemyImageHTML(e)}</div>
     <div class="enemy-name-display" style="color:var(--accent-red); font-weight:bold;">${e.name}</div>
     <div class="enemy-title-display">${e.title || '謎の対戦相手'}</div>
     
@@ -4375,126 +4535,67 @@ function initBattle() {
     const playerIconEl = document.getElementById('fi-player');
     const pNameForImage = pm.monsterClass || pState.name;
     if (pNameForImage === 'アルファドラゴン') {
-      playerIconEl.innerHTML = `<img src="IMG/dragon１A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/dragon１A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'インフェルノス') {
-      playerIconEl.innerHTML = `<img src="IMG/dragon２A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/dragon２A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'オメガカイザー') {
-      playerIconEl.innerHTML = `<img src="IMG/dragon３A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/dragon３A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'ストーンコング') {
-      playerIconEl.innerHTML = `<img src="IMG/go-remu1A_.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/go-remu1A_.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'ジェイドガーディアン') {
-      playerIconEl.innerHTML = `<img src="IMG/go-remu2A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/go-remu2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'ギガストーン') {
-      playerIconEl.innerHTML = `<img src="IMG/go-remu3A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/go-remu3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'ハーピィクイーン') {
-      playerIconEl.innerHTML = `<img src="IMG/tori1A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/tori1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'ガルーダ') {
-      playerIconEl.innerHTML = `<img src="IMG/tori2A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/tori2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'グリフォニクス') {
-      playerIconEl.innerHTML = `<img src="IMG/tori3A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/tori3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'サーベルタイガー') {
-      playerIconEl.innerHTML = `<img src="IMG/kemono1A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/kemono1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'キマイラロード') {
-      playerIconEl.innerHTML = `<img src="IMG/kemono2A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/kemono2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'フェンリル') {
-      playerIconEl.innerHTML = `<img src="IMG/kemono3A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/kemono3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'マミースミス') {
-      playerIconEl.innerHTML = `<img src="IMG/anded1A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/anded1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'ファントムナイト') {
-      playerIconEl.innerHTML = `<img src="IMG/anded2A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/anded2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'デスサイズ') {
-      playerIconEl.innerHTML = `<img src="IMG/anded3A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/anded3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'スライム') {
-      playerIconEl.innerHTML = `<img src="IMG/suraim1A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/suraim1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'キングスライム') {
-      playerIconEl.innerHTML = `<img src="IMG/suraim2A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/suraim2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'ゴッドゼリー') {
-      playerIconEl.innerHTML = `<img src="IMG/suraim3A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/suraim3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'プチデビル') {
-      playerIconEl.innerHTML = `<img src="IMG/devil1A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/devil1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'サキュバス') {
-      playerIconEl.innerHTML = `<img src="IMG/devil2A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/devil2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'ベルゼバブ') {
-      playerIconEl.innerHTML = `<img src="IMG/devil3A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/devil3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'マンドラゴラ') {
-      playerIconEl.innerHTML = `<img src="IMG/natu1A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/natu1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'アルラウネ') {
-      playerIconEl.innerHTML = `<img src="IMG/natu2A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/natu2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === '世界樹の眷属') {
-      playerIconEl.innerHTML = `<img src="IMG/natu3A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/natu3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'アイアンギガ') {
-      playerIconEl.innerHTML = `<img src="IMG/metar1A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/metar1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'メタルビット') {
-      playerIconEl.innerHTML = `<img src="IMG/metar2A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/metar2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'ジェノサイダー') {
-      playerIconEl.innerHTML = `<img src="IMG/metar3A.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = `<img src="IMG/metar3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else {
       playerIconEl.innerHTML = MONSTER_TYPES[sysKey] ? MONSTER_TYPES[sysKey].icon : '🐲';
     }
 
-    // Set enemy visual (check em.name or em.title)
+        // Set enemy visual using unified getEnemyImageHTML
     const enemyIconEl = document.getElementById('fi-enemy');
     const eNameForImage = em.name || em.title;
-    if (eNameForImage === 'アルファドラゴン') {
-      enemyIconEl.innerHTML = `<img src="IMG/dragon１B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'インフェルノス') {
-      enemyIconEl.innerHTML = `<img src="IMG/dragon２B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'オメガカイザー') {
-      enemyIconEl.innerHTML = `<img src="IMG/dragon３B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'ストーンコング') {
-      enemyIconEl.innerHTML = `<img src="IMG/go-remu1B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'ジェイドガーディアン') {
-      enemyIconEl.innerHTML = `<img src="IMG/go-remu2B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'ギガストーン') {
-      enemyIconEl.innerHTML = `<img src="IMG/go-remu3B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'ハーピィクイーン') {
-      enemyIconEl.innerHTML = `<img src="IMG/tori1B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'ガルーダ') {
-      enemyIconEl.innerHTML = `<img src="IMG/tori2B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'グリフォニクス') {
-      enemyIconEl.innerHTML = `<img src="IMG/tori3B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'サーベルタイガー') {
-      enemyIconEl.innerHTML = `<img src="IMG/kemono1B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'キマイラロード') {
-      enemyIconEl.innerHTML = `<img src="IMG/kemono2B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'フェンリル') {
-      enemyIconEl.innerHTML = `<img src="IMG/kemono3B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'マミースミス') {
-      enemyIconEl.innerHTML = `<img src="IMG/anded1B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'ファントムナイト') {
-      enemyIconEl.innerHTML = `<img src="IMG/anded2B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'デスサイズ') {
-      enemyIconEl.innerHTML = `<img src="IMG/anded3B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'スライム') {
-      enemyIconEl.innerHTML = `<img src="IMG/suraim1B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'キングスライム') {
-      enemyIconEl.innerHTML = `<img src="IMG/suraim2B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'ゴッドゼリー') {
-      enemyIconEl.innerHTML = `<img src="IMG/suraim3B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'プチデビル') {
-      enemyIconEl.innerHTML = `<img src="IMG/devil1B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'サキュバス') {
-      enemyIconEl.innerHTML = `<img src="IMG/devil2B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'ベルゼバブ') {
-      enemyIconEl.innerHTML = `<img src="IMG/devil3B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'マンドラゴラ') {
-      enemyIconEl.innerHTML = `<img src="IMG/natu1B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'アルラウネ') {
-      enemyIconEl.innerHTML = `<img src="IMG/natu2B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === '世界樹の眷属') {
-      enemyIconEl.innerHTML = `<img src="IMG/natu3B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'アイアンギガ') {
-      enemyIconEl.innerHTML = `<img src="IMG/metar1B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'メタルビット') {
-      enemyIconEl.innerHTML = `<img src="IMG/metar2B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else if (eNameForImage === 'ジェノサイダー') {
-      enemyIconEl.innerHTML = `<img src="IMG/metar3B.png" style="max-height: 110px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(239,68,68,0.35)); vertical-align: middle;">`;
-    } else {
-      enemyIconEl.innerHTML = em.icon || '👹';
-    }
-    
-    // Enemy skill already set up above
-
+    enemyIconEl.innerHTML = getEnemyImageHTML(eNameForImage);
     setHp('p', pState); setHp('e', eState);
     updateBuffsUI('p', pState); updateBuffsUI('e', eState);
     document.getElementById('battle-log').innerHTML = '';
