@@ -2,6 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -555,19 +556,6 @@
       box-shadow: 0 0 10px rgba(168,85,247,0.25);
     }
 
-    .skill-option-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .skill-option-desc {
-      font-size: 14px;
-      color: var(--text-dim);
-      margin-top: 3px;
-      line-height: 1.4;
-    }
-
     .go-scouting-btn {
       width: 100%;
       padding: 13px;
@@ -596,29 +584,38 @@
       max-width: 1100px;
       margin: 0 auto;
       height: 664px;
+      max-height: 664px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       box-sizing: border-box;
+      overflow: hidden !important;
     }
 
-    #scouting-screen.active { display: block; }
+    #scouting-screen.active { display: flex; }
 
     .scouting-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 16px;
       margin-bottom: 10px;
+      flex: 1;
+      min-height: 0;
     }
 
     .enemy-info-card {
       background: var(--bg-panel);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 14px;
+      padding: 8px 12px;
       text-align: center;
       position: relative;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      box-sizing: border-box;
     }
 
     .enemy-info-card::before {
@@ -642,9 +639,9 @@
       color: var(--accent-red);
       background: rgba(239,68,68,0.1);
       border: 1px solid rgba(239,68,68,0.3);
-      padding: 4px 12px;
+      padding: 2px 10px;
       border-radius: 20px;
-      margin-bottom: 12px;
+      margin-bottom: 4px;
       position: relative;
     }
 
@@ -658,18 +655,18 @@
 
     .enemy-name-display {
       font-family: 'Orbitron', sans-serif;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 900;
       color: var(--accent-red);
-      margin-bottom: 6px;
+      margin-bottom: 2px;
       text-shadow: 0 0 16px rgba(239,68,68,0.4);
       position: relative;
     }
 
     .enemy-title-display {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--text-secondary);
-      margin-bottom: 20px;
+      margin-bottom: 8px;
       position: relative;
     }
 
@@ -677,23 +674,23 @@
       background: rgba(245,158,11,0.05);
       border: 1px solid rgba(245,158,11,0.2);
       border-radius: 8px;
-      padding: 12px 14px;
+      padding: 6px 10px;
       text-align: left;
       position: relative;
     }
 
     .rumor-label {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--accent-gold);
       letter-spacing: 1px;
-      margin-bottom: 5px;
+      margin-bottom: 2px;
       font-weight: 700;
     }
 
     .rumor-text {
-      font-size: 16px;
+      font-size: 14px;
       color: var(--text-secondary);
-      line-height: 1.6;
+      line-height: 1.4;
     }
 
     .enemy-skill-hint {
@@ -724,7 +721,12 @@
       background: var(--bg-panel);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 20px;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-sizing: border-box;
+      min-height: 0;
     }
 
     .selection-title {
@@ -732,101 +734,26 @@
       font-size: 15px;
       color: var(--accent-cyan);
       letter-spacing: 2px;
-      margin-bottom: 14px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
     }
 
-    .monster-select-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      max-height: 290px;
-      overflow-y: auto;
-    }
-
-    .monster-select-list::-webkit-scrollbar { width: 4px; }
-    .monster-select-list::-webkit-scrollbar-track { background: transparent; }
-    .monster-select-list::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
-
-    .monster-select-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .monster-select-item:hover {
-      border-color: var(--accent-blue);
-      background: var(--bg-card-hover);
-    }
-
-    .monster-select-item.chosen {
-      border-color: var(--accent-cyan);
-      background: rgba(0,212,255,0.05);
-      box-shadow: var(--glow-cyan);
-    }
-
-    .sel-icon { font-size: 20px; }
-
-    .sel-name {
-      font-weight: 700;
-      font-size: 13px;
-      flex: 1;
-    }
-
-    .sel-stats {
-      font-size: 14px;
-      color: var(--text-dim);
-      text-align: right;
-      line-height: 1.5;
-    }
-
-    .battle-start-area { text-align: center; }
-
-    .battle-start-btn {
-      padding: 16px 60px;
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      border: none;
-      border-radius: 12px;
-      color: #fff;
-      font-family: 'Noto Sans JP', sans-serif;
-      font-size: 18px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: 2px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      box-shadow: 0 8px 32px rgba(239,68,68,0.4);
-    }
-
-    .battle-start-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(239,68,68,0.6);
-    }
-
-    .battle-start-btn:disabled {
-      background: var(--bg-card);
-      color: var(--text-dim);
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
-    }
-
-    .back-link {
-      display: inline-block;
-      margin-top: 14px;
-      color: var(--text-dim);
-      font-size: 16px;
-      cursor: pointer;
-      text-decoration: underline;
-      transition: color 0.2s;
-    }
-
-    .back-link:hover { color: var(--text-secondary); }
+    .monster-select-list { display:flex; flex-direction:column; gap:6px; flex:1; min-height:0; overflow-y:auto; }
+    .monster-select-list::-webkit-scrollbar { width:4px; }
+    .monster-select-list::-webkit-scrollbar-track { background:transparent; }
+    .monster-select-list::-webkit-scrollbar-thumb { background:var(--border-bright); border-radius:2px; }
+    .monster-select-item { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:6px 12px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:10px; }
+    .monster-select-item:hover { border-color:var(--accent-blue); background:var(--bg-card-hover); }
+    .monster-select-item.chosen { border-color:var(--accent-cyan); background:rgba(0,212,255,0.05); box-shadow:var(--glow-cyan); }
+    .sel-icon { font-size:20px; }
+    .sel-name { font-weight:700; font-size:13px; flex:1; }
+    .sel-stats { font-size:14px; color:var(--text-dim); text-align:right; line-height:1.5; }
+    .battle-start-area { text-align:center; }
+    .battle-start-btn { padding:16px 60px; background:linear-gradient(135deg, #ef4444, #dc2626); border:none; border-radius:12px; color:#fff; font-family:'Noto Sans JP', sans-serif; font-size:18px; font-weight:900; cursor:pointer; transition:all 0.2s; letter-spacing:2px; text-shadow:0 2px 4px rgba(0,0,0,0.3); box-shadow:0 8px 32px rgba(239,68,68,0.4); }
+    .battle-start-btn:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(239,68,68,0.6); }
+    .battle-start-btn:disabled { background:var(--bg-card); color:var(--text-dim); cursor:not-allowed; box-shadow:none; transform:none; }
+    .back-link { display:inline-block; margin-top:14px; color:var(--text-dim); font-size:16px; cursor:pointer; text-decoration:underline; transition:color 0.2s; }
+    .back-link:hover { color:var(--text-secondary); }
 
     /* ============================================================
        BATTLE SCREEN
@@ -1008,6 +935,40 @@
       60%  { opacity: 1; transform: translateY(-28px) scale(1.15); }
       100% { opacity: 0; transform: translateY(-50px) scale(0.85); }
     }
+
+    /* Monster Center Damage Popup */
+    .damage-popup {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #ff4444;
+      text-shadow: 0 0 10px #000, 0 0 5px #000, 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+      -webkit-text-stroke: 1.5px #000;
+      pointer-events: none;
+      z-index: 100;
+      white-space: nowrap;
+      animation: damage-pop-fade 0.7s ease-out forwards;
+    }
+
+    @keyframes damage-pop-fade {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.2);
+      }
+      30% {
+        opacity: 1;
+        transform: translate(-50%, -55%) scale(1.1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -100%) scale(0.9);
+      }
+    }
+
 
     /* Battle Log */
     .battle-log {
@@ -1354,12 +1315,12 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 24px;
+      padding: 14px 20px;
     }
     .step-indicator {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 30px;
+      margin-bottom: 18px;
       position: relative;
     }
     .step-indicator::before {
@@ -1418,9 +1379,9 @@
     .creator-actions {
       display: flex;
       justify-content: space-between;
-      margin-top: 30px;
+      margin-top: 10px;
       border-top: 1px solid var(--border);
-      padding-top: 20px;
+      padding-top: 10px;
     }
     .creator-select {
       width: 100%;
@@ -1430,7 +1391,7 @@
       border-radius: 6px;
       color: var(--text-main);
       font-size: 14px;
-      margin-bottom: 15px;
+      margin-bottom: 8px;
       outline: none;
     }
     .creator-select:focus {
@@ -1442,7 +1403,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 0;
+      padding: 6px 0;
       border-bottom: 1px solid rgba(255,255,255,0.03);
     }
     .alloc-label {
@@ -1455,13 +1416,13 @@
       gap: 12px;
     }
     .alloc-btn {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       background: rgba(255,255,255,0.08);
       border: 1px solid var(--border);
       border-radius: 6px;
       color: var(--text-main);
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
       display: flex;
@@ -1827,7 +1788,11 @@
     }
 
     /* Force enemy images to face RIGHT (→) in both Scouting and Battle screens */
-    #scout-enemy-panel img, .enemy-cyber-card img {
+    #scout-enemy-panel img {
+      max-height: 80px !important;
+      transform: scaleX(-1) scale(1.0) !important;
+    }
+    .enemy-cyber-card img {
       transform: scaleX(-1) scale(1.15) !important;
     }
 
@@ -1872,11 +1837,431 @@
       filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.45)) !important;
     }
 
+    /* Story Dialog */
+    .story-dialog-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 20000;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 40px;
+      cursor: pointer;
+    }
+    .story-dialog-box {
+      background: linear-gradient(180deg, rgba(10,10,30,0.95), rgba(5,5,20,0.98));
+      border: 2px solid var(--accent-gold);
+      border-radius: 12px;
+      padding: 20px 28px 16px;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 0 30px rgba(245,158,11,0.15), inset 0 0 20px rgba(0,0,0,0.3);
+    }
+    .story-speaker {
+      position: absolute;
+      top: -14px;
+      left: 20px;
+      background: var(--accent-gold);
+      color: #000;
+      font-weight: 900;
+      font-size: 13px;
+      padding: 3px 14px;
+      border-radius: 8px;
+      letter-spacing: 1px;
+    }
+    .story-text {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #e8e8f0;
+      min-height: 60px;
+    }
+    .story-next-hint {
+      text-align: right;
+      font-size: 12px;
+      color: var(--accent-gold);
+      margin-top: 10px;
+      animation: pulse-red 1s infinite alternate;
+    }
+    .tutorial-arrow {
+      position: absolute;
+      font-size: 24px;
+      color: var(--accent-gold);
+      animation: tutorial-bounce 0.8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 100;
+      text-shadow: 0 0 10px rgba(245,158,11,0.6);
+    }
+    @keyframes tutorial-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .skill-progress-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .skill-progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-gold), #f59e0b);
+      border-radius: 5px;
+      transition: width 0.5s ease;
+    }
+    .menu-mode-btn.locked {
+      opacity: 0.4;
+      pointer-events: none;
+      filter: grayscale(0.6);
+    }
+
+
+    .custom-alert-btn {
+      background: #00bcd4;
+      color: #000;
+      font-weight: bold;
+      font-size: 15px;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 32px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
+      transition: background-color 0.2s, box-shadow 0.2s;
+    }
+    .custom-alert-btn:hover {
+      background: #33ccff;
+      box-shadow: 0 0 15px rgba(0, 188, 212, 0.6);
+    }
+
+    /* Save Slots UI */
+    .slot-card {
+      background: rgba(15,23,42,0.8);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .slot-card.active-slot {
+      border-color: var(--accent-gold);
+      background: rgba(245,158,11,0.06);
+      box-shadow: 0 0 15px rgba(245,158,11,0.15);
+    }
+    .slot-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .slot-badge {
+      font-size: 12px;
+      font-weight: bold;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .slot-badge.in-use {
+      background: rgba(0,212,255,0.15);
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0,212,255,0.3);
+    }
+    .slot-badge.empty {
+      background: rgba(255,255,255,0.08);
+      color: var(--text-dim);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .slot-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+    /* ===== SYSTEM MESSAGE MODAL ===== */
+    #system-modal-backdrop {
+      display: none;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: rgba(0, 0, 0, 0.75) !important;
+      z-index: 99998 !important;
+      backdrop-filter: blur(3px);
+    }
+    #system-modal-dialog {
+      display: none;
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      z-index: 99999 !important;
+      width: 85% !important;
+      max-width: 420px !important;
+      background: linear-gradient(180deg, rgba(20,30,55,0.98), rgba(12,20,40,0.99)) !important;
+      border: 2px solid #3b82f6 !important;
+      border-radius: 14px !important;
+      padding: 28px 24px 22px !important;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(59, 130, 246, 0.15) !important;
+      text-align: center !important;
+      color: #ffffff !important;
+      animation: sysModalFadeIn 0.2s ease-out;
+    }
+    @keyframes sysModalFadeIn {
+      from { opacity: 0; transform: translate(-50%, -50%) scale(0.92); }
+      to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+    #system-modal-dialog .sys-modal-label {
+      font-size: 12px;
+      font-weight: bold;
+      color: #60a5fa;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+      text-shadow: 0 0 8px rgba(96, 165, 250, 0.3);
+    }
+    #system-modal-dialog .sys-modal-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #e2e8f0;
+      margin-bottom: 24px;
+      white-space: pre-line;
+      word-break: break-word;
+    }
+    #system-modal-dialog .sys-modal-ok-btn {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: #fff;
+      font-weight: bold;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      min-width: 140px;
+      padding: 12px 28px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.35);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    }
+    #system-modal-dialog .sys-modal-ok-btn:hover {
+      background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      box-shadow: 0 4px 18px rgba(59, 130, 246, 0.5);
+    }
+    #system-modal-dialog .sys-modal-ok-btn:active {
+      transform: scale(0.96);
+    }
+
+
+    /* ===== CONFIRM MODAL (Custom confirm() Replacement) ===== */
+    #confirm-modal-backdrop {
+      display: none;
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: rgba(0, 0, 0, 0.8) !important;
+      z-index: 99998 !important;
+      backdrop-filter: blur(4px);
+    }
+    #confirm-modal-dialog {
+      display: none;
+      position: fixed !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      z-index: 99999 !important;
+      width: 88% !important;
+      max-width: 440px !important;
+      background: linear-gradient(180deg, rgba(25,18,45,0.98), rgba(15,12,30,0.99)) !important;
+      border: 2px solid #f59e0b !important;
+      border-radius: 14px !important;
+      padding: 28px 24px 22px !important;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 25px rgba(245, 158, 11, 0.15) !important;
+      text-align: center !important;
+      color: #ffffff !important;
+      animation: confirmModalFadeIn 0.25s ease-out;
+    }
+    @keyframes confirmModalFadeIn {
+      from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+      to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+    #confirm-modal-dialog .confirm-modal-label {
+      font-size: 12px;
+      font-weight: bold;
+      color: #f59e0b;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+      text-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+    }
+    #confirm-modal-dialog .confirm-modal-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: #e2e8f0;
+      margin-bottom: 24px;
+      white-space: pre-line;
+      word-break: break-word;
+    }
+    #confirm-modal-dialog .confirm-modal-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+    #confirm-modal-dialog .confirm-btn-ok {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #fff;
+      font-weight: bold;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      min-width: 120px;
+      padding: 11px 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    }
+    #confirm-modal-dialog .confirm-btn-ok:hover {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      box-shadow: 0 4px 18px rgba(245, 158, 11, 0.5);
+    }
+    #confirm-modal-dialog .confirm-btn-ok:active {
+      transform: scale(0.96);
+    }
+    #confirm-modal-dialog .confirm-btn-cancel {
+      background: rgba(255,255,255,0.06);
+      color: #94a3b8;
+      font-weight: bold;
+      font-size: 15px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      min-width: 120px;
+      padding: 11px 24px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, transform 0.1s;
+    }
+    #confirm-modal-dialog .confirm-btn-cancel:hover {
+      background: rgba(255,255,255,0.1);
+      color: #e2e8f0;
+    }
+    #confirm-modal-dialog .confirm-btn-cancel:active {
+      transform: scale(0.96);
+    }
+
+    /* ===== WORLD MAP SYSTEM ===== */
+    .map-container-outer {
+      width: 100%;
+      max-width: 980px;
+      margin: 10px auto 0;
+      padding: 0 10px;
+      box-sizing: border-box;
+    }
+    .map-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1408 / 768;
+      background-image: url('IMGTITLE/zenntaizu[name].png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+      border: 3px solid var(--accent-gold);
+      border-radius: 12px;
+      box-shadow: 0 0 30px rgba(245, 158, 11, 0.25), inset 0 0 20px rgba(0,0,0,0.6);
+      overflow: hidden;
+    }
+    .map-area {
+      position: absolute;
+      cursor: pointer;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      background: rgba(255, 255, 255, 0);
+      transition: all 0.25s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+    .map-area:hover {
+      background: rgba(0, 212, 255, 0.12);
+      border-color: var(--accent-cyan);
+      box-shadow: inset 0 0 15px rgba(0, 212, 255, 0.3), 0 0 20px rgba(0, 212, 255, 0.5);
+      backdrop-filter: brightness(1.2) contrast(1.1);
+    }
+    .map-area.locked {
+      cursor: not-allowed;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: grayscale(100%) brightness(0.5);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    .map-area.locked:hover {
+      background: rgba(0, 0, 0, 0.65);
+      border-color: var(--accent-red);
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+    }
+    .map-area-tooltip {
+      position: absolute;
+      bottom: -45px;
+      background: rgba(8, 12, 24, 0.95);
+      border: 1.5px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+      z-index: 10;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .map-area:hover .map-area-tooltip {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .map-area-lock {
+      font-size: 28px;
+      color: rgba(255, 255, 255, 0.6);
+      text-shadow: 0 0 8px rgba(0,0,0,0.9);
+      pointer-events: none;
+    }
+
 </style>
 </head>
 <body>
 <div id="game-viewport">
 
+
+
+<!-- ============ SAVE SLOT OVERLAY ============ -->
+<div id="save-slot-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:15000; align-items:center; justify-content:center;">
+  <div style="background:var(--bg-card); border:2px solid var(--border); border-radius:14px; width:95%; max-width:640px; max-height:90%; display:flex; flex-direction:column; padding:20px; box-shadow:0 0 30px rgba(0,0,0,0.8);">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
+      <div style="font-size:18px; font-weight:bold; color:var(--accent-gold); display:flex; align-items:center; gap:8px;">
+        💾 セーブデータ選択（3スロット）
+      </div>
+      <button class="btn-secondary" style="padding:4px 12px; font-size:15px; border-color:var(--border);" onclick="closeSaveSlotModal()">✕ 閉じる</button>
+    </div>
+    
+    <!-- Slots Container -->
+    <div id="save-slots-container" style="flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding-right:4px;">
+      <!-- Slots 1, 2, 3 dynamically rendered -->
+    </div>
+  </div>
+</div>
+
+<!-- ============ STORY DIALOG MODAL ============ -->
+<div id="story-dialog-overlay" class="story-dialog-overlay" onclick="advanceStoryDialog()">
+  <div class="story-dialog-box" onclick="event.stopPropagation(); advanceStoryDialog()">
+    <div class="story-speaker" id="story-speaker">ナレーション</div>
+    <div class="story-text" id="story-text"></div>
+    <div class="story-next-hint">▼ タップで次へ</div>
+  </div>
+</div>
 
 <!-- ============ SKILLS LIBRARY OVERLAY ============ -->
 <div id="skills-library-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center;">
@@ -1905,7 +2290,10 @@
     <div class="title-logo">100pt BUILD BATTLE</div>
     <div class="title-subtitle">〜 6体制限・レトロモンスターラボ 〜</div>
     <div style="font-size:16px; color:var(--accent-gold); margin-bottom:16px; animation: pulse-red 1.5s infinite alternate;">▶ 画面のどこかをタップして開始（自動フルスクリーン） ◀</div>
-    <button class="title-btn" onclick="event.stopPropagation(); showNameDialog()">スタート！</button>
+    <div style="display:flex; gap:12px; justify-content:center;">
+      <button class="title-btn" onclick="event.stopPropagation(); handleTitleStart()">スタート！</button>
+      <button class="title-btn" style="background:rgba(245,158,11,0.15); border-color:var(--accent-gold); color:var(--accent-gold);" onclick="event.stopPropagation(); openSaveSlotModal()">💾 データ選択</button>
+    </div>
   </div>
 </div>
 
@@ -1920,47 +2308,323 @@
 </div>
 
 <!-- ============ MAIN MENU ============ -->
-<div id="main-menu-screen" class="screen fade-in" style="display:none;">
-  <div class="title-screen-container" style="min-height:70vh;">
-    <div class="title-logo" style="font-size:36px; margin-bottom:4px;">100pt BUILD BATTLE</div>
-    <div id="menu-player-name" style="color:var(--accent-gold); font-size:13px; margin-bottom:30px;"></div>
+<div id="main-menu-screen" class="screen fade-in" style="display:none; padding:15px; box-sizing:border-box;">
+  <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-height:90vh; width:100%;">
     
-    <div style="display:flex; flex-direction:column; gap:14px; width:90%; max-width:340px;">
-      <button class="menu-mode-btn" onclick="startMode('league')">
-        <span class="menu-mode-icon">🏆</span>
-        <div class="menu-mode-info">
-          <div class="menu-mode-title">リーグ戦</div>
-          <div class="menu-mode-desc">CPUトレーナーに挑み優勝を目指す本編モード</div>
+    <!-- Header info area -->
+    <div style="width:100%; max-width:980px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+      <div>
+        <div class="title-logo" style="font-size:28px; margin-bottom:2px; text-align:left;">100pt BUILD BATTLE</div>
+        <div id="menu-player-name" style="color:var(--accent-gold); font-size:14px; text-align:left;">研究員: </div>
+      </div>
+      
+      <!-- Skill Progress Meter -->
+      <div style="width:100%; max-width:320px; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px;">
+        <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:2px;">
+          <span id="skill-meter-text" style="color:var(--text-dim);">📜 スキル解明度: 0/30 (0%)</span>
+          <span style="color:var(--text-dim);">解放: <span id="menu-unlocked-count" style="color:var(--accent-gold); font-weight:bold;">0</span> / 30</span>
         </div>
-      </button>
-      <button class="menu-mode-btn" onclick="startMode('survival')">
-        <span class="menu-mode-icon">🔥</span>
-        <div class="menu-mode-info">
-          <div class="menu-mode-title">勝ち抜き戦</div>
-          <div class="menu-mode-desc">何連勝できるか挑戦するやり込みモード</div>
+        <div class="skill-progress-bar-bg" style="margin-top:2px;">
+          <div class="skill-progress-bar-fill" id="skill-meter-fill" style="width:0%;"></div>
         </div>
-      </button>
-      <button class="menu-mode-btn" onclick="startMode('free')">
-        <span class="menu-mode-icon">⚔️</span>
-        <div class="menu-mode-info">
-          <div class="menu-mode-title">フリー対戦</div>
-          <div class="menu-mode-desc">全スキル解放のフラット環境で対戦</div>
-        </div>
-      </button>
-      <button class="menu-mode-btn" style="border-color:rgba(245,158,11,0.3);" onclick="goScreen('lab')">
-        <span class="menu-mode-icon">🔬</span>
-        <div class="menu-mode-info">
-          <div class="menu-mode-title">モンスター研究所</div>
-          <div class="menu-mode-desc">モンスターの作成・管理（ラボ）</div>
-        </div>
-      </button>
+      </div>
     </div>
 
-    <div style="margin-top:25px; font-size:24px; color:var(--text-dim);">
-      解放済み景品スキル: <span id="menu-unlocked-count">0</span> / 21
+    <!-- World Map Container -->
+    <div class="map-container-outer">
+      <div class="map-wrapper">
+        
+        <!-- 1) モンスター研究所（ラボ） -->
+        <div class="map-area" id="map-area-lab" onclick="onMapAreaClick('lab')" style="top: 8%; left: 14%; width: 24%; height: 34%;">
+          <div class="map-area-tooltip">🔬 モンスター研究所<br><span style="font-size:10px; color:#aaa;">調合・育成・管理</span></div>
+          <span id="tutorial-arrow-lab" class="tutorial-arrow" style="display:none; position:absolute; top:-25px; left:50%; transform:translateX(-50%); font-size:24px; animation: tutorial-bounce 0.8s ease-in-out infinite;">👇</span>
+        </div>
+
+        <!-- 2) コロシアム（個人リーグ戦） -->
+        <div class="map-area" id="map-area-league" onclick="onMapAreaClick('league')" style="top: 12%; left: 62%; width: 26%; height: 30%;">
+          <div class="map-area-tooltip">🏆 コロシアム（リーグ戦）<br><span style="font-size:10px; color:#aaa;">個人リーグ挑戦・覇王戦</span></div>
+          <span id="tutorial-arrow-arena" class="tutorial-arrow" style="display:none; position:absolute; top:-25px; left:50%; transform:translateX(-50%); font-size:24px; animation: tutorial-bounce 0.8s ease-in-out infinite;">👇</span>
+        </div>
+
+        <!-- 3) 試練のタワー -->
+        <div class="map-area" id="map-area-tower" onclick="onMapAreaClick('tower')" style="top: 2%; left: 45%; width: 10%; height: 36%;">
+          <div class="map-area-tooltip">🗼 試練のタワー<br><span style="font-size:10px; color:#aaa;">サバイバル勝ち抜き戦</span></div>
+          <div class="map-area-lock" id="map-lock-tower" style="display:none;">🔒</div>
+        </div>
+
+        <!-- 4) 武舞台（団体戦） -->
+        <div class="map-area" id="map-area-team-arena" onclick="onMapAreaClick('team-arena')" style="top: 55%; left: 14%; width: 22%; height: 27%;">
+          <div class="map-area-tooltip">🛡️ 武舞台（団体戦）<br><span style="font-size:10px; color:#aaa;">3vs3勝ち抜きトーナメント</span></div>
+          <div class="map-area-lock" id="map-lock-team-arena" style="display:none;">🔒</div>
+        </div>
+
+        <!-- 5) 異次元の祠 / コロシアム・ゲート（P2Pフリー対戦） -->
+        <div class="map-area" id="map-area-free" onclick="onMapAreaClick('free')" style="top: 55%; left: 52%; width: 20%; height: 35%;">
+          <div class="map-area-tooltip">🌀 異次元の祠（フリー対戦）<br><span style="font-size:10px; color:#aaa;">フラット対戦ルーム</span></div>
+        </div>
+
+        <!-- 6) 覇王リベンジマッチ（隠しボスボタン：全解放時に表示） -->
+        <div class="map-area" id="map-area-boss-revenge" onclick="startBossRevenge()" style="top: 36%; left: 43%; width: 14%; height: 16%; display:none; border:2px dashed var(--accent-red); background:rgba(239,68,68,0.15); box-shadow:0 0 15px rgba(239,68,68,0.4); border-radius:50%; z-index:6;">
+          <div class="map-area-tooltip" style="border-color:var(--accent-red); color:var(--accent-red);">👑 覇王リベンジマッチ<br><span style="font-size:10px; color:#fff;">闘技場の覇王へリベンジ</span></div>
+          <div style="font-size:24px; animation: pulse-red 1.5s infinite alternate;">👹</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ TEAM ARENA MENU SCREEN ============ -->
+<div id="team-arena-menu-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
+  <div class="cyber-card" style="width:100%; max-width:500px; padding:24px; background:var(--bg-panel); border:2px solid var(--border-bright); border-radius:14px; box-shadow:var(--glow-blue); text-align:center;">
+    <div style="font-size:22px; font-weight:bold; color:var(--accent-cyan); margin-bottom:8px; display:flex; align-items:center; justify-content:center; gap:8px;">
+      <span>🛡️</span> 武舞台（団体戦）メニュー
+    </div>
+    <div style="font-size:14px; color:var(--text-dim); margin-bottom:20px;">
+      3vs3の総力戦！リーグ戦で勝利を重ね、BPを貯めて限定モンスターを解放しよう！
+    </div>
+
+    <div style="background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:24px;">
+      <div style="font-size:14px; color:var(--text-secondary); margin-bottom:4px;">現在の所持ポイント</div>
+      <div style="font-size:32px; font-weight:900; color:var(--accent-gold); font-family:'Orbitron', sans-serif;" id="team-arena-bp-display">0 BP</div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+      <button class="title-btn" style="padding:14px; font-size:18px; width:100%;" onclick="startTeamArenaBattle()">⚔️ 団体戦バトル開始 (リーグ挑戦)</button>
+      <button class="btn-secondary" style="padding:12px; font-size:16px; border-color:var(--accent-cyan); color:var(--accent-cyan);" onclick="openRewardShop()">🛍️ 報酬交換ショップを開く</button>
+    </div>
+
+    <button class="btn-secondary" style="width:100%; padding:10px;" onclick="goScreen('main-menu')">メインメニューに戻る</button>
+  </div>
+</div>
+
+<!-- ============ REWARD SHOP SCREEN ============ -->
+<div id="reward-shop-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
+  <div class="cyber-card" style="width:100%; max-width:600px; padding:24px; background:var(--bg-panel); border:2px solid var(--accent-gold); border-radius:14px; box-shadow:var(--glow-gold);">
+    <div style="font-size:22px; font-weight:bold; color:var(--accent-gold); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:8px;">
+      <span>🛍️</span> 武舞台 報酬交換ショップ
+    </div>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:8px; padding:12px 18px; margin-bottom:20px;">
+      <span style="font-size:15px; color:var(--text-secondary);">所持武舞台ポイント:</span>
+      <strong style="font-size:22px; color:var(--accent-gold); font-family:'Orbitron', sans-serif;" id="shop-bp-display">0 BP</strong>
+    </div>
+
+    <div style="font-size:14px; color:var(--text-dim); margin-bottom:15px; text-align:center;">
+      各シリーズを <span style="color:var(--accent-gold); font-weight:bold;">300 BP</span> で解放できます（解放すると調合可能になります）
+    </div>
+
+    <!-- Shop Grid -->
+    <div id="shop-items-list" style="display:flex; flex-direction:column; gap:12px; margin-bottom:24px; max-height:350px; overflow-y:auto; padding-right:4px;">
+      <!-- Item Cards Dynamically Populated by renderRewardShop() -->
+    </div>
+
+    <button class="btn-secondary" style="width:100%; padding:12px; font-weight:bold;" onclick="goScreen('team-arena-menu')">武舞台メニューに戻る</button>
+  </div>
+</div>
+
+<!-- ============ TEAM ARENA: PARTY SELECT SCREEN ============ -->
+<div id="ta-party-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
+  <div class="cyber-card" style="width:100%; max-width:650px; padding:24px; background:var(--bg-panel); border:2px solid var(--accent-cyan); border-radius:14px; box-shadow:var(--glow-blue);">
+    <div style="font-size:20px; font-weight:bold; color:var(--accent-cyan); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:16px;">
+      🛡️ 武舞台 パーティ編成
+    </div>
+    <div style="font-size:14px; color:var(--text-dim); text-align:center; margin-bottom:20px;">
+      先鋒・中堅・大将の順に3体を選んでトーナメントに挑もう！
+    </div>
+
+    <!-- 3 Slots -->
+    <div style="display:flex; gap:12px; margin-bottom:20px; justify-content:center; flex-wrap:wrap;">
+      <div id="ta-slot-0" class="cyber-card" style="flex:1; min-width:160px; max-width:200px; padding:12px; border:2px dashed rgba(255,255,255,0.15); border-radius:10px; text-align:center; cursor:pointer; transition:all 0.2s;" onclick="taSelectSlot(0)">
+        <div style="font-size:13px; font-weight:bold; color:var(--accent-gold); margin-bottom:6px;">【先鋒】</div>
+        <div id="ta-slot-0-content" style="font-size:14px; color:var(--text-dim); min-height:60px; display:flex; align-items:center; justify-content:center;">未選択</div>
+      </div>
+      <div id="ta-slot-1" class="cyber-card" style="flex:1; min-width:160px; max-width:200px; padding:12px; border:2px dashed rgba(255,255,255,0.15); border-radius:10px; text-align:center; cursor:pointer; transition:all 0.2s;" onclick="taSelectSlot(1)">
+        <div style="font-size:13px; font-weight:bold; color:var(--accent-cyan); margin-bottom:6px;">【中堅】</div>
+        <div id="ta-slot-1-content" style="font-size:14px; color:var(--text-dim); min-height:60px; display:flex; align-items:center; justify-content:center;">未選択</div>
+      </div>
+      <div id="ta-slot-2" class="cyber-card" style="flex:1; min-width:160px; max-width:200px; padding:12px; border:2px dashed rgba(255,255,255,0.15); border-radius:10px; text-align:center; cursor:pointer; transition:all 0.2s;" onclick="taSelectSlot(2)">
+        <div style="font-size:13px; font-weight:bold; color:var(--accent-red); margin-bottom:6px;">【大将】</div>
+        <div id="ta-slot-2-content" style="font-size:14px; color:var(--text-dim); min-height:60px; display:flex; align-items:center; justify-content:center;">未選択</div>
+      </div>
+    </div>
+
+    <!-- Monster Roster -->
+    <div style="font-size:14px; font-weight:bold; color:var(--text-secondary); margin-bottom:8px;">▼ 所持モンスター（クリックで配置）</div>
+    <div id="ta-roster-list" style="display:flex; flex-direction:column; gap:8px; max-height:220px; overflow-y:auto; padding:8px; border:1px solid var(--border); border-radius:8px; background:rgba(0,0,0,0.2); margin-bottom:20px;">
+      <!-- Dynamically populated -->
+    </div>
+
+    <div style="display:flex; gap:12px;">
+      <button class="btn-secondary" style="flex:1; padding:12px;" onclick="goScreen('team-arena-menu')">キャンセル</button>
+      <button class="title-btn" id="ta-start-btn" style="flex:2; padding:12px; font-size:16px;" onclick="taStartTournament()" disabled>⚔️ トーナメント開始！</button>
     </div>
   </div>
 </div>
+
+<!-- ============ TEAM ARENA: TOURNAMENT PROGRESS SCREEN ============ -->
+<div id="ta-progress-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
+  <div class="cyber-card" style="width:100%; max-width:600px; padding:24px; background:var(--bg-panel); border:2px solid var(--accent-gold); border-radius:14px; box-shadow:var(--glow-gold);">
+    <div style="font-size:20px; font-weight:bold; color:var(--accent-gold); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:16px;">
+      🏆 武舞台トーナメント
+    </div>
+
+    <!-- Round Progress -->
+    <div id="ta-round-display" style="display:flex; justify-content:center; gap:6px; margin-bottom:20px; flex-wrap:wrap;">
+      <!-- Dynamically populated round indicators -->
+    </div>
+
+    <!-- Current Match Info -->
+    <div id="ta-match-info" style="background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:20px;">
+      <div id="ta-match-title" style="font-size:16px; font-weight:bold; color:var(--accent-cyan); text-align:center; margin-bottom:12px;">第1回戦</div>
+      
+      <!-- VS Display -->
+      <div style="display:flex; gap:10px; align-items:stretch;">
+        <!-- Enemy Team (LEFT) -->
+        <div style="flex:1; background:rgba(255,0,0,0.05); border:1px solid rgba(255,0,0,0.2); border-radius:8px; padding:10px;">
+          <div style="font-size:12px; font-weight:bold; color:var(--accent-red); text-align:center; margin-bottom:8px;">🔴 相手チーム</div>
+          <div id="ta-enemy-team-preview" style="font-size:13px; display:flex; flex-direction:column; gap:4px;">
+            <!-- Filled dynamically -->
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; font-size:24px; font-weight:900; color:var(--accent-gold);">VS</div>
+        <!-- My Team (RIGHT) -->
+        <div style="flex:1; background:rgba(0,100,255,0.05); border:1px solid rgba(0,100,255,0.2); border-radius:8px; padding:10px;">
+          <div style="font-size:12px; font-weight:bold; color:var(--accent-cyan); text-align:center; margin-bottom:8px;">🔵 自分チーム</div>
+          <div id="ta-my-team-preview" style="font-size:13px; display:flex; flex-direction:column; gap:4px;">
+            <!-- Filled dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Match Score -->
+    <div id="ta-match-score" style="text-align:center; font-size:18px; font-weight:bold; color:var(--text-primary); margin-bottom:16px;">
+      勝敗: <span id="ta-score-my" style="color:var(--accent-cyan);">0</span> - <span id="ta-score-enemy" style="color:var(--accent-red);">0</span>
+    </div>
+
+    <!-- Battle Order Info -->
+    <div id="ta-battle-order" style="text-align:center; font-size:15px; color:var(--accent-gold); margin-bottom:20px;">
+      次の対戦：【先鋒戦】
+    </div>
+
+    <button class="title-btn" style="width:100%; padding:14px; font-size:16px;" id="ta-next-battle-btn" onclick="taStartNextBout()">⚔️ バトル開始！</button>
+  </div>
+</div>
+
+<!-- ============ P2P FREE BATTLE LOBBY SCREEN ============ -->
+<div id="free-battle-lobby-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
+  <div class="cyber-card" style="width:100%; max-width:550px; padding:24px; background:var(--bg-panel); border:2px solid var(--border-bright); border-radius:14px; box-shadow:var(--glow-blue);">
+    <div style="font-size:20px; font-weight:bold; color:var(--accent-cyan); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:8px;">
+      <span>📡</span> リアルタイムP2Pフリー対戦
+    </div>
+    
+    <!-- Step 1: Battle Format -->
+    <div id="p2p-step-1" style="display:block;">
+      <div style="font-size:15px; font-weight:bold; color:var(--accent-gold); margin-bottom:12px; text-align:center;">【1】バトル形式の選択</div>
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+        <button class="menu-mode-btn" onclick="selectP2PFormat('single')" style="width:100%; text-align:left;">
+          <span class="menu-mode-icon">👤</span>
+          <div class="menu-mode-info">
+            <div class="menu-mode-title">シングルス (1vs1 単体戦)</div>
+            <div class="menu-mode-desc">自慢の代表モンスター1体によるガチンコ対決</div>
+          </div>
+        </button>
+        <button class="menu-mode-btn" onclick="selectP2PFormat('team')" style="width:100%; text-align:left;">
+          <span class="menu-mode-icon">👥</span>
+          <div class="menu-mode-info">
+            <div class="menu-mode-title">チームス (3vs3 団体戦)</div>
+            <div class="menu-mode-desc">3体の連携と構築スキルが問われる総力戦</div>
+          </div>
+        </button>
+      </div>
+      <button class="btn-secondary" style="width:100%; padding:10px;" onclick="exitP2PLobby()">メインメニューに戻る</button>
+    </div>
+
+    <!-- Step 2: Room Selection -->
+    <div id="p2p-step-2" style="display:none;">
+      <div style="font-size:14px; color:var(--text-dim); margin-bottom:8px; display:flex; justify-content:space-between;">
+        <span>選択中: <strong id="p2p-selected-format-text" style="color:var(--accent-cyan);">シングルス</strong></span>
+        <a href="javascript:void(0)" onclick="backToP2PStep1()" style="color:var(--accent-gold); text-decoration:none; font-size:12px;">◀ 形式選択に戻る</a>
+      </div>
+      <div style="font-size:15px; font-weight:bold; color:var(--accent-gold); margin-bottom:12px; text-align:center;">【2】ルームタイプの選択</div>
+      
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
+        <button class="menu-mode-btn" onclick="startP2PRandomMatch()" style="width:100%; text-align:left;">
+          <span class="menu-mode-icon">🌐</span>
+          <div class="menu-mode-info">
+            <div class="menu-mode-title">フリールーム (ランダムマッチ)</div>
+            <div class="menu-mode-desc">自動で公開ルームを探し、いなければ自分が待機部屋を作ります</div>
+          </div>
+        </button>
+        
+        <div style="background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:10px; padding:16px; display:flex; flex-direction:column; gap:12px;">
+          <div style="font-weight:bold; font-size:14px; color:var(--text-primary); text-align:center; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:6px;">🔑 友達とバトル (プライベート対戦)</div>
+          
+          <div style="display:flex; gap:10px;">
+            <button class="btn-secondary" style="flex:1; padding:12px; font-weight:bold; border-color:var(--accent-cyan); color:var(--accent-cyan);" onclick="createP2PPrivateRoom()">部屋を作る</button>
+            <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
+              <input type="text" id="p2p-room-code-input" maxlength="6" placeholder="あいことば入力" style="width:100%; padding:10px; border-radius:6px; border:1px solid var(--border); background:rgba(0,0,0,0.3); color:#fff; text-align:center; font-weight:bold; font-size:16px; letter-spacing:2px;">
+              <button class="title-btn" style="padding:6px; font-size:14px;" onclick="joinP2PPrivateRoom()">部屋に入る</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="btn-secondary" style="width:100%; padding:10px;" onclick="backToP2PStep1()">戻る</button>
+    </div>
+
+    <!-- Step 3: Matchmaking Waiting -->
+    <div id="p2p-step-3" style="display:none; text-align:center; padding:20px 0;">
+      <div id="p2p-spinner" style="width:50px; height:50px; border:4px dashed var(--accent-cyan); border-radius:50%; margin:0 auto 16px; animation:spin 2s linear infinite;"></div>
+      <div style="font-size:18px; font-weight:bold; color:var(--accent-gold); margin-bottom:8px;" id="p2p-status-title">対戦相手を探しています...</div>
+      <div style="font-size:13px; color:var(--text-dim); margin-bottom:15px;" id="p2p-status-desc">PeerID初期化中...</div>
+      
+      <div id="p2p-room-display-box" style="display:none; background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:8px; padding:12px; margin-bottom:20px;">
+        <div style="font-size:12px; color:var(--text-dim); margin-bottom:4px;">🔑 対戦のあいことば (共有用)</div>
+        <div style="font-size:24px; font-weight:900; color:#fff; letter-spacing:4px; font-family:monospace;" id="p2p-display-room-id">------</div>
+        <button class="btn-secondary" style="margin-top:8px; padding:4px 10px; font-size:12px;" onclick="copyP2PRoomId()">📋 あいことばをコピー</button>
+      </div>
+
+      <button class="btn-secondary" style="padding:10px 24px;" onclick="cancelP2PMatchmaking()">対戦をキャンセル</button>
+    </div>
+
+    <!-- Step 4: Member/Monster Ready Sync -->
+    <div id="p2p-step-4" style="display:none;">
+      <div style="font-size:16px; font-weight:bold; color:var(--accent-green); text-align:center; margin-bottom:14px; text-shadow:0 0 10px rgba(16,185,129,0.2);">
+        📡 対戦相手と接続確立！準備を整えてください
+      </div>
+      
+      <div style="display:flex; gap:12px; margin-bottom:20px; min-height:160px;">
+        <!-- Left: My readiness -->
+        <div style="flex:1; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; padding:10px; display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
+          <div style="font-size:12px; font-weight:bold; color:var(--text-dim);">あなた (YOU)</div>
+          <div id="p2p-my-monster-preview" style="font-size:36px; margin:10px 0;">🐲</div>
+          <div id="p2p-my-monster-name" style="font-size:14px; font-weight:bold; color:#fff; text-align:center;">選択モンスター</div>
+          <button class="title-btn" id="p2p-my-ready-btn" style="width:100%; padding:8px; font-size:14px; margin-top:8px;" onclick="toggleP2PMyReady()">準備完了</button>
+        </div>
+        
+        <!-- Right: Opponent readiness -->
+        <div style="flex:1; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; padding:10px; display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
+          <div style="font-size:12px; font-weight:bold; color:var(--text-dim);">対戦相手 (OPP)</div>
+          <div id="p2p-opp-monster-preview" style="font-size:36px; margin:10px 0;">❓</div>
+          <div id="p2p-opp-monster-name" style="font-size:14px; font-weight:bold; color:var(--text-dim); text-align:center;">接続中...</div>
+          <div id="p2p-opp-ready-status" style="width:100%; padding:8px 0; text-align:center; font-size:13px; font-weight:bold; border-radius:4px; background:rgba(0,0,0,0.2); color:var(--text-dim); margin-top:8px;">未準備</div>
+        </div>
+      </div>
+      
+      <button class="btn-secondary" style="width:100%; padding:10px;" onclick="disconnectP2P()">ルームを退出</button>
+    </div>
+
+  </div>
+</div>
+
+<style>
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+</style>
 
 <!-- ============ SCROLL REWARD OVERLAY ============ -->
 <div id="scroll-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
@@ -1998,6 +2662,8 @@
     <button class="nav-tab" id="tab-scouting" onclick="goScreen('scouting')">🗺️ スカウティング</button>
   </div>
   <div class="header-right" style="display:flex; align-items:center; gap:8px;">
+    <button id="debug-toggle-btn" style="padding:2px 10px; font-size:13px; font-weight:bold; border:2px solid rgba(255,255,255,0.15); border-radius:6px; background:rgba(0,0,0,0.3); color:#94a3b8; cursor:pointer; transition:all 0.3s;" onclick="toggleDebugMode()">🛠️ デバッグ: OFF</button>
+    <button class="nav-tab" style="padding:2px 8px; font-size:16px; border-color:rgba(245,158,11,0.4); color:var(--accent-gold);" onclick="openSaveSlotModal()">💾 セーブデータ</button>
     <button class="nav-tab" style="padding:2px 8px; font-size:18px; border-color:rgba(255,255,255,0.15);" onclick="toggleFullscreen()">🖥️ 画面全表示</button>
     <div class="stage-display" id="stage-display">STAGE 1 / 25</div>
     <div class="record-display">
@@ -2011,17 +2677,30 @@
 <!-- ============ LAB ============ -->
 <div id="lab-screen" class="screen fade-in" style="display:none;">
   <div class="lab-container">
-    <div class="lab-header">
-      <div>
-        <span class="lab-title">🔬 モンスター研究所</span>
-        <span style="margin-left:15px; font-size:13px; color:var(--accent-gold);" id="lab-player-welcome"></span>
+    
+    <div class="lab-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--border);">
+      <div style="display:flex; align-items:baseline; gap:10px;">
+        <span class="lab-title" style="font-size:20px; font-weight:bold; color:var(--text-main);">🔬 モンスター研究所</span>
+        <span style="font-size:13px; color:var(--accent-gold);" id="lab-player-welcome"></span>
       </div>
-      <div class="lab-count" id="lab-monsters-count">登録数: 0 / 6</div>
+      
+      <!-- Lab Mode Switcher Tabs (Inline) -->
+      <div style="display:flex; gap:8px; align-items:center; margin-left:auto; margin-right:20px;">
+        <button id="lab-mode-tab-story" onclick="switchLabMode('story')" style="padding:6px 12px; font-size:13px; font-weight:bold; border-radius:6px; border:1px solid var(--accent-gold); background:rgba(245,158,11,0.08); color:var(--accent-gold); cursor:pointer; transition:all 0.3s ease; font-family:'Inter', sans-serif;">
+          📖 ストーリー
+        </button>
+        <button id="lab-mode-tab-free" onclick="switchLabMode('free')" style="padding:6px 12px; font-size:13px; font-weight:bold; border-radius:6px; border:1px solid rgba(255,255,255,0.1); background:transparent; color:var(--text-dim); cursor:pointer; transition:all 0.3s ease; font-family:'Inter', sans-serif;">
+          ⚔️ フリーバトル
+        </button>
+      </div>
+
+      <div class="lab-count" id="lab-monsters-count" style="font-size:14px; color:var(--text-dim);">登録数: 0 / 6</div>
     </div>
     
-    <div class="lab-actions" style="margin-bottom:20px; justify-content: flex-end; gap:10px;">
-      <button class="btn-secondary" style="border-color:rgba(245,158,11,0.4); color:var(--accent-gold);" onclick="openSkillsLibrary()">📜 所持スキル確認</button>
-      <button class="btn-secondary" id="btn-random-create" onclick="executeRandomCreate()">🎲 ランダム作成</button>
+    <div class="lab-actions" style="margin-bottom:10px; justify-content: flex-end; gap:10px; align-items: center;">
+      <span id="lab-unlocked-count" style="font-size:14px; color:var(--accent-gold); margin-right: auto;">🔓 解放済みスキル: 0 / 30</span>
+      <button class="btn-secondary" style="border-color:rgba(245,158,11,0.4); color:var(--accent-gold); padding:6px 12px;" onclick="openSkillsLibrary()">📜 所持スキル確認</button>
+      <button class="btn-secondary" id="btn-random-create" style="padding:6px 12px;" onclick="executeRandomCreate()">🎲 ランダム作成</button>
     </div>
 
     <div class="lab-grid-6" id="lab-grid-6">
@@ -2032,7 +2711,7 @@
 
 <!-- ============ LAB DETAIL MODAL ============ -->
 <div id="lab-detail-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-  <div class="cyber-card" style="width: 90%; max-width: 440px; max-height: 85%; overflow-y: auto; background: var(--bg-card); border: 2px solid var(--accent-cyan); border-radius: 12px; padding: 24px; box-shadow: 0 0 20px rgba(0,212,255,0.2); position: relative;">
+  <div class="cyber-card" style="width: 90%; max-width: 440px; height: auto; max-height: 90%; overflow: hidden; background: var(--bg-card); border: 2px solid var(--accent-cyan); border-radius: 12px; padding: 16px 20px; box-shadow: 0 0 20px rgba(0,212,255,0.2); position: relative;">
     <button onclick="closeLabDetailModal()" style="position: absolute; top: 8px; right: 14px; background: transparent; border: none; color: #fff; font-size: 28px; cursor: pointer; opacity: 0.7; z-index: 10;">&times;</button>
     <div id="lab-modal-content-area"></div>
   </div>
@@ -2047,20 +2726,21 @@
 </div>
 
 <!-- ============ STEPS CREATOR ============ -->
-<div id="creator-screen" class="screen fade-in" style="display:none; align-items: center; justify-content: center; min-height: 90vh;">
-  <div style="display: flex; gap: 24px; justify-content: center; align-items: stretch; max-width: 1050px; width: 100%; padding: 20px;">
+<div id="creator-screen" class="screen fade-in" style="display:none; align-items: flex-start; justify-content: center; padding: 10px 24px 10px;">
+  <div style="display: flex; gap: 18px; justify-content: center; align-items: stretch; max-width: 1050px; width: 100%; padding: 0; box-sizing: border-box; height: 100%;">
     
     <!-- LEFT: Creator Form Container -->
-    <div class="creator-container" style="flex: 1.2; max-width: 550px; margin: 0; display: flex; flex-direction: column; justify-content: space-between;">
-      <div>
-        <div style="font-size:16px; font-weight:bold; color:var(--accent-gold); text-align:center; margin-bottom:20px;">🧪 新規モンスター調合</div>
-        
-        <div class="step-indicator">
-          <div class="step-dot active" id="step-dot-1">1<span class="step-title-inline">系統選択</span></div>
-          <div class="step-dot" id="step-dot-2">2<span class="step-title-inline">ステ振り</span></div>
-          <div class="step-dot" id="step-dot-3">3<span class="step-title-inline">スキル選択</span></div>
-        </div>
+    <div class="creator-container" style="flex: 1.2; max-width: 550px; margin: 0; display: flex; flex-direction: column; overflow: hidden;">
+      <div style="font-size:14px; font-weight:bold; color:var(--accent-gold); text-align:center; margin-bottom:8px;">🧪 新規モンスター調合</div>
+      
+      <div class="step-indicator">
+        <div class="step-dot active" id="step-dot-1">1<span class="step-title-inline">系統選択</span></div>
+        <div class="step-dot" id="step-dot-2">2<span class="step-title-inline">ステ振り</span></div>
+        <div class="step-dot" id="step-dot-3">3<span class="step-title-inline">スキル選択</span></div>
+      </div>
 
+      <!-- Scrollable step content area -->
+      <div style="flex:1; min-height:0; overflow-y:auto; margin-bottom:8px;">
         <!-- Step 1: Type Selection -->
         <div class="step-content active" id="step-content-1">
           <div class="section-title">🧬 系統の選択</div>
@@ -2071,39 +2751,50 @@
 
           <div class="section-title">📛 モンスターの名前</div>
           <input type="text" class="dialog-input" id="creator-name-input" placeholder="モンスター名" maxlength="12" style="text-align:left; margin-bottom:10px;" oninput="creatorTemp.name = this.value; updateCreatorPreview();">
+          <div id="lab-nav-buttons-1" style="display: flex; gap: 12px; margin-top: 24px;">
+            <button class="btn btn-secondary lab-nav-prev" style="flex: 1; padding: 12px;" onclick="creatorPrev()">キャンセル</button>
+            <button class="btn btn-primary lab-nav-next" style="flex: 2; padding: 12px; background-color: #ff9800; color: #fff; font-weight: bold; font-size: 1rem;" onclick="creatorNext()">次へ (ステ振りへ) ➔</button>
+          </div>
         </div>
 
         <!-- Step 2: Stats Allocation -->
         <div class="step-content" id="step-content-2">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:4px;">
             <span class="section-title" style="margin:0;">📊 パラメータ配分</span>
-            <span style="font-size:24px; font-weight:bold; color:var(--accent-gold);">残りPT: <span id="creator-bonus-pts">30</span></span>
+            <span style="font-size:20px; font-weight:bold; color:var(--accent-gold);">残りPT: <span id="creator-bonus-pts">30</span></span>
           </div>
           
           <div id="stat-allocator-container">
             <!-- HP, ATK, DEF, SPD, LCK sliders will be drawn here -->
+          </div>
+          <div id="lab-nav-buttons-2" style="display: flex; gap: 12px; margin-top: 24px;">
+            <button class="btn btn-secondary lab-nav-prev" style="flex: 1; padding: 12px;" onclick="creatorPrev()">◀ 戻る (系統選択)</button>
+            <button class="btn btn-primary lab-nav-next" style="flex: 2; padding: 12px; background-color: #ff9800; color: #fff; font-weight: bold; font-size: 1rem;" onclick="creatorNext()">次へ (スキル選択) ➔</button>
           </div>
         </div>
 
         <!-- Step 3: Skill Allocation -->
         <div class="step-content" id="step-content-3">
           <div class="section-title">⚡ 装備スキル選択 (1つ選んでください)</div>
-          <div class="skill-select-group" id="creator-skills-list" style="display:flex; flex-direction:column; gap:8px; max-height:280px; overflow-y:auto; padding:8px; border:1px solid var(--border); border-radius:6px; background:rgba(0,0,0,0.2);">
+          <div class="skill-select-group" id="creator-skills-list" style="display:flex; flex-direction:column; gap:8px; max-height:240px; overflow-y:auto; padding:8px; border:1px solid var(--border); border-radius:6px; background:rgba(0,0,0,0.2); margin-bottom: 10px;">
             <!-- Single skill radio options -->
+          </div>
+          <div id="lab-nav-buttons-3" style="display: flex; gap: 12px; margin-top: 24px;">
+            <button class="btn btn-secondary lab-nav-prev" style="flex: 1; padding: 12px;" onclick="creatorPrev()">◀ 戻る (ステ振り)</button>
+            <button class="btn btn-primary lab-nav-next" style="flex: 2; padding: 12px; background-color: #ff9800; color: #fff; font-weight: bold; font-size: 1rem;" onclick="creatorNext()">決定 ✔</button>
           </div>
         </div>
       </div>
-
-      <div class="creator-actions" style="margin-top: 20px;">
+      <div class="creator-actions" style="margin-top: 10px; flex-shrink:0; padding-bottom:4px; display:none !important;">
         <button class="btn-secondary" id="btn-creator-prev" onclick="creatorPrev()" disabled>戻る</button>
         <button class="title-btn" id="btn-creator-next" onclick="creatorNext()" style="padding:8px 24px; font-size:24px;">次へ</button>
       </div>
     </div>
     
     <!-- RIGHT: Real-time preview window of the synthesis monster -->
-    <div class="cyber-card" style="flex: 0.9; max-width: 420px; display: flex; flex-direction: column; padding: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; justify-content: space-between; position: relative;">
-      <div>
-        <div style="font-size: 20px; font-weight: bold; color: var(--accent-cyan); text-align: center; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px;">🔬 調合プレビュー</div>
+    <div class="cyber-card" style="flex: 0.9; max-width: 420px; display: flex; flex-direction: column; padding: 14px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; justify-content: space-between; position: relative; overflow: hidden;">
+      <div style="flex:1; min-height:0; overflow-y:auto;">
+        <div style="font-size: 16px; font-weight: bold; color: var(--accent-cyan); text-align: center; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">🔬 調合プレビュー</div>
         
         <!-- Monster Name & Class Header -->
         <div style="text-align: center; margin-bottom: 12px;">
@@ -2112,12 +2803,12 @@
         </div>
         
         <!-- Visual Frame -->
-        <div onclick="zoomCreatorPreviewVisual()" style="height: 130px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 15px; position: relative; overflow: hidden; cursor: pointer;" title="クリックで拡大表示">
+        <div onclick="zoomCreatorPreviewVisual()" style="height: 110px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 10px; position: relative; overflow: hidden; cursor: pointer;" title="クリックで拡大表示">
           <div id="cr-preview-visual"></div>
         </div>
         
         <!-- Preview Stats Board -->
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; background: rgba(0,0,0,0.15); padding: 12px; border-radius: 6px;">
+        <div style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; background: rgba(0,0,0,0.15); padding: 8px 10px; border-radius: 6px;">
           <!-- HP -->
           <div style="display: flex; flex-direction: column; gap: 2px;">
             <div style="display: flex; justify-content: space-between; font-size: 14px;"><span>HP</span><strong style="color: #fff;" id="cr-preview-val-hp">0</strong></div>
@@ -2444,6 +3135,39 @@
       </div>
     </div>
 
+    <!-- Team Arena Tournament Result Modal -->
+    <div id="ta-result-modal" style="display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(4px); z-index: 11000; align-items: center; justify-content: center; pointer-events: auto;">
+      <div style="background: linear-gradient(180deg, #0d1117, #07090e); padding: 32px; border-radius: 16px; border: 3px solid var(--accent-gold); text-align: center; box-shadow: 0 0 45px rgba(245, 158, 11, 0.4); display: flex; flex-direction: column; gap: 16px; min-width: 480px; max-width: 550px;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900; color: var(--accent-gold); letter-spacing: 1px;">【武舞台トーナメント結果】</div>
+        
+        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; padding: 20px; text-align: left; font-family: monospace; line-height: 1.6;">
+          <div style="font-size: 18px; font-weight: bold; color: #fff; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 8px; margin-bottom: 12px; text-align: center;">
+            成績：<span id="ta-res-rank-text" style="color: var(--accent-gold);">優勝（5勝0敗）</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 15px; color: var(--text-secondary); margin-bottom: 6px;">
+            <span>・順位報酬：</span>
+            <span id="ta-res-rank-bp" style="color: #fff; font-weight: bold;">120 BP</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 15px; color: var(--text-secondary); margin-bottom: 12px;">
+            <span>・参加賞：</span>
+            <span id="ta-res-part-bp" style="color: #fff; font-weight: bold;">10 BP</span>
+          </div>
+          <div style="border-top: 1px dashed rgba(255, 255, 255, 0.15); padding-top: 10px; display: flex; justify-content: space-between; font-size: 18px; font-weight: bold; color: var(--accent-gold);">
+            <span>獲得合計：</span>
+            <span id="ta-res-total-bp">130 BP</span>
+          </div>
+        </div>
+
+        <div style="font-size: 15px; color: var(--text-dim); margin-top: -4px;">
+          現在の所持BP：<span id="ta-res-current-bp" style="color: var(--accent-gold); font-weight: bold; font-size: 18px;">XXXX</span> BP
+        </div>
+
+        <div style="margin-top: 10px;">
+          <button class="result-btn primary" onclick="closeTaResultModal()" style="padding: 12px 24px; font-size: 16px; width: 100%; border-radius: 8px;">武舞台メニューへ戻る</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 
@@ -2532,6 +3256,17 @@ const SKILLS = {
   recycle: { name: 'リサイクル', icon: '♻️', desc: '（自動発動）相手がスキルを放った直後にトリガー。そのスキルによって自分が受けた損害の半分を即座に修復（回復）する。', type: 'パッシブ', cat: '回復系', badge: 'heal', scrollType: 'special' },
   fdice: { name: 'フォーチュンダイス', icon: '🎲', desc: '（自動発動）戦闘開始時に運命のダイスを振る。自身の『運』の数値がランダムで大きく上下に変動する。', type: 'パッシブ', cat: '補助系', badge: 'support', scrollType: 'special' },
   pressure: { name: 'プレッシャー', icon: '👁️', desc: '（自動発動）戦闘開始時、相手の『運』が自分より低い場合、圧倒的な覇気で相手の初手の行動を強制的にパス（怯え）させる。', type: 'パッシブ', cat: '補助系', badge: 'support', scrollType: 'special' },
+
+  // --- 追加された微妙・ハズレ寄り9スキル ---
+  intimidate: { name: '威嚇のポーズ', icon: '🦁', desc: '（自動発動）戦闘開始時、10%の確率で相手の攻撃力を1減少させる。', type: 'パッシブ', cat: '補助系', badge: 'support', scrollType: 'attack' },
+  playdead: { name: '死んだふり', icon: '💤', desc: '（自動発動）自身の生命力が10%以下になった際、次の1ターンお互いを行動不能にする。', type: 'パッシブ', cat: 'その他', badge: 'special', scrollType: 'defense' },
+  particularity: { name: '無駄なこだわり', icon: '📐', desc: '（自動発動）自身のいずれかのステータスが偶数の時のみ、相手に与えるダメージが5%増加する。', type: 'パッシブ', cat: '攻撃系', badge: 'attack', scrollType: 'special' },
+  poorcounter: { name: '未熟なカウンター', icon: '🔁', desc: '（自動発動）被弾時、5%の確率で受けたダメージの10%を反射する。', type: 'パッシブ', cat: '防御系', badge: 'defense', scrollType: 'defense' },
+  heavyatk: { name: '大振り', icon: '💪', desc: '（自動発動）戦闘開始時、自身の攻撃力が15%増加するが、代わりに素早さが30%減少する。', type: 'パッシブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
+  luckstrike: { name: '運頼みのひと突き', icon: '🎲', desc: '自身の攻撃力に、自身の「運」の数値をそのまま固定の追加ダメージとして上乗せして突く。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
+  selfsatisfaction: { name: '自己満足', icon: '✨', desc: '（自動発動）敵モンスターを撃破した瞬間に、自身の生命力を1だけ回復する。', type: 'パッシブ', cat: '回復系', badge: 'heal', scrollType: 'special' },
+  blankshot: { name: '空砲', icon: '💨', desc: '1ターン目の攻撃時のみ発動可能。ダメージを与えない代わりに、相手の防御力を5%低下させる。', type: 'アクティブ', cat: '補助系', badge: 'support', scrollType: 'special' },
+  glassshield: { name: 'ガラスの盾', icon: '🛡️', desc: '（自動発動）戦闘開始時に展開。最初の1回目の被弾のみ防御力が1.2倍になるが、以降は防御力が10%低下する。', type: 'パッシブ', cat: '防御系', badge: 'defense', scrollType: 'defense' },
 };
 
 const STAT_COLORS = { hp:'#10b981', attack:'#ef4444', defense:'#3d9be9', speed:'#f59e0b', luck:'#a855f7' };
@@ -2581,6 +3316,27 @@ const MONSTER_TYPES = {
     bonus:{ hp:0, attack:0, defense:0, speed:10, luck:0 },
     base:{ hp:1, attack:1, defense:0, speed:10, luck:0 },
     names:['アイアンギガ','メタルビット','ジェノサイダー'] },
+  // === 追加5系統（武舞台ショップ解放枠） ===
+  robo: { label:'ロボ系', icon:'🤖', color:'#60a5fa', series:'robo',
+    bonus:{ hp:0, attack:5, defense:5, speed:0, luck:0 },
+    base:{ hp:1, attack:6, defense:5, speed:0, luck:0 },
+    names:[] },
+  god: { label:'神系', icon:'⚡', color:'#fbbf24', series:'shin',
+    bonus:{ hp:0, attack:0, defense:0, speed:5, luck:5 },
+    base:{ hp:1, attack:1, defense:0, speed:5, luck:5 },
+    names:[] },
+  dinosaur: { label:'恐竜系', icon:'🦖', color:'#dc2626', series:'dinosaur',
+    bonus:{ hp:5, attack:5, defense:0, speed:0, luck:0 },
+    base:{ hp:6, attack:6, defense:0, speed:0, luck:0 },
+    names:[] },
+  toy: { label:'ぬいぐるみ系', icon:'🧸', color:'#f472b6', series:'toy',
+    bonus:{ hp:5, attack:0, defense:0, speed:0, luck:5 },
+    base:{ hp:6, attack:1, defense:0, speed:0, luck:5 },
+    names:[] },
+  ghost: { label:'おばけ系', icon:'👻', color:'#c084fc', series:'ghost',
+    bonus:{ hp:0, attack:0, defense:5, speed:5, luck:0 },
+    base:{ hp:1, attack:1, defense:5, speed:5, luck:0 },
+    names:[] },
   other: { label:'その他', icon:'⭐', color:'#94a3b8',
     bonus:{ hp:2, attack:2, defense:2, speed:2, luck:2 },
     base:{ hp:3, attack:3, defense:2, speed:2, luck:2 },
@@ -2781,43 +3537,132 @@ function delay(ms) {
   return ms / (battleSpeedMul || 1);
 }
 
+let activeSlotId = 1;
+let bp = 0;
+let unlockedSeries = []; // 'robo', 'shin', 'dinosaur', 'toy', 'ghost'
+
+function getSlotKey(slotId) {
+  return '100pt_v3_slot_' + (slotId || activeSlotId || 1);
+}
+
+function getSlotData(slotId) {
+  try {
+    const raw = localStorage.getItem(getSlotKey(slotId));
+    if (raw) return JSON.parse(raw);
+  } catch (e) {
+    console.error('Failed to parse slot data:', e);
+  }
+  return null;
+}
+
+function formatDate(date) {
+  const pad = n => String(n).padStart(2, '0');
+  return `${date.getFullYear()}/${pad(date.getMonth() + 1)}/${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
 function save() {
-  localStorage.setItem('100pt_v3_playerName', playerName);
-  localStorage.setItem('100pt_v3_lab_monsters_solo', JSON.stringify(labMonstersSolo));
-  localStorage.setItem('100pt_v3_lab_monsters_free', JSON.stringify(labMonstersFree));
-  localStorage.setItem('100pt_v2_stage', String(stageIndex));
-  localStorage.setItem('100pt_v2_record', JSON.stringify(record));
-  localStorage.setItem('100pt_v3_unlocked', JSON.stringify(unlockedSkills));
-  localStorage.setItem('100pt_v3_survivalBest', String(survivalBestRecord));
+  const slotData = {
+    updatedAt: formatDate(new Date()),
+    playerName: playerName,
+    labMonstersSolo: labMonstersSolo,
+    labMonstersFree: labMonstersFree,
+    stageIndex: stageIndex,
+    record: record,
+    unlockedSkills: unlockedSkills,
+    survivalBestRecord: survivalBestRecord,
+    gameProgress: gameProgress,
+    bp: bp,
+    unlockedSeries: unlockedSeries
+  };
+  localStorage.setItem(getSlotKey(activeSlotId), JSON.stringify(slotData));
+  localStorage.setItem('100pt_v3_active_slot', String(activeSlotId));
+}
+
+function resetMemoryState() {
+  playerName = '';
+  labMonstersSolo = [];
+  labMonstersFree = [];
+  stageIndex = 0;
+  record = { win: 0, lose: 0, draw: 0 };
+  unlockedSkills = [];
+  survivalBestRecord = 0;
+  gameProgress = {
+    tutorialStep: 0,
+    bossRevengeUnlocked: false,
+    bossDefeated: false,
+  };
+  bp = 0;
+  unlockedSeries = [];
+}
+
+function loadSlot(slotId) {
+  activeSlotId = slotId || 1;
+  localStorage.setItem('100pt_v3_active_slot', String(activeSlotId));
+  const data = getSlotData(activeSlotId);
+  if (data) {
+    playerName = data.playerName || '';
+    labMonstersSolo = Array.isArray(data.labMonstersSolo) ? data.labMonstersSolo : [];
+    labMonstersFree = Array.isArray(data.labMonstersFree) ? data.labMonstersFree : [];
+    stageIndex = typeof data.stageIndex === 'number' ? data.stageIndex : 0;
+    record = data.record || { win: 0, lose: 0, draw: 0 };
+    unlockedSkills = Array.isArray(data.unlockedSkills) ? data.unlockedSkills : [];
+    survivalBestRecord = typeof data.survivalBestRecord === 'number' ? data.survivalBestRecord : 0;
+    gameProgress = data.gameProgress ? { ...data.gameProgress } : { tutorialStep: 4, bossRevengeUnlocked: false, bossDefeated: false };
+    bp = typeof data.bp === 'number' ? data.bp : 0;
+    unlockedSeries = Array.isArray(data.unlockedSeries) ? data.unlockedSeries : [];
+  } else {
+    resetMemoryState();
+  }
+}
+
+function deleteSlotData(slotId) {
+  localStorage.removeItem(getSlotKey(slotId));
+  if (activeSlotId === slotId) {
+    resetMemoryState();
+  }
+}
+
+function migrateOldSaveDataIfNeeded() {
+  const activeS = localStorage.getItem('100pt_v3_active_slot');
+  if (activeS) {
+    activeSlotId = parseInt(activeS, 10) || 1;
+    return;
+  }
+  
+  const oldPName = localStorage.getItem('100pt_v3_playerName');
+  if (oldPName && !localStorage.getItem(getSlotKey(1))) {
+    try {
+      const lmSolo = JSON.parse(localStorage.getItem('100pt_v3_lab_monsters_solo') || '[]');
+      const lmFree = JSON.parse(localStorage.getItem('100pt_v3_lab_monsters_free') || '[]');
+      const sIndex = parseInt(localStorage.getItem('100pt_v2_stage') || '0', 10);
+      const rec = JSON.parse(localStorage.getItem('100pt_v2_record') || '{"win":0,"lose":0,"draw":0}');
+      const unl = JSON.parse(localStorage.getItem('100pt_v3_unlocked') || '[]');
+      const surBest = parseInt(localStorage.getItem('100pt_v3_survivalBest') || '0', 10);
+      const prog = JSON.parse(localStorage.getItem('100pt_v3_progress') || '{"tutorialStep":4,"bossRevengeUnlocked":false,"bossDefeated":false}');
+
+      const slot1Data = {
+        updatedAt: formatDate(new Date()),
+        playerName: oldPName,
+        labMonstersSolo: lmSolo,
+        labMonstersFree: lmFree,
+        stageIndex: sIndex,
+        record: rec,
+        unlockedSkills: unl,
+        survivalBestRecord: surBest,
+        gameProgress: prog
+      };
+      localStorage.setItem(getSlotKey(1), JSON.stringify(slot1Data));
+      localStorage.setItem('100pt_v3_active_slot', '1');
+      activeSlotId = 1;
+    } catch(e) {
+      console.error('Migration failed:', e);
+    }
+  }
 }
 
 function load() {
-  try {
-    const pName = localStorage.getItem('100pt_v3_playerName');
-    if (pName) playerName = pName;
-    
-    const lmSolo = localStorage.getItem('100pt_v3_lab_monsters_solo');
-    if (lmSolo) labMonstersSolo = JSON.parse(lmSolo);
-    else labMonstersSolo = [];
-
-    const lmFree = localStorage.getItem('100pt_v3_lab_monsters_free');
-    if (lmFree) labMonstersFree = JSON.parse(lmFree);
-    else labMonstersFree = [];
-    
-    const s = localStorage.getItem('100pt_v2_stage');
-    if (s !== null) stageIndex = parseInt(s, 10);
-    
-    const r = localStorage.getItem('100pt_v2_record');
-    if (r) record = JSON.parse(r);
-    
-    const u = localStorage.getItem('100pt_v3_unlocked');
-    if (u) unlockedSkills = JSON.parse(u);
-    
-    const sb = localStorage.getItem('100pt_v3_survivalBest');
-    if (sb) survivalBestRecord = parseInt(sb, 10);
-  } catch(e) {
-    console.error('Failed to load save data:', e);
-  }
+  migrateOldSaveDataIfNeeded();
+  loadSlot(activeSlotId);
 }
 
 function updateRecord() {
@@ -2837,9 +3682,11 @@ let labMonstersSolo = []; // Max 6, for league and survival
 let labMonstersFree = []; // Max 6, for free battle
 let creatorReturnToScouting = false; // Flag to redirect after manual creation
 
-// Helper to get active lab based on game mode
+let currentLabMode = 'story'; // 'story' (ストーリー用), 'free' (フリーバトル用)
+
+// Helper to get active lab based on selected lab mode
 function getActiveLab() {
-  if (currentGameMode === 'free') {
+  if (typeof currentLabMode !== 'undefined' && currentLabMode === 'free') {
     return labMonstersFree;
   }
   return labMonstersSolo;
@@ -2847,10 +3694,73 @@ function getActiveLab() {
 
 // Helper to set active lab content
 function setActiveLab(list) {
-  if (currentGameMode === 'free') {
+  if (typeof currentLabMode !== 'undefined' && currentLabMode === 'free') {
     labMonstersFree = list;
   } else {
     labMonstersSolo = list;
+  }
+}
+
+// Switch lab mode function (Story vs Free)
+function switchLabMode(mode) {
+  currentLabMode = mode;
+  
+  const tabStory = document.getElementById('lab-mode-tab-story');
+  const tabFree = document.getElementById('lab-mode-tab-free');
+  
+  if (mode === 'story') {
+    if (tabStory) {
+      tabStory.style.borderColor = 'var(--accent-gold)';
+      tabStory.style.background = 'rgba(245,158,11,0.08)';
+      tabStory.style.color = 'var(--accent-gold)';
+    }
+    if (tabFree) {
+      tabFree.style.borderColor = 'rgba(255,255,255,0.1)';
+      tabFree.style.background = 'transparent';
+      tabFree.style.color = 'var(--text-dim)';
+    }
+  } else {
+    if (tabStory) {
+      tabStory.style.borderColor = 'rgba(255,255,255,0.1)';
+      tabStory.style.background = 'transparent';
+      tabStory.style.color = 'var(--text-dim)';
+    }
+    if (tabFree) {
+      tabFree.style.borderColor = 'var(--accent-cyan)';
+      tabFree.style.background = 'rgba(0,212,255,0.08)';
+      tabFree.style.color = 'var(--accent-cyan)';
+    }
+  }
+  
+  // Transition animation (fade-in restart)
+  const grid = document.getElementById('lab-grid-6');
+  if (grid) {
+    grid.classList.remove('fade-in');
+    void grid.offsetWidth; // Trigger reflow for animation restart
+    grid.classList.add('fade-in');
+  }
+
+  // Refresh display
+  renderLabGrid();
+  updateLabStatsDisplay();
+}
+
+function updateLabStatsDisplay() {
+  const labCount = document.getElementById('lab-unlocked-count');
+  if (labCount) {
+    if (currentLabMode === 'free') {
+      labCount.textContent = '🔓 解放済みスキル: 30 / 30 (フリー対戦：全解放)';
+      labCount.style.color = 'var(--accent-cyan)';
+    } else {
+      const sp = getSkillProgress();
+      labCount.textContent = '🔓 解放済みスキル: ' + sp.count + ' / ' + sp.total;
+      labCount.style.color = 'var(--accent-gold)';
+    }
+  }
+  
+  const monstersCount = document.getElementById('lab-monsters-count');
+  if (monstersCount) {
+    monstersCount.textContent = '登録数: ' + getActiveLab().length + ' / 6';
   }
 }
 
@@ -2861,6 +3771,21 @@ let unlockedSkills = []; // IDs of unlocked prize skills
 let survivalWins = 0;
 let survivalBestRecord = 0;
 
+// Tutorial & Story Progression
+let gameProgress = {
+  tutorialStep: 0,   // 0:新規 1:OP完了→ラボ誘導 2:初代作成完了→ボス誘導 3:初敗北→再作成 4:完了
+  bossRevengeUnlocked: false,
+  bossDefeated: false,
+};
+
+const TUTORIAL_BOSS = {
+  name: '覇王ゴブリン',
+  title: '闘技場の覇王',
+  icon: '👹',
+  rumor: '闘技場で数多の挑戦者を退けてきた最強の存在。未知のスキルを使うという噂も…',
+  hp: 99, attack: 80, defense: 60, speed: 50, luck: 50,
+  skill: 'gigabreak', type: 'other'
+};
 
 // Creator Temporary State
 let creatorTemp = {
@@ -2991,7 +3916,7 @@ function goScreen(name) {
 
   // Update headers and show
   const header = document.getElementById('header');
-  if (name === 'title' || name === 'name-dialog' || name === 'battle') {
+  if (name === 'title' || name === 'name-dialog' || name === 'battle' || name === 'free-battle-lobby' || name === 'team-arena-menu' || name === 'reward-shop' || name === 'ta-party' || name === 'ta-progress') {
     header.style.display = 'none';
   } else {
     header.style.display = 'flex';
@@ -2999,7 +3924,7 @@ function goScreen(name) {
 
   const el = document.getElementById(name + '-screen');
   if (el) {
-    if (name === 'name-dialog' || name === 'creator' || name === 'lab') {
+    if (name === 'name-dialog' || name === 'creator' || name === 'lab' || name === 'scouting' || name === 'free-battle-lobby' || name === 'team-arena-menu' || name === 'reward-shop' || name === 'ta-party' || name === 'ta-progress') {
       el.style.display = 'flex';
     } else {
       el.style.display = 'block';
@@ -3018,12 +3943,60 @@ function goScreen(name) {
     document.body.style.overflowY = '';
   }
   
+  if (name === 'main-menu') {
+    updateSkillProgressUI();
+    updateMenuFacilities();
+    const nameEl = document.getElementById('menu-player-name');
+    if (nameEl) nameEl.textContent = '研究者: ' + playerName;
+  }
+
   if (name === 'lab') {
     document.getElementById('tab-lab').classList.add('active');
-    renderLabGrid();
+    switchLabMode('story');
+
+    // Tutorial Phase 2: Auto-create first monster
+    if (gameProgress.tutorialStep === 1) {
+      showStoryDialog([
+        { speaker: 'ナレーション', text: 'ここがモンスター研究所（ラボ）だ。まずは初めてのモンスターを育成しよう！', color: 'var(--accent-gold)' },
+        { speaker: 'ナレーション', text: '研究所の装置が起動し、最初のモンスターが誕生した！', color: 'var(--accent-gold)' },
+      ], () => {
+        // Auto-generate starter monster "ポチ" (Slime)
+        const starterMonster = {
+          name: 'ポチ',
+          systemType: 'スライム系',
+          monsterClass: 'スライム',
+          stats: { hp: 20, attack: 15, defense: 15, speed: 15, luck: 15 },
+          skills: { active: ['none'], passive: ['none'] }
+        };
+        labMonstersSolo.push(starterMonster);
+        gameProgress.tutorialStep = 2;
+        save();
+        renderLabGrid();
+
+        showStoryDialog([
+          { speaker: 'ナレーション', text: 'スライムの「ポチ」が仲間になった！ さっそく闘技場の覇王戦に挑んでみよう！', color: 'var(--accent-gold)' },
+          { speaker: playerName, text: 'よし、ポチ！ 一緒に闘技場に行こう！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+        ], () => {
+          goScreen('main-menu');
+        });
+      });
+    }
+
+    // Tutorial Phase 3: Return after defeat
+    if (gameProgress.tutorialStep === 3) {
+      showStoryDialog([
+        { speaker: 'ナレーション', text: 'モンスターは倒れてしまった…だが、敗北は研究の第一歩だ！ もう一度ラボで新たなモンスターを生み出そう！', color: 'var(--accent-gold)' },
+        { speaker: playerName, text: 'くそ…あのボスは強すぎた。でも諦めない！ 新しいモンスターを作って、スキルを集めるんだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+        { speaker: 'ナレーション', text: 'まずは「闘技場」の個人リーグ戦に挑み、勝利報酬として新たな「スキル」を集めよう！\n\n＋ボタンまたは🎲ランダムでモンスターを作成してください。', color: 'var(--accent-gold)' },
+      ], null);
+    }
   } else if (name === 'scouting') {
     document.getElementById('tab-scouting').classList.add('active');
-    prepareStage();
+    if (gameProgress.tutorialStep === 2) {
+      currentEnemy = { ...TUTORIAL_BOSS };
+    } else {
+      prepareStage();
+    }
     renderSelList();
     renderEnemyInfo();
   }
@@ -3145,8 +4118,19 @@ function confirmPlayerName() {
   playerName = val;
   save();
   
-  // Go to Lab Screen
-  goScreen('main-menu');
+  if (gameProgress.tutorialStep === 0) {
+    // Phase 1: Opening narrative dialog
+    showStoryDialog([
+      { speaker: 'ナレーション', text: '田舎からやってきた新米モンスター研究者のあなた。腕試しのため、巨重大闘技場を擁するこの国の首都へ足を踏み入れた……', color: 'var(--accent-gold)' },
+      { speaker: 'ナレーション', text: '首都には強大なモンスターを率いる猛者たちが集う闘技場がある。まずは研究所（ラボ）で自分だけのモンスターを生み出そう！', color: 'var(--accent-gold)' },
+    ], () => {
+      gameProgress.tutorialStep = 1;
+      save();
+      goScreen('main-menu');
+    });
+  } else {
+    goScreen('main-menu');
+  }
 }
 
 // 2. Render Lab Grid (6 slot cards)
@@ -3397,57 +4381,57 @@ function selectLabMonster(idx, autoOpen = true) {
   modalContent.innerHTML = `
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
       <div>
-        <div style="font-size: 18px; font-weight: bold; color: var(--accent-cyan); text-align: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px;">🧬 モンスター詳細</div>
+        <div style="font-size: 16px; font-weight: bold; color: var(--accent-cyan); text-align: center; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">🧬 モンスター詳細</div>
         
         <!-- Preview Header -->
-        <div style="text-align: center; margin-bottom: 10px;">
-          <div style="font-size: 26px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.name}</div>
-          <div style="font-size: 14px; color: var(--text-dim); margin-top: 2px;">${m.monsterClass} (${m.systemType})</div>
+        <div style="text-align: center; margin-bottom: 6px;">
+          <div style="font-size: 22px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${m.name}</div>
+          <div style="font-size: 13px; color: var(--text-dim); margin-top: 1px;">${m.monsterClass} (${m.systemType})</div>
         </div>
         
         <!-- Visual Display -->
-        <div onclick="zoomMonsterVisual('${m.monsterClass}', '${m.systemType}')" style="height: 120px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 12px; position: relative; overflow: hidden; cursor: pointer;" title="クリックで拡大表示">
-          ${getMonsterVisualHTML(m.monsterClass, m.systemType, '85px')}
+        <div onclick="zoomMonsterVisual('${m.monsterClass}', '${m.systemType}')" style="height: 90px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 8px; position: relative; overflow: hidden; cursor: pointer;" title="クリックで拡大表示">
+          ${getMonsterVisualHTML(m.monsterClass, m.systemType, '70px')}
         </div>
         
         <!-- Stats Board -->
-        <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; background: rgba(0,0,0,0.15); padding: 12px; border-radius: 6px;">
+        <div style="display: flex; flex-direction: column; gap: 5px; margin-bottom: 8px; background: rgba(0,0,0,0.15); padding: 8px 10px; border-radius: 6px;">
           <!-- HP -->
-          <div style="display: flex; flex-direction: column; gap: 2px;">
-            <div style="display: flex; justify-content: space-between; font-size: 14px;"><span>HP</span><strong style="color: #fff;">${m.stats.hp}</strong></div>
-            <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div style="width: ${Math.min(100, (m.stats.hp / 110) * 100)}%; height: 100%; background: #a855f7; transition: width 0.3s ease-out;"></div></div>
+          <div style="display: flex; flex-direction: column; gap: 1px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>HP</span><strong style="color: #fff;">${m.stats.hp}</strong></div>
+            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div style="width: ${Math.min(100, (m.stats.hp / 110) * 100)}%; height: 100%; background: #a855f7; transition: width 0.3s ease-out;"></div></div>
           </div>
           <!-- ATK -->
-          <div style="display: flex; flex-direction: column; gap: 2px;">
-            <div style="display: flex; justify-content: space-between; font-size: 14px;"><span>ATK</span><strong style="color: #fff;">${m.stats.attack}</strong></div>
-            <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div style="width: ${Math.min(100, (m.stats.attack / 110) * 100)}%; height: 100%; background: #ef4444; transition: width 0.3s ease-out;"></div></div>
+          <div style="display: flex; flex-direction: column; gap: 1px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>ATK</span><strong style="color: #fff;">${m.stats.attack}</strong></div>
+            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div style="width: ${Math.min(100, (m.stats.attack / 110) * 100)}%; height: 100%; background: #ef4444; transition: width 0.3s ease-out;"></div></div>
           </div>
           <!-- DEF -->
-          <div style="display: flex; flex-direction: column; gap: 2px;">
-            <div style="display: flex; justify-content: space-between; font-size: 14px;"><span>DEF</span><strong style="color: #fff;">${m.stats.defense}</strong></div>
-            <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div style="width: ${Math.min(100, (m.stats.defense / 110) * 100)}%; height: 100%; background: #3b82f6; transition: width 0.3s ease-out;"></div></div>
+          <div style="display: flex; flex-direction: column; gap: 1px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>DEF</span><strong style="color: #fff;">${m.stats.defense}</strong></div>
+            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div style="width: ${Math.min(100, (m.stats.defense / 110) * 100)}%; height: 100%; background: #3b82f6; transition: width 0.3s ease-out;"></div></div>
           </div>
           <!-- SPD -->
-          <div style="display: flex; flex-direction: column; gap: 2px;">
-            <div style="display: flex; justify-content: space-between; font-size: 14px;"><span>SPD</span><strong style="color: #fff;">${m.stats.speed}</strong></div>
-            <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div style="width: ${Math.min(100, (m.stats.speed / 110) * 100)}%; height: 100%; background: #10b981; transition: width 0.3s ease-out;"></div></div>
+          <div style="display: flex; flex-direction: column; gap: 1px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>SPD</span><strong style="color: #fff;">${m.stats.speed}</strong></div>
+            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div style="width: ${Math.min(100, (m.stats.speed / 110) * 100)}%; height: 100%; background: #10b981; transition: width 0.3s ease-out;"></div></div>
           </div>
           <!-- LUK -->
-          <div style="display: flex; flex-direction: column; gap: 2px;">
-            <div style="display: flex; justify-content: space-between; font-size: 14px;"><span>LUK</span><strong style="color: #fff;">${m.stats.luck}</strong></div>
-            <div style="width: 100%; height: 5px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div style="width: ${Math.min(100, (m.stats.luck / 110) * 100)}%; height: 100%; background: #eab308; transition: width 0.3s ease-out;"></div></div>
+          <div style="display: flex; flex-direction: column; gap: 1px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>LUK</span><strong style="color: #fff;">${m.stats.luck}</strong></div>
+            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div style="width: ${Math.min(100, (m.stats.luck / 110) * 100)}%; height: 100%; background: #eab308; transition: width 0.3s ease-out;"></div></div>
           </div>
         </div>
         
         <!-- Skill Detail Box -->
-        <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 10px; min-height: 60px; display: flex; flex-direction: column; justify-content: center; gap: 4px;">
-          <div style="font-size: 12px; color: var(--accent-cyan); font-weight: bold;">⚡ 装備スキル: <span style="color: #fff; font-size: 14px; margin-left: 6px;">${mainSkill.name}</span></div>
-          <div style="font-size: 11px; color: var(--text-dim); line-height: 1.4;">${mainSkill.desc}</div>
+        <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 7px 10px; min-height: 44px; display: flex; flex-direction: column; justify-content: center; gap: 2px;">
+          <div style="font-size: 12px; color: var(--accent-cyan); font-weight: bold;">⚡ 装備スキル: <span style="color: #fff; font-size: 13px; margin-left: 6px;">${mainSkill.name}</span></div>
+          <div style="font-size: 11px; color: var(--text-dim); line-height: 1.3;">${mainSkill.desc}</div>
         </div>
       </div>
       
       <!-- Modal Close Trigger (Bottom) -->
-      <button class="title-btn" onclick="closeLabDetailModal()" style="margin-top: 15px; padding: 6px 0; font-size: 18px; width: 100%;">閉じる</button>
+      <button class="title-btn" onclick="closeLabDetailModal()" style="margin-top: 10px; padding: 5px 0; font-size: 16px; width: 100%;">閉じる</button>
     </div>
   `;
 
@@ -3530,10 +4514,11 @@ function renderLabGrid() {
   selectLabMonster(selectedLabIndex, false);
 }
 
-function deleteMonster(idx) {
+async function deleteMonster(idx) {
   if (selectedLabIndex === idx) { selectedLabIndex = Math.max(0, idx - 1); }
   closeLabDetailModal();
-  if (confirm('このモンスターと本当にお別れしますか？ (二度と戻ってきません)')) {
+  const result = await showConfirmModal('このモンスターと本当にお別れしますか？\n(二度と戻ってきません)');
+  if (result) {
     const activeLab = getActiveLab();
     activeLab.splice(idx, 1);
     save();
@@ -3559,16 +4544,44 @@ function startManualCreate() {
     skills: { active: [], passive: [] }
   };
 
-  // Populate System Select dropdown
+  // Populate System Select dropdown with optgroup separation
   const sysSelect = document.getElementById('creator-system-select');
   sysSelect.innerHTML = '';
+  
+  // 基本系統グループ（初期解放）
+  const baseGroup = document.createElement('optgroup');
+  baseGroup.label = '── 基本系統（初期解放） ──';
+  
+  // 追加系統グループ（要解放）
+  const extraGroup = document.createElement('optgroup');
+  extraGroup.label = '── 武舞台解放系統 ──';
+  
   Object.entries(MONSTER_TYPES).forEach(([id, t]) => {
     if (t.hidden) return;
+    
     const opt = document.createElement('option');
     opt.value = id;
-    opt.textContent = `${t.icon} ${t.label}`;
-    sysSelect.appendChild(opt);
+    
+    if (t.series) {
+      // 追加5系統：シリーズ解放が必要
+      const isLocked = !isSeriesUnlocked(t.series);
+      const seriesNames = { robo:'ロボシリーズ', shin:'神シリーズ', dinosaur:'恐竜シリーズ', toy:'ぬいぐるみシリーズ', ghost:'おばけシリーズ' };
+      if (isLocked) {
+        opt.textContent = `${t.icon} ${t.label} (🔒 ${seriesNames[t.series] || t.series}解放が必要)`;
+        opt.disabled = true;
+      } else {
+        opt.textContent = `${t.icon} ${t.label}`;
+      }
+      extraGroup.appendChild(opt);
+    } else {
+      // 基本系統：常に選択可能
+      opt.textContent = `${t.icon} ${t.label}`;
+      baseGroup.appendChild(opt);
+    }
   });
+  
+  sysSelect.appendChild(baseGroup);
+  sysSelect.appendChild(extraGroup);
   
   // Trigger change handler
   onCreatorSystemChange();
@@ -3599,7 +4612,7 @@ function showStep(step) {
   updateCreatorPreview();
   const nextBtn = document.getElementById('btn-creator-next');
   if (step === 3) {
-    nextBtn.textContent = '調合完了！';
+    nextBtn.textContent = '決定';
   } else {
     nextBtn.textContent = '次へ';
   }
@@ -3635,7 +4648,10 @@ function onCreatorClassChange() {
 }
 
 function creatorPrev() {
-  if (creatorStep > 1) {
+  if (creatorStep === 1) {
+    // Cancel and return to lab
+    goScreen('lab');
+  } else if (creatorStep > 1) {
     showStep(creatorStep - 1);
   }
 }
@@ -3709,6 +4725,16 @@ function creatorNext() {
     const activeLab = getActiveLab();
     activeLab.push(finalMonster);
     save();
+    
+    // Tutorial Phase 3 completion: Complete after creating 2nd monster
+    if (gameProgress.tutorialStep === 3 && activeLab.length >= 2) {
+      gameProgress.tutorialStep = 4;
+      save();
+      showStoryDialog([
+        { speaker: 'ナレーション', text: '新たなモンスターが誕生した！ これで闘技場の個人リーグに挑む準備が整った！', color: 'var(--accent-gold)' },
+        { speaker: playerName, text: 'よし！ 今度こそスキルを集めて、あの覇王にリベンジするぞ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+      ], null);
+    }
     
     if (creatorReturnToScouting) {
       creatorReturnToScouting = false;
@@ -3964,7 +4990,12 @@ function executeRandomCreate() {
   }
   
   // 1. Pick a random system and class
-  const availableTypes = Object.entries(MONSTER_TYPES).filter(([id, t]) => !t.hidden);
+  const availableTypes = Object.entries(MONSTER_TYPES).filter(([id, t]) => {
+    if (t.hidden) return false;
+    if (t.series && !isSeriesUnlocked(t.series)) return false;
+    return true;
+  });
+  
   const randomTypeTuple = availableTypes[Math.floor(Math.random() * availableTypes.length)];
   const systemId = randomTypeTuple[0];
   const systemObj = randomTypeTuple[1];
@@ -4004,6 +5035,17 @@ function executeRandomCreate() {
   const activeLab = getActiveLab();
   activeLab.push(randomMonster);
   save();
+  
+  // Tutorial Phase 3 completion: Complete after creating 2nd monster
+  if (gameProgress.tutorialStep === 3 && activeLab.length >= 2) {
+    gameProgress.tutorialStep = 4;
+    save();
+    showStoryDialog([
+      { speaker: 'ナレーション', text: '新たなモンスターが誕生した！ これで闘技場の個人リーグに挑む準備が整った！', color: 'var(--accent-gold)' },
+      { speaker: playerName, text: 'よし！ 今度こそスキルを集めて、あの覇王にリベンジするぞ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+    ], null);
+  }
+
   renderLabGrid();
   
   addLogMessageToBattleScreen(`🎲 【${className}】がランダム作成されました！`);
@@ -4044,26 +5086,9 @@ function renderSelList() {
     const actSkills = m.skills.active.map(sk => SKILLS[sk] ? SKILLS[sk].name : sk).join(', ');
     const pasSkill = SKILLS[m.skills.passive[0]] ? SKILLS[m.skills.passive[0]].name : m.skills.passive[0];
 
-    const pImgTag = (function(sysKey){
-      const pStyle = "max-height: 45px; max-width: 45px; object-fit: contain;  vertical-align: middle;";
-      if (sysKey === 'dragon') return `<img src="IMG/dragon１A.png" style="${pStyle}">`;
-      if (sysKey === 'golem') return `<img src="IMG/go-remu1A.png" style="${pStyle}">`;
-      if (sysKey === 'bird') return `<img src="IMG/tori1A.png" style="${pStyle}">`;
-      if (sysKey === 'beast') return `<img src="IMG/kemono1A.png" style="${pStyle}">`;
-      if (sysKey === 'undead') return `<img src="IMG/anded1A.png" style="${pStyle}">`;
-      if (sysKey === 'slime') return `<img src="IMG/suraim1A.png" style="${pStyle}">`;
-      if (sysKey === 'devil') return `<img src="IMG/devil1A.png" style="${pStyle}">`;
-      if (sysKey === 'plant') return `<img src="IMG/natu1A.png" style="${pStyle}">`;
-      if (sysKey === 'metal') return `<img src="IMG/metar1A.png" style="${pStyle}">`;
-      return `<span style="font-size:28px;">🐲</span>`;
-    })(m.systemType);
-
     d.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-        <div style="display:flex; align-items:center; gap:8px;">
-          ${pImgTag}
-          <span style="font-weight:bold; color:var(--accent-gold); font-size:16px;">${m.name}</span>
-        </div>
+        <span style="font-weight:bold; color:var(--accent-gold); font-size:16px;">${m.name}</span>
         <span style="font-size:14px; color:var(--text-dim);">${m.monsterClass} (${m.systemType})</span>
       </div>
       <div style="font-size:14px; color:var(--text-main); margin-bottom:4px;">
@@ -4106,23 +5131,26 @@ function startMode(mode) {
     startManualCreate();
   } else {
     creatorReturnToScouting = false;
-    goScreen('scouting');
+    if (mode === 'free') {
+      goScreen('free-battle-lobby');
+    } else {
+      goScreen('scouting');
+    }
   }
 }
 
 function getAvailableSkills() {
-  if (currentGameMode === 'free') {
-    // Free battle: all 37 skills available
+  if (typeof currentLabMode !== 'undefined' && currentLabMode === 'free') {
+    // Free battle: all skills available
     return Object.keys(SKILLS);
   }
   
-  // League: initial 16 only
-  // Survival: initial 16 + unlocked
+  // League/Story mode: initial 16 + unlocked prize skills
   const available = [];
   Object.entries(SKILLS).forEach(([id, sk]) => {
     if (sk.isInitial) {
       available.push(id);
-    } else if (currentGameMode === 'survival' && unlockedSkills.includes(id)) {
+    } else if (unlockedSkills.includes(id)) {
       available.push(id);
     }
   });
@@ -4162,6 +5190,8 @@ function pickScroll(scrollType) {
   const chosen = candidates[Math.floor(Math.random() * candidates.length)];
   unlockedSkills.push(chosen.id);
   save();
+  updateSkillProgressUI();
+  checkSkillMilestones();
   
   cards.style.display = 'none';
   resultText.innerHTML = chosen.icon + ' <span style="color:var(--accent-gold);">『' + chosen.name + '』</span> のスキルを新たに修得した！<br><span style="font-size:15px; color:var(--text-dim); margin-top:8px; display:inline-block;">' + chosen.desc + '</span>';
@@ -4308,7 +5338,7 @@ function renderEnemyInfo() {
   
   panel.innerHTML = `
     <div class="enemy-rank-badge">${badgeLabel}</div>
-    <div class="enemy-icon" style="height: 110px; display: flex; align-items: center; justify-content: center; margin: 4px 0;">${getEnemyImageHTML(e)}</div>
+    <div class="enemy-icon" style="height: 85px; display: flex; align-items: center; justify-content: center; margin: 2px 0;">${getEnemyImageHTML(e)}</div>
     <div class="enemy-name-display" style="color:var(--accent-red); font-weight:bold;">${e.name}</div>
     <div class="enemy-title-display">${e.title || '謎の対戦相手'}</div>
     
@@ -4317,7 +5347,7 @@ function renderEnemyInfo() {
       <div class="rumor-text">${e.rumor || '敵に関する情報は十分に掴めていない。'}</div>
     </div>
     
-    <div class="enemy-stats-preview" style="margin-top:12px; display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:10px; font-size:16px; text-align:left;">
+    <div class="enemy-stats-preview" style="margin-top:8px; display:grid; grid-template-columns:repeat(2, 1fr); gap:6px 10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:8px; font-size:14px; text-align:left;">
       <div>
         HP: <strong style="color:var(--text-primary);">${e.hp}</strong>
         <div class="mini-gauge-container" style="margin-bottom:0;"><div class="mini-gauge-fill fill-hp" style="width: ${Math.min(100, (e.hp / 110) * 100)}%;"></div></div>
@@ -4416,6 +5446,8 @@ function initBattle() {
     recycleHeal: 0,
     lastOpponentSkill: 'none',
     scared: false,
+    glassShieldActive: false,
+    playdeadTriggered: false,
   };
 
   if (!currentEnemy) {
@@ -4474,6 +5506,8 @@ function initBattle() {
     recycleHeal: 0,
     lastOpponentSkill: 'none',
     scared: false,
+    glassShieldActive: false,
+    playdeadTriggered: false,
   };
 
   // 3. UI and board setup
@@ -4641,10 +5675,11 @@ function initBattle() {
     }
     
     // Custom click handler to prompt choice or alternate
-    skillBtn.onclick = () => {
+    skillBtn.onclick = async () => {
       if (active2 !== 'none' && !pState.skillUsed) {
-        // Toggle or ask
-        if (confirm('スキルを選択してください。\nOK: ' + SKILLS[active1].name + '\nキャンセル: ' + SKILLS[active2].name)) {
+        // Show skill choice modal
+        const chooseFirst = await showConfirmModal('使用するスキルを選択してください。\n\n【OK】 ' + SKILLS[active1].name + '\n【キャンセル】 ' + SKILLS[active2].name);
+        if (chooseFirst) {
           pState.skill = active1;
         } else {
           pState.skill = active2;
@@ -4667,22 +5702,50 @@ function initBattle() {
     [pState, eState].forEach((actor, idx) => {
       const opp = idx === 0 ? eState : pState;
       const sk = actor.skill;
-      if (sk === 'fdice') {
+      const passives = (actor.skillsList && Array.isArray(actor.skillsList.passive)) ? actor.skillsList.passive : [];
+      
+      // フォーチュンダイス
+      if (sk === 'fdice' || passives.includes('fdice')) {
         const roll = Math.floor(Math.random() * 41) - 10; // -10 ~ +30
         actor.luck = Math.max(0, actor.luck + roll);
         addLog(`🎲 ${actor.name} の「フォーチュンダイス」！ 運が ${roll >= 0 ? '+' + roll : roll} 変動し、運:${actor.luck} になった！`, 'log-skill');
       }
-      if (sk === 'pressure') {
+      
+      // プレッシャー
+      if (sk === 'pressure' || passives.includes('pressure')) {
         if (actor.luck > opp.luck) {
           opp.scared = true;
           addLog(`👁️ ${actor.name} の「プレッシャー」！ ${opp.name} は怯えて動けない！`, 'log-skill');
         }
       }
-      if (sk === 'shuffle') {
+      
+      // ステータス・シャッフル
+      if (sk === 'shuffle' || passives.includes('shuffle')) {
         const tmpSpd = actor.speed;
         actor.speed = opp.speed;
         opp.speed = tmpSpd;
         addLog(`🔀 ${actor.name} の「ステータス・シャッフル」！ お互いの素早さ(${actor.speed} ⇄ ${opp.speed})が入れ替わった！`, 'log-skill');
+      }
+
+      // 大振り
+      if (sk === 'heavyatk' || passives.includes('heavyatk')) {
+        actor.attack = Math.floor(actor.attack * 1.15);
+        actor.speed = Math.floor(actor.speed * 0.7);
+        addLog(`💪 ${actor.name} の「大振り」！ 攻撃力+15%、素早さ-30%に変動した！ (攻撃:${actor.attack} / 素早さ:${actor.speed})`, 'log-skill');
+      }
+
+      // 威嚇のポーズ
+      if (sk === 'intimidate' || passives.includes('intimidate')) {
+        if (Math.random() < 0.1) {
+          opp.attack = Math.max(1, opp.attack - 1);
+          addLog(`🦁 ${actor.name} の「威嚇のポーズ」！ ${opp.name} の攻撃力を 1 減少させた！ (攻撃:${opp.attack})`, 'log-skill');
+        }
+      }
+
+      // ガラスの盾
+      if (sk === 'glassshield' || passives.includes('glassshield')) {
+        actor.glassShieldActive = true;
+        addLog(`🛡️ ${actor.name} は「ガラスの盾」を構えた！ 初撃の防御力1.2倍、以降10%低下！`, 'log-skill');
       }
     });
 
@@ -4890,18 +5953,38 @@ function getEffectiveSpeed(state) {
   return spd;
 }
 
+function getGlassShieldDefense(state) {
+  let def = state.defense;
+  if (state.teppekiTurns > 0) def *= 2;
+  if (state.paperarmorTurns > 0) def = Math.floor(def / 2);
+  
+  const passives = (state.skillsList && Array.isArray(state.skillsList.passive)) ? state.skillsList.passive : [];
+  if (state.skill === 'glassshield' || passives.includes('glassshield')) {
+    if (state.glassShieldActive) {
+      def = Math.floor(def * 1.2);
+      state.glassShieldActive = false;
+      addLog(`🛡️ ${state.name} の「ガラスの盾」発動！ 初撃を耐えるため防御力1.2倍！`, 'log-skill');
+    } else {
+      def = Math.max(0, Math.floor(def * 0.9));
+    }
+  }
+  return def;
+}
+
 function selectCommand(playerCmd) {
   if (!isPlayerTurn) return;
 
   if (playerCmd === 'surrender') {
-    if (!confirm('本当に降参してラボに戻りますか？')) {
-      return;
-    }
-    pState.cur = 0;
-    addLog(`🏳️ ${pState.name} は戦闘を放棄して降参した…`, 'log-miss');
-    showResult();
+    showConfirmModal('本当に降参してラボに戻りますか？').then(result => {
+      if (result) {
+        pState.cur = 0;
+        addLog(`🏳️ ${pState.name} は戦闘を放棄して降参した…`, 'log-miss');
+        showResult();
+      }
+    });
     return;
   }
+
 
   if (playerCmd === 'skill') {
     if (skillUsedThisBattle) {
@@ -5000,8 +6083,12 @@ function decidePlayerAutoCommand() {
     if (['strengthen', 'teppeki', 'daibogyo', 'shadowstep', 'reverse'].includes(sk)) {
       if (Math.random() < 0.5) return 'skill';
     }
+    // Special turn-1 limit skill: blankshot
+    if (sk === 'blankshot') {
+      if (currentTurn === 1) return 'skill';
+    }
     // High offensive skills
-    if (['gigabreak', 'moroha', 'sutemi', 'shuriken', 'midare', 'ichigeki', 'weakmaker'].includes(sk)) {
+    if (['gigabreak', 'moroha', 'sutemi', 'shuriken', 'midare', 'ichigeki', 'weakmaker', 'luckstrike'].includes(sk)) {
       if (Math.random() < 0.7) return 'skill';
     }
   }
@@ -5031,6 +6118,9 @@ function decideEnemyCommand() {
     if (['heal', 'pray', 'soulshare', 'fukutsu'].includes(sk)) {
       if (sk === 'fukutsu' && eState.cur === 1) return 'skill';
       if (hpPct <= 0.4) return 'skill';
+    }
+    if (sk === 'blankshot') {
+      if (currentTurn === 1) return 'skill';
     }
     if (Math.random() < 0.4) return 'skill';
   }
@@ -5062,6 +6152,13 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
   const target = targetSide === 'p' ? pState : eState;
   
   if (actor.cur <= 0) {
+    onComplete();
+    return;
+  }
+
+  if (actor.scared) {
+    actor.scared = false;
+    addLog(`💤 ${actor.name} は動けない状態になっている！`, 'log-miss');
     onComplete();
     return;
   }
@@ -5153,9 +6250,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     } else {
       let atk = actor.attack;
       if (actor.strengthenTurns > 0) atk = Math.floor(atk * 1.5);
-      let def = target.defense;
-      if (target.teppekiTurns > 0) def *= 2;
-      if (target.paperarmorTurns > 0) def = Math.floor(def / 2);
+      let def = getGlassShieldDefense(target);
 
       dmg = Math.max(0, atk - def);
       dmg = Math.floor(dmg);
@@ -5294,8 +6389,8 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     } else if (sk === 'midare') {
       if (Math.random() * 100 < actor.luck) {
         addLog(`🏹 運気上昇！2回みだれうち攻撃！`, 'log-skill');
-        let dmg1 = Math.max(1, actor.attack - target.defense);
-        let dmg2 = Math.max(1, actor.attack - target.defense);
+        let dmg1 = Math.max(1, actor.attack - getGlassShieldDefense(target));
+        let dmg2 = Math.max(1, actor.attack - getGlassShieldDefense(target));
         target.cur = Math.max(0, target.cur - dmg1);
         setHp(targetSide, target);
         addLog(`🏹 1回目：${target.name} に ${dmg1} のダメージ！`, targetSide === 'p' ? 'log-dmg-p' : 'log-dmg-e');
@@ -5346,7 +6441,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       target.weakmakerTurns = 3;
       addLog(`📉 ウィークメーカー！ ${target.name} の最大能力【${highestStat.toUpperCase()}】を 20 減少させた！`, 'log-skill');
       
-      let dmg = Math.max(1, actor.attack - target.defense);
+      let dmg = Math.max(1, actor.attack - getGlassShieldDefense(target));
       processDamage(actorSide, actor, targetSide, target, dmg, false, false, onComplete);
 
     } else if (sk === 'haisui') {
@@ -5400,7 +6495,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       onComplete();
 
     } else if (sk === '吸血') {
-      let dmg = Math.max(1, actor.attack - target.defense);
+      let dmg = Math.max(1, actor.attack - getGlassShieldDefense(target));
       processDamage(actorSide, actor, targetSide, target, dmg, false, false, () => {
         const healAmt = Math.floor(dmg * 0.5);
         if (healAmt > 0) {
@@ -5429,6 +6524,22 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         addLog(`🧪 相手の方がHPが低いため、不発に終わった…`, 'log-miss');
       }
       onComplete();
+
+    } else if (sk === 'luckstrike') {
+      let baseDmg = Math.max(1, actor.attack - getGlassShieldDefense(target));
+      let dmg = baseDmg + actor.luck;
+      addLog(`🎲 ${actor.name} の「運頼みのひと突き」！ 運の数値(${actor.luck})を追加ダメージとして与える！`, 'log-skill');
+      processDamage(actorSide, actor, targetSide, target, dmg, false, false, onComplete);
+
+    } else if (sk === 'blankshot') {
+      if (currentTurn === 1) {
+        target.defense = Math.max(0, Math.floor(target.defense * 0.95));
+        addLog(`💨 ${actor.name} の「空砲」！ ${target.name} の防御力を5%低下させた！ (防御:${target.defense})`, 'log-skill');
+        processDamage(actorSide, actor, targetSide, target, 0, false, false, onComplete);
+      } else {
+        addLog(`💨 空砲は1ターン目のみ有効！通常攻撃！`, 'log-miss');
+        executeSingleAction(actorSide, 'attack', targetSide, targetCmd, onComplete);
+      }
 
     } else if (sk === 'fukutsu') {
       if (actor.cur === 1) {
@@ -5579,7 +6690,7 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
   // Check Daibogyo (大防御)
   if (target.daibogyoActive) {
     // 大防御: 80%カット (20%貫通)
-    const rawDmg = Math.max(1, actor.attack - target.defense);
+    const rawDmg = Math.max(1, actor.attack - getGlassShieldDefense(target));
     const penDmg = Math.max(1, Math.floor(rawDmg * 0.2));
     target.cur = Math.max(0, target.cur - penDmg);
     setHp(target === pState ? 'p' : 'e', target);
@@ -5588,7 +6699,17 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     addLog(`🛡️ ${target.name} は大防御の構え！ 大半を防いだが ${penDmg} ダメージ貫通！`, 'log-miss');
     if (actor.charged) actor.charged = false;
     target.daibogyoActive = false;
-    if (target.cur <= 0) { checkBattleEnd(); return; }
+    if (target.cur <= 0) {
+      // 自己満足 (撃破時回復)
+      const actorPassives = (actor.skillsList && Array.isArray(actor.skillsList.passive)) ? actor.skillsList.passive : [];
+      if (actor.skill === 'selfsatisfaction' || actorPassives.includes('selfsatisfaction')) {
+        actor.cur = Math.min(actor.max, actor.cur + 1);
+        addLog(`✨ ${actor.name} の「自己満足」！ 敵を撃破したためHPが 1 回復した！`, 'log-skill');
+        setHp(actorSide, actor);
+      }
+      checkBattleEnd();
+      return;
+    }
     onComplete();
     return;
   }
@@ -5606,6 +6727,14 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     actor.attackMultiplier = null; // Consume
   }
 
+  // 無駄なこだわり (偶数ステータス時与ダメージ+5%)
+  const actorPassives = (actor.skillsList && Array.isArray(actor.skillsList.passive)) ? actor.skillsList.passive : [];
+  if (actor.skill === 'particularity' || actorPassives.includes('particularity')) {
+    if ([actor.attack, actor.defense, actor.speed, actor.luck].some(v => v % 2 === 0)) {
+      finalDmg = Math.floor(finalDmg * 1.05);
+    }
+  }
+
   // Energy shield (バリア) absorption
   if (target.barrier > 0) {
     const absorb = Math.min(target.barrier, finalDmg);
@@ -5616,6 +6745,15 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
 
   // Apply final damage to HP
   target.cur = Math.max(0, target.cur - finalDmg);
+
+  // 自己満足 (撃破時回復)
+  if (target.cur <= 0) {
+    if (actor.skill === 'selfsatisfaction' || actorPassives.includes('selfsatisfaction')) {
+      actor.cur = Math.min(actor.max, actor.cur + 1);
+      addLog(`✨ ${actor.name} の「自己満足」！ 敵を撃破したためHPが 1 回復した！`, 'log-skill');
+      setHp(actorSide, actor);
+    }
+  }
 
   // Trigger Recycle Passive value storage
   target.recycleHeal = Math.floor(finalDmg / 2);
@@ -5647,7 +6785,7 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     // ==========================================
     // POST-DAMAGE PASSIVES TRIGGER
     // ==========================================
-    triggerPostDamagePassives(actorSide, actor, targetSide, target, () => {
+    triggerPostDamagePassives(actorSide, actor, targetSide, target, finalDmg, () => {
       // Check Counter blow (カウンターブロー)
       if (target.skill === 'counter' && !target.skillUsed && target.cur > 0 && finalDmg > 0) {
         target.skillUsed = true;
@@ -5668,8 +6806,29 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
   activeTimers.push(t);
 }
 
-function triggerPostDamagePassives(actorSide, actor, targetSide, target, cb) {
+function triggerPostDamagePassives(actorSide, actor, targetSide, target, dmg, cb) {
   const hpPct = target.cur / target.max;
+  const targetPassives = (target.skillsList && Array.isArray(target.skillsList.passive)) ? target.skillsList.passive : [];
+
+  // 未熟なカウンター (被弾時5%の確率でダメージの10%を反射)
+  if ((target.skill === 'poorcounter' || targetPassives.includes('poorcounter')) && target.cur > 0 && dmg > 0) {
+    if (Math.random() < 0.05) {
+      const reflectDmg = Math.max(1, Math.floor(dmg * 0.1));
+      actor.cur = Math.max(0, actor.cur - reflectDmg);
+      addLog(`🔁 ${target.name} の「未熟なカウンター」！ ダメージの10%（${reflectDmg}）を反射した！`, 'log-skill');
+      setHp(actorSide, actor);
+      flashHit(actorSide);
+      showDmgFloat(actorSide, reflectDmg, '#ef4444');
+    }
+  }
+
+  // 死んだふり (HP10%以下で1ターン両者行動不能)
+  if ((target.skill === 'playdead' || targetPassives.includes('playdead')) && hpPct <= 0.10 && target.cur > 0 && !target.playdeadTriggered) {
+    target.playdeadTriggered = true;
+    pState.scared = true;
+    eState.scared = true;
+    addLog(`💤 ${target.name} の「死んだふり」！ 次の1ターンお互い行動不能になる！`, 'log-skill');
+  }
 
   // 1. Toge (トゲトゲの甲羅)
   if (target.skill === 'toge' && !target.togeTriggered && target.cur > 0) {
@@ -5918,15 +7077,22 @@ function stopThinkingTimer() {
 }
 
 function showDmgFloat(side, dmg, color) {
-  const container = document.getElementById('fc-' + (side === 'p' ? 'player' : 'enemy'));
-  if (!container) return;
-  const el = document.createElement('div');
-  el.className = 'dmg-float';
-  el.textContent = '-' + dmg;
-  el.style.color = color || '#ef4444';
-  container.style.position = 'relative';
-  container.appendChild(el);
-  setTimeout(() => el.remove(), 800);
+  // Monster Image Center Damage Popup
+  const icon = document.getElementById('fi-' + (side === 'p' ? 'player' : 'enemy'));
+  if (icon && icon.parentElement) {
+    const imgContainer = icon.parentElement;
+    if (getComputedStyle(imgContainer).position === 'static') {
+      imgContainer.style.position = 'relative';
+    }
+    const pop = document.createElement('div');
+    pop.className = 'damage-popup';
+    pop.textContent = '-' + dmg;
+    if (color && color !== '#ef4444') {
+      pop.style.color = color;
+    }
+    imgContainer.appendChild(pop);
+    setTimeout(() => pop.remove(), 700);
+  }
 }
 
 function checkBattleEnd() {
@@ -5959,6 +7125,42 @@ function showResult() {
 
   if (ctrl) ctrl.style.display = 'none';
 
+  if (currentGameMode === 'team-arena') {
+    const playerWon = (pState.cur > 0 && eState.cur <= 0);
+    const draw = (pState.cur <= 0 && eState.cur <= 0);
+
+    if (draw) {
+      banner.textContent = 'DRAW';
+      banner.style.color = 'var(--text-primary)';
+      banner.style.textShadow = 'none';
+      if (panel) panel.style.borderColor = 'var(--border)';
+      sub.textContent = '決着がつかなかった… 再戦します。';
+      nextBtn.textContent = '🔄 再戦する';
+    } else if (playerWon) {
+      banner.textContent = 'VICTORY!';
+      banner.style.color = 'var(--accent-gold)';
+      banner.style.textShadow = '0 0 10px rgba(245,158,11,0.5)';
+      if (panel) panel.style.borderColor = 'var(--accent-gold)';
+      sub.textContent = `${pState.name} が ${eState.name} を撃破した！`;
+      record.win++;
+      nextBtn.textContent = '🗺️ 次へ';
+    } else {
+      banner.textContent = 'DEFEAT...';
+      banner.style.color = 'var(--accent-red)';
+      banner.style.textShadow = '0 0 10px rgba(239,68,68,0.5)';
+      if (panel) panel.style.borderColor = 'var(--accent-red)';
+      sub.textContent = `${pState.name} は ${eState.name} に敗れた…`;
+      record.lose++;
+      nextBtn.textContent = '🗺️ 次へ';
+    }
+
+    save();
+    updateRecord();
+    const modal = document.getElementById('battle-result-modal');
+    if (modal) modal.style.display = 'flex';
+    return;
+  }
+
   if (pState.cur > 0 && eState.cur <= 0) {
     banner.textContent = 'VICTORY!';
     banner.style.color = 'var(--accent-gold)';
@@ -5967,10 +7169,20 @@ function showResult() {
     sub.textContent = `${pState.name} が ${eState.name} を撃破した！`;
     record.win++;
 
+    // Boss revenge victory check
+    if (gameProgress.bossRevengeUnlocked && currentEnemy && currentEnemy.name === '覇王ゴブリン' && !gameProgress.bossDefeated) {
+      save();
+      updateRecord();
+      const modal = document.getElementById('battle-result-modal');
+      if (modal) modal.style.display = 'flex';
+      setTimeout(() => handleBossRevengeVictory(), 1500);
+      return;
+    }
+
     if (currentGameMode === 'league') {
       stageIndex++;
       if (stageIndex >= STAGE_ENEMIES.length) {
-        sub.textContent += ' 🎉 リーグ全ステージクリア！ おめでとう！';
+        sub.textContent = `${pState.name} が ${eState.name} を撃破した！ 🎉 リーグ全ステージクリア！ おめでとう！`;
         nextBtn.textContent = '🔄 最初から挑戦';
         // Win reward trigger
         setTimeout(() => showScrollReward(), 1500);
@@ -5995,6 +7207,27 @@ function showResult() {
     if (panel) panel.style.borderColor = 'var(--accent-red)';
     sub.textContent = `${pState.name} は ${eState.name} に敗れた…`;
     record.lose++;
+
+    // Tutorial boss defeat event
+    if (gameProgress.tutorialStep === 2 && currentEnemy && currentEnemy.name === '覇王ゴブリン') {
+      record.lose--; // Don't count tutorial defeat in stats
+      save();
+      updateRecord();
+      const modal = document.getElementById('battle-result-modal');
+      if (modal) modal.style.display = 'flex';
+      setTimeout(() => {
+        showStoryDialog([
+          { speaker: '覇王ゴブリン', text: 'フッ、スキルも知らん田舎者が…出直してくるんだな', color: '#ef4444', speakerTextColor: '#fff' },
+          { speaker: playerName, text: 'くっ…！ なんだあの技は…？ 僕のモンスターにはまだ知らない「スキル」が存在するんだ…！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+          { speaker: 'ナレーション', text: '圧倒的な力の差…だが、この敗北が研究者としての本当の旅の始まりだ。', color: 'var(--accent-gold)' },
+        ], () => {
+          gameProgress.tutorialStep = 3;
+          save();
+          goScreen('lab');
+        });
+      }, 1500);
+      return;
+    }
 
     if (currentGameMode === 'survival') {
       sub.textContent += ` 💀 連勝記録は ${survivalWins} でストップしました。(BEST: ${survivalBestRecord})`;
@@ -6022,19 +7255,1160 @@ function showResult() {
 }
 
 function resultNext() {
-  document.getElementById('result-overlay').classList.remove('visible');
+  const modal = document.getElementById('battle-result-modal');
+  if (modal) modal.style.display = 'none';
+
+  if (currentGameMode === 'team-arena' && taState) {
+    if (taState.eliminated) {
+      return;
+    }
+    
+    const playerWon = (pState.cur > 0 && eState.cur <= 0);
+    const draw = (pState.cur <= 0 && eState.cur <= 0);
+    
+    if (draw) {
+      taStartNextBout();
+      return;
+    }
+    
+    const res = taHandleBoutResult(playerWon);
+    if (res === 'match-won') {
+      taShowProgressScreen();
+    } else if (res === 'bout-continue') {
+      taShowBoutInterim();
+    }
+    return;
+  }
+
+  const overlay = document.getElementById('result-overlay');
+  if (overlay) overlay.classList.remove('visible');
   selBattle = 0;
   goScreen('scouting');
 }
 
 function resultLab() {
-  document.getElementById('result-overlay').classList.remove('visible');
+  const modal = document.getElementById('battle-result-modal');
+  if (modal) modal.style.display = 'none';
+  const overlay = document.getElementById('result-overlay');
+  if (overlay) overlay.classList.remove('visible');
   selBattle = 0;
   goScreen('lab');
 }
 
 // ============================================================
-//  BOOT
+//  SAVE SLOT UI & MANAGEMENT SYSTEM
+// ============================================================
+
+function handleTitleStart() {
+  const d = getSlotData(activeSlotId);
+  if (d && d.playerName) {
+    openSaveSlotModal();
+  } else {
+    let anyData = false;
+    for (let i = 1; i <= 3; i++) {
+      if (getSlotData(i)) { anyData = true; break; }
+    }
+    if (anyData) {
+      openSaveSlotModal();
+    } else {
+      startNewGameInSlot(1);
+    }
+  }
+}
+
+function openSaveSlotModal() {
+  renderSaveSlots();
+  const overlay = document.getElementById('save-slot-overlay');
+  if (overlay) overlay.style.display = 'flex';
+}
+
+function closeSaveSlotModal() {
+  const overlay = document.getElementById('save-slot-overlay');
+  if (overlay) overlay.style.display = 'none';
+}
+
+function renderSaveSlots() {
+  const container = document.getElementById('save-slots-container');
+  if (!container) return;
+  container.innerHTML = '';
+
+  for (let i = 1; i <= 3; i++) {
+    const data = getSlotData(i);
+    const isActive = (i === activeSlotId);
+    
+    const card = document.createElement('div');
+    card.className = 'slot-card' + (isActive ? ' active-slot' : '');
+    
+    if (data && data.playerName) {
+      const unlockedCount = Array.isArray(data.unlockedSkills) ? data.unlockedSkills.length : 0;
+      const pct = Math.floor((unlockedCount / 30) * 100);
+      const stageStr = typeof data.stageIndex === 'number' ? (data.stageIndex + 1) : 1;
+      const wins = (data.record && data.record.win) || 0;
+      const loses = (data.record && data.record.lose) || 0;
+
+      card.innerHTML = `
+        <div class="slot-card-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="font-weight:bold; font-size:16px; color:var(--accent-gold);">SLOT ${i}</span>
+            ${isActive ? '<span style="font-size:11px; background:var(--accent-gold); color:#000; font-weight:bold; padding:1px 6px; border-radius:3px;">選択中</span>' : ''}
+          </div>
+          <span class="slot-badge in-use">プレイ中</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:2px;">
+          <div style="font-size:18px; font-weight:bold; color:var(--text-primary);">${data.playerName}</div>
+          <div style="font-size:12px; color:var(--text-dim);">最終保存: ${data.updatedAt || '不明'}</div>
+        </div>
+        <div style="font-size:13px; color:var(--text-secondary); display:flex; gap:12px; flex-wrap:wrap; margin-top:2px;">
+          <span>⚔️ STAGE ${stageStr}</span>
+          <span>📜 スキル解明: ${unlockedCount}/30 (${pct}%)</span>
+          <span>🏆 戦績: ${wins}勝 ${loses}敗</span>
+        </div>
+        <div class="slot-actions">
+          <button class="btn-secondary" style="padding:4px 12px; font-size:13px; border-color:var(--accent-cyan); color:var(--accent-cyan);" onclick="loadGameFromSlot(${i})">▶ つづきから</button>
+          <button class="btn-secondary" style="padding:4px 12px; font-size:13px; border-color:rgba(245,158,11,0.4); color:var(--accent-gold);" onclick="manualSaveToSlot(${i})">💾 上書き保存</button>
+          <button class="btn-secondary" style="padding:4px 10px; font-size:13px; border-color:rgba(239,68,68,0.4); color:var(--accent-red);" onclick="deleteSlotConfirm(${i})">🗑️ 削除</button>
+        </div>
+      `;
+    } else {
+      card.innerHTML = `
+        <div class="slot-card-header">
+          <span style="font-weight:bold; font-size:16px; color:var(--text-dim);">SLOT ${i}</span>
+          <span class="slot-badge empty">新規データ (Empty)</span>
+        </div>
+        <div style="font-size:14px; color:var(--text-dim); padding:8px 0;">セーブデータがありません</div>
+        <div class="slot-actions">
+          <button class="title-btn" style="padding:4px 16px; font-size:14px;" onclick="startNewGameInSlot(${i})">＋ はじめから</button>
+        </div>
+      `;
+    }
+    container.appendChild(card);
+  }
+}
+
+function loadGameFromSlot(slotId) {
+  loadSlot(slotId);
+  closeSaveSlotModal();
+  if (playerName) {
+    goScreen('main-menu');
+  } else {
+    showNameDialog();
+  }
+}
+
+function manualSaveToSlot(slotId) {
+  activeSlotId = slotId;
+  save();
+  renderSaveSlots();
+  alert(`SLOT ${slotId} に保存しました！`);
+}
+
+function startNewGameInSlot(slotId) {
+  activeSlotId = slotId;
+  deleteSlotData(slotId);
+  resetMemoryState();
+  closeSaveSlotModal();
+  showNameDialog();
+}
+
+async function deleteSlotConfirm(slotId) {
+  const result = await showConfirmModal(`SLOT ${slotId} のセーブデータを本当に削除しますか？\n(削除されたデータは二度と復元できません)`);
+  if (result) {
+    deleteSlotData(slotId);
+    renderSaveSlots();
+  }
+}
+
+
+
+// ============================================================
+//  SYSTEM MESSAGE MODAL (Custom Alert Replacement)
+// ============================================================
+let _sysModalCallback = null;
+const _nativeAlert = window.alert.bind(window);
+
+function showSystemModal(message, callback) {
+  const backdrop = document.getElementById('system-modal-backdrop');
+  const dialog = document.getElementById('system-modal-dialog');
+  const textEl = document.getElementById('system-modal-msg-text');
+  if (backdrop && dialog && textEl) {
+    textEl.textContent = message;
+    backdrop.style.display = 'block';
+    dialog.style.display = 'block';
+    _sysModalCallback = callback || null;
+    // Focus the OK button for accessibility
+    const okBtn = document.getElementById('system-modal-ok-btn');
+    if (okBtn) setTimeout(() => okBtn.focus(), 50);
+  } else {
+    // Fallback if DOM not ready
+    _nativeAlert(message);
+    if (callback) callback();
+  }
+}
+
+function closeSystemModal() {
+  const backdrop = document.getElementById('system-modal-backdrop');
+  const dialog = document.getElementById('system-modal-dialog');
+  if (backdrop) backdrop.style.display = 'none';
+  if (dialog) dialog.style.display = 'none';
+  if (_sysModalCallback) {
+    const cb = _sysModalCallback;
+    _sysModalCallback = null;
+    cb();
+  }
+}
+
+// Override window.alert to use custom modal
+window.alert = function(message) {
+  showSystemModal(message);
+};
+
+
+// ============================================================
+//  CONFIRM MODAL (Custom confirm() Replacement)
+// ============================================================
+let _confirmResolve = null;
+
+function showConfirmModal(message) {
+  return new Promise((resolve) => {
+    const backdrop = document.getElementById('confirm-modal-backdrop');
+    const dialog = document.getElementById('confirm-modal-dialog');
+    const textEl = document.getElementById('confirm-modal-msg-text');
+    if (backdrop && dialog && textEl) {
+      textEl.textContent = message;
+      backdrop.style.display = 'block';
+      dialog.style.display = 'block';
+      _confirmResolve = resolve;
+      const okBtn = document.getElementById('confirm-modal-ok-btn');
+      if (okBtn) setTimeout(() => okBtn.focus(), 50);
+    } else {
+      resolve(confirm(message));
+    }
+  });
+}
+
+function resolveConfirmModal(result) {
+  const backdrop = document.getElementById('confirm-modal-backdrop');
+  const dialog = document.getElementById('confirm-modal-dialog');
+  if (backdrop) backdrop.style.display = 'none';
+  if (dialog) dialog.style.display = 'none';
+  if (_confirmResolve) {
+    const r = _confirmResolve;
+    _confirmResolve = null;
+    r(result);
+  }
+}
+
+// ============================================================
+//  STORY DIALOG SYSTEM
+// ============================================================
+let storyDialogQueue = [];
+let storyDialogCallback = null;
+
+function showStoryDialog(dialogList, onComplete) {
+  storyDialogQueue = [...dialogList];
+  storyDialogCallback = onComplete || null;
+  advanceStoryDialog();
+}
+
+function advanceStoryDialog() {
+  const overlay = document.getElementById('story-dialog-overlay');
+  if (storyDialogQueue.length === 0) {
+    overlay.style.display = 'none';
+    if (storyDialogCallback) {
+      const cb = storyDialogCallback;
+      storyDialogCallback = null;
+      cb();
+    }
+    return;
+  }
+  const item = storyDialogQueue.shift();
+  const speakerEl = document.getElementById('story-speaker');
+  const textEl = document.getElementById('story-text');
+  speakerEl.textContent = item.speaker || 'ナレーション';
+  speakerEl.style.background = item.color || 'var(--accent-gold)';
+  speakerEl.style.color = item.speakerTextColor || '#000';
+  textEl.textContent = item.text;
+  overlay.style.display = 'flex';
+}
+
+// ============================================================
+//  TUTORIAL PROGRESSION SYSTEM
+// ============================================================
+
+function getSkillProgress() {
+  if (typeof debugMode !== 'undefined' && debugMode) {
+    return { count: 30, total: 30, pct: 100 };
+  }
+  const uniqueCount = Math.min(new Set(unlockedSkills).size, 30);
+  return { count: uniqueCount, total: 30, pct: Math.floor((uniqueCount / 30) * 100) };
+}
+
+function updateSkillProgressUI() {
+  const sp = getSkillProgress();
+  const menuCount = document.getElementById('menu-unlocked-count');
+  if (menuCount) menuCount.textContent = sp.count;
+  const labCount = document.getElementById('lab-unlocked-count');
+  if (labCount) labCount.textContent = '🔓 解放済みスキル: ' + sp.count + ' / ' + sp.total;
+  const meterFill = document.getElementById('skill-meter-fill');
+  if (meterFill) meterFill.style.width = sp.pct + '%';
+  const meterText = document.getElementById('skill-meter-text');
+  if (meterText) meterText.textContent = '📜 スキル解明度: ' + sp.count + '/' + sp.total + ' (' + sp.pct + '%)';
+}
+
+function isSeriesUnlocked(seriesId) {
+  if (typeof debugMode !== 'undefined' && debugMode) {
+    return true;
+  }
+  return unlockedSeries.includes(seriesId);
+}
+
+function updateMenuFacilities() {
+  const sp = getSkillProgress();
+  const mapTeam = document.getElementById('map-area-team-arena');
+  const mapTower = document.getElementById('map-area-tower');
+  const mapRevenge = document.getElementById('map-area-boss-revenge');
+  
+  if (mapTeam) {
+    const lockEl = document.getElementById('map-lock-team-arena');
+    const tooltipEl = mapTeam.querySelector('.map-area-tooltip');
+    if (sp.pct >= 50) {
+      mapTeam.classList.remove('locked');
+      if (lockEl) lockEl.style.display = 'none';
+      if (tooltipEl) tooltipEl.innerHTML = `🛡️ 武舞台（団体戦）<br><span style="font-size:10px; color:#aaa;">3vs3トーナメント (所持BP: ${bp} BP)</span>`;
+    } else {
+      mapTeam.classList.add('locked');
+      if (lockEl) lockEl.style.display = 'block';
+      if (tooltipEl) tooltipEl.innerHTML = `🛡️ 武舞台（団体戦）<br><span style="font-size:10px; color:#ef4444; font-weight:bold;">🔒 スキル解明度50%で解放</span>`;
+    }
+  }
+  if (mapTower) {
+    const lockEl = document.getElementById('map-lock-tower');
+    const tooltipEl = mapTower.querySelector('.map-area-tooltip');
+    if (sp.pct >= 50) {
+      mapTower.classList.remove('locked');
+      if (lockEl) lockEl.style.display = 'none';
+      if (tooltipEl) tooltipEl.innerHTML = `🗼 試練のタワー<br><span style="font-size:10px; color:#aaa;">サバイバル勝ち抜き戦</span>`;
+    } else {
+      mapTower.classList.add('locked');
+      if (lockEl) lockEl.style.display = 'block';
+      if (tooltipEl) tooltipEl.innerHTML = `🗼 試練のタワー<br><span style="font-size:10px; color:#ef4444; font-weight:bold;">🔒 スキル解明度50%で解放</span>`;
+    }
+  }
+  if (mapRevenge) {
+    if (gameProgress.bossRevengeUnlocked) {
+      mapRevenge.style.display = 'flex';
+    } else {
+      mapRevenge.style.display = 'none';
+    }
+  }
+  
+  // Tutorial navigation arrows
+  const arrowLab = document.getElementById('tutorial-arrow-lab');
+  const arrowArena = document.getElementById('tutorial-arrow-arena');
+  if (arrowLab) arrowLab.style.display = (gameProgress.tutorialStep === 1) ? 'block' : 'none';
+  if (arrowArena) arrowArena.style.display = (gameProgress.tutorialStep === 2) ? 'block' : 'none';
+}
+
+function onMapAreaClick(facility) {
+  const sp = getSkillProgress();
+  
+  if (facility === 'team-arena') {
+    if (sp.pct < 50) {
+      alert('【武舞台（団体戦）】はスキル解明度が50%以上になると解放されます。現在: ' + sp.pct + '%');
+      return;
+    }
+    openTeamArenaMenu();
+  } else if (facility === 'tower') {
+    if (sp.pct < 50) {
+      alert('【試練のタワー（勝ち抜き戦）】はスキル解明度が50%以上になると解放されます。現在: ' + sp.pct + '%');
+      return;
+    }
+    startMode('survival');
+  } else if (facility === 'lab') {
+    goScreen('lab');
+  } else if (facility === 'league') {
+    startMode('league');
+  } else if (facility === 'free') {
+    startMode('free');
+  }
+}
+
+function checkSkillMilestones() {
+  const sp = getSkillProgress();
+  
+  // 50% milestone (15 skills)
+  if (sp.count >= 15 && !localStorage.getItem('100pt_milestone_50')) {
+    localStorage.setItem('100pt_milestone_50', 'true');
+    showStoryDialog([
+      { speaker: 'ナレーション', text: 'スキルの解明が大きく進んできた！ 首都の『武舞台（団体戦）』と『試練のタワー』への挑戦権が得られた！', color: 'var(--accent-gold)' },
+      { speaker: playerName, text: 'やった！ 新たな戦いの場が開かれたぞ！ もっとスキルを集めて、あの覇王にリベンジだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+    ], () => {
+      updateMenuFacilities();
+      save();
+    });
+  }
+  
+  // 100% milestone (30 skills)
+  if (sp.count >= 30 && !gameProgress.bossRevengeUnlocked) {
+    gameProgress.bossRevengeUnlocked = true;
+    save();
+    showStoryDialog([
+      { speaker: 'ナレーション', text: 'すべてのスキルを解明した！ これが最高峰のモンスター研究の成果だ！', color: 'var(--accent-gold)' },
+      { speaker: playerName, text: 'ついに全てのスキルを手に入れた…！ これが僕たちの最高のビルドだ！ 再びあの覇王に挑もう！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+      { speaker: 'ナレーション', text: '闘技場に『👑 覇王リベンジマッチ』が解放されました！', color: 'var(--accent-gold)' },
+    ], () => {
+      updateMenuFacilities();
+      goScreen('main-menu');
+    });
+  }
+}
+
+function startBossRevenge() {
+  if (!gameProgress.bossRevengeUnlocked) return;
+  currentGameMode = 'league';
+  currentEnemy = { ...TUTORIAL_BOSS };
+  const activeLab = getActiveLab();
+  if (activeLab.length === 0) {
+    alert('モンスターが必要です。ラボで作成してください。');
+    return;
+  }
+  goScreen('scouting');
+}
+
+function handleBossRevengeVictory() {
+  gameProgress.bossDefeated = true;
+  save();
+  showStoryDialog([
+    { speaker: '覇王ゴブリン', text: 'バ…バカな…！ あの時の田舎者がここまで…！', color: '#ef4444', speakerTextColor: '#fff' },
+    { speaker: playerName, text: 'あの日の借りは返したよ。僕たちは最高のチームだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+    { speaker: 'ナレーション', text: '見事な勝利！ 全てのスキルを極めし最強のモンスター研究者よ！\n\n🏆 称号獲得：「最強の研究者」', color: 'var(--accent-gold)' },
+    { speaker: 'ナレーション', text: '100pt BUILD BATTLE ── GAME CLEAR！\n\n引き続き、リーグ戦やフリー対戦をお楽しみください。', color: 'var(--accent-gold)' },
+  ], () => {
+    goScreen('main-menu');
+  });
+}
+
+// ============================================================
+//  TEAM ARENA (武舞台) & SHOP SYSTEM
+// ============================================================
+
+function openTeamArenaMenu() {
+  const bpDisplay = document.getElementById('team-arena-bp-display');
+  if (bpDisplay) bpDisplay.textContent = `${bp} BP`;
+  goScreen('team-arena-menu');
+}
+
+function startTeamArenaBattle() {
+  let activeLab = getActiveLab();
+  if (activeLab.length < 3) {
+    if (typeof debugMode !== 'undefined' && debugMode) {
+      const dummyNames = ['デバッグ先鋒', 'デバッグ中堅', 'デバッグ大将'];
+      while (activeLab.length < 3) {
+        const m = {
+          id: String(Date.now() + activeLab.length),
+          name: dummyNames[activeLab.length] || 'デバッグ兵',
+          systemType: 'スライム系',
+          monsterClass: 'スライム',
+          stats: { hp: 50, attack: 40, defense: 40, speed: 40, luck: 40 },
+          skills: { active: ['none'], passive: [] }
+        };
+        activeLab.push(m);
+      }
+      save();
+      renderLabGrid();
+      alert('🛠️ デバッグ機能：モンスターが不足していたため、テスト用モンスターを自動生成しました！');
+    } else {
+      alert('武舞台（団体戦）に挑戦するには、ラボにモンスターが少なくとも3体登録されている必要があります。');
+      return;
+    }
+  }
+  
+  // Initialize team arena state
+  taState = {
+    myTeam: [null, null, null], // indices into activeLab
+    round: 0,        // 0-4 (5 rounds total)
+    roundWins: 0,     // how many rounds won
+    boutIndex: 0,     // 0=先鋒, 1=中堅, 2=大将
+    boutMyWins: 0,    // wins in current match
+    boutEnemyWins: 0, // enemy wins in current match
+    enemyTeams: [],   // generated enemy teams for each round
+    eliminated: false,
+    activeSlotIdx: 0  // which slot is being selected
+  };
+  
+  // Generate 5 enemy teams with scaling difficulty
+  taState.enemyTeams = taGenerateAllEnemyTeams();
+  
+  // Open party selection screen
+  taRenderPartySelect();
+  goScreen('ta-party');
+}
+
+// ---- Team Arena State ----
+let taState = null;
+const TA_ROUND_NAMES = ['1回戦', '2回戦', '準々決勝', '準決勝', '決勝'];
+const TA_BOUT_NAMES = ['先鋒戦', '中堅戦', '大将戦'];
+const TA_SLOT_LABELS = ['先鋒', '中堅', '大将'];
+const TA_RANK_REWARDS = [0, 0, 0, 40, 80, 120]; // 順位報酬: index = roundWins
+const TA_PARTICIPATION_REWARD = 10; // 参加賞
+
+
+// ---- Enemy Team Generation ----
+function taGenerateAllEnemyTeams() {
+  const teams = [];
+  
+  // 系統キーの一覧
+  const typeKeys = Object.keys(MONSTER_TYPES).filter(k => !MONSTER_TYPES[k].hidden);
+  
+  // 名前プールの収集：通常リーグ戦に登場するモンスターの名前
+  const leagueNames = STAGE_ENEMIES.map(e => e.name);
+  // ラボ調合可能なモンスターの名前
+  let creatorNames = [];
+  typeKeys.forEach(k => {
+    creatorNames = creatorNames.concat(MONSTER_TYPES[k].names);
+  });
+  // 全名前プール
+  const enemyNamePool = [...new Set([...leagueNames, ...creatorNames])];
+
+  // スキルプールの定義
+  // 1. 初期解放スキル（アクティブとパッシブ）
+  const initialActive = ['shuriken', 'midare', 'weakmaker', 'heal', 'regen', 'soulshare', 'teppeki', 'enmaku', 'paperarmor', 'strengthen', 'slownurse', 'draw'];
+  const initialPassive = ['toge', 'secondwind', 'firstwind', 'shuffle'];
+  
+  // 2. 解放済みスキル（プレイヤーが解放したもの unlockedSkills）
+  const unlockedActive = unlockedSkills.filter(id => SKILLS[id] && SKILLS[id].type === 'アクティブ');
+  const unlockedPassive = unlockedSkills.filter(id => SKILLS[id] && SKILLS[id].type === 'パッシブ');
+  
+  const activePool = [...new Set([...initialActive, ...unlockedActive])];
+  const passivePool = [...new Set([...initialPassive, ...unlockedPassive])];
+
+  for (let round = 0; round < 5; round++) {
+    const team = [];
+    
+    for (let pos = 0; pos < 3; pos++) {
+      // 1. 系統の選定
+      const typeKey = typeKeys[Math.floor(Math.random() * typeKeys.length)];
+      const typeObj = MONSTER_TYPES[typeKey];
+      
+      // 2. 名前の選定
+      let mName = typeObj.names[Math.floor(Math.random() * typeObj.names.length)];
+      if (!mName && enemyNamePool.length > 0) {
+        mName = enemyNamePool[Math.floor(Math.random() * enemyNamePool.length)];
+      }
+      
+      // 3. ステータス振り分け（ぴったり110ポイント）
+      const baseStats = typeObj.base || { hp: 1, attack: 1, defense: 0, speed: 0, luck: 0 };
+      const stats = {
+        hp: baseStats.hp || 1,
+        attack: baseStats.attack || 1,
+        defense: baseStats.defense || 0,
+        speed: baseStats.speed || 0,
+        luck: baseStats.luck || 0
+      };
+      
+      // baseパラメータの合計値を計算
+      const baseSum = stats.hp + stats.attack + stats.defense + stats.speed + stats.luck;
+      let remain = 110 - baseSum; // 110ptからの不足分
+      
+      const statKeys = ['hp', 'attack', 'defense', 'speed', 'luck'];
+      
+      // 回戦（round）が進むほど、ステータス配分に「極端な尖り」を持たせる
+      if (round >= 2) {
+        // 特化対象ステータスをランダムに1つ選ぶ
+        const specKey = statKeys[Math.floor(Math.random() * statKeys.length)];
+        // 決勝(round === 4)は70〜90pt、準々・準決(round 2, 3)は40〜65ptを特定ステータスに配分
+        const specPts = round === 4 ? (70 + Math.floor(Math.random() * 20)) : (40 + Math.floor(Math.random() * 25));
+        const allocated = Math.min(remain, specPts);
+        stats[specKey] += allocated;
+        remain -= allocated;
+      }
+      
+      // 残りのポイントをランダムに配分（合計値調整）
+      while (remain > 0) {
+        const key = statKeys[Math.floor(Math.random() * statKeys.length)];
+        stats[key]++;
+        remain--;
+      }
+      
+      // 4. スキルのランダムセット（アクティブ0〜1個、パッシブ0〜1個、最低1個）
+      const skillsObj = { active: [], passive: [] };
+      
+      // 確率設定：後半の回戦ほど2個持ち（両方セット）の確率が上がる
+      const skillCount = round === 4 ? 2 : (Math.random() < (0.5 + round * 0.1) ? 2 : 1);
+      
+      if (skillCount === 2) {
+        const actSkill = activePool[Math.floor(Math.random() * activePool.length)] || 'none';
+        const pasSkill = passivePool[Math.floor(Math.random() * passivePool.length)] || 'none';
+        skillsObj.active.push(actSkill);
+        skillsObj.passive.push(pasSkill);
+      } else {
+        if (Math.random() < 0.5) {
+          const actSkill = activePool[Math.floor(Math.random() * activePool.length)] || 'none';
+          skillsObj.active.push(actSkill);
+        } else {
+          const pasSkill = passivePool[Math.floor(Math.random() * passivePool.length)] || 'none';
+          skillsObj.passive.push(pasSkill);
+        }
+      }
+      
+      team.push({
+        name: mName,
+        icon: typeObj.icon,
+        systemType: typeObj.label,
+        type: typeKey,
+        stats: stats,
+        skills: skillsObj
+      });
+    }
+    team.forEach((m, idx) => {
+      // プレビュー用に表示名スキルを作成
+      const sArr = [];
+      if (m.skills.active[0] && m.skills.active[0] !== 'none') {
+        const sk = SKILLS[m.skills.active[0]];
+        if (sk) sArr.push(sk.name);
+      }
+      if (m.skills.passive[0] && m.skills.passive[0] !== 'none') {
+        const sk = SKILLS[m.skills.passive[0]];
+        if (sk) sArr.push(sk.name);
+      }
+      m.skillName = sArr.length > 0 ? sArr.join(' / ') : 'なし';
+    });
+    team.forEach((m, idx) => {
+      // 後方互換性用
+      m.skill = m.skills.active[0] || m.skills.passive[0] || 'none';
+    });
+    teams.push(team);
+  }
+  return teams;
+}
+
+// ---- Party Selection UI ----
+function taRenderPartySelect() {
+  const activeLab = getActiveLab();
+  
+  // Render slots
+  for (let i = 0; i < 3; i++) {
+    const content = document.getElementById('ta-slot-' + i + '-content');
+    const slot = document.getElementById('ta-slot-' + i);
+    if (!content || !slot) continue;
+    
+    const idx = taState.myTeam[i];
+    if (idx !== null && activeLab[idx]) {
+      const m = activeLab[idx];
+      content.innerHTML = `<div><strong style="color:#fff;">${m.name}</strong><br><span style="font-size:12px; color:var(--text-dim);">${m.systemType}</span></div>`;
+      slot.style.borderColor = 'var(--accent-gold)';
+      slot.style.borderStyle = 'solid';
+    } else {
+      content.textContent = '未選択';
+      slot.style.borderColor = 'rgba(255,255,255,0.15)';
+      slot.style.borderStyle = 'dashed';
+    }
+  }
+  
+  // Highlight active slot
+  for (let i = 0; i < 3; i++) {
+    const slot = document.getElementById('ta-slot-' + i);
+    if (i === taState.activeSlotIdx) {
+      slot.style.boxShadow = '0 0 10px rgba(0,200,255,0.4)';
+    } else {
+      slot.style.boxShadow = 'none';
+    }
+  }
+  
+  // Render roster
+  const roster = document.getElementById('ta-roster-list');
+  if (!roster) return;
+  roster.innerHTML = '';
+  
+  const usedIndices = taState.myTeam.filter(v => v !== null);
+  
+  activeLab.forEach((m, idx) => {
+    const isUsed = usedIndices.includes(idx);
+    const usedInSlot = taState.myTeam.indexOf(idx);
+    
+    const item = document.createElement('div');
+    item.style = `padding:10px 12px; border:1px solid ${isUsed ? 'var(--accent-gold)' : 'var(--border)'}; border-radius:6px; cursor:pointer; transition:all 0.2s; background:${isUsed ? 'rgba(245,158,11,0.08)' : 'rgba(0,0,0,0.15)'}; opacity:${isUsed ? '0.6' : '1'};`;
+    
+    item.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div>
+          <strong style="color:${isUsed ? 'var(--text-dim)' : '#fff'};">${m.name}</strong>
+          <span style="font-size:12px; color:var(--text-dim); margin-left:8px;">${m.systemType}</span>
+          ${isUsed ? `<span style="font-size:11px; color:var(--accent-gold); margin-left:6px;">→ ${TA_SLOT_LABELS[usedInSlot]}</span>` : ''}
+        </div>
+        <div style="font-size:12px; color:var(--text-dim);">
+          HP:${m.stats.hp} ATK:${m.stats.attack} DEF:${m.stats.defense}
+        </div>
+      </div>
+    `;
+    
+    item.onclick = () => {
+      if (isUsed) {
+        // Remove from slot
+        const slotIdx = taState.myTeam.indexOf(idx);
+        if (slotIdx !== -1) taState.myTeam[slotIdx] = null;
+      } else {
+        // Assign to active slot
+        // If slot already has a monster, replace it
+        taState.myTeam[taState.activeSlotIdx] = idx;
+        // Auto advance to next empty slot
+        for (let s = 0; s < 3; s++) {
+          if (taState.myTeam[s] === null) {
+            taState.activeSlotIdx = s;
+            break;
+          }
+        }
+      }
+      taRenderPartySelect();
+    };
+    
+    roster.appendChild(item);
+  });
+  
+  // Update start button
+  const startBtn = document.getElementById('ta-start-btn');
+  const allFilled = taState.myTeam.every(v => v !== null);
+  if (startBtn) startBtn.disabled = !allFilled;
+}
+
+function taSelectSlot(slotIdx) {
+  taState.activeSlotIdx = slotIdx;
+  taRenderPartySelect();
+}
+
+// ---- Tournament Start ----
+function taStartTournament() {
+  taState.round = 0;
+  taState.roundWins = 0;
+  taState.eliminated = false;
+  taShowProgressScreen();
+}
+
+// ---- Progress Screen ----
+function taShowProgressScreen() {
+  const round = taState.round;
+  const activeLab = getActiveLab();
+  
+  // Round indicators
+  const roundDisplay = document.getElementById('ta-round-display');
+  if (roundDisplay) {
+    roundDisplay.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+      const indicator = document.createElement('div');
+      let bg = 'rgba(255,255,255,0.06)';
+      let color = 'var(--text-dim)';
+      let border = '1px solid var(--border)';
+      if (i < round) { bg = 'rgba(34,197,94,0.15)'; color = 'var(--accent-green)'; border = '1px solid var(--accent-green)'; }
+      else if (i === round) { bg = 'rgba(245,158,11,0.15)'; color = 'var(--accent-gold)'; border = '2px solid var(--accent-gold)'; }
+      indicator.style = `padding:6px 14px; border-radius:6px; font-size:13px; font-weight:bold; background:${bg}; color:${color}; border:${border};`;
+      indicator.textContent = TA_ROUND_NAMES[i];
+      roundDisplay.appendChild(indicator);
+    }
+  }
+  
+  // Match title
+  const matchTitle = document.getElementById('ta-match-title');
+  if (matchTitle) matchTitle.textContent = `第${round + 1}戦：${TA_ROUND_NAMES[round]}`;
+  
+  // Reset bout state
+  taState.boutIndex = 0;
+  taState.boutMyWins = 0;
+  taState.boutEnemyWins = 0;
+  
+  // My team preview (detailed - same format as enemy)
+  const myPreview = document.getElementById('ta-my-team-preview');
+  if (myPreview) {
+    myPreview.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+      const m = activeLab[taState.myTeam[i]];
+      if (!m) continue;
+      
+      // スキル名の解決
+      const mySkillsText = [];
+      if (m.skills && m.skills.active) {
+        m.skills.active.forEach(sid => {
+          if (sid && sid !== 'none' && SKILLS[sid]) mySkillsText.push(SKILLS[sid].icon + SKILLS[sid].name);
+        });
+      }
+      if (m.skills && m.skills.passive) {
+        m.skills.passive.forEach(sid => {
+          if (sid && sid !== 'none' && SKILLS[sid]) mySkillsText.push(SKILLS[sid].icon + SKILLS[sid].name);
+        });
+      }
+      const mySkillStr = mySkillsText.length > 0 ? mySkillsText.join(' / ') : 'なし';
+      
+      // アイコンの取得
+      let mIcon = '';
+      const typeKeys = Object.keys(MONSTER_TYPES);
+      for (const tk of typeKeys) {
+        if (MONSTER_TYPES[tk].label === m.systemType) { mIcon = MONSTER_TYPES[tk].icon; break; }
+      }
+
+      const div = document.createElement('div');
+      div.style = 'padding:6px 10px; border-radius:6px; background:rgba(0,100,255,0.08); border: 1px solid rgba(0,100,255,0.15); margin-bottom: 6px; line-height: 1.4; text-align: left;';
+      div.innerHTML = `
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color:var(--accent-gold); font-weight:bold;">${TA_SLOT_LABELS[i]}</span>
+          <span style="color:#fff; font-weight: bold;">${mIcon} ${m.name}</span>
+        </div>
+        <div style="font-size:11px; color:var(--text-dim); margin-top: 2px;">
+          HP:${m.stats.hp} A:${m.stats.attack} D:${m.stats.defense} S:${m.stats.speed} L:${m.stats.luck}
+        </div>
+        <div style="font-size:11px; color:var(--accent-cyan); margin-top: 2px; font-weight: bold;">
+          ⚡ スキル: ${mySkillStr}
+        </div>
+      `;
+      myPreview.appendChild(div);
+    }
+  }
+  
+  // Enemy team preview
+  const enemyPreview = document.getElementById('ta-enemy-team-preview');
+  const enemyTeam = taState.enemyTeams[round];
+  if (enemyPreview && enemyTeam) {
+    enemyPreview.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+      const e = enemyTeam[i];
+      
+      const skillsText = [];
+      if (e.skills.active[0] && e.skills.active[0] !== 'none') {
+        const sk = SKILLS[e.skills.active[0]];
+        if (sk) skillsText.push(sk.icon + sk.name);
+      }
+      if (e.skills.passive[0] && e.skills.passive[0] !== 'none') {
+        const sk = SKILLS[e.skills.passive[0]];
+        if (sk) skillsText.push(sk.icon + sk.name);
+      }
+      const skillStr = skillsText.length > 0 ? skillsText.join(' / ') : 'なし';
+
+      const div = document.createElement('div');
+      div.style = 'padding:6px 10px; border-radius:6px; background:rgba(255,0,0,0.08); border: 1px solid rgba(255,0,0,0.15); margin-bottom: 6px; line-height: 1.4; text-align: left;';
+      div.innerHTML = `
+        <div style="display: flex; justify-content: space-between;">
+          <span style="color:var(--accent-gold); font-weight:bold;">${TA_SLOT_LABELS[i]}</span>
+          <span style="color:#fff; font-weight: bold;">${e.icon} ${e.name}</span>
+        </div>
+        <div style="font-size:11px; color:var(--text-dim); margin-top: 2px;">
+          HP:${e.stats.hp} A:${e.stats.attack} D:${e.stats.defense} S:${e.stats.speed} L:${e.stats.luck}
+        </div>
+        <div style="font-size:11px; color:var(--accent-cyan); margin-top: 2px; font-weight: bold;">
+          ⚡ スキル: ${skillStr}
+        </div>
+      `;
+      enemyPreview.appendChild(div);
+    }
+  }
+  
+  // Score
+  const scoreMyEl = document.getElementById('ta-score-my');
+  const scoreEnemyEl = document.getElementById('ta-score-enemy');
+  if (scoreMyEl) scoreMyEl.textContent = '0';
+  if (scoreEnemyEl) scoreEnemyEl.textContent = '0';
+  
+  // Battle order
+  const orderEl = document.getElementById('ta-battle-order');
+  if (orderEl) orderEl.textContent = `次の対戦：【${TA_BOUT_NAMES[0]}】`;
+  
+  // Button
+  const btn = document.getElementById('ta-next-battle-btn');
+  if (btn) {
+    btn.textContent = '⚔️ 先鋒戦 開始！';
+    btn.disabled = false;
+    btn.onclick = () => taStartNextBout();
+  }
+  
+  goScreen('ta-progress');
+}
+
+// ---- Start Next Bout (1v1 Battle) ----
+function taStartNextBout() {
+  const activeLab = getActiveLab();
+  const round = taState.round;
+  const bout = taState.boutIndex;
+  
+  // Set game mode
+  currentGameMode = 'team-arena';
+  
+  // Set my monster for this bout
+  const myMonsterIdx = taState.myTeam[bout];
+  selBattle = myMonsterIdx;
+  
+  // Set enemy for this bout
+  const enemyData = taState.enemyTeams[round][bout];
+  
+  // 装備するスキルの決定（アクティブ・パッシブから選定）
+  let chosenSkill = 'none';
+  if (enemyData.skills.active[0] && enemyData.skills.active[0] !== 'none') {
+    chosenSkill = enemyData.skills.active[0];
+  } else if (enemyData.skills.passive[0] && enemyData.skills.passive[0] !== 'none') {
+    chosenSkill = enemyData.skills.passive[0];
+  }
+  // 両方持っている場合は50%の確率でどちらかを選択
+  if (enemyData.skills.active[0] && enemyData.skills.active[0] !== 'none' &&
+      enemyData.skills.passive[0] && enemyData.skills.passive[0] !== 'none') {
+    chosenSkill = Math.random() < 0.5 ? enemyData.skills.active[0] : enemyData.skills.passive[0];
+  }
+
+  const skObj = SKILLS[chosenSkill] || SKILLS.none;
+
+  currentEnemy = {
+    name: enemyData.name,
+    title: `${TA_ROUND_NAMES[round]} - ${TA_BOUT_NAMES[bout]}`,
+    icon: enemyData.icon,
+    rumor: `武舞台${TA_ROUND_NAMES[round]}の${TA_BOUT_NAMES[bout]}！ 装備スキル：${skObj.icon}${skObj.name}`,
+    hp: enemyData.stats.hp,
+    attack: enemyData.stats.attack,
+    defense: enemyData.stats.defense,
+    speed: enemyData.stats.speed,
+    luck: enemyData.stats.luck,
+    skill: chosenSkill,
+    type: enemyData.type
+  };
+  
+  // Update stage display
+  const badge = document.getElementById('stage-display');
+  if (badge) badge.textContent = `武舞台 ${TA_ROUND_NAMES[round]} - ${TA_BOUT_NAMES[bout]}`;
+  
+  goScreen('battle');
+}
+
+// ---- Handle Team Arena Battle Result (called from showResult) ----
+function taHandleBoutResult(playerWon) {
+  if (!taState) return;
+  
+  if (playerWon) {
+    taState.boutMyWins++;
+  } else {
+    taState.boutEnemyWins++;
+  }
+  
+  // Check if match is decided (best of 3 = first to 2 wins)
+  if (taState.boutMyWins >= 2) {
+    // Match won!
+    taState.roundWins++;
+    taState.round++;
+    
+    if (taState.round >= 5) {
+      // Tournament champion!
+      taEndTournament(true);
+      return 'tournament-won';
+    } else {
+      return 'match-won';
+    }
+  } else if (taState.boutEnemyWins >= 2) {
+    // Match lost - eliminated
+    taState.eliminated = true;
+    taEndTournament(false);
+    return 'match-lost';
+  } else {
+    // Continue to next bout
+    taState.boutIndex++;
+    return 'bout-continue';
+  }
+}
+
+function taShowBoutInterim() {
+  const scoreMyEl = document.getElementById('ta-score-my');
+  const scoreEnemyEl = document.getElementById('ta-score-enemy');
+  if (scoreMyEl) scoreMyEl.textContent = String(taState.boutMyWins);
+  if (scoreEnemyEl) scoreEnemyEl.textContent = String(taState.boutEnemyWins);
+  
+  const orderEl = document.getElementById('ta-battle-order');
+  if (orderEl) orderEl.textContent = `次の対戦：【${TA_BOUT_NAMES[taState.boutIndex]}】`;
+  
+  const matchTitle = document.getElementById('ta-match-title');
+  if (matchTitle) matchTitle.textContent = `第${taState.round + 1}戦：${TA_ROUND_NAMES[taState.round]}`;
+  
+  const btn = document.getElementById('ta-next-battle-btn');
+  if (btn) {
+    btn.textContent = `⚔️ ${TA_BOUT_NAMES[taState.boutIndex]} 開始！`;
+    btn.disabled = false;
+    btn.onclick = () => taStartNextBout();
+  }
+  
+  goScreen('ta-progress');
+}
+
+function taEndTournament(isChampion) {
+  const rankBp = TA_RANK_REWARDS[taState.roundWins] || 0;
+  const partBp = TA_PARTICIPATION_REWARD;
+  const totalEarned = rankBp + partBp;
+  
+  bp += totalEarned;
+  save();
+  
+  // 成績テキストの組み立て
+  let rankText = '';
+  if (isChampion) {
+    rankText = '優勝（5勝0敗）';
+  } else {
+    const wins = taState.roundWins;
+    if (wins === 4) {
+      rankText = '準優勝（4勝1敗）';
+    } else if (wins === 3) {
+      rankText = '3位（3勝1敗）';
+    } else {
+      const matchName = TA_ROUND_NAMES[taState.round] || `${taState.round + 1}回戦`;
+      rankText = `${matchName}敗退（${wins}勝1敗）`;
+    }
+  }
+
+  // モーダルのDOMを更新
+  const rankTextEl = document.getElementById('ta-res-rank-text');
+  const rankBpEl = document.getElementById('ta-res-rank-bp');
+  const partBpEl = document.getElementById('ta-res-part-bp');
+  const totalBpEl = document.getElementById('ta-res-total-bp');
+  const currentBpEl = document.getElementById('ta-res-current-bp');
+  
+  if (rankTextEl) rankTextEl.textContent = rankText;
+  if (rankBpEl) rankBpEl.textContent = `${rankBp} BP`;
+  if (partBpEl) partBpEl.textContent = `${partBp} BP`;
+  if (totalBpEl) totalBpEl.textContent = `${totalEarned} BP`;
+  if (currentBpEl) currentBpEl.textContent = String(bp);
+  
+  // 既存の結果モーダル（1vs1の最後のバトルのやつ）が開いている場合は非表示にする
+  const battleResultModal = document.getElementById('battle-result-modal');
+  if (battleResultModal) battleResultModal.style.display = 'none';
+  
+  // 団体戦リザルトモーダルを表示
+  const taResultModal = document.getElementById('ta-result-modal');
+  if (taResultModal) taResultModal.style.display = 'flex';
+}
+
+function closeTaResultModal() {
+  const modal = document.getElementById('ta-result-modal');
+  if (modal) modal.style.display = 'none';
+  taState = null;
+  currentGameMode = 'league'; // reset
+  goScreen('team-arena-menu');
+  openTeamArenaMenu();
+}
+
+
+function openRewardShop() {
+  renderRewardShop();
+  goScreen('reward-shop');
+}
+
+const REWARD_SHOP_ITEMS = [
+  { id: 'robo', name: '🤖 ロボシリーズ', sub: 'メカニカル小隊', desc: 'メタル・機械系の作成権をアンロック', system: 'metal' },
+  { id: 'shin', name: '⚡ 神シリーズ', sub: '神話の聖闘士', desc: '悪魔（デビル）系の作成権をアンロック', system: 'devil' },
+  { id: 'dinosaur', name: '🦖 恐竜シリーズ', sub: '太古の覇者', desc: 'ドラゴン系の作成権をアンロック', system: 'dragon' },
+  { id: 'toy', name: '🧸 ぬいぐるみシリーズ', sub: 'パッチワーク', desc: '植物（自然）系の作成権をアンロック', system: 'plant' },
+  { id: 'ghost', name: '👻 おばけシリーズ', sub: 'ゆめかわナイトメア', desc: 'アンデッド系の作成権をアンロック', system: 'undead' }
+];
+
+function renderRewardShop() {
+  const shopBp = document.getElementById('shop-bp-display');
+  const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
+  if (shopBp) shopBp.textContent = `${activeBp} BP`;
+  
+  const container = document.getElementById('shop-items-list');
+  if (!container) return;
+  container.innerHTML = '';
+  
+  REWARD_SHOP_ITEMS.forEach(item => {
+    const isUnlocked = isSeriesUnlocked(item.id);
+    const card = document.createElement('div');
+    card.style = 'background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; transition:all 0.2s;';
+    
+    let buttonHtml = '';
+    if (isUnlocked) {
+      buttonHtml = `<button class="btn-secondary" style="border-color:var(--accent-green); color:var(--accent-green); cursor:default; font-weight:bold;" disabled>✅ 解放済み</button>`;
+    } else {
+      const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
+      const canBuy = activeBp >= 300;
+      buttonHtml = `<button class="title-btn" style="padding:8px 16px; font-size:13px; ${!canBuy ? 'opacity:0.5; cursor:not-allowed; background:#475569; color:#cbd5e1; box-shadow:none;' : ''}" ${!canBuy ? 'disabled' : ''} onclick="buyShopItem('${item.id}')">300 BPで解放</button>`;
+    }
+    
+    card.innerHTML = `
+      <div style="text-align:left;">
+        <div style="font-weight:bold; font-size:16px; color:var(--text-primary);">${item.name}</div>
+        <div style="font-size:12px; color:var(--accent-gold); margin-top:2px;">【${item.sub}】</div>
+        <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">${item.desc}</div>
+      </div>
+      <div>
+        ${buttonHtml}
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function buyShopItem(itemId) {
+  const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
+  if (activeBp < 300) {
+    alert('武舞台ポイント(BP)が不足しています！');
+    return;
+  }
+  if (isSeriesUnlocked(itemId) && !(typeof debugMode !== 'undefined' && debugMode)) {
+    alert('すでに解放されています！');
+    return;
+  }
+  
+  if (typeof debugMode !== 'undefined' && debugMode) {
+    alert('デバッグモード中は購入しなくても全シリーズがすでに調合可能です！');
+    return;
+  }
+  
+  bp -= 300;
+  unlockedSeries.push(itemId);
+  save();
+  alert('シリーズを解放しました！ラボ調合で使用可能になります。');
+  renderRewardShop();
+}
+
+// ============================================================
+//  DEBUG MODE
+// ============================================================
+
+let debugMode = false;
+let debugBackup = null; // stores original state before debug ON
+
+function toggleDebugMode() {
+  debugMode = !debugMode;
+  const btn = document.getElementById('debug-toggle-btn');
+  
+  if (debugMode) {
+    // Update button style
+    if (btn) {
+      btn.textContent = '🛠️ デバッグ: ON';
+      btn.style.background = 'linear-gradient(135deg, #e63946, #fca311)';
+      btn.style.color = '#fff';
+      btn.style.borderColor = '#fca311';
+      btn.style.boxShadow = '0 0 12px rgba(252,163,17,0.5)';
+    }
+    
+    alert('🛠️ デバッグモード ON\n\n・全施設・全モードのロック解除\n・全スキル解放状態として調合可能\n・BP 9999状態でショップ購入可能\n・全シリーズ解放状態で調合可能');
+  } else {
+    // Reset button style
+    if (btn) {
+      btn.textContent = '🛠️ デバッグ: OFF';
+      btn.style.background = 'rgba(0,0,0,0.3)';
+      btn.style.color = '#94a3b8';
+      btn.style.borderColor = 'rgba(255,255,255,0.15)';
+      btn.style.boxShadow = 'none';
+    }
+    
+    alert('🛠️ デバッグモード OFF\n\n通常のゲーム進行状況に復元しました。');
+  }
+  
+  // Refresh UI based on the new debug mode flag state
+  updateMenuFacilities();
+  updateSkillProgressUI();
+  
+  if (document.getElementById('lab-screen').style.display !== 'none') {
+    renderLabGrid();
+    updateLabStatsDisplay();
+  }
+  if (document.getElementById('reward-shop-screen').style.display !== 'none') {
+    renderRewardShop();
+  }
+  
+  // Immediately save the clean, unaltered state just to sync
+  save();
+}
+
 // ============================================================
 //  BOOT
 // ============================================================
@@ -6070,8 +8444,551 @@ function init() {
   }
 }
 
+// ============================================================
+//  P2P FREE BATTLE SYSTEM (PeerJS WebRTC)
+// ============================================================
+
+let p2pPeer = null;
+let p2pIsBotActive = false;
+let p2pMatchingTimeoutTimer = null;
+let p2pBotName = '';
+let p2pBotRecord = '';
+
+const BOT_NAMES = [
+  'ゆうた', 'たくみ', 'ハルト', 'ソウタ', 'あおい', 'さくら',
+  'Ken', 'Alex', 'David', 'ショウ', 'レン', 'マサト', 'ユウキ',
+  'ひまり', 'ユア', 'つむぎ', 'みお', 'コウキ', 'ダイキ', 'リョウ',
+  'カイと', 'アサト', 'ユウト', 'エリカ', 'ミウ', 'カノン', 'マイ'
+];
+const BOT_TITLES = [
+  '新進気鋭の研究者', '闘技場の常連', 'ビルドバトラー', '流浪のトレーナー',
+  'スキルマスター', 'タクティシャン', 'ブリーダー', '放浪の勝負師',
+  'リーグAランカー', '異次元の求道者', '100pt愛好家'
+];
+
+function generateBotMonster() {
+  const mTypes = Object.keys(MONSTER_TYPES).filter(k => !MONSTER_TYPES[k].hidden);
+  const pickedType = mTypes[Math.floor(Math.random() * mTypes.length)];
+  const typeInfo = MONSTER_TYPES[pickedType];
+  const monsterClass = typeInfo.names[Math.floor(Math.random() * typeInfo.names.length)] || 'スライム';
+  
+  let hp = 1, attack = 1, defense = 1, speed = 1, luck = 1;
+  let remaining = 98;
+  const stats = [
+    { name: 'hp', val: 1 },
+    { name: 'attack', val: 1 },
+    { name: 'defense', val: 1 },
+    { name: 'speed', val: 1 },
+    { name: 'luck', val: 1 }
+  ];
+  while (remaining > 0) {
+    const pick = stats[Math.floor(Math.random() * stats.length)];
+    if (pick.val < 99) {
+      pick.val++;
+      remaining--;
+    }
+  }
+  
+  const skillPool = Object.keys(SKILLS).filter(s => s !== 'none');
+  const activeSkills = skillPool.filter(s => SKILLS[s].type === 'アクティブ');
+  const passiveSkills = skillPool.filter(s => SKILLS[s].type === 'パッシブ');
+  
+  const activePick = activeSkills[Math.floor(Math.random() * activeSkills.length)] || 'none';
+  const passivePick = passiveSkills[Math.floor(Math.random() * passiveSkills.length)] || 'none';
+
+  return {
+    name: monsterClass,
+    systemType: typeInfo.label,
+    monsterClass: monsterClass,
+    stats: {
+      hp: stats.find(s => s.name === 'hp').val,
+      attack: stats.find(s => s.name === 'attack').val,
+      defense: stats.find(s => s.name === 'defense').val,
+      speed: stats.find(s => s.name === 'speed').val,
+      luck: stats.find(s => s.name === 'luck').val,
+    },
+    skills: {
+      active: [activePick],
+      passive: [passivePick]
+    }
+  };
+}
+
+function triggerP2PBotMatch() {
+  console.log('P2P Matchmaking timeout - switching to Bot match.');
+  // P2P通信側をクリーンアップ
+  destroyP2P();
+  
+  p2pIsBotActive = true;
+  p2pIsHost = true; // Bot対戦時は自身をホスト扱いにする
+  
+  const delay = Math.random() * 3000; // 0〜3秒の追加のランダムウェイト
+  setP2PStatus('ランダムマッチ検索中...', '対戦相手を確定中...');
+  
+  setTimeout(() => {
+    if (!p2pIsBotActive) return;
+    
+    // Botプロフィール作成
+    p2pBotName = BOT_NAMES[Math.floor(Math.random() * BOT_NAMES.length)];
+    const title = BOT_TITLES[Math.floor(Math.random() * BOT_TITLES.length)];
+    const win = 10 + Math.floor(Math.random() * 150);
+    const lose = Math.max(10, win - 20 + Math.floor(Math.random() * 40));
+    p2pBotRecord = `${title} (戦績: ${win}勝 ${lose}敗)`;
+    
+    p2pOppMonster = generateBotMonster();
+    
+    // UIを接続確立状態へ移行
+    setP2PStatus('接続確立！', 'モンスター情報を同期中...');
+    setTimeout(() => {
+      if (!p2pIsBotActive) return;
+      showP2PStep(4);
+      p2pMyReady = false;
+      p2pOppReady = false;
+      updateP2PReadyUI();
+      
+      const nameEl = document.getElementById('p2p-my-monster-name');
+      const activeLab = getActiveLab();
+      const myMonster = activeLab[selBattle] || activeLab[0];
+      if (myMonster && nameEl) nameEl.textContent = myMonster.name || 'モンスター';
+      
+      const oppName = document.getElementById('p2p-opp-monster-name');
+      if (oppName) oppName.textContent = p2pOppMonster.name || '???';
+      const oppIcon = document.getElementById('p2p-opp-monster-preview');
+      if (oppIcon) oppIcon.textContent = '🐲';
+      
+      // Botは1〜2.5秒後に準備完了にする
+      setTimeout(() => {
+        if (p2pIsBotActive) {
+          p2pOppReady = true;
+          updateP2PReadyUI();
+          checkBothReady();
+        }
+      }, 1000 + Math.random() * 1500);
+    }, 1000);
+  }, delay);
+}
+let p2pConn = null;
+let p2pFormat = 'single'; // 'single' or 'team'
+let p2pIsHost = false;
+let p2pMyReady = false;
+let p2pOppReady = false;
+let p2pOppMonster = null;
+let p2pRoomCode = '';
+let p2pBattleSeed = 0;
+let p2pWaitingForCommand = false;
+let p2pMyCommand = null;
+let p2pOppCommand = null;
+const P2P_PREFIX = '100pt-rpg-';
+
+function showP2PStep(step) {
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('p2p-step-' + i);
+    if (el) el.style.display = (i === step) ? 'block' : 'none';
+  }
+}
+
+function selectP2PFormat(fmt) {
+  p2pFormat = fmt;
+  const label = fmt === 'single' ? 'シングルス (1vs1)' : 'チームス (3vs3)';
+  const el = document.getElementById('p2p-selected-format-text');
+  if (el) el.textContent = label;
+  showP2PStep(2);
+}
+
+function backToP2PStep1() {
+  destroyP2P();
+  showP2PStep(1);
+}
+
+function exitP2PLobby() {
+  destroyP2P();
+  goScreen('main-menu');
+}
+
+function generateRoomCode() {
+  return String(Math.floor(100000 + Math.random() * 900000));
+}
+
+function destroyP2P() {
+  if (p2pConn) { try { p2pConn.close(); } catch(e){} p2pConn = null; }
+  if (p2pPeer) { try { p2pPeer.destroy(); } catch(e){} p2pPeer = null; }
+  if (p2pMatchingTimeoutTimer) { clearTimeout(p2pMatchingTimeoutTimer); p2pMatchingTimeoutTimer = null; }
+  p2pMyReady = false;
+  p2pOppReady = false;
+  p2pOppMonster = null;
+  p2pMyCommand = null;
+  p2pOppCommand = null;
+  p2pWaitingForCommand = false;
+  p2pIsBotActive = false;
+}
+
+function setP2PStatus(title, desc) {
+  const t = document.getElementById('p2p-status-title');
+  const d = document.getElementById('p2p-status-desc');
+  if (t) t.textContent = title;
+  if (d) d.textContent = desc;
+}
+
+// --- Create Private Room ---
+function createP2PPrivateRoom() {
+  destroyP2P();
+  p2pIsHost = true;
+  p2pRoomCode = generateRoomCode();
+  const peerId = P2P_PREFIX + p2pRoomCode;
+
+  showP2PStep(3);
+  setP2PStatus('部屋を作成中...', 'PeerID初期化中...');
+
+  p2pPeer = new Peer(peerId);
+  p2pPeer.on('open', (id) => {
+    setP2PStatus('対戦相手の接続を待っています...', 'あいことばを相手に伝えてください');
+    const box = document.getElementById('p2p-room-display-box');
+    if (box) box.style.display = 'block';
+    const idEl = document.getElementById('p2p-display-room-id');
+    if (idEl) idEl.textContent = p2pRoomCode;
+  });
+  p2pPeer.on('connection', (conn) => {
+    p2pConn = conn;
+    setupP2PConnection();
+  });
+  p2pPeer.on('error', (err) => {
+    setP2PStatus('接続エラー', err.type + ': ' + err.message);
+  });
+}
+
+// --- Join Private Room ---
+function joinP2PPrivateRoom() {
+  const input = document.getElementById('p2p-room-code-input');
+  const code = (input ? input.value : '').trim();
+  if (!code || code.length < 4) {
+    alert('あいことば（4〜6桁）を入力してください');
+    return;
+  }
+  destroyP2P();
+  p2pIsHost = false;
+  p2pRoomCode = code;
+  const targetPeerId = P2P_PREFIX + code;
+
+  showP2PStep(3);
+  setP2PStatus('部屋に接続中...', 'あいことば: ' + code);
+  document.getElementById('p2p-room-display-box').style.display = 'none';
+
+  p2pPeer = new Peer();
+  p2pPeer.on('open', () => {
+    setP2PStatus('接続試行中...', 'Peer接続を確立中...');
+    p2pConn = p2pPeer.connect(targetPeerId, { reliable: true });
+    p2pConn.on('open', () => {
+      setupP2PConnection();
+    });
+    p2pConn.on('error', (err) => {
+      setP2PStatus('接続失敗', '部屋が見つかりません。あいことばを確認してください。');
+    });
+  });
+  p2pPeer.on('error', (err) => {
+    if (err.type === 'peer-unavailable') {
+      setP2PStatus('部屋が見つかりません', 'あいことばが正しいか確認してください');
+    } else {
+      setP2PStatus('接続エラー', err.type);
+    }
+  });
+}
+
+// --- Random Match ---
+function startP2PRandomMatch() {
+  destroyP2P();
+  showP2PStep(3);
+  document.getElementById('p2p-room-display-box').style.display = 'none';
+
+  // 30秒後に対戦相手が見つからない場合は自動的にBot対戦へ移行
+  p2pMatchingTimeoutTimer = setTimeout(() => {
+    triggerP2PBotMatch();
+  }, 30000);
+  setP2PStatus('ランダムマッチ検索中...', '公開ルームを探しています...');
+
+  // Try to connect to existing rooms (slots 1-20)
+  const slotMax = 20;
+  let slotTry = 0;
+  let found = false;
+
+  p2pPeer = new Peer();
+  p2pPeer.on('open', () => {
+    tryNextRandomSlot();
+  });
+  p2pPeer.on('error', (err) => {
+    if (err.type === 'peer-unavailable' && !found) {
+      slotTry++;
+      tryNextRandomSlot();
+    }
+  });
+
+  function tryNextRandomSlot() {
+    if (found) return;
+    if (!p2pPeer || p2pPeer.destroyed) return;
+    if (slotTry >= slotMax) {
+      // No room found → create one
+      found = true;
+      createRandomRoom();
+      return;
+    }
+    const targetId = P2P_PREFIX + 'free-' + p2pFormat + '-' + slotTry;
+    setP2PStatus('ランダムマッチ検索中...', 'ルーム #' + (slotTry + 1) + ' を確認中...');
+    const conn = p2pPeer.connect(targetId, { reliable: true });
+    const timeout = setTimeout(() => {
+      if (!found) { slotTry++; tryNextRandomSlot(); }
+    }, 2000);
+    conn.on('open', () => {
+      clearTimeout(timeout);
+      if (!found) {
+        found = true;
+        p2pIsHost = false;
+        p2pConn = conn;
+        setupP2PConnection();
+      }
+    });
+    conn.on('error', () => {
+      clearTimeout(timeout);
+      if (!found) { slotTry++; tryNextRandomSlot(); }
+    });
+  }
+
+  function createRandomRoom() {
+    // Find an available slot and host
+    if (p2pPeer) { try { p2pPeer.destroy(); } catch(e){} }
+    const slot = Math.floor(Math.random() * slotMax);
+    const myId = P2P_PREFIX + 'free-' + p2pFormat + '-' + slot;
+    p2pIsHost = true;
+    p2pRoomCode = 'FREE-' + slot;
+
+    p2pPeer = new Peer(myId);
+    p2pPeer.on('open', () => {
+      setP2PStatus('対戦相手を待機中...', 'フリールーム #' + (slot + 1) + ' で待機しています');
+    });
+    p2pPeer.on('connection', (conn) => {
+      p2pConn = conn;
+      setupP2PConnection();
+    });
+    p2pPeer.on('error', (err) => {
+      setP2PStatus('ルーム作成エラー', err.type + ' - 再試行してください');
+    });
+  }
+}
+
+// --- P2P Connection Established ---
+function setupP2PConnection() {
+  if (p2pMatchingTimeoutTimer) { clearTimeout(p2pMatchingTimeoutTimer); p2pMatchingTimeoutTimer = null; }
+  setP2PStatus('接続確立！', 'モンスター情報を同期中...');
+
+  p2pConn.on('data', (data) => {
+    handleP2PMessage(data);
+  });
+  p2pConn.on('close', () => {
+    alert('対戦相手との接続が切断されました');
+    destroyP2P();
+    showP2PStep(1);
+  });
+
+  // Move to Step 4 (Ready screen)
+  showP2PStep(4);
+  p2pMyReady = false;
+  p2pOppReady = false;
+  updateP2PReadyUI();
+
+  // Send my monster data
+  const activeLab = getActiveLab();
+  const myMonster = activeLab[selBattle] || activeLab[0];
+  if (myMonster) {
+    const nameEl = document.getElementById('p2p-my-monster-name');
+    if (nameEl) nameEl.textContent = myMonster.name || 'モンスター';
+    p2pConn.send({ type: 'monster', data: myMonster });
+  }
+}
+
+function handleP2PMessage(msg) {
+  if (!msg || !msg.type) return;
+
+  switch (msg.type) {
+    case 'monster':
+      p2pOppMonster = msg.data;
+      const oppName = document.getElementById('p2p-opp-monster-name');
+      if (oppName) oppName.textContent = msg.data.name || '???';
+      const oppIcon = document.getElementById('p2p-opp-monster-preview');
+      if (oppIcon) oppIcon.textContent = '🐲';
+      break;
+
+    case 'ready':
+      p2pOppReady = msg.value;
+      updateP2PReadyUI();
+      checkBothReady();
+      break;
+
+    case 'battle-command':
+      p2pOppCommand = msg.command;
+      if (p2pMyCommand !== null) {
+        executeP2PBattleTurn();
+      }
+      break;
+
+    case 'battle-seed':
+      p2pBattleSeed = msg.seed;
+      break;
+
+    case 'rematch':
+      alert('相手が再戦を希望しています！');
+      break;
+  }
+}
+
+function updateP2PReadyUI() {
+  const myBtn = document.getElementById('p2p-my-ready-btn');
+  if (myBtn) {
+    myBtn.textContent = p2pMyReady ? '✅ 準備完了！' : '準備完了';
+    myBtn.style.background = p2pMyReady ? 'var(--accent-green)' : '';
+    myBtn.style.color = p2pMyReady ? '#000' : '';
+  }
+  const oppStatus = document.getElementById('p2p-opp-ready-status');
+  if (oppStatus) {
+    oppStatus.textContent = p2pOppReady ? '✅ 準備完了！' : '未準備';
+    oppStatus.style.color = p2pOppReady ? 'var(--accent-green)' : 'var(--text-dim)';
+    oppStatus.style.background = p2pOppReady ? 'rgba(16,185,129,0.1)' : 'rgba(0,0,0,0.2)';
+  }
+}
+
+function toggleP2PMyReady() {
+  p2pMyReady = !p2pMyReady;
+  updateP2PReadyUI();
+  if (p2pConn) {
+    p2pConn.send({ type: 'ready', value: p2pMyReady });
+  }
+  checkBothReady();
+}
+
+function checkBothReady() {
+  if (p2pMyReady && p2pOppReady) {
+    // Both players ready → start P2P battle
+    setTimeout(() => startP2PBattle(), 500);
+  }
+}
+
+function startP2PBattle() {
+  if (!p2pOppMonster) {
+    alert('相手のモンスター情報がまだ届いていません。少しお待ちください。');
+    return;
+  }
+
+  // Set up enemy as opponent's monster
+  const opp = p2pOppMonster;
+  const oppStats = opp.stats || { hp: 22, attack: 22, defense: 22, speed: 22, luck: 22 };
+  const oppSkill = (opp.skills && opp.skills.active && opp.skills.active[0]) || 'none';
+
+  currentEnemy = {
+    name: p2pIsBotActive ? p2pBotName : (opp.name || '対戦相手'),
+    type: Object.keys(MONSTER_TYPES).find(k => MONSTER_TYPES[k].label === opp.systemType) || 'other',
+    title: p2pIsBotActive ? p2pBotRecord : (opp.monsterClass || '対戦相手'),
+    hp: Number(oppStats.hp) || 22,
+    attack: Number(oppStats.attack) || 22,
+    defense: Number(oppStats.defense) || 22,
+    speed: Number(oppStats.speed) || 22,
+    luck: Number(oppStats.luck) || 22,
+    skill: oppSkill,
+  };
+
+  // Generate battle seed (host generates)
+  if (p2pIsHost) {
+    p2pBattleSeed = Date.now();
+    if (p2pConn) p2pConn.send({ type: 'battle-seed', seed: p2pBattleSeed });
+  }
+
+  // Switch to battle screen
+  currentGameMode = 'free';
+  goScreen('battle');
+}
+
+function cancelP2PMatchmaking() {
+  destroyP2P();
+  showP2PStep(2);
+}
+
+function disconnectP2P() {
+  destroyP2P();
+  showP2PStep(1);
+}
+
+function copyP2PRoomId() {
+  const code = p2pRoomCode || '';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(code).then(() => {
+      alert('あいことば「' + code + '」をコピーしました！');
+    });
+  } else {
+    prompt('あいことばをコピーしてください:', code);
+  }
+}
+
+// --- P2P Battle Command Sync ---
+function sendP2PCommand(cmd) {
+  p2pMyCommand = cmd;
+  
+  if (p2pIsBotActive) {
+    // 思考時間（1.5秒〜3.5秒のランダム遅延）を演出
+    const thinkDelay = 1500 + Math.random() * 2000;
+    
+    // コマンドボタンを無効化し、相手の入力待ち演出をログに流す
+    addLog('⌛ 相手がコマンドを選択しています...', 'log-info');
+    
+    setTimeout(() => {
+      if (!p2pIsBotActive) return;
+      p2pOppCommand = decideEnemyCommand();
+      executeP2PBattleTurn();
+    }, thinkDelay);
+    
+  } else {
+    if (p2pConn) {
+      p2pConn.send({ type: 'battle-command', command: cmd });
+    }
+    if (p2pOppCommand !== null) {
+      executeP2PBattleTurn();
+    }
+  }
+}
+
+function executeP2PBattleTurn() {
+  if (p2pMyCommand === null || p2pOppCommand === null) return;
+
+  const myCmd = p2pMyCommand;
+  const oppCmd = p2pOppCommand;
+  p2pMyCommand = null;
+  p2pOppCommand = null;
+
+  // Use the existing battle engine with both commands
+  const pSpd = getEffectiveSpeed(pState);
+  const eSpd = getEffectiveSpeed(eState);
+  let playerFirst = pSpd > eSpd || (pSpd === eSpd && pState.luck > eState.luck);
+
+  executeTurnActions(myCmd, oppCmd, playerFirst);
+}
+
 init();
 </script>
 </div> <!-- End #game-viewport -->
+
+<!-- ============ SYSTEM MESSAGE MODAL (OUTSIDE game-viewport to avoid transform:scale influence) ============ -->
+<div id="system-modal-backdrop"></div>
+<div id="system-modal-dialog">
+  <div class="sys-modal-label">📢 SYSTEM MESSAGE</div>
+  <div class="sys-modal-text" id="system-modal-msg-text"></div>
+  <button class="sys-modal-ok-btn" id="system-modal-ok-btn" onclick="closeSystemModal()">OK</button>
+</div>
+
+<!-- ============ CONFIRM MODAL (Custom confirm() Replacement) ============ -->
+<div id="confirm-modal-backdrop"></div>
+<div id="confirm-modal-dialog">
+  <div class="confirm-modal-label">⚠️ 確認</div>
+  <div class="confirm-modal-text" id="confirm-modal-msg-text"></div>
+  <div class="confirm-modal-btns">
+    <button class="confirm-btn-cancel" id="confirm-modal-cancel-btn" onclick="resolveConfirmModal(false)">キャンセル</button>
+    <button class="confirm-btn-ok" id="confirm-modal-ok-btn" onclick="resolveConfirmModal(true)">OK</button>
+  </div>
+</div>
+
 </body>
 </html>
