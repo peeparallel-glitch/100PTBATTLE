@@ -210,6 +210,10 @@
       box-sizing: border-box;
       flex-direction: column;
       align-items: stretch;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('IMGTITLE/rabo.png');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
     }
     #lab-screen.active { display: flex; }
 
@@ -581,15 +585,19 @@
        ============================================================ */
     #scouting-screen {
       padding: 10px 24px;
-      max-width: 1100px;
-      margin: 0 auto;
-      height: 664px;
-      max-height: 664px;
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      box-sizing: border-box;
+      justify-content: flex-start;
+      align-items: center;
       overflow: hidden !important;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('IMGTITLE/hikaesitu.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
     #scouting-screen.active { display: flex; }
@@ -597,17 +605,20 @@
     .scouting-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 12px;
       margin-bottom: 10px;
-      flex: 1;
+      width: 100%;
+      max-width: 1100px;
+      height: 450px;
+      max-height: 450px;
       min-height: 0;
     }
 
     .enemy-info-card {
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
+      background: transparent !important;
+      border: 2px solid rgba(255, 255, 255, 0.8) !important;
       border-radius: 16px;
-      padding: 8px 12px;
+      padding: 6px 12px;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -671,10 +682,10 @@
     }
 
     .rumor-box {
-      background: rgba(245,158,11,0.05);
-      border: 1px solid rgba(245,158,11,0.2);
+      background: transparent !important;
+      border: 2px solid rgba(255, 255, 255, 0.6) !important;
       border-radius: 8px;
-      padding: 6px 10px;
+      padding: 4px 8px;
       text-align: left;
       position: relative;
     }
@@ -694,11 +705,11 @@
     }
 
     .enemy-skill-hint {
-      margin-top: 12px;
-      background: rgba(168,85,247,0.06);
-      border: 1px solid rgba(168,85,247,0.2);
+      margin-top: 6px;
+      background: transparent !important;
+      border: 2px solid rgba(255, 255, 255, 0.6) !important;
       border-radius: 8px;
-      padding: 10px 14px;
+      padding: 8px 12px;
       text-align: left;
       position: relative;
     }
@@ -718,10 +729,10 @@
     }
 
     .selection-panel {
-      background: var(--bg-panel);
-      border: 1px solid var(--border);
+      background: transparent !important;
+      border: 2px solid rgba(255, 255, 255, 0.8) !important;
       border-radius: 16px;
-      padding: 12px 16px;
+      padding: 8px 12px;
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -742,18 +753,33 @@
     .monster-select-list::-webkit-scrollbar { width:4px; }
     .monster-select-list::-webkit-scrollbar-track { background:transparent; }
     .monster-select-list::-webkit-scrollbar-thumb { background:var(--border-bright); border-radius:2px; }
-    .monster-select-item { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:6px 12px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:10px; }
-    .monster-select-item:hover { border-color:var(--accent-blue); background:var(--bg-card-hover); }
-    .monster-select-item.chosen { border-color:var(--accent-cyan); background:rgba(0,212,255,0.05); box-shadow:var(--glow-cyan); }
+    .monster-select-item { background:transparent !important; border:2px solid rgba(255, 255, 255, 0.6) !important; border-radius:10px; padding:4px 10px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:8px; box-shadow:none !important; }
+    .monster-select-item:hover { border-color:var(--accent-blue) !important; border-width: 2px !important; background:transparent !important; }
+    .monster-select-item.chosen { border-color:var(--accent-cyan) !important; border-width: 2px !important; background:transparent !important; box-shadow:var(--glow-cyan) !important; }
     .sel-icon { font-size:20px; }
     .sel-name { font-weight:700; font-size:13px; flex:1; }
     .sel-stats { font-size:14px; color:var(--text-dim); text-align:right; line-height:1.5; }
-    .battle-start-area { text-align:center; }
-    .battle-start-btn { padding:16px 60px; background:linear-gradient(135deg, #ef4444, #dc2626); border:none; border-radius:12px; color:#fff; font-family:'Noto Sans JP', sans-serif; font-size:18px; font-weight:900; cursor:pointer; transition:all 0.2s; letter-spacing:2px; text-shadow:0 2px 4px rgba(0,0,0,0.3); box-shadow:0 8px 32px rgba(239,68,68,0.4); }
+    .battle-start-area { text-align:center; margin-top: 10px; z-index: 100; position: relative; }
+    .battle-start-btn { display: inline-block; padding:12px 60px; background:linear-gradient(135deg, #ef4444, #dc2626); border:2px solid #000; border-radius:12px; color:#fff; font-family:'Noto Sans JP', sans-serif; font-size:18px; font-weight:900; cursor:pointer; transition:all 0.2s; letter-spacing:2px; text-shadow:0 2px 4px rgba(0,0,0,0.3); box-shadow:0 8px 32px rgba(239,68,68,0.4); }
     .battle-start-btn:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(239,68,68,0.6); }
     .battle-start-btn:disabled { background:var(--bg-card); color:var(--text-dim); cursor:not-allowed; box-shadow:none; transform:none; }
-    .back-link { display:inline-block; margin-top:14px; color:var(--text-dim); font-size:16px; cursor:pointer; text-decoration:underline; transition:color 0.2s; }
+    .back-link { display:inline-block; margin-top:6px; color:var(--text-dim); font-size:15px; cursor:pointer; text-decoration:underline; transition:color 0.2s; }
     .back-link:hover { color:var(--text-secondary); }
+
+    /* Apply text shadow outline on scouting screen text elements */
+    #scouting-screen div,
+    #scouting-screen span,
+    #scouting-screen p {
+      text-shadow: 
+        2px  2px 0 #000,
+       -2px  2px 0 #000,
+        2px -2px 0 #000,
+       -2px -2px 0 #000,
+        0px  2px 0 #000,
+        0px -2px 0 #000,
+        2px  0px 0 #000,
+       -2px  0px 0 #000;
+    }
 
     /* ============================================================
        BATTLE SCREEN
@@ -972,8 +998,8 @@
 
     /* Battle Log */
     .battle-log {
-      background: rgba(0, 0, 0, 0.2);
-      border: 2px solid rgba(255, 255, 255, 0.7);
+      background: transparent;
+      border: 2px solid rgba(0, 0, 0, 0.8);
       border-radius: 4px;
       padding: 3px 6px;
       overflow-y: auto;
@@ -1206,8 +1232,8 @@
 
     /* Battle Log */
     .battle-log {
-      background: rgba(0, 0, 0, 0.2);
-      border: 2px solid rgba(255, 255, 255, 0.7);
+      background: transparent;
+      border: 2px solid rgba(0, 0, 0, 0.8);
       border-radius: 4px;
       padding: 3px 6px;
       overflow-y: auto;
@@ -1267,7 +1293,7 @@
     .battle-result-overlay.visible { display: flex; }
 
     .monster-card-6 {
-      background: var(--bg-card);
+      background: transparent !important;
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 16px;
@@ -1276,19 +1302,35 @@
       position: relative;
       transition: all 0.2s;
     }
+    .monster-card-6 *:not(.btn-secondary):not(.empty-create-btn):not(button) {
+      background: transparent !important;
+      background-color: transparent !important;
+      box-shadow: none !important;
+    }
     .monster-card-6.empty {
-      border: 2px dashed rgba(255,255,255,0.1);
-      background: transparent;
+      border: 2px dashed rgba(255,255,255,0.2);
+      background: transparent !important;
       justify-content: center;
       align-items: center;
       min-height: 200px;
     }
     .monster-card-6:hover:not(.empty) {
-      border-color: rgba(245,158,11,0.4);
+      border-color: rgba(245,158,11,0.6);
+      background: rgba(0, 0, 0, 0.7) !important;
       transform: translateY(-2px);
+      backdrop-filter: blur(4px);
+    }
+    .monster-card-6.lab-selected {
+      background: rgba(0, 0, 0, 0.7) !important;
+      border-color: var(--accent-cyan) !important;
+      box-shadow: 0 0 12px rgba(0, 212, 255, 0.25) !important;
+      backdrop-filter: blur(4px);
+    }
+    .monster-card-6.lab-selected * {
+      box-shadow: none !important;
     }
     .empty-create-btn {
-      background: rgba(245,158,11,0.08);
+      background: rgba(245,158,11,0.08) !important;
       border: 1px dashed var(--accent-gold);
       color: var(--accent-gold);
       padding: 12px 24px;
@@ -1298,7 +1340,7 @@
       transition: all 0.2s;
     }
     .empty-create-btn:hover:not(:disabled) {
-      background: rgba(245,158,11,0.15);
+      background: rgba(245,158,11,0.15) !important;
       transform: scale(1.05);
     }
     .empty-create-btn:disabled {
@@ -1585,8 +1627,8 @@
 
     /* Cyber Card base */
     .cyber-card {
-      background: rgba(13, 17, 23, 0.85);
-      border: 2px solid rgba(255, 255, 255, 0.7);
+      background: transparent;
+      border: 2px solid rgba(0, 0, 0, 0.8);
       border-radius: 6px;
       padding: 6px;
       display: flex;
@@ -1596,22 +1638,24 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       min-height: 0;
       box-sizing: border-box;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+      box-shadow: none;
     }
     
     .enemy-cyber-card {
       border-left: 3px solid var(--accent-red);
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3), inset -10px 0 20px rgba(239, 68, 68, 0.02);
+      box-shadow: none;
+      background: transparent;
     }
     
     .player-cyber-card {
       border-right: 3px solid #00d4ff;
-      box-shadow: 0 0 8px rgba(255, 255, 255, 0.3), inset 10px 0 20px rgba(0, 212, 255, 0.02);
+      box-shadow: none;
+      background: transparent;
     }
 
     /* Marquee Battle Log Header */
     .battle-marquee-header {
-      background: rgba(5, 10, 20, 0.95);
+      background: transparent;
       border-bottom: 2px solid rgba(0, 212, 255, 0.1);
       display: flex;
       justify-content: space-between;
@@ -1736,23 +1780,41 @@
     .cyber-hp-bg {
       width: 100%;
       height: 12px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0, 0, 0, 0.6) !important;
+      border: 2px solid #000000 !important;
       border-radius: 4px;
       overflow: hidden;
       position: relative;
+      box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
     }
     .cyber-hp-fill-enemy {
       height: 100%;
       background: linear-gradient(90deg, #ef4444, #f97316);
       transition: width 0.4s ease-out;
-      box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+      box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
     }
     .cyber-hp-fill-player {
       height: 100%;
       background: linear-gradient(90deg, #00d4ff, #10b981);
       transition: width 0.4s ease-out;
-      box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+    }
+    
+    /* Apply text shadow outline on battle screen text elements */
+    #battle-screen .cyber-card,
+    #battle-screen .battle-marquee-header,
+    #battle-screen .battle-log,
+    #battle-screen .battle-bottom-controls span,
+    #battle-screen .battle-bottom-controls div {
+      text-shadow: 
+        2px  2px 0 #000,
+       -2px  2px 0 #000,
+        2px -2px 0 #000,
+       -2px -2px 0 #000,
+        0px  2px 0 #000,
+        0px -2px 0 #000,
+        2px  0px 0 #000,
+       -2px  0px 0 #000;
     }
 
     /* Swap HP Swap Animation classes */
@@ -2053,6 +2115,84 @@
     }
 
 
+
+    /* ===== P2P FLOW PROGRESS INDICATOR ===== */
+    .p2p-progress-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .p2p-progress-step {
+      font-size: 11px;
+      font-weight: bold;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.3s;
+    }
+    .p2p-progress-step.active {
+      color: var(--accent-cyan);
+      text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+    }
+    .p2p-progress-step.completed {
+      color: var(--accent-green);
+    }
+    .p2p-progress-divider {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ===== P2P MONSTER SELECT CARDS ===== */
+    .p2p-monster-select-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+      max-height: 240px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .p2p-monster-select-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .p2p-monster-select-card:hover {
+      border-color: rgba(0, 212, 255, 0.4);
+      background: rgba(0, 212, 255, 0.02);
+    }
+    .p2p-monster-select-card.selected {
+      border-color: var(--accent-cyan);
+      background: rgba(0, 212, 255, 0.08);
+      box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+    }
+    .p2p-monster-select-card .select-badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      font-size: 10px;
+      background: var(--accent-cyan);
+      color: #000;
+      font-weight: 900;
+      padding: 1px 4px;
+      border-radius: 4px;
+      display: none;
+    }
+    .p2p-monster-select-card.selected .select-badge {
+      display: block;
+    }
+
     /* ===== CONFIRM MODAL (Custom confirm() Replacement) ===== */
     #confirm-modal-backdrop {
       display: none;
@@ -2152,9 +2292,9 @@
     /* ===== WORLD MAP SYSTEM ===== */
     .map-container-outer {
       width: 100%;
-      max-width: 980px;
-      margin: 10px auto 0;
-      padding: 0 10px;
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0;
       box-sizing: border-box;
     }
     .map-wrapper {
@@ -2165,9 +2305,9 @@
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
-      border: 3px solid var(--accent-gold);
-      border-radius: 12px;
-      box-shadow: 0 0 30px rgba(245, 158, 11, 0.25), inset 0 0 20px rgba(0,0,0,0.6);
+      border: none;
+      border-radius: 0;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
       overflow: hidden;
     }
     .map-area {
@@ -2201,20 +2341,20 @@
     }
     .map-area-tooltip {
       position: absolute;
-      bottom: -45px;
+      bottom: -50px;
       background: rgba(8, 12, 24, 0.95);
       border: 1.5px solid var(--accent-gold);
       color: var(--accent-gold);
       padding: 6px 12px;
       border-radius: 6px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: bold;
       white-space: nowrap;
       pointer-events: none;
       opacity: 0;
       transform: translateY(8px);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.6), 0 0 10px rgba(245, 158, 11, 0.3);
       z-index: 10;
       text-align: center;
       line-height: 1.3;
@@ -2230,12 +2370,663 @@
       pointer-events: none;
     }
 
+    /* Help Button styling */
+    .help-btn {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border-bright);
+      color: var(--accent-cyan);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+      box-shadow: 0 0 5px rgba(0, 212, 255, 0.2);
+    }
+    .help-btn:hover {
+      background: var(--accent-cyan);
+      color: #000;
+      box-shadow: 0 0 10px var(--accent-cyan);
+    }
+    /* Info Modal Panel styling */
+    .info-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 30000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+    .info-modal-box {
+      background: var(--bg-panel);
+      border: 2px solid var(--border-bright);
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 450px;
+      width: 90%;
+      box-shadow: var(--glow-blue);
+      text-align: center;
+      animation: zoomIn 0.3s ease;
+    }
+    @keyframes zoomIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    /* ============================================================
+       BATTLE SCREEN LAYOUT OVERHAUL v6
+       スリムヘッダー → 左右ステータスHUD & 中央メッセージパネル → キャラ＆足元HP → 下部横一列コマンド
+       HPゲージ中央配置・LUK収容・倍速ボタン同行統合
+       ============================================================ */
+
+    /* --- バトルラッパー全体：相対位置の基準 --- */
+    .battle-wrapper-169 {
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    /* --- ① 最上部中央：スリムなヘッダー（ターン数＆制限時間専用） --- */
+    .battle-marquee-header {
+      position: absolute !important;
+      top: 6px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+      width: 40% !important;
+      height: 30px !important;
+      background: rgba(0, 0, 0, 0.8) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 4px !important;
+      padding: 2px 12px !important;
+      z-index: 10 !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+    }
+    
+    #battle-marquee-log {
+      font-size: 14px !important;
+      font-weight: bold !important;
+      color: var(--accent-gold) !important;
+      white-space: nowrap !important;
+    }
+    #battle-timer {
+      font-size: 13px !important;
+      color: #ff4545 !important;
+      font-family: monospace !important;
+    }
+
+    /* --- ② 3列グリッド → 絶対配置コンテナに変更 --- */
+    .battle-grid-3col {
+      display: block !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      overflow: visible !important;
+    }
+
+    /* --- VS表示を非表示 --- */
+    .battle-grid-3col > div:nth-child(2) {
+      display: none !important;
+    }
+
+    /* --- ③ cyber-card → ステータスHUD（左右対称デザイン完全統一） --- */
+    .battle-grid-3col .cyber-card {
+      position: absolute !important;
+      background: rgba(0, 0, 0, 0.5) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 6px !important;
+      box-shadow: none !important;
+      width: 200px !important;
+      height: auto !important;       /* 固定高さを解除して可変に */
+      min-height: 160px !important;  /* 必要十分な最小高さ */
+      z-index: 8 !important;
+      padding: 8px 8px 12px 8px !important; /* 下部に余白を確保 */
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 3px !important;           /* gap を少し詰める */
+      box-sizing: border-box !important;
+      overflow: visible !important;  /* はみ出し防止 */
+    }
+
+    /* 敵ステータス：左上 */
+    .battle-grid-3col .enemy-cyber-card {
+      top: 45px !important;
+      left: 3% !important;
+      right: auto !important;
+    }
+    /* 味方ステータス：右上 */
+    .battle-grid-3col .player-cyber-card {
+      top: 45px !important;
+      right: 3% !important;
+      left: auto !important;
+    }
+
+    /* --- cyber-card内の各要素スタイル --- */
+    /* 名前行 */
+    .battle-grid-3col .cyber-card > div:first-child {
+      font-size: 15px !important;
+      padding: 1px 4px !important;
+      margin-bottom: 1px !important;  /* 名前行の下余白を削減 */
+      border-bottom: 1px solid rgba(255,255,255,0.25) !important;
+      background: transparent !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      text-align: left !important;
+      text-shadow: 1px 1px 2px #000 !important;
+    }
+    
+    /* ステータスと画像・HPの入ったコンテナ */
+    .battle-grid-3col .cyber-card > div:nth-child(2) {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 2px !important;  /* 内部gapを詰めてコンパクト化 */
+      width: 100% !important;
+    }
+
+    /* 左側の縦並びステータスコンテナ（敵・味方共通） */
+    .battle-grid-3col .cyber-card > div:nth-child(2) > div {
+      width: 100% !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+
+    /* ステータスボード(ATK/DEF/SPD/LUK) */
+    .battle-grid-3col .cyber-status-board {
+      background: transparent !important;
+      padding: 0 !important;
+      border: none !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 2px !important;  /* 行間を詰めてLUKまで収まるように */
+    }
+    
+    /* ステータス各行の文字サイズ微調整 */
+    .battle-grid-3col .cyber-status-board div[style*="font-size: 20px"] {
+      font-size: 13px !important;
+    }
+    .battle-grid-3col .cyber-status-board strong {
+      font-size: 13px !important;
+    }
+
+    /* ステータスの左右分割ボーダーを削除 */
+    .battle-grid-3col div[style*="border-right: 1px solid"],
+    .battle-grid-3col div[style*="border-left: 1px solid"] {
+      border-right: none !important;
+      border-left: none !important;
+      padding-right: 0 !important;
+      padding-left: 0 !important;
+    }
+
+    /* スキルスロット・説明文を完全非表示化 */
+    .battle-grid-3col div[id$="skill-box"],
+    .battle-grid-3col div[id$="-skill-name"],
+    .battle-grid-3col div[id$="-skill-desc"] {
+      display: none !important;
+    }
+
+    /* --- ④ 新設：中央複数行メッセージパネル --- */
+    /* 既存の古い下部ログ要素（親コンテナ含む）を画面から完全に破棄（非表示） */
+    .battle-bottom-controls > div:first-child,
+    #battle-log,
+    .battle-log,
+    .battle-log-container {
+      display: none !important;
+    }
+    
+    /* JavaScriptで動的生成される最上部の新規メッセージ枠 (#battle-top-log) のCSS */
+    #battle-top-log,
+    .battle-message-window,
+    .message-box,
+    .log-panel {
+      position: absolute !important;
+      bottom: auto !important;             /* 最下部固定を完全に解除 */
+      top: 45px !important;                /* ターン数バーの直下に配置 */
+      left: 50% !important;
+      transform: translateX(-50%) !important; /* 左右中央揃え */
+      width: 44% !important;                /* 左右ステータス(各200px)の間に収まる幅 */
+      height: 200px !important;             /* 6〜8行分が収まる高さに拡張 */
+      background: rgba(0, 0, 0, 0.75) !important; /* 黒透過 */
+      border: 1px solid rgba(255, 255, 255, 0.3) !important; /* 枠線 */
+      border-radius: 6px !important;
+      padding: 8px 12px !important;         /* 内側余白 */
+      box-sizing: border-box !important;
+      overflow-y: auto !important;
+      z-index: 999 !important;              /* 最前面(コマンドボタンや背景より手前) */
+      color: #ffffff !important;            /* 文字色白 */
+      display: block !important;
+      opacity: 1 !important;
+      visibility: visible !important;
+    }
+    #battle-top-log div, .battle-message-window div {
+      font-size: 13px !important;           /* フォントサイズを13pxに */
+      line-height: 1.4 !important;           /* 行高を1.4に */
+      margin-bottom: 4px !important;        /* 行間余白 */
+      color: #ffffff !important;            /* 文字色白 */
+      text-shadow: 1px 1px 1px #000 !important;
+    }
+
+    /* メッセージウィンドウのスクロールバーを非表示化（スクロール機能は維持） */
+    #battle-top-log::-webkit-scrollbar,
+    .battle-message-window::-webkit-scrollbar,
+    .log-container::-webkit-scrollbar {
+      width: 0px !important;
+      height: 0px !important;
+      display: none !important;
+    }
+    #battle-top-log,
+    .battle-message-window,
+    .log-container {
+      -ms-overflow-style: none !important; /* IE / Edge 用 */
+      scrollbar-width: none !important;    /* Firefox 用 */
+    }
+
+    /* --- ⑤ キャラクター画像＆足元独立HPゲージ配置 --- */
+    /* キャラ画像コンテナを親cardから引き剥がして配置 */
+    .battle-grid-3col .cyber-card div[style*="min-height: 110px"] {
+      position: fixed !important;
+      min-height: auto !important;
+      padding: 0 !important;
+      z-index: 5 !important;
+      transform: none !important;
+    }
+
+    /* 敵キャラクター: 左側の地面上 */
+    .battle-grid-3col .enemy-cyber-card div[style*="min-height: 110px"] {
+      bottom: 25% !important;
+      left: 15% !important;
+      top: auto !important;
+      right: auto !important;
+    }
+    /* 味方キャラクター: 右側の地面上 */
+    .battle-grid-3col .player-cyber-card div[style*="min-height: 110px"] {
+      bottom: 25% !important;
+      right: 15% !important;
+      top: auto !important;
+      left: auto !important;
+    }
+
+    /* キャラクタードット絵の拡大と地面影 */
+    /* ※ transformとfilterから!importantを除去（Web Animations APIで被弾演出を上書きするため） */
+    #fi-enemy {
+      font-size: 100px !important;
+      transform: scaleX(-1) scale(1.5);
+      filter: drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(239,68,68,0.3));
+    }
+    #fi-enemy img {
+      max-height: 140px !important;
+      transform: scaleX(-1) scale(1.3);
+      filter: drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(239,68,68,0.4));
+    }
+    #fi-player {
+      font-size: 100px !important;
+      transform: scale(1.5);
+      filter: drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(0,212,255,0.3));
+    }
+    #fi-player img {
+      max-height: 140px !important;
+      transform: scale(1.3);
+      filter: drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(0,212,255,0.4));
+    }
+
+    /* HPゲージをステータス枠から切り離してキャラクターの「足元」に固定配置 */
+    .battle-grid-3col .cyber-card div[style*="margin-top: 6px; margin-bottom: 6px"] {
+      position: fixed !important;
+      width: 280px !important; /* 横幅を2倍(280px)に拡張 */
+      z-index: 6 !important;
+      background: transparent !important; /* 背景透明化 */
+      border: none !important; /* 枠線除去 */
+      border-radius: 0 !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+      margin: 0 !important;
+    }
+    
+    /* 敵の足元HP (キャラクター真下中央に配置) */
+    .battle-grid-3col .enemy-cyber-card div[style*="margin-top: 6px; margin-bottom: 6px"] {
+      bottom: 16% !important;
+      left: 15% !important;
+      right: auto !important;
+      transform: translateX(-30%) !important; /* キャラ画像の中心に合わせる微調整 */
+    }
+    /* 味方の足元HP (キャラクター真下中央に配置) */
+    .battle-grid-3col .player-cyber-card div[style*="margin-top: 6px; margin-bottom: 6px"] {
+      bottom: 16% !important;
+      right: 15% !important;
+      left: auto !important;
+      transform: translateX(30%) !important; /* キャラ画像の中心に合わせる微調整 */
+    }
+
+    /* HPゲージデザイン */
+    .battle-grid-3col .cyber-hp-bg {
+      height: 10px !important;
+      background: rgba(0, 0, 0, 0.6) !important;
+      border: 1px solid #000 !important;
+      border-radius: 2px !important;
+    }
+    
+    /* HP数値とHPテキストの視認性確保 (黒フチ処理) */
+    .battle-grid-3col div[style*="font-size: 20px; font-weight: bold"] {
+      font-size: 13px !important;
+      margin-bottom: 2px !important;
+      display: flex !important;
+      justify-content: space-between !important;
+      color: #ffffff !important;
+      text-shadow: 
+        1px 1px 2px #000, -1px -1px 2px #000,
+        1px -1px 2px #000, -1px 1px 2px #000,
+        1px 0px 2px #000, -1px 0px 2px #000,
+        0px 1px 2px #000, 0px -1px 2px #000 !important;
+    }
+
+    /* --- ⑥ 下部コントロール：コマンド横一列のみ --- */
+    .battle-bottom-controls {
+      position: absolute !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      max-height: none !important;
+      background: transparent !important;
+      border-top: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      box-sizing: border-box !important;
+      z-index: 15 !important;
+      flex: none !important;
+      gap: 0 !important;
+    }
+
+    /* 右側：コマンドパネルエリア → 最下部に横一列配置 */
+    .battle-bottom-controls > div:last-child {
+      flex: none !important;
+      display: flex !important;
+      flex-direction: column !important;
+      border: none !important;
+      box-shadow: none !important;
+      background: rgba(0, 0, 0, 0.7) !important;
+      padding: 6px 10px !important;
+      gap: 4px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+    }
+
+    /* コマンドボタンパネル → 横一列 */
+    #manual-commands-panel,
+    .command-container,
+    .command-bar,
+    .command-wrapper,
+    .bottom-command-bar {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 10px !important;
+      flex: none !important;
+      width: 100% !important;
+      justify-content: center !important;
+      overflow: visible !important;        /* 上部ラインが削られるのを防ぐ */
+      position: relative !important;
+      z-index: 50 !important;              /* 親階層ごと手前に配置 */
+    }
+    #manual-commands-panel button,
+    .command-btn {
+      flex: 1 !important;
+      min-width: 120px !important;
+      min-height: 40px !important;
+      height: 44px !important;
+      font-size: 16px !important;
+      padding: 6px 4px !important;
+      background: #000000 !important;
+      border: 1px solid #ffffff !important;
+      border-radius: 5px !important;
+      color: #fff !important;
+      overflow: visible !important;        /* ボタン自体の疑似要素(::before)を表示 */
+      position: relative !important;
+      z-index: 100 !important;
+      transform: translateY(-3px) !important; /* ボタン全体を3px上に持ち上げて被りを回避 */
+      transition: background-color 0.2s ease, transform 0.2s ease !important;
+    }
+    #manual-commands-panel button div {
+      font-size: 16px !important;
+    }
+    /* コマンドボタンホバー時の挙動（上部ラインの維持と背景ハイライト） */
+    #manual-commands-panel button:hover,
+    .command-btn:hover {
+      background-color: #222222 !important; /* ホバー時のハイライト */
+      position: relative !important;
+      z-index: 100 !important;
+      transform: translateY(-3px) !important;
+    }
+    
+    /* 上部ライン（疑似要素 ::before 等）の絶対配置と表示保証 */
+    #manual-commands-panel button::before,
+    .command-btn::before,
+    #manual-commands-panel button:hover::before,
+    .command-btn:hover::before {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      z-index: 101 !important;
+      top: 0 !important;
+      background-color: #ffffff !important;
+    }
+
+    /* 速度・モード切替行もコンパクト化 */
+    .battle-bottom-controls .battle-speed-bar {
+      margin-bottom: 0 !important;
+    }
+
+    /* --- ⑦ サブ操作バー：速度ボタンと手動/オートを1行に統合 --- */
+    /* 右側コマンドパネルに相対位置を設定 */
+    .battle-bottom-controls > div:last-child {
+      position: relative !important;
+      padding-top: 36px !important; /* 統合バー用のスペース確保（少し広げて36pxに） */
+    }
+
+    /* 速度バー行（⚡ バトル速度: x1 x2 x3）→ 右上に絶対配置 */
+    .battle-bottom-controls > div:last-child > div:nth-child(1) {
+      position: absolute !important;
+      top: 2px !important; /* 少し上に引き上げ */
+      right: 10px !important;
+      left: auto !important;
+      width: auto !important;
+      border-bottom: none !important;
+      padding-bottom: 0 !important;
+      margin-bottom: 0 !important;
+      z-index: 1 !important; /* コマンドボタンの邪魔にならないようz-indexを背面に */
+      background: transparent !important;
+    }
+
+    /* 手動/オート行 → 左上に絶対配置 */
+    .battle-bottom-controls > div:last-child > div:nth-child(2) {
+      position: absolute !important;
+      top: 2px !important; /* 少し上に引き上げ */
+      left: 10px !important;
+      right: auto !important;
+      width: auto !important;
+      margin-bottom: 0 !important;
+      z-index: 1 !important; /* コマンドボタンの邪魔にならないようz-indexを背面に */
+    }
+
+    /* 帯バー関連クラスの物理的な位置と重なり順の調整 */
+    .sub-bar,
+    .battle-control-bar,
+    .auto-manual-container {
+      position: absolute !important;
+      z-index: 1 !important;   /* コマンド枠の奥（背面）に配置 */
+      margin: 0 !important;     /* 内部文字の不要なマージンをリセット */
+      padding: 0 !important;
+    }
+
+    /* ADVICEボックスは非表示 */
+    #battle-advice-box {
+      display: none !important;
+    }
+
+    /* --- ⑧ ダメージ演出：cyber-cardへのcamera-shake無効化 & モンスター専用シェイク --- */
+    /* cyber-cardにtransformアニメーションを適用すると、position:fixedの子要素の
+       containing blockが変わり画像がジャンプするため無効化 */
+    .battle-grid-3col .cyber-card.camera-shake {
+      animation: none !important;
+      transform: none !important;
+    }
+    /* 被弾演出はWeb Animations APIでJS側から実行（flashHit関数） */
+
+    /* 斬撃ラインのアニメーション */
+    @keyframes slash-animation {
+      0% {
+        width: 0%;
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(-35deg) scaleX(0.2);
+      }
+      30% {
+        width: 120%;
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(-35deg) scaleX(1);
+        filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 20px #ff3333);
+      }
+      100% {
+        width: 140%;
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(-35deg) scaleX(1.2);
+      }
+    }
+
+    /* 斬撃エフェクトの要素スタイル */
+    .slash-effect {
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      height: 4px !important;              /* 閃光の太さ */
+      background: #ffffff !important;      /* 芯の白光 */
+      box-shadow: 0 0 15px 4px #ff3333, 0 0 30px 8px #ff0000 !important; /* 赤い光の軌跡 */
+      border-radius: 50% !important;
+      pointer-events: none !important;
+      z-index: 200 !important;             /* モンスター画像の手前 */
+      animation: slash-animation 0.25s ease-out forwards !important;
+    }
+
+    /* ============================================================
+       RENAME MONSTER MODAL CSS
+       ============================================================ */
+    .rename-modal-overlay {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: rgba(0, 0, 0, 0.75) !important;
+      display: none !important; /* 起動時は非表示 */
+      justify-content: center !important;
+      align-items: center !important;
+      z-index: 25000 !important;
+    }
+
+    /* .activeクラス付与時のみ表示 */
+    .rename-modal-overlay.active {
+      display: flex !important;
+    }
+
+    .rename-modal-content {
+      background: rgba(20, 20, 30, 0.95) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8) !important;
+      border-radius: 8px !important;
+      padding: 24px 32px !important;
+      width: 380px !important;
+      text-align: center !important;
+      color: #ffffff !important;
+    }
+
+    .rename-modal-title {
+      font-size: 16px !important;
+      margin-bottom: 16px !important;
+      color: #ffd700 !important;
+      font-weight: bold !important;
+    }
+
+    .rename-modal-input {
+      width: 100% !important;
+      padding: 10px !important;
+      font-size: 15px !important;
+      background: rgba(0, 0, 0, 0.6) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+      border-radius: 4px !important;
+      color: #ffffff !important;
+      box-sizing: border-box !important;
+      margin-bottom: 20px !important;
+      outline: none !important;
+    }
+
+    .rename-modal-input:focus {
+      border-color: #ffd700 !important;
+    }
+
+    .rename-modal-buttons {
+      display: flex !important;
+      justify-content: space-between !important;
+      gap: 12px !important;
+    }
+
+    .rename-btn-confirm,
+    .rename-btn-cancel {
+      flex: 1 !important;
+      padding: 10px 0 !important;
+      border-radius: 4px !important;
+      border: none !important;
+      cursor: pointer !important;
+      font-weight: bold !important;
+    }
+
+    .rename-btn-confirm {
+      background: #3182ce !important;
+      color: #ffffff !important;
+    }
+
+    .rename-btn-cancel {
+      background: #4a5568 !important;
+      color: #e2e8f0 !important;
+    }
+
 </style>
 </head>
 <body>
 <div id="game-viewport">
 
 
+
+
+<!-- ============ FACILITY HELP MODAL ============ -->
+<div id="facility-help-overlay" class="info-modal-overlay" onclick="closeHelp()">
+  <div class="info-modal-box" onclick="event.stopPropagation()">
+    <div style="font-size:24px; margin-bottom:10px;" id="help-icon">ℹ️</div>
+    <h3 id="help-title" style="margin:0 0 12px 0; color:var(--accent-gold); font-size:18px;">施設ヘルプ</h3>
+    <div id="help-text" style="font-size:14px; color:var(--text-secondary); text-align:left; line-height:1.6; margin-bottom:20px; white-space:pre-wrap;"></div>
+    <button class="title-btn" style="padding:8px 24px; font-size:14px; width:100%;" onclick="closeHelp()">閉じる</button>
+  </div>
+</div>
+
+<!-- ============ RENAME MONSTER MODAL ============ -->
+<div id="rename-modal-overlay" class="rename-modal-overlay" style="display:none;" onclick="closeRenameModal()">
+  <div class="rename-modal-content" onclick="event.stopPropagation()">
+    <div class="rename-modal-title">📝 モンスターの名前変更</div>
+    <input type="text" id="rename-modal-input" class="rename-modal-input" maxlength="12" placeholder="名前を入力してください" />
+    <div class="rename-modal-buttons">
+      <button class="rename-btn-confirm" id="rename-btn-confirm">決定</button>
+      <button class="rename-btn-cancel" onclick="closeRenameModal()">キャンセル</button>
+    </div>
+  </div>
+</div>
 
 <!-- ============ SAVE SLOT OVERLAY ============ -->
 <div id="save-slot-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:15000; align-items:center; justify-content:center;">
@@ -2308,19 +3099,19 @@
 </div>
 
 <!-- ============ MAIN MENU ============ -->
-<div id="main-menu-screen" class="screen fade-in" style="display:none; padding:15px; box-sizing:border-box;">
-  <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start; min-height:90vh; width:100%;">
+<div id="main-menu-screen" class="screen fade-in" style="display:none; padding:0; box-sizing:border-box;">
+  <div style="display:flex; flex-direction:column; align-items:center; justify-content:flex-start; width:100%; position:relative;">
     
-    <!-- Header info area -->
-    <div style="width:100%; max-width:980px; display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
-      <div>
-        <div class="title-logo" style="font-size:28px; margin-bottom:2px; text-align:left;">100pt BUILD BATTLE</div>
-        <div id="menu-player-name" style="color:var(--accent-gold); font-size:14px; text-align:left;">研究員: </div>
+    <!-- Header info area (overlay on map) -->
+    <div style="position:absolute; top:0; left:0; right:0; z-index:10; display:flex; justify-content:space-between; align-items:center; padding:8px 12px; flex-wrap:wrap; gap:6px; background:linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, transparent 100%); pointer-events:none;">
+      <div style="pointer-events:auto;">
+        <div class="title-logo" style="font-size:22px; margin-bottom:1px; text-align:left; text-shadow:0 2px 8px rgba(0,0,0,0.8);">100pt BUILD BATTLE</div>
+        <div id="menu-player-name" style="color:var(--accent-gold); font-size:12px; text-align:left; text-shadow:0 1px 4px rgba(0,0,0,0.8);">研究員: </div>
       </div>
       
       <!-- Skill Progress Meter -->
-      <div style="width:100%; max-width:320px; background:rgba(0,0,0,0.2); border:1px solid rgba(255,255,255,0.05); padding:8px 12px; border-radius:8px;">
-        <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:2px;">
+      <div style="pointer-events:auto; width:100%; max-width:280px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.1); padding:6px 10px; border-radius:8px; backdrop-filter:blur(4px);">
+        <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:2px;">
           <span id="skill-meter-text" style="color:var(--text-dim);">📜 スキル解明度: 0/30 (0%)</span>
           <span style="color:var(--text-dim);">解放: <span id="menu-unlocked-count" style="color:var(--accent-gold); font-weight:bold;">0</span> / 30</span>
         </div>
@@ -2331,40 +3122,45 @@
     </div>
 
     <!-- World Map Container -->
-    <div class="map-container-outer">
+    <div class="map-container-outer" style="width:100%;">
       <div class="map-wrapper">
         
         <!-- 1) モンスター研究所（ラボ） -->
-        <div class="map-area" id="map-area-lab" onclick="onMapAreaClick('lab')" style="top: 8%; left: 14%; width: 24%; height: 34%;">
-          <div class="map-area-tooltip">🔬 モンスター研究所<br><span style="font-size:10px; color:#aaa;">調合・育成・管理</span></div>
+        <div class="map-area" id="map-area-lab" onclick="onMapAreaClick('lab')" style="top: 10%; left: 16%; width: 24%; height: 34%;">
+          <div class="map-area-tooltip">🔬 モンスター研究所<br><span style="font-size:10px; color:#aaa;">モンスターの調合・ステ振り・スキル変更</span></div>
+          <button class="help-btn" style="position:absolute; top:5px; right:5px;" onclick="event.stopPropagation(); showHelp('lab')">?</button>
           <span id="tutorial-arrow-lab" class="tutorial-arrow" style="display:none; position:absolute; top:-25px; left:50%; transform:translateX(-50%); font-size:24px; animation: tutorial-bounce 0.8s ease-in-out infinite;">👇</span>
         </div>
 
         <!-- 2) コロシアム（個人リーグ戦） -->
-        <div class="map-area" id="map-area-league" onclick="onMapAreaClick('league')" style="top: 12%; left: 62%; width: 26%; height: 30%;">
-          <div class="map-area-tooltip">🏆 コロシアム（リーグ戦）<br><span style="font-size:10px; color:#aaa;">個人リーグ挑戦・覇王戦</span></div>
+        <div class="map-area" id="map-area-league" onclick="onMapAreaClick('league')" style="top: 12%; left: 64.5%; width: 26%; height: 30%;">
+          <div class="map-area-tooltip">🏆 コロシアム（リーグ戦）<br><span style="font-size:10px; color:#aaa;">個人リーグ戦</span></div>
+          <button class="help-btn" style="position:absolute; top:5px; right:5px;" onclick="event.stopPropagation(); showHelp('league')">?</button>
           <span id="tutorial-arrow-arena" class="tutorial-arrow" style="display:none; position:absolute; top:-25px; left:50%; transform:translateX(-50%); font-size:24px; animation: tutorial-bounce 0.8s ease-in-out infinite;">👇</span>
         </div>
 
         <!-- 3) 試練のタワー -->
-        <div class="map-area" id="map-area-tower" onclick="onMapAreaClick('tower')" style="top: 2%; left: 45%; width: 10%; height: 36%;">
+        <div class="map-area" id="map-area-tower" onclick="onMapAreaClick('tower')" style="top: 2%; left: 47.5%; width: 10%; height: 36%;">
           <div class="map-area-tooltip">🗼 試練のタワー<br><span style="font-size:10px; color:#aaa;">サバイバル勝ち抜き戦</span></div>
+          <button class="help-btn" style="position:absolute; top:5px; right:5px;" onclick="event.stopPropagation(); showHelp('tower')">?</button>
           <div class="map-area-lock" id="map-lock-tower" style="display:none;">🔒</div>
         </div>
 
         <!-- 4) 武舞台（団体戦） -->
-        <div class="map-area" id="map-area-team-arena" onclick="onMapAreaClick('team-arena')" style="top: 55%; left: 14%; width: 22%; height: 27%;">
-          <div class="map-area-tooltip">🛡️ 武舞台（団体戦）<br><span style="font-size:10px; color:#aaa;">3vs3勝ち抜きトーナメント</span></div>
+        <div class="map-area" id="map-area-team-arena" onclick="onMapAreaClick('team-arena')" style="top: 55%; left: 16%; width: 22%; height: 27%;">
+          <div class="map-area-tooltip">🛡️ 武舞台（団体戦）<br><span style="font-size:10px; color:#aaa;">3vs3 団体戦トーナメント（BP獲得）</span></div>
+          <button class="help-btn" style="position:absolute; top:5px; right:5px;" onclick="event.stopPropagation(); showHelp('team-arena')">?</button>
           <div class="map-area-lock" id="map-lock-team-arena" style="display:none;">🔒</div>
         </div>
 
         <!-- 5) 異次元の祠 / コロシアム・ゲート（P2Pフリー対戦） -->
-        <div class="map-area" id="map-area-free" onclick="onMapAreaClick('free')" style="top: 55%; left: 52%; width: 20%; height: 35%;">
-          <div class="map-area-tooltip">🌀 異次元の祠（フリー対戦）<br><span style="font-size:10px; color:#aaa;">フラット対戦ルーム</span></div>
+        <div class="map-area" id="map-area-free" onclick="onMapAreaClick('free')" style="top: 55%; left: 54.5%; width: 20%; height: 35%;">
+          <div class="map-area-tooltip">🌀 異次元の祠（フリー対戦）<br><span style="font-size:10px; color:#aaa;">リアルタイムP2Pフリー対戦</span></div>
+          <button class="help-btn" style="position:absolute; top:5px; right:5px;" onclick="event.stopPropagation(); showHelp('free')">?</button>
         </div>
 
         <!-- 6) 覇王リベンジマッチ（隠しボスボタン：全解放時に表示） -->
-        <div class="map-area" id="map-area-boss-revenge" onclick="startBossRevenge()" style="top: 36%; left: 43%; width: 14%; height: 16%; display:none; border:2px dashed var(--accent-red); background:rgba(239,68,68,0.15); box-shadow:0 0 15px rgba(239,68,68,0.4); border-radius:50%; z-index:6;">
+        <div class="map-area" id="map-area-boss-revenge" onclick="startBossRevenge()" style="top: 41.5%; left: 44.5%; width: 14%; height: 16%; display:none; border:2px dashed var(--accent-red); background:rgba(239,68,68,0.15); box-shadow:0 0 15px rgba(239,68,68,0.4); border-radius:50%; z-index:6;">
           <div class="map-area-tooltip" style="border-color:var(--accent-red); color:var(--accent-red);">👑 覇王リベンジマッチ<br><span style="font-size:10px; color:#fff;">闘技場の覇王へリベンジ</span></div>
           <div style="font-size:24px; animation: pulse-red 1.5s infinite alternate;">👹</div>
         </div>
@@ -2379,7 +3175,7 @@
 <div id="team-arena-menu-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
   <div class="cyber-card" style="width:100%; max-width:500px; padding:24px; background:var(--bg-panel); border:2px solid var(--border-bright); border-radius:14px; box-shadow:var(--glow-blue); text-align:center;">
     <div style="font-size:22px; font-weight:bold; color:var(--accent-cyan); margin-bottom:8px; display:flex; align-items:center; justify-content:center; gap:8px;">
-      <span>🛡️</span> 武舞台（団体戦）メニュー
+      <span>🛡️</span> 武舞台（団体戦）メニュー <button class="help-btn" style="width:24px; height:24px; font-size:12px;" onclick="showHelp('team-arena')">?</button>
     </div>
     <div style="font-size:14px; color:var(--text-dim); margin-bottom:20px;">
       3vs3の総力戦！リーグ戦で勝利を重ね、BPを貯めて限定モンスターを解放しよう！
@@ -2517,8 +3313,18 @@
 <div id="free-battle-lobby-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
   <div class="cyber-card" style="width:100%; max-width:550px; padding:24px; background:var(--bg-panel); border:2px solid var(--border-bright); border-radius:14px; box-shadow:var(--glow-blue);">
     <div style="font-size:20px; font-weight:bold; color:var(--accent-cyan); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:8px;">
-      <span>📡</span> リアルタイムP2Pフリー対戦
+      <span>📡</span> リアルタイムP2Pフリー対戦 <button class="help-btn" style="width:24px; height:24px; font-size:12px;" onclick="showHelp('free')">?</button>
     </div>
+
+    <!-- Progress Indicator -->
+    <div class="p2p-progress-bar">
+      <div class="p2p-progress-step" id="p2p-prog-1">❶ 形式選択</div>
+      <div class="p2p-progress-divider">➔</div>
+      <div class="p2p-progress-step" id="p2p-prog-2">❷ 出撃モンスター選択</div>
+      <div class="p2p-progress-divider">➔</div>
+      <div class="p2p-progress-step" id="p2p-prog-3">❸ ルーム選択</div>
+    </div>
+
     
     <!-- Step 1: Battle Format -->
     <div id="p2p-step-1" style="display:block;">
@@ -2542,13 +3348,33 @@
       <button class="btn-secondary" style="width:100%; padding:10px;" onclick="exitP2PLobby()">メインメニューに戻る</button>
     </div>
 
-    <!-- Step 2: Room Selection -->
-    <div id="p2p-step-2" style="display:none;">
+
+    <!-- Step 2: Outflow Monster Selection -->
+    <div id="p2p-step-2-monster" style="display:none;">
       <div style="font-size:14px; color:var(--text-dim); margin-bottom:8px; display:flex; justify-content:space-between;">
-        <span>選択中: <strong id="p2p-selected-format-text" style="color:var(--accent-cyan);">シングルス</strong></span>
+        <span>選択形式: <strong id="p2p-monster-format-text" style="color:var(--accent-cyan);">シングルス</strong></span>
         <a href="javascript:void(0)" onclick="backToP2PStep1()" style="color:var(--accent-gold); text-decoration:none; font-size:12px;">◀ 形式選択に戻る</a>
       </div>
-      <div style="font-size:15px; font-weight:bold; color:var(--accent-gold); margin-bottom:12px; text-align:center;">【2】ルームタイプの選択</div>
+      <div style="font-size:15px; font-weight:bold; color:var(--accent-gold); margin-bottom:6px; text-align:center;">【2】出撃モンスターの選択</div>
+      <div style="font-size:12px; color:var(--text-dim); margin-bottom:12px; text-align:center;" id="p2p-monster-select-hint">対戦に出すモンスターを1体選んでください</div>
+      
+      <!-- Selection Grid -->
+      <div class="p2p-monster-select-grid" id="p2p-monster-select-list"></div>
+      
+      <div style="display:flex; gap:10px; margin-bottom:10px;">
+        <button class="btn-secondary" style="flex:1; padding:10px;" onclick="backToP2PStep1()">戻る</button>
+        <button class="title-btn" id="p2p-monster-select-next-btn" style="flex:1; padding:10px;" onclick="goP2PStep3Room()" disabled>次へ進む</button>
+      </div>
+    </div>
+
+
+    <!-- Step 2: Room Selection -->
+    <div id="p2p-step-3-room" style="display:none;">
+      <div style="font-size:14px; color:var(--text-dim); margin-bottom:8px; display:flex; justify-content:space-between;">
+        <span>選択中: <strong id="p2p-selected-format-text" style="color:var(--accent-cyan);">シングルス</strong></span>
+        <a href="javascript:void(0)" onclick="goP2PStep2Monster()" style="color:var(--accent-gold); text-decoration:none; font-size:12px;">◀ モンスター選択に戻る</a>
+      </div>
+      <div style="font-size:15px; font-weight:bold; color:var(--accent-gold); margin-bottom:12px; text-align:center;">【3】ルームタイプの選択</div>
       
       <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
         <button class="menu-mode-btn" onclick="startP2PRandomMatch()" style="width:100%; text-align:left;">
@@ -2571,7 +3397,7 @@
           </div>
         </div>
       </div>
-      <button class="btn-secondary" style="width:100%; padding:10px;" onclick="backToP2PStep1()">戻る</button>
+      <button class="btn-secondary" style="width:100%; padding:10px;" onclick="goP2PStep2Monster()">戻る</button>
     </div>
 
     <!-- Step 3: Matchmaking Waiting -->
@@ -2659,7 +3485,7 @@
   <div class="header-center">
     <button class="nav-tab" id="tab-menu" onclick="goScreen('main-menu')">🏠 メニュー</button>
     <button class="nav-tab active" id="tab-lab" onclick="goScreen('lab')">🔬 ラボ</button>
-    <button class="nav-tab" id="tab-scouting" onclick="goScreen('scouting')">🗺️ スカウティング</button>
+    <button class="nav-tab" id="tab-scouting" onclick="goScreen('scouting')">🏆 リーグ戦</button>
   </div>
   <div class="header-right" style="display:flex; align-items:center; gap:8px;">
     <button id="debug-toggle-btn" style="padding:2px 10px; font-size:13px; font-weight:bold; border:2px solid rgba(255,255,255,0.15); border-radius:6px; background:rgba(0,0,0,0.3); color:#94a3b8; cursor:pointer; transition:all 0.3s;" onclick="toggleDebugMode()">🛠️ デバッグ: OFF</button>
@@ -2680,7 +3506,7 @@
     
     <div class="lab-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--border);">
       <div style="display:flex; align-items:baseline; gap:10px;">
-        <span class="lab-title" style="font-size:20px; font-weight:bold; color:var(--text-main);">🔬 モンスター研究所</span>
+        <span class="lab-title" style="font-size:20px; font-weight:bold; color:var(--text-main); display:inline-flex; align-items:center; gap:8px;">🔬 モンスター研究所 <button class="help-btn" onclick="showHelp('lab')">?</button></span>
         <span style="font-size:13px; color:var(--accent-gold);" id="lab-player-welcome"></span>
       </div>
       
@@ -2857,7 +3683,7 @@
     </div>
     
     <div class="selection-panel">
-      <div class="selection-title">⚔️ 出撃モンスター選択</div>
+      <div class="selection-title" style="display:flex; align-items:center; gap:8px;">⚔️ 出撃モンスター選択 <button class="help-btn" style="width:24px; height:24px; font-size:12px;" onclick="showHelp(currentGameMode === 'survival' ? 'tower' : 'league')">?</button></div>
       <div class="monster-select-list" id="scout-monster-list"></div>
     </div>
   </div>
@@ -3060,15 +3886,15 @@
     </div> <!-- Close battle-grid-3col -->
   
       <!-- Bottom Controls, Result Panel & Battle Log Combined 2-Column Layout (Moved inside battle-wrapper-169) -->
-      <div class="battle-bottom-controls" style="display: flex; border-top: 2px solid rgba(255, 255, 255, 0.7); background: rgba(5, 10, 20, 0.95); flex: 1; min-height: 0; width: 100%; overflow: hidden; box-sizing: border-box; padding: 4px; gap: 4px; margin-bottom: 14px;">
+      <div class="battle-bottom-controls" style="display: flex; border-top: 2px solid rgba(0, 0, 0, 0.8); background: transparent; flex: 1; min-height: 0; width: 100%; overflow: hidden; box-sizing: border-box; padding: 4px; gap: 4px; margin-bottom: 14px;">
         
         <!-- LEFT side: Battle Log (Scrollable Messages) -->
-        <div style="flex: 2; display: flex; flex-direction: column; border-right: 2px solid rgba(255, 255, 255, 0.7); min-width: 0; box-sizing: border-box; height: 100%;">
-          <div class="battle-log" id="battle-log" style="flex: 1; margin: 0; background: rgba(0, 0, 0, 0.2); font-size: 1.2rem; padding: 3px 6px; overflow-y: auto; line-height: 1.4; border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 4px; box-sizing: border-box; box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);"></div>
+        <div style="flex: 2; display: flex; flex-direction: column; border-right: 2px solid rgba(0, 0, 0, 0.8); min-width: 0; box-sizing: border-box; height: 100%;">
+          <div class="battle-log" id="battle-log" style="flex: 1; margin: 0; background: transparent; font-size: 1.2rem; padding: 3px 6px; overflow-y: auto; line-height: 1.4; border: 2px solid rgba(0, 0, 0, 0.8); border-radius: 4px; box-sizing: border-box; box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);"></div>
         </div>
 
         <!-- RIGHT side: Commands, Advisories & Results -->
-        <div style="flex: 1; display: flex; flex-direction: column; padding: 4px; gap: 4px; min-width: 0; box-sizing: border-box; border: 2px solid rgba(255, 255, 255, 0.7); border-radius: 4px; box-shadow: 0 0 8px rgba(255, 255, 255, 0.3); height: 100%; overflow: hidden;">
+        <div style="flex: 1; display: flex; flex-direction: column; padding: 4px; gap: 4px; min-width: 0; box-sizing: border-box; border: 2px solid rgba(0, 0, 0, 0.8); border-radius: 4px; box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); height: 100%; overflow: hidden;">
           
           <!-- Strategy Modes switcher -->
           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px; margin-bottom: 1px; flex-shrink: 0;">
@@ -3095,19 +3921,19 @@
           <!-- Command Panel (Vertical style with Fight, Charge, Defend, Skill) -->
           <div id="manual-commands-panel" style="display: flex; flex-direction: column; gap: 4px; padding: 1px 0; width: 100%; box-sizing: border-box; flex: 1; min-height: 0; overflow: hidden;">
             
-            <button class="go-scouting-btn" id="btn-cmd-normal" onclick="selectCommand('attack')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.2);" >
+            <button class="go-scouting-btn" id="btn-cmd-normal" onclick="selectCommand('attack')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #1c1c1c, #000000); border: 2px solid rgba(255,255,255,0.4); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.1);" >
               <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">⚔️ 戦う</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-cmd-charge" onclick="selectCommand('charge')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #78350f, #451a03); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.2);" >
+            <button class="go-scouting-btn" id="btn-cmd-charge" onclick="selectCommand('charge')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #1c1c1c, #000000); border: 2px solid rgba(255,255,255,0.4); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.1);" >
               <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">🔋 溜める</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-cmd-defend" onclick="selectCommand('defend')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #374151, #1f2937); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.2);">
+            <button class="go-scouting-btn" id="btn-cmd-defend" onclick="selectCommand('defend')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #1c1c1c, #000000); border: 2px solid rgba(255,255,255,0.4); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.1);">
               <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">🛡️ 防御</div>
             </button>
             
-            <button class="go-scouting-btn" id="btn-command-skill" onclick="selectCommand('skill')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, var(--accent-purple), #6d28d9); border: 2px solid rgba(255,255,255,0.7); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.2);" >
+            <button class="go-scouting-btn" id="btn-command-skill" onclick="selectCommand('skill')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #1c1c1c, #000000); border: 2px solid rgba(255,255,255,0.4); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.1);" >
               <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">⚡ スキル <span id="skill-btn-usage-info" style="font-size: 12px; font-weight: normal; opacity: 0.85; margin-left: 2px;">(1戦1回)</span></div>
             </button>
             
@@ -3935,8 +4761,39 @@ function goScreen(name) {
     el.classList.add('fade-in');
   }
 
+  if (name === 'free-battle-lobby') {
+    triggerFirstTimeHelp('free');
+  }
   if (name === 'battle') {
     document.body.style.overflow = 'hidden';
+    
+    // Apply background image depending on game mode
+    const battleWrapper = document.querySelector('.battle-wrapper-169');
+    if (battleWrapper) {
+      if (currentGameMode === 'survival') {
+        battleWrapper.style.backgroundImage = "url('IMGTITLE/siren.png')";
+        battleWrapper.style.backgroundSize = "cover";
+        battleWrapper.style.backgroundPosition = "center bottom";
+        battleWrapper.style.backgroundRepeat = "no-repeat";
+      } else if (currentGameMode === 'league') {
+        battleWrapper.style.backgroundImage = "url('IMGTITLE/korosiam.png')";
+        battleWrapper.style.backgroundSize = "cover";
+        battleWrapper.style.backgroundPosition = "center bottom";
+        battleWrapper.style.backgroundRepeat = "no-repeat";
+      } else if (currentGameMode === 'free' || currentGameMode === 'team-arena') {
+        battleWrapper.style.backgroundImage = "url('IMGTITLE/bubutai.jpg')";
+        battleWrapper.style.backgroundSize = "cover";
+        battleWrapper.style.backgroundPosition = "center bottom";
+        battleWrapper.style.backgroundRepeat = "no-repeat";
+      } else {
+        // Reset to default style if not survival, league, free or team-arena
+        battleWrapper.style.backgroundImage = "";
+        battleWrapper.style.backgroundSize = "";
+        battleWrapper.style.backgroundPosition = "";
+        battleWrapper.style.backgroundRepeat = "";
+      }
+    }
+    
     initBattle();
   } else {
     document.body.style.overflow = '';
@@ -3953,6 +4810,7 @@ function goScreen(name) {
   if (name === 'lab') {
     document.getElementById('tab-lab').classList.add('active');
     switchLabMode('story');
+    triggerFirstTimeHelp('lab');
 
     // Tutorial Phase 2: Auto-create first monster
     if (gameProgress.tutorialStep === 1) {
@@ -3992,6 +4850,33 @@ function goScreen(name) {
     }
   } else if (name === 'scouting') {
     document.getElementById('tab-scouting').classList.add('active');
+    
+    // ★ ゲームモードに応じてパーティ編成データを強制切替（ラボのタブ状態に依存しない）
+    if (currentGameMode === 'free') {
+      currentLabMode = 'free';  // フリーバトル → フリー用編成
+    } else {
+      currentLabMode = 'story'; // 試練の塔・リーグ戦・武舞台 → ストーリー用編成
+    }
+    
+    // ゲームモードに応じてバトル前確認画面の背景を動的切り替え
+    const scoutScreen = document.getElementById('scouting-screen');
+    if (scoutScreen) {
+      if (currentGameMode === 'survival') {
+        scoutScreen.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('IMGTITLE/sirenn1F.png')";
+      } else {
+        // 通常のリーグ戦等は控え室背景
+        scoutScreen.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('IMGTITLE/hikaesitu.png')";
+      }
+      scoutScreen.style.backgroundSize = "cover";
+      scoutScreen.style.backgroundPosition = "center center";
+      scoutScreen.style.backgroundRepeat = "no-repeat";
+    }
+
+    if (currentGameMode === 'survival') {
+      triggerFirstTimeHelp('tower');
+    } else {
+      triggerFirstTimeHelp('league');
+    }
     if (gameProgress.tutorialStep === 2) {
       currentEnemy = { ...TUTORIAL_BOSS };
     } else {
@@ -3999,6 +4884,41 @@ function goScreen(name) {
     }
     renderSelList();
     renderEnemyInfo();
+  }
+
+  // Header UI elements display logic depending on active screen
+  const tabScouting = document.getElementById('tab-scouting');
+  const tabLab = document.getElementById('tab-lab');
+  const stageDisplay = document.getElementById('stage-display');
+
+  if (tabScouting) {
+    if (name === 'lab') {
+      tabScouting.style.display = 'none';
+    } else {
+      tabScouting.style.display = 'inline-block';
+      if (currentGameMode === 'survival') {
+        tabScouting.textContent = '🗼 試練の塔';
+      } else {
+        tabScouting.textContent = '🏆 リーグ戦';
+      }
+    }
+  }
+  if (tabLab) {
+    if (name === 'scouting') {
+      tabLab.style.display = 'none';
+    } else {
+      tabLab.style.display = 'inline-block';
+    }
+  }
+  if (stageDisplay) {
+    if (name === 'lab') {
+      stageDisplay.style.display = 'none';
+    } else {
+      stageDisplay.style.display = 'block';
+      if (currentGameMode === 'survival') {
+        stageDisplay.textContent = `試練の塔: ${survivalWins}層`;
+      }
+    }
   }
 }
 
@@ -4223,18 +5143,47 @@ function renameMonster(idx) {
   const m = activeLab[idx];
   if (!m) return;
   
-  const newName = prompt('モンスターの新しい名前を入力してください：', m.name);
-  if (newName === null) return; // Cancel
+  const overlay = document.getElementById('rename-modal-overlay');
+  const input = document.getElementById('rename-modal-input');
+  const confirmBtn = document.getElementById('rename-btn-confirm');
+  if (!overlay || !input || !confirmBtn) return;
   
-  const trimmed = newName.trim();
-  if (trimmed === '') {
-    alert('名前を空欄にすることはできません。');
-    return;
+  // 現在のモンスター名を初期値として設定
+  input.value = m.name;
+  overlay.classList.add('active'); // クラスベースでの表示制御
+  
+  // フォーカスを合わせる
+  setTimeout(() => input.focus(), 50);
+  
+  // 古いイベントリスナーの蓄積を防ぐため決定ボタンを複製・置換
+  const newConfirmBtn = confirmBtn.cloneNode(true);
+  confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+  
+  newConfirmBtn.addEventListener('click', () => {
+    const trimmed = input.value.trim();
+    if (trimmed === '') {
+      alert('名前を空欄にすることはできません。');
+      return;
+    }
+    m.name = trimmed;
+    save();
+    renderLabGrid();
+    closeRenameModal();
+  });
+
+  // Enterキーでの決定もサポート
+  input.onkeydown = (e) => {
+    if (e.key === 'Enter') {
+      newConfirmBtn.click();
+    }
+  };
+}
+
+function closeRenameModal() {
+  const overlay = document.getElementById('rename-modal-overlay');
+  if (overlay) {
+    overlay.classList.remove('active'); // クラスベースでの非表示制御
   }
-  
-  m.name = trimmed;
-  save();
-  renderLabGrid();
 }
 
 function moveMonster(idx, dir) {
@@ -4356,11 +5305,15 @@ function selectLabMonster(idx, autoOpen = true) {
   const cards = document.querySelectorAll('#lab-grid-6 .monster-card-6');
   cards.forEach((c, i) => {
     if (i === idx) {
+      c.classList.add('lab-selected');
       c.style.borderColor = 'var(--accent-cyan)';
-      c.style.boxShadow = '0 0 10px rgba(0, 212, 255, 0.15)';
+      c.style.boxShadow = '0 0 12px rgba(0, 212, 255, 0.25)';
+      c.style.background = 'rgba(0, 0, 0, 0.7)';
     } else {
+      c.classList.remove('lab-selected');
       c.style.borderColor = '';
       c.style.boxShadow = '';
+      c.style.background = 'transparent';
     }
   });
 
@@ -4475,13 +5428,13 @@ function renderLabGrid() {
       card.style.padding = '12px';
       
       card.innerHTML = `
-        <div style="width: 100%; text-align: center;">
+        <div onclick="selectLabMonster(${i}, false)" style="width: 100%; text-align: center; cursor: pointer;" title="クリックで選択">
           <div style="font-weight:bold; font-size:18px; color:var(--accent-gold); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.name}</div>
           <div style="font-size:12px; color:var(--text-dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.monsterClass}</div>
         </div>
         
         <!-- Clickable Visual Area to open modal detail window -->
-        <div onclick="selectLabMonster(${i}, true)" style="height: 75px; display:flex; align-items:center; justify-content:center; cursor:pointer; width:100%; background:rgba(255,255,255,0.03); border-radius:6px; border: 1px dashed rgba(255,255,255,0.08);" title="画像クリックで詳細表示">
+        <div onclick="selectLabMonster(${i}, true)" style="height: 75px; display:flex; align-items:center; justify-content:center; cursor:pointer; width:100%; background:transparent; border-radius:6px; border: 1px dashed rgba(255,255,255,0.12);" title="画像クリックで詳細表示">
           ${getMonsterVisualHTML(m.monsterClass, m.systemType, '60px')}
         </div>
         
@@ -5222,9 +6175,9 @@ function prepareStage() {
     const scale = 1.0 + (survivalWins * 0.02);
     currentEnemy = {
       name: baseEnemy.name,
-      title: `連勝キラー (階級: ${survivalWins + 1})`,
+      title: `試練の塔 (階層: ${survivalWins + 1}階)`,
       icon: baseEnemy.icon,
-      rumor: `連勝ストッパーとして立ちふさがる！ 現在の連勝数: ${survivalWins}連勝`,
+      rumor: `塔の門番として立ちふさがる！ 現在の到達階層: ${survivalWins}階`,
       hp: Math.max(1, Math.round(baseEnemy.hp * scale)),
       attack: Math.max(1, Math.round(baseEnemy.attack * scale)),
       defense: Math.max(1, Math.round(baseEnemy.defense * scale)),
@@ -5233,7 +6186,7 @@ function prepareStage() {
       skill: baseEnemy.skill,
       type: baseEnemy.type
     };
-    badge.textContent = `🔥 連勝中: ${survivalWins} (BEST: ${survivalBestRecord})`;
+    badge.textContent = `🗼 試練の塔: ${survivalWins + 1}階 (BEST: ${survivalBestRecord}階)`;
   } else {
     // Free Battle: Pick a random enemy from list
     const baseEnemy = STAGE_ENEMIES[Math.floor(Math.random() * STAGE_ENEMIES.length)];
@@ -5334,41 +6287,41 @@ function renderEnemyInfo() {
   }
   
   const e = currentEnemy;
-  const badgeLabel = currentGameMode === 'league' ? `⚠️ STAGE ${stageIndex + 1}` : `🔥 連勝中: ${survivalWins}`;
+  const badgeLabel = currentGameMode === 'league' ? `⚠️ STAGE ${stageIndex + 1}` : `🗼 試練の塔: ${survivalWins + 1}階`;
   
   panel.innerHTML = `
-    <div class="enemy-rank-badge">${badgeLabel}</div>
-    <div class="enemy-icon" style="height: 85px; display: flex; align-items: center; justify-content: center; margin: 2px 0;">${getEnemyImageHTML(e)}</div>
-    <div class="enemy-name-display" style="color:var(--accent-red); font-weight:bold;">${e.name}</div>
-    <div class="enemy-title-display">${e.title || '謎の対戦相手'}</div>
+    <div class="enemy-rank-badge" style="margin-top:0px;">${badgeLabel}</div>
+    <div class="enemy-icon" style="height: 70px; display: flex; align-items: center; justify-content: center; margin: 2px 0;">${getEnemyImageHTML(e)}</div>
+    <div class="enemy-name-display" style="color:var(--accent-red); font-weight:bold; font-size:16px;">${e.name}</div>
+    <div class="enemy-title-display" style="font-size:11px; margin-bottom:4px;">${e.title || '謎の対戦相手'}</div>
     
     <div class="rumor-box">
       <div class="rumor-label">📢 噂・情報</div>
-      <div class="rumor-text">${e.rumor || '敵に関する情報は十分に掴めていない。'}</div>
+      <div class="rumor-text" style="font-size:12px; line-height:1.3;">${e.rumor || '敵に関する情報は十分に掴めていない。'}</div>
     </div>
     
-    <div class="enemy-stats-preview" style="margin-top:8px; display:grid; grid-template-columns:repeat(2, 1fr); gap:6px 10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:8px; font-size:14px; text-align:left;">
+    <div class="enemy-stats-preview" style="margin-top:6px; display:grid; grid-template-columns:repeat(2, 1fr); gap:4px 10px; background:transparent !important; border:2px solid rgba(255,255,255,0.6) !important; border-radius:8px; padding:6px; font-size:12px; text-align:left;">
       <div>
         HP: <strong style="color:var(--text-primary);">${e.hp}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0;"><div class="mini-gauge-fill fill-hp" style="width: ${Math.min(100, (e.hp / 110) * 100)}%;"></div></div>
+        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-hp" style="width: ${Math.min(100, (e.hp / 110) * 100)}%;"></div></div>
       </div>
       <div>
         攻撃: <strong style="color:var(--text-primary);">${e.attack}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0;"><div class="mini-gauge-fill fill-atk" style="width: ${Math.min(100, (e.attack / 110) * 100)}%;"></div></div>
+        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-atk" style="width: ${Math.min(100, (e.attack / 110) * 100)}%;"></div></div>
       </div>
       <div>
         防御: <strong style="color:var(--text-primary);">${e.defense}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0;"><div class="mini-gauge-fill fill-def" style="width: ${Math.min(100, (e.defense / 110) * 100)}%;"></div></div>
+        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-def" style="width: ${Math.min(100, (e.defense / 110) * 100)}%;"></div></div>
       </div>
       <div>
         素早: <strong style="color:var(--text-primary);">${e.speed}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0;"><div class="mini-gauge-fill fill-spd" style="width: ${Math.min(100, (e.speed / 110) * 100)}%;"></div></div>
+        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-spd" style="width: ${Math.min(100, (e.speed / 110) * 100)}%;"></div></div>
       </div>
       <div style="grid-column: span 2;">
         運: <strong style="color:var(--text-primary);">${e.luck}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0;"><div class="mini-gauge-fill fill-lck" style="width: ${Math.min(100, (e.luck / 110) * 100)}%;"></div></div>
+        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-lck" style="width: ${Math.min(100, (e.luck / 110) * 100)}%;"></div></div>
       </div>
-      <div style="grid-column: span 2; border-top:1px solid rgba(255,255,255,0.08); padding-top:6px; margin-top:4px;">
+      <div style="grid-column: span 2; border-top:1px solid rgba(255,255,255,0.2); padding-top:4px; margin-top:2px;">
         ⚡ スキル: <strong style="color:var(--text-secondary);">❓ 未知の技 (発動時に開示)</strong>
       </div>
     </div>
@@ -5384,8 +6337,23 @@ function initBattle() {
   activeTimers.forEach(t => clearTimeout(t));
   activeTimers = [];
 
+  // ★ ゲームモードに応じてパーティ編成データを強制切替（二重安全策）
+  if (currentGameMode === 'free') {
+    currentLabMode = 'free';
+  } else {
+    currentLabMode = 'story';
+  }
+
   // 2. Fetch monster and enemy parameters (pre-requisites)
   const activeLab = getActiveLab();
+  
+  // ★ パーティが空の場合は出撃エラー警告
+  if (activeLab.length === 0) {
+    const modeLabel = currentGameMode === 'free' ? 'フリーバトル用' : 'ストーリー用';
+    alert(`${modeLabel}の編成にモンスターが登録されていません。\nラボで${modeLabel}編成にモンスターを登録してください。`);
+    goScreen('lab');
+    return;
+  }
   let pm = activeLab[selBattle];
   if (!pm) {
     if (activeLab.length > 0) {
@@ -6898,28 +7866,77 @@ function updateBuffsUI(side, state) {
 // ============================================================
 
 function addLog(msg, cls) {
-  const log = document.getElementById('battle-log');
-  if (!log) return;
-  
-  const d = document.createElement('div');
-  d.className = 'log-entry ' + (cls || '');
-  d.innerHTML = msg;
-  
-  // Transition style for slide-up entering
-  d.style.opacity = '0';
-  d.style.transform = 'translateY(10px)';
-  d.style.transition = 'all 0.15s ease-out';
-  
-  log.appendChild(d);
-  
-  // Trigger entry animation
-  setTimeout(() => {
-    d.style.opacity = '1';
-    d.style.transform = 'translateY(0)';
-  }, 10);
+  // 最上部中央に表示するための新規ログコンテナを動的に生成
+  let log = document.getElementById('battle-top-log');
+  if (!log) {
+    const battleScreen = document.getElementById('battle-screen');
+    if (battleScreen) {
+      log = document.createElement('div');
+      log.id = 'battle-top-log';
+      log.style.cssText = `
+        position: absolute !important;
+        top: 45px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 44% !important;
+        height: 200px !important; /* 200pxに拡張 */
+        background: rgba(0, 0, 0, 0.75) !important;
+        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border-radius: 6px !important;
+        z-index: 999 !important;
+        padding: 8px 12px !important;
+        box-sizing: border-box !important;
+        overflow-y: auto !important;
+        color: #ffffff !important;
+        font-family: inherit !important;
+        display: block !important;
+        pointer-events: auto !important;
+      `;
+      battleScreen.appendChild(log);
+    }
+  }
 
-  // Keep all logs so the player can scroll up to review them, and auto-scroll to the bottom.
-  log.scrollTop = log.scrollHeight;
+  if (log) {
+    const d = document.createElement('div');
+    d.className = 'log-entry ' + (cls || '');
+    d.innerHTML = msg;
+    d.style.fontSize = '13px';
+    d.style.lineHeight = '1.4';
+    d.style.marginBottom = '4px';
+    d.style.color = '#ffffff';
+    d.style.textShadow = '1px 1px 1px #000';
+    
+    // Transition style for slide-up entering
+    d.style.opacity = '0';
+    d.style.transform = 'translateY(10px)';
+    d.style.transition = 'all 0.15s ease-out';
+    
+    log.appendChild(d);
+    
+    // Trigger entry animation
+    setTimeout(() => {
+      d.style.opacity = '1';
+      d.style.transform = 'translateY(0)';
+    }, 10);
+
+    // Keep all logs so the player can scroll up to review them, and auto-scroll to the bottom.
+    log.scrollTop = log.scrollHeight;
+  }
+
+  // 最上部中央のマーキー表示エリア（ターン数専用）の連動処理
+  const marquee = document.getElementById('battle-marquee-log');
+  if (marquee && msg.includes('ターン')) {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = msg;
+    const rawText = tempDiv.textContent || tempDiv.innerText || msg;
+    // 「◆ ターン 1 ◆」のような表記から「ターン 1」を切り出して綺麗に表示
+    const cleanTurn = rawText.match(/ターン\s*\d+/);
+    if (cleanTurn) {
+      marquee.textContent = cleanTurn[0];
+    } else {
+      marquee.textContent = rawText.replace(/[◆\s]/g, '');
+    }
+  }
 }
 
 function setHp(side, state) {
@@ -6939,27 +7956,46 @@ function setHp(side, state) {
     else fill.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
   }
   txt.textContent = state.cur + ' / ' + state.max;
-  
-  // Update marquee log header with latest HP info
-  const marquee = document.getElementById('battle-marquee-log');
-  if (marquee && typeof currentTurn !== 'undefined') {
-    marquee.textContent = 'ターン ' + currentTurn + '：' + (pState ? pState.name : '???') + ' HP:' + (pState ? pState.cur : '?') + ' / ' + (eState ? eState.name : '???') + ' HP:' + (eState ? eState.cur : '?');
-  }
 }
 
 function flashHit(side) {
-  const cardId = side === 'p' ? 'fc-player' : 'fc-enemy';
-  const card = document.getElementById(cardId);
-  const icon = document.getElementById('fi-' + (side === 'p' ? 'player' : 'enemy'));
-  
-  if (icon) {
-    icon.classList.add('hit-flash');
-    setTimeout(() => icon.classList.remove('hit-flash'), 300);
+  const isEnemy = side === 'e';
+  const icon = document.getElementById('fi-' + (isEnemy ? 'enemy' : 'player'));
+  if (!icon) return;
+
+  // 被弾モンスターの画像上に「光る斜め斬撃エフェクト」を動的生成して一閃させる
+  const slash = document.createElement('div');
+  slash.className = 'slash-effect';
+  if (icon.parentNode) {
+    icon.parentNode.appendChild(slash);
+    // アニメーション完了後に要素を自動クリーンアップ
+    setTimeout(() => {
+      slash.remove();
+    }, 300);
   }
-  if (card) {
-    card.classList.add('camera-shake');
-    setTimeout(() => card.classList.remove('camera-shake'), 300);
-  }
+
+  // 連続ヒット時は前のアニメーションをキャンセル
+  if (icon._hitAnim) { try { icon._hitAnim.cancel(); } catch(e){} icon._hitAnim = null; }
+
+  // ベースtransformを保持（敵:scaleX(-1) / 味方:なし）
+  const base = isEnemy ? 'scaleX(-1) scale(1.5)' : 'scale(1.5)';
+  const baseFilter = isEnemy
+    ? 'drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(239,68,68,0.3))'
+    : 'drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(0,212,255,0.3))';
+
+  // Web Animations APIでマイルドな被弾演出（軽い跳ね＋ほんのり白発光）
+  icon._hitAnim = icon.animate([
+    { transform: `${base} translate(0, 0)`, filter: 'brightness(1)', offset: 0 },
+    { transform: `${base} translate(-4px, -3px)`, filter: 'brightness(1.6) drop-shadow(0 0 10px rgba(255,255,255,0.4))', offset: 0.15 },
+    { transform: `${base} translate(4px, 1px)`, filter: 'brightness(1.3)', offset: 0.3 },
+    { transform: `${base} translate(-2px, 0)`, filter: 'brightness(1)', offset: 0.5 },
+    { transform: `${base} translate(2px, 0)`, filter: 'brightness(1)', offset: 0.7 },
+    { transform: `${base} translate(0, 0)`, filter: baseFilter, offset: 1 }
+  ], {
+    duration: 350,
+    easing: 'ease-out',
+    fill: 'none'
+  });
 }
 
 
@@ -7258,6 +8294,36 @@ function resultNext() {
   const modal = document.getElementById('battle-result-modal');
   if (modal) modal.style.display = 'none';
 
+  if (currentGameMode === 'free') {
+    const overlay = document.getElementById('result-overlay');
+
+    if (p2pBoutState) {
+      const playerWon = (pState.cur > 0 && eState.cur <= 0);
+      const draw = (pState.cur <= 0 && eState.cur <= 0);
+      if (!draw) {
+        if (playerWon) p2pBoutState.boutMyWins++;
+        else p2pBoutState.boutOppWins++;
+      }
+      const isFinished = p2pBoutState.boutMyWins >= 2 || p2pBoutState.boutOppWins >= 2 || p2pBoutState.boutIndex >= 2;
+      if (!isFinished) {
+        p2pBoutState.boutIndex++;
+        if (overlay) overlay.classList.remove('visible');
+        startP2PTeamBout(p2pBoutState.boutIndex);
+        return;
+      } else {
+        const w = p2pBoutState.boutMyWins;
+        const l = p2pBoutState.boutOppWins;
+        alert('フリー団体戦終了！\n\n【対戦結果】\nあなた：' + w + '勝\nあいて：' + l + '勝\n\n' + (w > l ? '🎉 見事勝ち越しました！おめでとう！' : '💀 惜しくも負けてしまいました。修行し直しましょう！'));
+        p2pBoutState = null;
+      }
+    }
+
+    if (overlay) overlay.classList.remove('visible');
+    goScreen('free-battle-lobby');
+    showP2PStep(3);
+    return;
+  }
+
   if (currentGameMode === 'team-arena' && taState) {
     if (taState.eliminated) {
       return;
@@ -7291,8 +8357,16 @@ function resultLab() {
   if (modal) modal.style.display = 'none';
   const overlay = document.getElementById('result-overlay');
   if (overlay) overlay.classList.remove('visible');
-  selBattle = 0;
-  goScreen('lab');
+  
+  if (currentGameMode === 'free') {
+    // フリー対戦終了後にラボに戻る時は、フリーバトル用ラボタブを自動的に選択
+    selBattle = 0;
+    goScreen('lab');
+    switchLabMode('free');
+  } else {
+    selBattle = 0;
+    goScreen('lab');
+  }
 }
 
 // ============================================================
@@ -7696,9 +8770,12 @@ function openTeamArenaMenu() {
   const bpDisplay = document.getElementById('team-arena-bp-display');
   if (bpDisplay) bpDisplay.textContent = `${bp} BP`;
   goScreen('team-arena-menu');
+  triggerFirstTimeHelp('team-arena');
 }
 
 function startTeamArenaBattle() {
+  // ★ 武舞台はストーリー用編成を強制参照
+  currentLabMode = 'story';
   let activeLab = getActiveLab();
   if (activeLab.length < 3) {
     if (typeof debugMode !== 'undefined' && debugMode) {
@@ -7884,6 +8961,8 @@ function taGenerateAllEnemyTeams() {
 
 // ---- Party Selection UI ----
 function taRenderPartySelect() {
+  // ★ 武舞台はストーリー用編成を強制参照
+  currentLabMode = 'story';
   const activeLab = getActiveLab();
   
   // Render slots
@@ -7987,6 +9066,8 @@ function taStartTournament() {
 // ---- Progress Screen ----
 function taShowProgressScreen() {
   const round = taState.round;
+  // ★ 武舞台はストーリー用編成を強制参照
+  currentLabMode = 'story';
   const activeLab = getActiveLab();
   
   // Round indicators
@@ -8122,6 +9203,8 @@ function taShowProgressScreen() {
 
 // ---- Start Next Bout (1v1 Battle) ----
 function taStartNextBout() {
+  // ★ 武舞台はストーリー用編成を強制参照
+  currentLabMode = 'story';
   const activeLab = getActiveLab();
   const round = taState.round;
   const bout = taState.boutIndex;
@@ -8431,6 +9514,70 @@ function updateGameScale() {
 window.addEventListener('resize', updateGameScale);
 window.addEventListener('orientationchange', updateGameScale);
 
+
+// ============================================================
+//  FACILITY GUIDE & HELP SYSTEM
+// ============================================================
+const FACILITY_HELP_DATA = {
+  lab: {
+    title: '🔬 モンスター研究所（ラボ）',
+    icon: '🔬',
+    text: '【モンスター研究所の役割】\n・所持スキルと100ポイントの割り振りを行い、独自のモンスターを調合・作成できます。\n・「ストーリー用」と「フリー対戦用」のモンスターは別々に保存されます。'
+  },
+  league: {
+    title: '🏆 コロシアム（リーグ戦）',
+    icon: '🏆',
+    text: '【コロシアム（リーグ戦）の役割】\n・最強の研究者を目指すメインストーリーモードです。\n・CPUトレーナー達と1vs1のバトルを行い、勝利することでリーグ制覇を目指します。\n・勝利時の報酬「秘伝の書」から新たなスキルを獲得し、解放できます。'
+  },
+  tower: {
+    title: '🗼 試練のタワー',
+    icon: '🗼',
+    text: '【試練のタワーの役割】\n・自軍の限界に挑む「サバイバル勝ち抜き戦」です。\n・連勝するごとに敵の強さが増していきます。\n・どこまで何連勝の記録を伸ばせるか挑戦するやり込みモードです。'
+  },
+  'team-arena': {
+    title: '🛡️ 武舞台（団体戦）',
+    icon: '🛡️',
+    text: '【武舞台（団体戦）の役割】\n・3対3のチームバトルで勝ち越し数を競う団体戦です。\n・「先鋒戦」「中堅戦」「大将戦」を行い、先に2勝したチームが勝利となります。\n・勝利してBPを獲得し、限定モンスターなどを解放しましょう！'
+  },
+  free: {
+    title: '🌀 異次元の祠（フリー対戦）',
+    icon: '🌀',
+    text: '【異次元の祠（フリー対戦）の役割】\n・他のプレイヤーまたは練習用Botとリアルタイムに対戦できます。\n・すべてのスキルが解放されたフラットな環境で構築の強さを競います。\n・「シングルス(1vs1)」または「チームス(3vs3団体戦)」が遊べます。'
+  }
+};
+
+let shownFacilityHelps = {};
+try {
+  const saved = localStorage.getItem('100pt_shown_helps');
+  if (saved) shownFacilityHelps = JSON.parse(saved);
+} catch(e) {}
+
+function showHelp(facility) {
+  const data = FACILITY_HELP_DATA[facility];
+  if (!data) return;
+  
+  document.getElementById('help-icon').textContent = data.icon;
+  document.getElementById('help-title').textContent = data.title;
+  document.getElementById('help-text').textContent = data.text;
+  document.getElementById('facility-help-overlay').style.display = 'flex';
+}
+
+function closeHelp() {
+  document.getElementById('facility-help-overlay').style.display = 'none';
+}
+
+function triggerFirstTimeHelp(facility) {
+  if (!shownFacilityHelps[facility]) {
+    shownFacilityHelps[facility] = true;
+    try {
+      localStorage.setItem('100pt_shown_helps', JSON.stringify(shownFacilityHelps));
+    } catch(e) {}
+    setTimeout(() => {
+      showHelp(facility);
+    }, 400);
+  }
+}
+
 function init() {
   updateGameScale();
   load();
@@ -8448,8 +9595,11 @@ function init() {
 //  P2P FREE BATTLE SYSTEM (PeerJS WebRTC)
 // ============================================================
 
+let p2pSelectedMonsters = []; // indices of selected monsters in labMonstersFree
 let p2pPeer = null;
 let p2pIsBotActive = false;
+let p2pOppMonsters = [];
+let p2pBoutState = null;
 let p2pMatchingTimeoutTimer = null;
 let p2pBotName = '';
 let p2pBotRecord = '';
@@ -8535,26 +9685,42 @@ function triggerP2PBotMatch() {
     const lose = Math.max(10, win - 20 + Math.floor(Math.random() * 40));
     p2pBotRecord = `${title} (戦績: ${win}勝 ${lose}敗)`;
     
-    p2pOppMonster = generateBotMonster();
+    if (p2pFormat === 'team') {
+      p2pOppMonsters = [generateBotMonster(), generateBotMonster(), generateBotMonster()];
+      p2pOppMonster = p2pOppMonsters[0];
+    } else {
+      p2pOppMonster = generateBotMonster();
+      p2pOppMonsters = [p2pOppMonster];
+    }
     
     // UIを接続確立状態へ移行
     setP2PStatus('接続確立！', 'モンスター情報を同期中...');
     setTimeout(() => {
       if (!p2pIsBotActive) return;
-      showP2PStep(4);
+      showP2PStep(5);
       p2pMyReady = false;
       p2pOppReady = false;
       updateP2PReadyUI();
       
       const nameEl = document.getElementById('p2p-my-monster-name');
       const activeLab = getActiveLab();
-      const myMonster = activeLab[selBattle] || activeLab[0];
-      if (myMonster && nameEl) nameEl.textContent = myMonster.name || 'モンスター';
+      if (p2pFormat === 'team') {
+        const myTeamData = p2pSelectedMonsters.map(idx => activeLab[idx]);
+        if (nameEl) nameEl.textContent = myTeamData.map(m => m.name).join(' / ');
+      } else {
+        const myMonsterIdx = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : (selBattle || 0);
+        const myMonster = activeLab[myMonsterIdx] || activeLab[0];
+        if (myMonster && nameEl) nameEl.textContent = myMonster.name || 'モンスター';
+      }
       
       const oppName = document.getElementById('p2p-opp-monster-name');
-      if (oppName) oppName.textContent = p2pOppMonster.name || '???';
+      if (oppName) {
+        oppName.textContent = p2pFormat === 'team'
+          ? p2pOppMonsters.map(m => m.name).join(' / ')
+          : (p2pOppMonster.name || '???');
+      }
       const oppIcon = document.getElementById('p2p-opp-monster-preview');
-      if (oppIcon) oppIcon.textContent = '🐲';
+      if (oppIcon) oppIcon.textContent = p2pFormat === 'team' ? '👥' : '🐲';
       
       // Botは1〜2.5秒後に準備完了にする
       setTimeout(() => {
@@ -8581,9 +9747,38 @@ let p2pOppCommand = null;
 const P2P_PREFIX = '100pt-rpg-';
 
 function showP2PStep(step) {
-  for (let i = 1; i <= 4; i++) {
-    const el = document.getElementById('p2p-step-' + i);
-    if (el) el.style.display = (i === step) ? 'block' : 'none';
+  // Hide all panels
+  ['p2p-step-1', 'p2p-step-2-monster', 'p2p-step-3-room', 'p2p-step-3', 'p2p-step-4'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+
+  // Show target panel
+  let targetId = 'p2p-step-1';
+  if (step === 1) targetId = 'p2p-step-1';
+  else if (step === 2) targetId = 'p2p-step-2-monster';
+  else if (step === 3) targetId = 'p2p-step-3-room';
+  else if (step === 4) targetId = 'p2p-step-3'; // waiting matchmaking
+  else if (step === 5) targetId = 'p2p-step-4'; // ready sync
+
+  const targetEl = document.getElementById(targetId);
+  if (targetEl) targetEl.style.display = 'block';
+
+  // Update Progress Indicator
+  ['p2p-prog-1', 'p2p-prog-2', 'p2p-prog-3'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.className = 'p2p-progress-step';
+  });
+
+  if (step === 1) {
+    document.getElementById('p2p-prog-1').classList.add('active');
+  } else if (step === 2) {
+    document.getElementById('p2p-prog-1').classList.add('completed');
+    document.getElementById('p2p-prog-2').classList.add('active');
+  } else if (step >= 3) {
+    document.getElementById('p2p-prog-1').classList.add('completed');
+    document.getElementById('p2p-prog-2').classList.add('completed');
+    document.getElementById('p2p-prog-3').classList.add('active');
   }
 }
 
@@ -8592,8 +9787,141 @@ function selectP2PFormat(fmt) {
   const label = fmt === 'single' ? 'シングルス (1vs1)' : 'チームス (3vs3)';
   const el = document.getElementById('p2p-selected-format-text');
   if (el) el.textContent = label;
-  showP2PStep(2);
+  const mLabel = document.getElementById('p2p-monster-format-text');
+  if (mLabel) mLabel.textContent = label;
+  
+  // Reset selected monsters
+  p2pSelectedMonsters = [];
+  
+  // Go to step 2 (Monster selection)
+  goP2PStep2Monster();
 }
+
+function goP2PStep2Monster() {
+  showP2PStep(2);
+  renderP2PMonsterSelection();
+}
+
+function renderP2PMonsterSelection() {
+  const container = document.getElementById('p2p-monster-select-list');
+  const nextBtn = document.getElementById('p2p-monster-select-next-btn');
+  const hintEl = document.getElementById('p2p-monster-select-hint');
+  
+  if (!container) return;
+  container.innerHTML = '';
+  
+  // Load free battle lab monsters
+  const list = labMonstersFree;
+  
+  if (list.length === 0) {
+    container.innerHTML = `<div style="grid-column: span 2; font-size:13px; color:var(--accent-gold); padding:20px 0; text-align:center;">
+      フリー対戦用のモンスターが登録されていません。<br>
+      ラボの「フリーバトル用ラボ」で作成してください。
+    </div>`;
+    if (nextBtn) nextBtn.disabled = true;
+    return;
+  }
+  
+  if (p2pFormat === 'team' && list.length < 3) {
+    container.innerHTML = `<div style="grid-column: span 2; font-size:13px; color:var(--accent-gold); padding:20px 0; text-align:center;">
+      チーム戦（3vs3）にはモンスターが最低3体必要です。<br>
+      フリーバトル用ラボで追加作成してください。<br>
+      (現在: ${list.length}体)
+    </div>`;
+    if (nextBtn) nextBtn.disabled = true;
+    return;
+  }
+
+  if (p2pFormat === 'single') {
+    if (hintEl) hintEl.textContent = '対戦に出す代表モンスターを 1体 選択してください。';
+  } else {
+    if (hintEl) hintEl.textContent = '対戦に出すメンバーを 3体 選択してください。';
+  }
+
+  list.forEach((m, idx) => {
+    const card = document.createElement('div');
+    card.className = 'p2p-monster-select-card';
+    if (p2pSelectedMonsters.includes(idx)) {
+      card.classList.add('selected');
+    }
+    
+    // Icon mapping
+    const sysKey = Object.keys(MONSTER_TYPES).find(k => MONSTER_TYPES[k].label === m.systemType) || 'other';
+    const icon = MONSTER_TYPES[sysKey] ? MONSTER_TYPES[sysKey].icon : '??';
+    
+    const activeSk = (m.skills && m.skills.active && m.skills.active[0]) || 'none';
+    const passiveSk = (m.skills && m.skills.passive && m.skills.passive[0]) || 'none';
+    const activeName = SKILLS[activeSk] ? SKILLS[activeSk].name : 'なし';
+    const passiveName = SKILLS[passiveSk] ? SKILLS[passiveSk].name : 'なし';
+
+    // Show selection badge (with number if team mode)
+    let badgeText = '選択中';
+    if (p2pFormat === 'team') {
+      const orderIdx = p2pSelectedMonsters.indexOf(idx);
+      if (orderIdx !== -1) {
+        badgeText = '#' + (orderIdx + 1);
+      }
+    }
+
+    card.innerHTML = `
+      <div class="select-badge">${badgeText}</div>
+      <div style="font-size:24px; margin-bottom:4px;">${icon}</div>
+      <div style="font-weight:bold; font-size:13px; color:#fff; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${m.name}</div>
+      <div style="font-size:10px; color:var(--text-dim); margin-top:2px;">${m.monsterClass}</div>
+      <div style="font-size:10px; color:var(--accent-gold); margin-top:4px;">${activeName} / ${passiveName}</div>
+    `;
+    
+    card.onclick = () => {
+      if (p2pFormat === 'single') {
+        p2pSelectedMonsters = [idx];
+      } else {
+        const existIdx = p2pSelectedMonsters.indexOf(idx);
+        if (existIdx !== -1) {
+          p2pSelectedMonsters.splice(existIdx, 1);
+        } else {
+          if (p2pSelectedMonsters.length < 3) {
+            p2pSelectedMonsters.push(idx);
+          } else {
+            alert('チームメンバーは最大3体まで選択可能です。');
+            return;
+          }
+        }
+      }
+      renderP2PMonsterSelection();
+      updateP2PMonsterNextBtn();
+    };
+    
+    container.appendChild(card);
+  });
+  
+  updateP2PMonsterNextBtn();
+}
+
+function updateP2PMonsterNextBtn() {
+  const nextBtn = document.getElementById('p2p-monster-select-next-btn');
+  if (!nextBtn) return;
+  
+  const req = p2pFormat === 'single' ? 1 : 3;
+  const isOk = p2pSelectedMonsters.length === req;
+  
+  nextBtn.disabled = !isOk;
+}
+
+function validateP2PMonsterSelection() {
+  const req = p2pFormat === 'single' ? 1 : 3;
+  if (!p2pSelectedMonsters || p2pSelectedMonsters.length !== req) {
+    alert(`出撃モンスターが正しく選択されていません。\n${p2pFormat === 'single' ? '1体' : '3体'}選択してください。`);
+    goP2PStep2Monster();
+    return false;
+  }
+  return true;
+}
+
+function goP2PStep3Room() {
+  if (!validateP2PMonsterSelection()) return;
+  showP2PStep(3);
+}
+
 
 function backToP2PStep1() {
   destroyP2P();
@@ -8631,12 +9959,13 @@ function setP2PStatus(title, desc) {
 
 // --- Create Private Room ---
 function createP2PPrivateRoom() {
+  if (!validateP2PMonsterSelection()) return;
   destroyP2P();
   p2pIsHost = true;
   p2pRoomCode = generateRoomCode();
   const peerId = P2P_PREFIX + p2pRoomCode;
 
-  showP2PStep(3);
+  showP2PStep(4);
   setP2PStatus('部屋を作成中...', 'PeerID初期化中...');
 
   p2pPeer = new Peer(peerId);
@@ -8664,12 +9993,13 @@ function joinP2PPrivateRoom() {
     alert('あいことば（4〜6桁）を入力してください');
     return;
   }
+  if (!validateP2PMonsterSelection()) return;
   destroyP2P();
   p2pIsHost = false;
   p2pRoomCode = code;
   const targetPeerId = P2P_PREFIX + code;
 
-  showP2PStep(3);
+  showP2PStep(4);
   setP2PStatus('部屋に接続中...', 'あいことば: ' + code);
   document.getElementById('p2p-room-display-box').style.display = 'none';
 
@@ -8695,8 +10025,9 @@ function joinP2PPrivateRoom() {
 
 // --- Random Match ---
 function startP2PRandomMatch() {
+  if (!validateP2PMonsterSelection()) return;
   destroyP2P();
-  showP2PStep(3);
+  showP2PStep(4);
   document.getElementById('p2p-room-display-box').style.display = 'none';
 
   // 30秒後に対戦相手が見つからない場合は自動的にBot対戦へ移行
@@ -8784,20 +10115,26 @@ function setupP2PConnection() {
   p2pConn.on('close', () => {
     alert('対戦相手との接続が切断されました');
     destroyP2P();
-    showP2PStep(1);
+    showP2PStep(3);
   });
 
-  // Move to Step 4 (Ready screen)
-  showP2PStep(4);
+  // Move to Step 5 (Ready screen)
+  showP2PStep(5);
   p2pMyReady = false;
   p2pOppReady = false;
   updateP2PReadyUI();
 
   // Send my monster data
   const activeLab = getActiveLab();
-  const myMonster = activeLab[selBattle] || activeLab[0];
-  if (myMonster) {
-    const nameEl = document.getElementById('p2p-my-monster-name');
+  const nameEl = document.getElementById('p2p-my-monster-name');
+  
+  if (p2pFormat === 'team') {
+    const myTeamData = p2pSelectedMonsters.map(idx => activeLab[idx]);
+    if (nameEl) nameEl.textContent = myTeamData.map(m => m.name).join(' / ');
+    p2pConn.send({ type: 'team-monsters', data: myTeamData });
+  } else {
+    const myMonsterIdx = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : (selBattle || 0);
+    const myMonster = activeLab[myMonsterIdx] || activeLab[0];
     if (nameEl) nameEl.textContent = myMonster.name || 'モンスター';
     p2pConn.send({ type: 'monster', data: myMonster });
   }
@@ -8809,10 +10146,20 @@ function handleP2PMessage(msg) {
   switch (msg.type) {
     case 'monster':
       p2pOppMonster = msg.data;
+      p2pOppMonsters = [msg.data];
       const oppName = document.getElementById('p2p-opp-monster-name');
       if (oppName) oppName.textContent = msg.data.name || '???';
       const oppIcon = document.getElementById('p2p-opp-monster-preview');
       if (oppIcon) oppIcon.textContent = '🐲';
+      break;
+
+    case 'team-monsters':
+      p2pOppMonsters = msg.data;
+      p2pOppMonster = msg.data[0];
+      const oppTeamName = document.getElementById('p2p-opp-monster-name');
+      if (oppTeamName) oppTeamName.textContent = msg.data.map(m => m.name).join(' / ');
+      const oppTeamIcon = document.getElementById('p2p-opp-monster-preview');
+      if (oppTeamIcon) oppTeamIcon.textContent = '👥';
       break;
 
     case 'ready':
@@ -8870,20 +10217,59 @@ function checkBothReady() {
 }
 
 function startP2PBattle() {
-  if (!p2pOppMonster) {
-    alert('相手のモンスター情報がまだ届いていません。少しお待ちください。');
-    return;
+  if (p2pFormat === 'team') {
+    if (!p2pOppMonsters || p2pOppMonsters.length < 3) {
+      alert('相手のチーム情報がまだ届いていません。少しお待ちください。');
+      return;
+    }
+    p2pBoutState = {
+      myTeam: [...p2pSelectedMonsters],
+      oppTeam: [...p2pOppMonsters],
+      boutIndex: 0,
+      boutMyWins: 0,
+      boutOppWins: 0
+    };
+    startP2PTeamBout(0);
+  } else {
+    if (!p2pOppMonster) {
+      alert('相手のモンスター情報がまだ届いていません。少しお待ちください。');
+      return;
+    }
+    p2pBoutState = null;
+    const opp = p2pOppMonster;
+    const oppStats = opp.stats || { hp: 22, attack: 22, defense: 22, speed: 22, luck: 22 };
+    const oppSkill = (opp.skills && opp.skills.active && opp.skills.active[0]) || 'none';
+    currentEnemy = {
+      name: p2pIsBotActive ? p2pBotName : (opp.name || '対戦相手'),
+      type: Object.keys(MONSTER_TYPES).find(k => MONSTER_TYPES[k].label === opp.systemType) || 'other',
+      title: p2pIsBotActive ? p2pBotRecord : (opp.monsterClass || '対戦相手'),
+      hp: Number(oppStats.hp) || 22,
+      attack: Number(oppStats.attack) || 22,
+      defense: Number(oppStats.defense) || 22,
+      speed: Number(oppStats.speed) || 22,
+      luck: Number(oppStats.luck) || 22,
+      skill: oppSkill,
+    };
+    if (p2pIsHost) {
+      p2pBattleSeed = Date.now();
+      if (p2pConn) p2pConn.send({ type: 'battle-seed', seed: p2pBattleSeed });
+    }
+    currentGameMode = 'free';
+    goScreen('battle');
   }
+}
 
-  // Set up enemy as opponent's monster
-  const opp = p2pOppMonster;
+function startP2PTeamBout(boutIdx) {
+  const activeLab = getActiveLab();
+  selBattle = p2pBoutState.myTeam[boutIdx];
+  const opp = p2pBoutState.oppTeam[boutIdx];
   const oppStats = opp.stats || { hp: 22, attack: 22, defense: 22, speed: 22, luck: 22 };
   const oppSkill = (opp.skills && opp.skills.active && opp.skills.active[0]) || 'none';
-
+  const boutNames = ['先鋒戦', '中堅戦', '大将戦'];
   currentEnemy = {
-    name: p2pIsBotActive ? p2pBotName : (opp.name || '対戦相手'),
+    name: opp.name || '対戦相手',
     type: Object.keys(MONSTER_TYPES).find(k => MONSTER_TYPES[k].label === opp.systemType) || 'other',
-    title: p2pIsBotActive ? p2pBotRecord : (opp.monsterClass || '対戦相手'),
+    title: 'フリー団体戦 - ' + boutNames[boutIdx],
     hp: Number(oppStats.hp) || 22,
     attack: Number(oppStats.attack) || 22,
     defense: Number(oppStats.defense) || 22,
@@ -8891,26 +10277,24 @@ function startP2PBattle() {
     luck: Number(oppStats.luck) || 22,
     skill: oppSkill,
   };
-
-  // Generate battle seed (host generates)
-  if (p2pIsHost) {
+  const badge = document.getElementById('stage-display');
+  if (badge) badge.textContent = 'フリー団体戦 - ' + boutNames[boutIdx];
+  if (p2pIsHost && p2pConn) {
     p2pBattleSeed = Date.now();
-    if (p2pConn) p2pConn.send({ type: 'battle-seed', seed: p2pBattleSeed });
+    p2pConn.send({ type: 'battle-seed', seed: p2pBattleSeed });
   }
-
-  // Switch to battle screen
   currentGameMode = 'free';
   goScreen('battle');
 }
 
 function cancelP2PMatchmaking() {
   destroyP2P();
-  showP2PStep(2);
+  showP2PStep(3);
 }
 
 function disconnectP2P() {
   destroyP2P();
-  showP2PStep(1);
+  showP2PStep(3);
 }
 
 function copyP2PRoomId() {
