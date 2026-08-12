@@ -1099,8 +1099,96 @@
     .title-subtitle {
       font-size: 14px;
       color: var(--text-dim);
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       letter-spacing: 4px;
+    }
+
+    /* ====== タイトル画面 セーブスロットカード ====== */
+    .title-save-slot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 440px;
+      padding: 0 16px;
+      box-sizing: border-box;
+    }
+    .title-save-card {
+      background: rgba(25, 30, 45, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .title-save-card:hover {
+      border-color: var(--accent-gold);
+      background: rgba(50, 55, 75, 0.92);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15);
+    }
+    .title-save-card .slot-label {
+      font-weight: bold;
+      font-size: 13px;
+      color: var(--accent-gold);
+      margin-bottom: 2px;
+    }
+    .title-save-card .slot-player-name {
+      font-weight: bold;
+      font-size: 17px;
+      color: #e2e8f0;
+    }
+    .title-save-card .slot-detail {
+      font-size: 11px;
+      color: #8a94a6;
+      margin-top: 3px;
+    }
+    .title-save-card .slot-right {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .title-save-card .slot-badge-new {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: bold;
+      color: var(--accent-cyan);
+      border: 1px solid rgba(0, 200, 255, 0.3);
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+    .title-save-card .slot-badge-continue {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: bold;
+      color: var(--accent-gold);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 4px;
+      padding: 2px 8px;
+    }
+    .title-save-card.empty-slot {
+      border-style: dashed;
+      opacity: 0.7;
+    }
+    .title-save-card.empty-slot:hover {
+      opacity: 1;
+    }
+    .title-save-card .slot-delete-btn {
+      font-size: 11px;
+      color: var(--accent-red);
+      background: none;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 4px;
+      padding: 2px 6px;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: all 0.2s;
+    }
+    .title-save-card .slot-delete-btn:hover {
+      background: rgba(239, 68, 68, 0.15);
     }
     .title-btn {
       padding: 14px 40px;
@@ -1948,16 +2036,16 @@
     }
     .tutorial-arrow {
       position: absolute;
-      font-size: 24px;
+      font-size: 48px; /* 2倍サイズに拡大 */
       color: var(--accent-gold);
       animation: tutorial-bounce 0.8s ease-in-out infinite;
       pointer-events: none;
-      z-index: 100;
-      text-shadow: 0 0 10px rgba(245,158,11,0.6);
+      z-index: 1500; /* 最前面表示 */
+      filter: drop-shadow(0 0 12px #ffd700); /* 金色発光 */
     }
     @keyframes tutorial-bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, -12px); }
     }
     .skill-progress-bar-bg {
       width: 100%;
@@ -2330,14 +2418,26 @@
     }
     .map-area.locked {
       cursor: not-allowed;
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: grayscale(100%) brightness(0.5);
+      background: transparent !important;
+      backdrop-filter: grayscale(80%) brightness(0.7);
       border-color: rgba(255, 255, 255, 0.08);
     }
     .map-area.locked:hover {
-      background: rgba(0, 0, 0, 0.65);
-      border-color: var(--accent-red);
-      box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+      background: transparent !important;
+      border-color: rgba(239, 68, 68, 0.4);
+      box-shadow: none;
+    }
+    .map-area-lock {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -70%);
+      font-size: 32px;
+      color: rgba(255, 255, 255, 0.75);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8), 0 0 6px rgba(0,0,0,0.6);
+      pointer-events: none;
+      z-index: 5;
+      filter: drop-shadow(0 0 4px rgba(255,255,255,0.2));
     }
     .map-area-tooltip {
       position: absolute;
@@ -2363,12 +2463,7 @@
       opacity: 1;
       transform: translateY(0);
     }
-    .map-area-lock {
-      font-size: 28px;
-      color: rgba(255, 255, 255, 0.6);
-      text-shadow: 0 0 8px rgba(0,0,0,0.9);
-      pointer-events: none;
-    }
+
 
     /* Help Button styling */
     .help-btn {
@@ -3080,10 +3175,9 @@
   <div class="title-screen-container">
     <div class="title-logo">100pt BUILD BATTLE</div>
     <div class="title-subtitle">〜 6体制限・レトロモンスターラボ 〜</div>
-    <div style="font-size:16px; color:var(--accent-gold); margin-bottom:16px; animation: pulse-red 1.5s infinite alternate;">▶ 画面のどこかをタップして開始（自動フルスクリーン） ◀</div>
-    <div style="display:flex; gap:12px; justify-content:center;">
-      <button class="title-btn" onclick="event.stopPropagation(); handleTitleStart()">スタート！</button>
-      <button class="title-btn" style="background:rgba(245,158,11,0.15); border-color:var(--accent-gold); color:var(--accent-gold);" onclick="event.stopPropagation(); openSaveSlotModal()">💾 データ選択</button>
+    <div style="font-size:14px; color:var(--accent-gold); margin-bottom:18px; animation: pulse-red 1.5s infinite alternate;">▶ セーブスロットを選んでスタート ◀</div>
+    <div class="title-save-slot-list" id="title-save-slot-list" onclick="event.stopPropagation()">
+      <!-- スロットカードはJS (renderTitleSaveSlots) で動的生成 -->
     </div>
   </div>
 </div>
@@ -3129,14 +3223,14 @@
         <div class="map-area" id="map-area-lab" onclick="onMapAreaClick('lab')" style="top: 10%; left: 16%; width: 24%; height: 34%;">
           <div class="map-area-tooltip">🔬 モンスター研究所<br><span style="font-size:10px; color:#aaa;">モンスターの調合・ステ振り・スキル変更</span></div>
           <button class="help-btn" style="position:absolute; top:5px; right:5px;" onclick="event.stopPropagation(); showHelp('lab')">?</button>
-          <span id="tutorial-arrow-lab" class="tutorial-arrow" style="display:none; position:absolute; top:-25px; left:50%; transform:translateX(-50%); font-size:24px; animation: tutorial-bounce 0.8s ease-in-out infinite;">👇</span>
+          <span id="tutorial-arrow-lab" class="tutorial-arrow" style="display:none; position:absolute; top:35%; left:50%;">👇</span>
         </div>
 
         <!-- 2) コロシアム（個人リーグ戦） -->
         <div class="map-area" id="map-area-league" onclick="onMapAreaClick('league')" style="top: 12%; left: 64.5%; width: 26%; height: 30%;">
           <div class="map-area-tooltip">🏆 コロシアム（リーグ戦）<br><span style="font-size:10px; color:#aaa;">個人リーグ戦</span></div>
           <button class="help-btn" style="position:absolute; top:5px; right:5px;" onclick="event.stopPropagation(); showHelp('league')">?</button>
-          <span id="tutorial-arrow-arena" class="tutorial-arrow" style="display:none; position:absolute; top:-25px; left:50%; transform:translateX(-50%); font-size:24px; animation: tutorial-bounce 0.8s ease-in-out infinite;">👇</span>
+          <span id="tutorial-arrow-arena" class="tutorial-arrow" style="display:none; position:absolute; top:35%; left:50%;">👇</span>
         </div>
 
         <!-- 3) 試練のタワー -->
@@ -3159,10 +3253,11 @@
           <button class="help-btn" style="position:absolute; top:5px; right:5px;" onclick="event.stopPropagation(); showHelp('free')">?</button>
         </div>
 
-        <!-- 6) 覇王リベンジマッチ（隠しボスボタン：全解放時に表示） -->
-        <div class="map-area" id="map-area-boss-revenge" onclick="startBossRevenge()" style="top: 41.5%; left: 44.5%; width: 14%; height: 16%; display:none; border:2px dashed var(--accent-red); background:rgba(239,68,68,0.15); box-shadow:0 0 15px rgba(239,68,68,0.4); border-radius:50%; z-index:6;">
-          <div class="map-area-tooltip" style="border-color:var(--accent-red); color:var(--accent-red);">👑 覇王リベンジマッチ<br><span style="font-size:10px; color:#fff;">闘技場の覇王へリベンジ</span></div>
-          <div style="font-size:24px; animation: pulse-red 1.5s infinite alternate;">👹</div>
+        <!-- 6) 覇王リベンジマッチ（隠しボスボタン：常時表示、全解放時にアンロック） -->
+        <div class="map-area" id="map-area-boss-revenge" onclick="startBossRevenge()" style="top: 44.5%; left: 44.5%; width: 14%; height: 16%; border:2px dashed var(--accent-red); background:rgba(239,68,68,0.15); box-shadow:0 0 15px rgba(239,68,68,0.4); border-radius:50%; z-index:6;">
+          <div class="map-area-tooltip" id="boss-revenge-tooltip" style="border-color:var(--accent-red); color:var(--accent-red);">👑 覇王リベンジマッチ<br><span style="font-size:10px; color:#fff;">闘技場の覇王へリベンジ</span></div>
+          <div id="boss-revenge-icon" style="font-size:24px; animation: pulse-red 1.5s infinite alternate;">👹</div>
+          <div class="map-area-lock" id="map-lock-boss-revenge" style="display:none; font-size:20px; transform: translate(-50%, -60%);">🔑</div>
         </div>
 
       </div>
@@ -4414,7 +4509,7 @@ function resetMemoryState() {
   survivalBestRecord = 0;
   gameProgress = {
     tutorialStep: 0,
-    bossRevengeUnlocked: false,
+    bossRevengeUnlocked: false, // 初期状態ではロック
     bossDefeated: false,
   };
   bp = 0;
@@ -4775,7 +4870,7 @@ function goScreen(name) {
         battleWrapper.style.backgroundSize = "cover";
         battleWrapper.style.backgroundPosition = "center bottom";
         battleWrapper.style.backgroundRepeat = "no-repeat";
-      } else if (currentGameMode === 'league') {
+      } else if (currentGameMode === 'league' || currentGameMode === 'boss-revenge') {
         battleWrapper.style.backgroundImage = "url('IMGTITLE/korosiam.png')";
         battleWrapper.style.backgroundSize = "cover";
         battleWrapper.style.backgroundPosition = "center bottom";
@@ -4855,7 +4950,7 @@ function goScreen(name) {
     if (currentGameMode === 'free') {
       currentLabMode = 'free';  // フリーバトル → フリー用編成
     } else {
-      currentLabMode = 'story'; // 試練の塔・リーグ戦・武舞台 → ストーリー用編成
+      currentLabMode = 'story'; // 試練の塔・リーグ戦・武舞台・覇王リベンジ → ストーリー用編成
     }
     
     // ゲームモードに応じてバトル前確認画面の背景を動的切り替え
@@ -4877,7 +4972,7 @@ function goScreen(name) {
     } else {
       triggerFirstTimeHelp('league');
     }
-    if (gameProgress.tutorialStep === 2) {
+    if (gameProgress.tutorialStep === 2 || currentGameMode === 'boss-revenge') {
       currentEnemy = { ...TUTORIAL_BOSS };
     } else {
       prepareStage();
@@ -8206,7 +8301,7 @@ function showResult() {
     record.win++;
 
     // Boss revenge victory check
-    if (gameProgress.bossRevengeUnlocked && currentEnemy && currentEnemy.name === '覇王ゴブリン' && !gameProgress.bossDefeated) {
+    if (currentGameMode === 'boss-revenge') {
       save();
       updateRecord();
       const modal = document.getElementById('battle-result-modal');
@@ -8642,6 +8737,13 @@ function updateMenuFacilities() {
   const mapTower = document.getElementById('map-area-tower');
   const mapRevenge = document.getElementById('map-area-boss-revenge');
   
+  // スキル解明数が30（全解放）に達しているかチェックして覇王リベンジのフラグを更新
+  if (sp.count >= 30) {
+    gameProgress.bossRevengeUnlocked = true;
+  } else {
+    gameProgress.bossRevengeUnlocked = false;
+  }
+  
   if (mapTeam) {
     const lockEl = document.getElementById('map-lock-team-arena');
     const tooltipEl = mapTeam.querySelector('.map-area-tooltip');
@@ -8669,10 +8771,20 @@ function updateMenuFacilities() {
     }
   }
   if (mapRevenge) {
+    const lockEl = document.getElementById('map-lock-boss-revenge');
+    const tooltipEl = document.getElementById('boss-revenge-tooltip');
+    
+    // 常時 flex 表示
+    mapRevenge.style.display = 'flex';
+    
     if (gameProgress.bossRevengeUnlocked) {
-      mapRevenge.style.display = 'flex';
+      mapRevenge.classList.remove('locked');
+      if (lockEl) lockEl.style.display = 'none';
+      if (tooltipEl) tooltipEl.innerHTML = `👑 覇王リベンジマッチ<br><span style="font-size:10px; color:#fff;">闘技場の覇王へリベンジ</span>`;
     } else {
-      mapRevenge.style.display = 'none';
+      mapRevenge.classList.add('locked');
+      if (lockEl) lockEl.style.display = 'block';
+      if (tooltipEl) tooltipEl.innerHTML = `👑 覇王リベンジマッチ<br><span style="font-size:10px; color:#ef4444; font-weight:bold;">🔒 スキル30個全解放でアンロック</span>`;
     }
   }
   
@@ -8727,8 +8839,8 @@ function checkSkillMilestones() {
     gameProgress.bossRevengeUnlocked = true;
     save();
     showStoryDialog([
-      { speaker: 'ナレーション', text: 'すべてのスキルを解明した！ これが最高峰のモンスター研究の成果だ！', color: 'var(--accent-gold)' },
-      { speaker: playerName, text: 'ついに全てのスキルを手に入れた…！ これが僕たちの最高のビルドだ！ 再びあの覇王に挑もう！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+      { speaker: 'ナレーション', text: 'すべてのスキルを解明した！ これが最高峰 of モンスター研究の成果だ！', color: 'var(--accent-gold)' },
+      { speaker: playerName, text: 'ついに全てのスキルを手に入れた…！ これが僕たちの最高のビルドだ！ 再びあの覇王に挑おう！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
       { speaker: 'ナレーション', text: '闘技場に『👑 覇王リベンジマッチ』が解放されました！', color: 'var(--accent-gold)' },
     ], () => {
       updateMenuFacilities();
@@ -8738,15 +8850,28 @@ function checkSkillMilestones() {
 }
 
 function startBossRevenge() {
-  if (!gameProgress.bossRevengeUnlocked) return;
-  currentGameMode = 'league';
-  currentEnemy = { ...TUTORIAL_BOSS };
+  if (!gameProgress.bossRevengeUnlocked) {
+    alert('【ロック中】スキルを全解放（30/30）すると覇王リベンジマッチに挑戦できます！');
+    return;
+  }
+  
   const activeLab = getActiveLab();
   if (activeLab.length === 0) {
     alert('モンスターが必要です。ラボで作成してください。');
     return;
   }
-  goScreen('scouting');
+
+  // 戦闘前会話ストーリー
+  showStoryDialog([
+    { speaker: '覇王ゴブリン', text: 'ほう……チュートリアルで散ったはずの研究者か。すべてのスキルを解明して舞い戻ってくるとはな。', color: '#ef4444', speakerTextColor: '#fff' },
+    { speaker: playerName, text: 'あの時の負けを返しに来た！これが僕たちの集大成のパーティだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+    { speaker: '覇王ゴブリン', text: 'ハハハッ！良い面構えだ。ならば全力で相手をしてやろう！いくぞ！', color: '#ef4444', speakerTextColor: '#fff' }
+  ], () => {
+    // ストーリー読了後に専用バトル前確認画面へ遷移
+    currentGameMode = 'boss-revenge';
+    currentEnemy = { ...TUTORIAL_BOSS };
+    goScreen('scouting');
+  });
 }
 
 function handleBossRevengeVictory() {
@@ -9580,14 +9705,79 @@ function triggerFirstTimeHelp(facility) {
 
 function init() {
   updateGameScale();
-  load();
-  prepareStage();
-  updateRecord();
-  
-  if (!playerName) {
-    goScreen('title');
+  migrateOldSaveDataIfNeeded();
+  // 起動時は常にタイトル・セーブ選択画面を表示（データはまだロードしない）
+  renderTitleSaveSlots();
+  goScreen('title');
+}
+
+// タイトル画面のセーブスロットカードを描画
+function renderTitleSaveSlots() {
+  const container = document.getElementById('title-save-slot-list');
+  if (!container) return;
+  container.innerHTML = '';
+
+  for (let i = 1; i <= 3; i++) {
+    const data = getSlotData(i);
+    const card = document.createElement('div');
+    card.className = 'title-save-card' + (data ? '' : ' empty-slot');
+
+    if (data && data.playerName) {
+      const unlockedCount = Array.isArray(data.unlockedSkills) ? data.unlockedSkills.length : 0;
+      const pct = Math.floor((unlockedCount / 30) * 100);
+      const wins = (data.record && data.record.win) || 0;
+      const loses = (data.record && data.record.lose) || 0;
+      const stageStr = typeof data.stageIndex === 'number' ? (data.stageIndex + 1) : 1;
+
+      card.innerHTML = `
+        <div style="flex:1; min-width:0;">
+          <div class="slot-label">SLOT ${i}</div>
+          <div class="slot-player-name">${data.playerName}</div>
+          <div class="slot-detail">⚔️ STAGE ${stageStr}　📜 スキル: ${unlockedCount}/30 (${pct}%)　🏆 ${wins}勝 ${loses}敗</div>
+          <div class="slot-detail">最終保存: ${data.updatedAt || '不明'}</div>
+        </div>
+        <div class="slot-right">
+          <div class="slot-badge-continue">▶ つづきから</div>
+          <button class="slot-delete-btn" onclick="event.stopPropagation(); deleteTitleSlot(${i})">🗑️ 削除</button>
+        </div>
+      `;
+      card.onclick = (e) => { e.stopPropagation(); selectTitleSlot(i, false); };
+    } else {
+      card.innerHTML = `
+        <div style="flex:1;">
+          <div class="slot-label">SLOT ${i}</div>
+          <div style="font-size:14px; color:var(--text-dim);">— 空きスロット —</div>
+        </div>
+        <div class="slot-right">
+          <div class="slot-badge-new">＋ はじめから</div>
+        </div>
+      `;
+      card.onclick = (e) => { e.stopPropagation(); selectTitleSlot(i, true); };
+    }
+    container.appendChild(card);
+  }
+}
+
+// タイトル画面からスロットを選択して開始
+function selectTitleSlot(slotId, isNew) {
+  if (isNew) {
+    // 新規ゲーム開始
+    startNewGameInSlot(slotId);
   } else {
+    // 既存データをロードしてメインメニューへ
+    loadSlot(slotId);
+    prepareStage();
+    updateRecord();
     goScreen('main-menu');
+  }
+}
+
+// タイトル画面からスロット削除
+async function deleteTitleSlot(slotId) {
+  const result = await showConfirmModal(`SLOT ${slotId} のセーブデータを本当に削除しますか？\n(削除されたデータは二度と復元できません)`);
+  if (result) {
+    deleteSlotData(slotId);
+    renderTitleSaveSlots();
   }
 }
 
