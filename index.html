@@ -4708,6 +4708,15 @@ const TUTORIAL_BOSS = {
   skill: 'gigabreak', type: 'other'
 };
 
+const HAOU_REVENGE_BOSS = {
+  name: '覇王ゴブリン',
+  title: '闘技場の覇王 (リベンジ)',
+  icon: '👹',
+  rumor: 'すべてのスキルを極めし研究者と対峙する覇王の全力。超高火力・紙耐久の極限ビルド！',
+  hp: 50, attack: 58, defense: 12, speed: 28, luck: 10,
+  skill: 'gigabreak', type: 'other'
+};
+
 // Creator Temporary State
 let creatorTemp = {
   systemType: '',
@@ -4972,8 +4981,10 @@ function goScreen(name) {
     } else {
       triggerFirstTimeHelp('league');
     }
-    if (gameProgress.tutorialStep === 2 || currentGameMode === 'boss-revenge') {
+    if (gameProgress.tutorialStep === 2) {
       currentEnemy = { ...TUTORIAL_BOSS };
+    } else if (currentGameMode === 'boss-revenge') {
+      currentEnemy = { ...HAOU_REVENGE_BOSS };
     } else {
       prepareStage();
     }
@@ -6382,7 +6393,28 @@ function renderEnemyInfo() {
   }
   
   const e = currentEnemy;
-  const badgeLabel = currentGameMode === 'league' ? `⚠️ STAGE ${stageIndex + 1}` : `🗼 試練の塔: ${survivalWins + 1}階`;
+  const isTutorialBoss = (gameProgress.tutorialStep === 2);
+  
+  let badgeLabel;
+  if (currentGameMode === 'boss-revenge') {
+    badgeLabel = '👑 覇王リベンジマッチ';
+  } else if (currentGameMode === 'league') {
+    badgeLabel = `⚠️ STAGE ${stageIndex + 1}`;
+  } else {
+    badgeLabel = `🗼 試練の塔: ${survivalWins + 1}階`;
+  }
+  
+  // チュートリアル時はステータスを隠蔽
+  const dispHP = isTutorialBoss ? '？？？' : e.hp;
+  const dispATK = isTutorialBoss ? '？？？' : e.attack;
+  const dispDEF = isTutorialBoss ? '？？？' : e.defense;
+  const dispSPD = isTutorialBoss ? '？？？' : e.speed;
+  const dispLUK = isTutorialBoss ? '？？？' : e.luck;
+  const gaugeHP = isTutorialBoss ? 0 : Math.min(100, (e.hp / 110) * 100);
+  const gaugeATK = isTutorialBoss ? 0 : Math.min(100, (e.attack / 110) * 100);
+  const gaugeDEF = isTutorialBoss ? 0 : Math.min(100, (e.defense / 110) * 100);
+  const gaugeSPD = isTutorialBoss ? 0 : Math.min(100, (e.speed / 110) * 100);
+  const gaugeLUK = isTutorialBoss ? 0 : Math.min(100, (e.luck / 110) * 100);
   
   panel.innerHTML = `
     <div class="enemy-rank-badge" style="margin-top:0px;">${badgeLabel}</div>
@@ -6392,29 +6424,29 @@ function renderEnemyInfo() {
     
     <div class="rumor-box">
       <div class="rumor-label">📢 噂・情報</div>
-      <div class="rumor-text" style="font-size:12px; line-height:1.3;">${e.rumor || '敵に関する情報は十分に掴めていない。'}</div>
+      <div class="rumor-text" style="font-size:12px; line-height:1.3;">${isTutorialBoss ? '未知の強敵。ステータスは一切不明……' : (e.rumor || '敵に関する情報は十分に掴めていない。')}</div>
     </div>
     
     <div class="enemy-stats-preview" style="margin-top:6px; display:grid; grid-template-columns:repeat(2, 1fr); gap:4px 10px; background:transparent !important; border:2px solid rgba(255,255,255,0.6) !important; border-radius:8px; padding:6px; font-size:12px; text-align:left;">
       <div>
-        HP: <strong style="color:var(--text-primary);">${e.hp}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-hp" style="width: ${Math.min(100, (e.hp / 110) * 100)}%;"></div></div>
+        HP: <strong style="color:var(--text-primary);">${dispHP}</strong>
+        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-hp" style="width: ${gaugeHP}%;"></div></div>
       </div>
       <div>
-        攻撃: <strong style="color:var(--text-primary);">${e.attack}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-atk" style="width: ${Math.min(100, (e.attack / 110) * 100)}%;"></div></div>
+        攻撃: <strong style="color:var(--text-primary);">${dispATK}</strong>
+        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-atk" style="width: ${gaugeATK}%;"></div></div>
       </div>
       <div>
-        防御: <strong style="color:var(--text-primary);">${e.defense}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-def" style="width: ${Math.min(100, (e.defense / 110) * 100)}%;"></div></div>
+        防御: <strong style="color:var(--text-primary);">${dispDEF}</strong>
+        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-def" style="width: ${gaugeDEF}%;"></div></div>
       </div>
       <div>
-        素早: <strong style="color:var(--text-primary);">${e.speed}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-spd" style="width: ${Math.min(100, (e.speed / 110) * 100)}%;"></div></div>
+        素早: <strong style="color:var(--text-primary);">${dispSPD}</strong>
+        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-spd" style="width: ${gaugeSPD}%;"></div></div>
       </div>
       <div style="grid-column: span 2;">
-        運: <strong style="color:var(--text-primary);">${e.luck}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-lck" style="width: ${Math.min(100, (e.luck / 110) * 100)}%;"></div></div>
+        運: <strong style="color:var(--text-primary);">${dispLUK}</strong>
+        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-lck" style="width: ${gaugeLUK}%;"></div></div>
       </div>
       <div style="grid-column: span 2; border-top:1px solid rgba(255,255,255,0.2); padding-top:4px; margin-top:2px;">
         ⚡ スキル: <strong style="color:var(--text-secondary);">❓ 未知の技 (発動時に開示)</strong>
@@ -8869,7 +8901,7 @@ function startBossRevenge() {
   ], () => {
     // ストーリー読了後に専用バトル前確認画面へ遷移
     currentGameMode = 'boss-revenge';
-    currentEnemy = { ...TUTORIAL_BOSS };
+    currentEnemy = { ...HAOU_REVENGE_BOSS };
     goScreen('scouting');
   });
 }
