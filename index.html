@@ -1103,6 +1103,62 @@
       letter-spacing: 4px;
     }
 
+    /* ====== ラボページネーションUI ====== */
+    .lab-pagination-container {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 20px !important;
+      margin-top: 15px !important;
+      padding: 8px 20px !important;
+      background: rgba(15, 20, 30, 0.8) !important;
+      border: 1px solid rgba(255, 215, 0, 0.4) !important;
+      border-radius: 20px !important;
+      z-index: 100 !important;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .lab-page-btn {
+      background: none !important;
+      border: none !important;
+      color: #ffd700 !important;
+      font-size: 24px !important;
+      cursor: pointer !important;
+      transition: transform 0.2s, color 0.2s !important;
+    }
+    .lab-page-btn:hover:not(:disabled) {
+      transform: scale(1.2) !important;
+      color: #ffffff !important;
+    }
+    .lab-page-btn:disabled {
+      color: #555555 !important;
+      cursor: not-allowed !important;
+    }
+    .lab-page-info {
+      font-size: 16px !important;
+      font-weight: bold !important;
+      color: #ffffff !important;
+    }
+
+    /* ====== アイテム使用ボタン ====== */
+    .lab-use-item-btn {
+      background: linear-gradient(135deg, #1e3c72, #2a5298) !important;
+      color: #ffffff !important;
+      border: 1px solid #00d2ff !important;
+      border-radius: 6px !important;
+      padding: 4px 12px !important;
+      font-size: 13px !important;
+      font-weight: bold !important;
+      cursor: pointer !important;
+      box-shadow: 0 0 8px rgba(0, 210, 255, 0.4) !important;
+      transition: all 0.2s ease !important;
+    }
+    .lab-use-item-btn:hover {
+      background: linear-gradient(135deg, #2a5298, #00d2ff) !important;
+      transform: translateY(-1px) !important;
+    }
+
     /* ====== タイトル画面 セーブスロットカード ====== */
     .title-save-slot-list {
       display: flex;
@@ -3093,10 +3149,204 @@
       color: #e2e8f0 !important;
     }
 
+    /* Monster Select Modal (replaces browser prompt) */
+    #monster-select-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 15000;
+    }
+    .monster-select-window {
+      width: 450px;
+      max-width: 92vw;
+      max-height: 80vh;
+      background: #101828;
+      border: 2px solid #00d2ff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.4), inset 0 0 15px rgba(0, 0, 0, 0.4);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    .monster-select-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #00d2ff;
+      text-align: center;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+    }
+    #target-monster-list,
+    .monster-select-list,
+    .target-list-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      max-height: 50vh;
+      padding: 4px;
+      padding-right: 6px !important;
+      box-sizing: border-box !important;
+    }
+    #target-monster-list::-webkit-scrollbar,
+    .monster-select-list::-webkit-scrollbar {
+      width: 6px !important;
+      height: 0px !important;
+    }
+    #target-monster-list::-webkit-scrollbar-thumb,
+    .monster-select-list::-webkit-scrollbar-thumb {
+      background: rgba(0, 210, 255, 0.3) !important;
+      border-radius: 4px !important;
+    }
+    #target-monster-list::-webkit-scrollbar-track,
+    .monster-select-list::-webkit-scrollbar-track {
+      background: transparent !important;
+    }
+
+    .monster-select-card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(0, 210, 255, 0.25);
+      padding: 12px 16px;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: bold;
+      text-align: left;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .monster-select-card:hover {
+      background: rgba(0, 210, 255, 0.15);
+      border-color: #00d2ff;
+      box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
+    }
+    .monster-select-card .msc-sub {
+      font-size: 13px;
+      font-weight: normal;
+      color: var(--text-dim);
+      margin-left: auto;
+    }
+    .monster-select-cancel {
+      margin-top: 12px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text-dim);
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .monster-select-cancel:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    /* Modal Central Positioning & Dark Overlay Override (Relative to game-viewport) */
+    #lab-item-modal,
+    #lab-detail-modal,
+    #monster-select-modal,
+    #item-inventory-modal,
+    #status-allocation-modal,
+    .modal-overlay,
+    .modal-backdrop,
+    .item-modal-overlay {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      background-color: rgba(0, 0, 0, 0.85) !important;
+      backdrop-filter: blur(6px) !important;
+      z-index: 16000 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      justify-content: center !important;
+      align-items: center !important;
+      box-sizing: border-box !important;
+    }
+    #lab-item-modal.active, #lab-detail-modal.active, #monster-select-modal.active, #item-inventory-modal.active, #status-allocation-modal.active,
+    #lab-item-modal[style*="display: flex"], #lab-item-modal[style*="display:flex"],
+    #lab-detail-modal[style*="display: flex"], #lab-detail-modal[style*="display:flex"],
+    #monster-select-modal[style*="display: flex"], #monster-select-modal[style*="display:flex"],
+    #item-inventory-modal[style*="display: flex"], #item-inventory-modal[style*="display:flex"],
+    #status-allocation-modal[style*="display: flex"], #status-allocation-modal[style*="display:flex"] {
+      display: flex !important;
+    }
+    #lab-item-modal:not([style*="display: flex"]):not([style*="display:flex"]):not(.active),
+    #lab-detail-modal:not([style*="display: flex"]):not([style*="display:flex"]):not(.active),
+    #monster-select-modal:not([style*="display: flex"]):not([style*="display:flex"]):not(.active),
+    #item-inventory-modal:not([style*="display: flex"]):not([style*="display:flex"]):not(.active),
+    #lab-item-modal[style*="display: none"], #lab-item-modal[style*="display:none"],
+    #lab-detail-modal[style*="display: none"], #lab-detail-modal[style*="display:none"],
+    #monster-select-modal[style*="display: none"], #monster-select-modal[style*="display:none"],
+    #item-inventory-modal[style*="display: none"], #item-inventory-modal[style*="display:none"] {
+      display: none !important;
+    }
+    #lab-item-modal > .cyber-card,
+    #lab-detail-modal > .cyber-card,
+    #monster-select-modal > .monster-select-window,
+    .item-modal-content,
+    .modal-window,
+    .item-inventory-container,
+    #item-inventory-modal > div {
+      position: relative !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      transform: none !important;
+      margin: auto !important;
+      width: 500px !important;
+      max-width: 90% !important;
+      max-height: 85% !important;
+      background: #0f172a !important;
+      border: 2px solid #00d2ff !important;
+      border-radius: 12px !important;
+      padding: 24px !important;
+      box-shadow: 0 0 30px rgba(0, 210, 255, 0.4), 0 10px 25px rgba(0, 0, 0, 0.8) !important;
+      color: #ffffff !important;
+      box-sizing: border-box !important;
+      z-index: 15001 !important;
+/* START文字のゆっくり点滅アニメーション */
+@keyframes slowBlink {
+  0% { opacity: 0.2; transform: scale(0.98); }
+  50% { opacity: 1.0; transform: scale(1.02); }
+  100% { opacity: 0.2; transform: scale(0.98); }
+}
+
+.blink-start-text {
+  animation: slowBlink 2.2s infinite ease-in-out;
+}
 </style>
 </head>
 <body>
 <div id="game-viewport">
+
+<!-- OP（オープニング）画面 -->
+<div id="op-screen" style="position: absolute; inset: 0; background: #000; z-index: 20000; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; user-select: none;">
+  <!-- OP画像 -->
+  <img id="op-image" src="./images/op_image.png" onerror="if(this.src.indexOf('zenntaizu')===-1) this.src='./IMGTITLE/zenntaizu[name].png';" alt="OP Image" style="max-width: 90%; max-height: 70vh; object-fit: contain; margin-bottom: 30px; filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.4));">
+
+  <!-- ゆっくり点滅するスタートテキスト -->
+  <div class="blink-start-text" style="color: #ffffff; font-size: 24px; font-weight: bold; letter-spacing: 3px; text-shadow: 0 0 10px #00d2ff;">
+    - PRESS TAP TO START -
+  </div>
+</div>
 
 
 
@@ -3123,6 +3373,64 @@
   </div>
 </div>
 
+<!-- ============ MONSTER SELECT MODAL (replaces prompt) ============ -->
+<div id="monster-select-modal" style="display:none;">
+  <div class="monster-select-window">
+    <div class="monster-select-title" id="monster-select-title">対象モンスターを選択</div>
+    <div class="monster-select-list" id="monster-select-list"></div>
+    <button class="monster-select-cancel" onclick="closeMonsterSelectModal()">✕ キャンセル</button>
+  </div>
+</div>
+
+<!-- ============ STATUS ALLOCATION POPUP MODAL ============ -->
+<div id="status-allocation-modal" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:16000; align-items:center; justify-content:center; backdrop-filter:blur(4px);">
+  <div class="cyber-card" style="width:90%; max-width:520px; padding:20px 24px; background:var(--bg-panel); border:2px solid var(--accent-cyan); border-radius:14px; box-shadow:0 0 30px rgba(0,210,255,0.3); color:#fff; position:relative;">
+    <div style="font-size:18px; font-weight:bold; color:var(--accent-cyan); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:12px;">
+      💊 ステータス再分配 ─ <span id="stat-popup-monster-name"></span>
+    </div>
+    <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,210,255,0.08); border:1px solid rgba(0,210,255,0.2); padding:8px 14px; border-radius:8px; margin-bottom:14px;">
+      <span style="font-size:14px; color:var(--text-dim);">残り割り振り可能pt:</span>
+      <span style="font-size:20px; font-weight:bold; color:var(--accent-gold);" id="stat-popup-bonus-left">98 pt</span>
+    </div>
+    
+    <div id="stat-popup-rows" style="display:flex; flex-direction:column; gap:10px; margin-bottom:16px;"></div>
+
+    <div style="display:flex; gap:10px; margin-top:14px;">
+      <button class="title-btn" style="flex:1; padding:10px; font-size:15px; background:linear-gradient(135deg, #10b981, #059669);" onclick="confirmStatusAllocationPopup()">決定・保存</button>
+      <button class="btn-secondary" style="padding:10px 16px; font-size:14px;" onclick="closeStatusAllocationPopup()">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SKILL SELECT POPUP MODAL ============ -->
+<div id="skill-select-modal" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:16000; align-items:center; justify-content:center; backdrop-filter:blur(4px);">
+  <div class="cyber-card" style="width:90%; max-width:540px; padding:20px 24px; background:var(--bg-panel); border:2px solid var(--accent-gold); border-radius:14px; box-shadow:0 0 30px rgba(245,158,11,0.3); color:#fff; position:relative; max-height:85%; display:flex; flex-direction:column;">
+    <div style="font-size:18px; font-weight:bold; color:var(--accent-gold); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:12px;">
+      🧪 スキル再構成 ─ <span id="skill-popup-monster-name"></span>
+    </div>
+    <div style="font-size:13px; color:var(--text-dim); text-align:center; margin-bottom:10px;">
+      現在のスキル: <span id="skill-popup-current" style="color:var(--accent-cyan); font-weight:bold;"></span>
+    </div>
+    <div id="skill-popup-list" style="display:flex; flex-direction:column; gap:6px; overflow-x:hidden; overflow-y:auto; flex:1; padding-right:4px;"></div>
+    <div style="margin-top:14px;">
+      <button class="btn-secondary" style="width:100%; padding:10px; font-size:14px;" onclick="closeSkillSelectPopup()">✕ キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LAB ITEM MODAL ============ -->
+<div id="lab-item-modal" style="display:none;">
+  <div class="cyber-card" style="width:90%; max-width:500px; padding:24px; background:var(--bg-panel); border:2px solid var(--accent-cyan); border-radius:14px; box-shadow:0 0 25px rgba(0,210,255,0.25); position:relative; max-height:80vh; overflow-y:auto;">
+    <button onclick="closeLabItemModal()" style="position:absolute; top:8px; right:14px; background:transparent; border:none; color:#fff; font-size:28px; cursor:pointer; opacity:0.7; z-index:10;" title="閉じる">&times;</button>
+    <div style="font-size:20px; font-weight:bold; color:var(--accent-cyan); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:16px;">
+      🧪 所持アイテム一覧
+    </div>
+    <div id="lab-item-list" style="display:flex; flex-direction:column; gap:12px;">
+      <!-- アイテムリストがJSで描画される -->
+    </div>
+  </div>
+</div>
+
 <!-- ============ SAVE SLOT OVERLAY ============ -->
 <div id="save-slot-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:15000; align-items:center; justify-content:center;">
   <div style="background:var(--bg-card); border:2px solid var(--border); border-radius:14px; width:95%; max-width:640px; max-height:90%; display:flex; flex-direction:column; padding:20px; box-shadow:0 0 30px rgba(0,0,0,0.8);">
@@ -3139,6 +3447,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- ============ STORY DIALOG MODAL ============ -->
 <div id="story-dialog-overlay" class="story-dialog-overlay" onclick="advanceStoryDialog()">
@@ -3179,6 +3488,32 @@
     <div class="title-save-slot-list" id="title-save-slot-list" onclick="event.stopPropagation()">
       <!-- スロットカードはJS (renderTitleSaveSlots) で動的生成 -->
     </div>
+    <button onclick="event.stopPropagation(); openSettingsModal();" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); border-radius:8px; padding:6px 14px; color:#ccc; font-size:14px; cursor:pointer; z-index:10;">⚙ 設定</button>
+  </div>
+</div>
+
+<!-- ============ SETTINGS MODAL ============ -->
+<div id="settings-modal" style="display:none; position:absolute; inset:0; background:rgba(0,0,0,0.8); z-index:30000; align-items:center; justify-content:center;" onclick="closeSettingsModal()">
+  <div style="background:linear-gradient(180deg, #0d1117, #07090e); border:2px solid var(--accent-gold); border-radius:14px; padding:28px 32px; max-width:400px; width:85%; box-shadow:0 0 30px rgba(245,158,11,0.3); text-align:center;" onclick="event.stopPropagation()">
+    <div style="font-family:'Orbitron',sans-serif; font-size:20px; font-weight:900; color:var(--accent-gold); margin-bottom:20px; letter-spacing:1px;">⚙ サウンド設定</div>
+    
+    <div style="margin-bottom:20px; text-align:left;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+        <label style="color:#e0e0e0; font-size:15px; font-weight:bold;">🎵 BGM 音量</label>
+        <span id="bgm-vol-label" style="color:var(--accent-gold); font-size:14px; font-weight:bold;">50%</span>
+      </div>
+      <input type="range" id="bgm-volume-slider" min="0" max="100" value="50" oninput="onBgmVolumeChange(this.value)" style="width:100%; accent-color:var(--accent-gold); cursor:pointer;">
+    </div>
+
+    <div style="margin-bottom:24px; text-align:left;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+        <label style="color:#e0e0e0; font-size:15px; font-weight:bold;">🔊 SE 音量</label>
+        <span id="se-vol-label" style="color:var(--accent-cyan); font-size:14px; font-weight:bold;">50%</span>
+      </div>
+      <input type="range" id="se-volume-slider" min="0" max="100" value="50" oninput="onSeVolumeChange(this.value)" style="width:100%; accent-color:var(--accent-cyan); cursor:pointer;">
+    </div>
+
+    <button class="title-btn" style="padding:10px 24px; font-size:16px; width:100%;" onclick="closeSettingsModal()">閉じる</button>
   </div>
 </div>
 
@@ -3260,6 +3595,11 @@
           <div class="map-area-lock" id="map-lock-boss-revenge" style="display:none; font-size:20px; transform: translate(-50%, -60%);">🔑</div>
         </div>
 
+        <!-- 7) 商店（SHOP）：マップから直接アクセス -->
+        <div class="map-area" id="map-area-shop" onclick="onMapAreaClick('shop')" style="top: 48%; left: 78%; width: 16%; height: 22%;">
+          <div class="map-area-tooltip">🛍️ 商店 (SHOP)<br><span style="font-size:10px; color:#aaa;">BPで限定モンスター解放</span></div>
+        </div>
+
       </div>
     </div>
 
@@ -3294,16 +3634,16 @@
 <div id="reward-shop-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
   <div class="cyber-card" style="width:100%; max-width:600px; padding:24px; background:var(--bg-panel); border:2px solid var(--accent-gold); border-radius:14px; box-shadow:var(--glow-gold);">
     <div style="font-size:22px; font-weight:bold; color:var(--accent-gold); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:20px; display:flex; align-items:center; justify-content:center; gap:8px;">
-      <span>🛍️</span> 武舞台 報酬交換ショップ
+      <span>🛍️</span> 商店 ─ 報酬交換ショップ
     </div>
 
     <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.3); border:1px solid var(--border); border-radius:8px; padding:12px 18px; margin-bottom:20px;">
-      <span style="font-size:15px; color:var(--text-secondary);">所持武舞台ポイント:</span>
+      <span style="font-size:15px; color:var(--text-secondary);">所持バトルポイント:</span>
       <strong style="font-size:22px; color:var(--accent-gold); font-family:'Orbitron', sans-serif;" id="shop-bp-display">0 BP</strong>
     </div>
 
     <div style="font-size:14px; color:var(--text-dim); margin-bottom:15px; text-align:center;">
-      各シリーズを <span style="color:var(--accent-gold); font-weight:bold;">300 BP</span> で解放できます（解放すると調合可能になります）
+      各シリーズを <span style="color:var(--accent-gold); font-weight:bold;">500 BP</span> で解放できます（解放すると調合可能になります）
     </div>
 
     <!-- Shop Grid -->
@@ -3311,7 +3651,7 @@
       <!-- Item Cards Dynamically Populated by renderRewardShop() -->
     </div>
 
-    <button class="btn-secondary" style="width:100%; padding:12px; font-weight:bold;" onclick="goScreen('team-arena-menu')">武舞台メニューに戻る</button>
+    <button class="btn-secondary" style="width:100%; padding:12px; font-weight:bold;" onclick="goScreen('main-menu')">🗺️ マップに戻る</button>
   </div>
 </div>
 
@@ -3517,20 +3857,20 @@
       </div>
       
       <div style="display:flex; gap:12px; margin-bottom:20px; min-height:160px;">
-        <!-- Left: My readiness -->
-        <div style="flex:1; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; padding:10px; display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
-          <div style="font-size:12px; font-weight:bold; color:var(--text-dim);">あなた (YOU)</div>
-          <div id="p2p-my-monster-preview" style="font-size:36px; margin:10px 0;">🐲</div>
-          <div id="p2p-my-monster-name" style="font-size:14px; font-weight:bold; color:#fff; text-align:center;">選択モンスター</div>
-          <button class="title-btn" id="p2p-my-ready-btn" style="width:100%; padding:8px; font-size:14px; margin-top:8px;" onclick="toggleP2PMyReady()">準備完了</button>
-        </div>
-        
-        <!-- Right: Opponent readiness -->
+        <!-- Left: Opponent readiness (LEFT) -->
         <div style="flex:1; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; padding:10px; display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
           <div style="font-size:12px; font-weight:bold; color:var(--text-dim);">対戦相手 (OPP)</div>
           <div id="p2p-opp-monster-preview" style="font-size:36px; margin:10px 0;">❓</div>
           <div id="p2p-opp-monster-name" style="font-size:14px; font-weight:bold; color:var(--text-dim); text-align:center;">接続中...</div>
           <div id="p2p-opp-ready-status" style="width:100%; padding:8px 0; text-align:center; font-size:13px; font-weight:bold; border-radius:4px; background:rgba(0,0,0,0.2); color:var(--text-dim); margin-top:8px;">未準備</div>
+        </div>
+
+        <!-- Right: My readiness (RIGHT) -->
+        <div style="flex:1; background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; padding:10px; display:flex; flex-direction:column; justify-content:space-between; align-items:center;">
+          <div style="font-size:12px; font-weight:bold; color:var(--text-dim);">あなた (YOU)</div>
+          <div id="p2p-my-monster-preview" style="font-size:36px; margin:10px 0;">🐲</div>
+          <div id="p2p-my-monster-name" style="font-size:14px; font-weight:bold; color:#fff; text-align:center;">選択モンスター</div>
+          <button class="title-btn" id="p2p-my-ready-btn" style="width:100%; padding:8px; font-size:14px; margin-top:8px;" onclick="toggleP2PMyReady()">準備完了</button>
         </div>
       </div>
       
@@ -3544,6 +3884,18 @@
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+}
+#p2p-opp-monster-preview img {
+  transform: scaleX(-1);
+}
+/* ロールテロップのアニメーション設定 */
+@keyframes creditRoll {
+  0% { transform: translateY(100vh); }
+  100% { transform: translateY(-10%); }
+}
+
+.roll-animation {
+  animation: creditRoll 12s linear forwards;
 }
 </style>
 
@@ -3573,6 +3925,29 @@
   </div>
 </div>
 
+<!-- ============ ENDING CREDITS OVERLAY ============ -->
+<div id="ending-screen" style="display: none; position: absolute; inset: 0; background: #000; color: #fff; z-index: 25000; overflow: hidden; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+  <div id="credits-container" class="roll-animation" style="position: absolute; width: 80%; display: flex; flex-direction: column; align-items: center; gap: 30px;">
+    <h1 style="color: #ffb700; font-size: 28px; letter-spacing: 2px;">100PT BUILD BATTLE</h1>
+    <p style="color: #00d2ff; font-size: 16px; margin-top: -20px;">〜 6体制限・レトロモンスターラボ 〜</p>
+
+    <div style="margin: 40px 0; font-size: 18px; line-height: 1.8; color: #ddd;">
+      覇王の脅威は去った。<br>
+      だが、最強のビルドを求める研究者たちの探求に終わりはない――
+    </div>
+
+    <div style="border-top: 1px solid rgba(255,255,255,0.2); border-bottom: 1px solid rgba(255,255,255,0.2); padding: 20px 0; width: 100%;">
+      <p style="color: #aaa; font-size: 14px; margin-bottom: 5px;">GAME CREATOR & LAB RESEARCHER</p>
+      <p style="font-size: 20px; color: #fff; font-weight: bold;">Pee研究員</p>
+    </div>
+
+    <h2 style="color: #ff9900; font-size: 32px; margin-top: 50px;">THANK YOU FOR PLAYING!</h2>
+
+    <button id="finish-ed-btn" style="margin-top: 30px; background: #00d2ff; color: #000; border: none; padding: 12px 30px; border-radius: 25px; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 0 15px rgba(0,210,255,0.6);">
+      引き続きお楽しみください ➔
+    </button>
+  </div>
+</div>
 
 <!-- ============ HEADER (Initially hidden) ============ -->
 <header id="header" style="display: none;">
@@ -3620,6 +3995,7 @@
     
     <div class="lab-actions" style="margin-bottom:10px; justify-content: flex-end; gap:10px; align-items: center;">
       <span id="lab-unlocked-count" style="font-size:14px; color:var(--accent-gold); margin-right: auto;">🔓 解放済みスキル: 0 / 30</span>
+      <button class="lab-use-item-btn" onclick="openLabItemModal()">🧪 アイテム使用</button>
       <button class="btn-secondary" style="border-color:rgba(245,158,11,0.4); color:var(--accent-gold); padding:6px 12px;" onclick="openSkillsLibrary()">📜 所持スキル確認</button>
       <button class="btn-secondary" id="btn-random-create" style="padding:6px 12px;" onclick="executeRandomCreate()">🎲 ランダム作成</button>
     </div>
@@ -3627,8 +4003,16 @@
     <div class="lab-grid-6" id="lab-grid-6">
       <!-- 6 Slots will be rendered here dynamically -->
     </div>
+    
+    <!-- ページ切り替え機能コントロールバー -->
+    <div class="lab-pagination-container" id="lab-pagination">
+      <button class="lab-page-btn" id="lab-prev-btn" onclick="changeLabPage(-1)">◀</button>
+      <span class="lab-page-info" id="lab-page-text">1 / 1</span>
+      <button class="lab-page-btn" id="lab-next-btn" onclick="changeLabPage(1)">▶</button>
+    </div>
   </div>
 </div>
+
 
 <!-- ============ LAB DETAIL MODAL ============ -->
 <div id="lab-detail-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
@@ -4051,7 +4435,7 @@
         <div id="battle-result-sub" style="font-size: 16px; color: var(--text-secondary); margin-bottom: 4px; line-height: 1.5;"></div>
         <div style="display: flex; gap: 8px; justify-content: center; margin-top: 6px;">
           <button class="result-btn primary" id="battle-result-next" onclick="resultNext()" style="padding: 10px 20px; font-size: 18px; height: auto; margin: 0; width: 100%;">🗺️ 次へ</button>
-          <button class="result-btn secondary" onclick="resultLab()" style="padding: 10px 20px; font-size: 18px; height: auto; margin: 0; width: 100%; border-color: var(--border);">🔬 ラボへ</button>
+          <button class="result-btn secondary" id="battle-result-lab" onclick="resultLab()" style="padding: 10px 20px; font-size: 18px; height: auto; margin: 0; width: 100%; border-color: var(--border);">🔬 ラボへ</button>
         </div>
       </div>
     </div>
@@ -4461,6 +4845,12 @@ function delay(ms) {
 let activeSlotId = 1;
 let bp = 0;
 let unlockedSeries = []; // 'robo', 'shin', 'dinosaur', 'toy', 'ghost'
+let maxMonsterSlots = 6;
+let ownedItems = {
+  expandSlot: 1,
+  resetStats: 1,
+  changeSkill: 1
+};
 
 function getSlotKey(slotId) {
   return '100pt_v3_slot_' + (slotId || activeSlotId || 1);
@@ -4493,7 +4883,9 @@ function save() {
     survivalBestRecord: survivalBestRecord,
     gameProgress: gameProgress,
     bp: bp,
-    unlockedSeries: unlockedSeries
+    unlockedSeries: unlockedSeries,
+    maxMonsterSlots: maxMonsterSlots,
+    ownedItems: ownedItems
   };
   localStorage.setItem(getSlotKey(activeSlotId), JSON.stringify(slotData));
   localStorage.setItem('100pt_v3_active_slot', String(activeSlotId));
@@ -4514,6 +4906,12 @@ function resetMemoryState() {
   };
   bp = 0;
   unlockedSeries = [];
+  currentLabPage = 1;
+  maxMonsterSlots = 6;
+  ownedItems = {
+    resetStats: 1,
+    changeSkill: 1
+  };
 }
 
 function loadSlot(slotId) {
@@ -4531,6 +4929,8 @@ function loadSlot(slotId) {
     gameProgress = data.gameProgress ? { ...data.gameProgress } : { tutorialStep: 4, bossRevengeUnlocked: false, bossDefeated: false };
     bp = typeof data.bp === 'number' ? data.bp : 0;
     unlockedSeries = Array.isArray(data.unlockedSeries) ? data.unlockedSeries : [];
+    maxMonsterSlots = typeof data.maxMonsterSlots === 'number' ? data.maxMonsterSlots : 6;
+    ownedItems = data.ownedItems ? { ...data.ownedItems } : { resetStats: 1, changeSkill: 1 };
   } else {
     resetMemoryState();
   }
@@ -4593,6 +4993,203 @@ function updateRecord() {
   if (winEl) winEl.textContent = `🏆 ${record.win || 0}`;
   if (loseEl) loseEl.textContent = `💀 ${record.lose || 0}`;
   if (drawEl) drawEl.textContent = `🤝 ${record.draw || 0}`;
+}
+
+// ============================================================
+//  BGM MANAGEMENT SYSTEM (SoundManager)
+// ============================================================
+class BGMManager {
+  constructor() {
+    this.currentBGM = null;
+    this.currentKey = null;
+    this.bgmVolume = 0.5; // BGM音量 (0.0～1.0)
+    this.seVolume = 0.5;  // SE音量 (0.0～1.0)
+    
+    // localStorageから音量設定を復元
+    const savedBgm = localStorage.getItem('100pt_bgm_volume');
+    const savedSe = localStorage.getItem('100pt_se_volume');
+    if (savedBgm !== null) this.bgmVolume = parseFloat(savedBgm);
+    if (savedSe !== null) this.seVolume = parseFloat(savedSe);
+    
+    // BGMファイルパス定義（相対パス指定・BGM1フォルダ内の実ファイルに対応）
+    this.bgmList = {
+      title: './BGM1/OP BGM1.mp3',        // タイトル・マップ画面
+      map: './BGM1/OP BGM1.mp3',          // マップ画面
+      lab: './BGM1/raboBGM1.mp3',         // ラボ画面・作成画面
+      normalBattle: './BGM1/battle１.mp3', // 通常バトル（リーグ・フリー・勝ち抜き・武舞台）
+      bossBattle: './BGM1/BOSSbattle１.mp3', // 覇王ボス戦・チュートリアル・再戦ボス
+      victory: './BGM1/Victory.mp3',      // 勝利時
+      lose: './BGM1/lose.mp3',             // 敗北時
+      
+      towerSelect: './BGM1/Tower.mp3',       // 試練の塔 モンスター選出・準備画面
+      colosseumSelect: './BGM1/Colosseum.mp3',// コロッシアム モンスター選出・準備画面
+
+      bubutai: './BGM1/bubutai.mp3',         // 武舞台
+      p2pShrine: './BGM1/P2PBGM.mp3',        // 異次元の祠
+
+      haouPrep: './BGM1/haou.mp3',           // 覇王バトル準備画面
+      shop: './BGM1/syouten.mp3'             // 商店画面
+    };
+  }
+
+  // BGMの再生（同じ曲が流れている場合は継続再生）
+  play(key, isLoop = true) {
+    if (this.currentKey === key && this.currentBGM && !this.currentBGM.paused) {
+      return; // すでに同じ曲が再生中なら何もしない
+    }
+
+    // 現在再生中のBGMを停止
+    this.stop();
+
+    const filePath = this.bgmList[key];
+    if (!filePath) {
+      console.warn(`BGM Key "${key}" に対応する音源が見つかりません。`);
+      return;
+    }
+
+    this.currentBGM = new Audio(filePath);
+    this.currentBGM.loop = true; // 全てのBGMを常にループ再生
+    this.currentBGM.volume = this.bgmVolume;
+    
+    this.currentBGM.play().catch(err => {
+      // ユーザーが画面操作する前の自動再生ブロック（ブラウザ仕様）対策
+      console.log("ユーザー操作を待機中: " + err);
+    });
+
+    this.currentKey = key;
+  }
+
+  // BGMの停止
+  stop() {
+    if (this.currentBGM) {
+      this.currentBGM.pause();
+      this.currentBGM.currentTime = 0;
+      this.currentBGM = null;
+    }
+    this.currentKey = null;
+  }
+
+  // BGM音量の設定
+  setBgmVolume(vol) {
+    this.bgmVolume = Math.max(0, Math.min(1, vol));
+    if (this.currentBGM) {
+      this.currentBGM.volume = this.bgmVolume;
+    }
+    localStorage.setItem('100pt_bgm_volume', this.bgmVolume.toString());
+  }
+
+  // SE音量の設定
+  setSeVolume(vol) {
+    this.seVolume = Math.max(0, Math.min(1, vol));
+    localStorage.setItem('100pt_se_volume', this.seVolume.toString());
+  }
+
+  // SE再生用ヘルパー
+  playSE(filePath) {
+    const se = new Audio(filePath);
+    se.volume = this.seVolume;
+    se.play().catch(() => {});
+  }
+}
+
+// グローバルインスタンス化
+window.bgmManager = new BGMManager();
+
+// 初回クリック/タップ時にブラウザの音声自動再生ブロックを解除
+document.addEventListener('click', () => {
+  if (window.bgmManager && window.bgmManager.currentBGM && window.bgmManager.currentBGM.paused && window.bgmManager.currentKey) {
+    window.bgmManager.currentBGM.play().catch(() => {});
+  }
+}, { once: false });
+
+// ============================================================
+//  SETTINGS MODAL (音量設定)
+// ============================================================
+function openSettingsModal() {
+  const modal = document.getElementById('settings-modal');
+  if (!modal) return;
+
+  // スライダーの値を現在の音量に同期
+  const bgmSlider = document.getElementById('bgm-volume-slider');
+  const seSlider = document.getElementById('se-volume-slider');
+  const bgmLabel = document.getElementById('bgm-vol-label');
+  const seLabel = document.getElementById('se-vol-label');
+
+  if (bgmSlider && window.bgmManager) {
+    bgmSlider.value = Math.round(window.bgmManager.bgmVolume * 100);
+    if (bgmLabel) bgmLabel.textContent = bgmSlider.value + '%';
+  }
+  if (seSlider && window.bgmManager) {
+    seSlider.value = Math.round(window.bgmManager.seVolume * 100);
+    if (seLabel) seLabel.textContent = seSlider.value + '%';
+  }
+
+  modal.style.display = 'flex';
+}
+
+function closeSettingsModal() {
+  const modal = document.getElementById('settings-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function onBgmVolumeChange(val) {
+  const v = parseInt(val);
+  const label = document.getElementById('bgm-vol-label');
+  if (label) label.textContent = v + '%';
+  if (window.bgmManager) {
+    window.bgmManager.setBgmVolume(v / 100);
+  }
+}
+
+function onSeVolumeChange(val) {
+  const v = parseInt(val);
+  const label = document.getElementById('se-vol-label');
+  if (label) label.textContent = v + '%';
+  if (window.bgmManager) {
+    window.bgmManager.setSeVolume(v / 100);
+  }
+}
+
+// 【1】試練の塔のモンスター選出画面を表示した時
+function showTowerMonsterSelectScene() {
+  if (window.bgmManager) {
+    window.bgmManager.play('towerSelect', true); // Tower.mp3 をループ再生
+  }
+}
+
+// 【2】コロシアムのモンスター選出画面を表示した時
+function showColosseumMonsterSelectScene() {
+  if (window.bgmManager) {
+    window.bgmManager.play('colosseumSelect', true); // Colosseum.mp3 をループ再生
+  }
+}
+
+// 【3】武舞台画面／ステージを表示した時
+function showBubutaiScene() {
+  if (window.bgmManager) {
+    window.bgmManager.play('bubutai', true); // bubutai.mp3 をループ再生
+  }
+}
+
+// 【4】異次元の祠画面／ステージを表示した時
+function showP2PShrineScene() {
+  if (window.bgmManager) {
+    window.bgmManager.play('p2pShrine', true); // P2PBGM.mp3 をループ再生
+  }
+}
+
+// 【5】覇王バトルの準備（選出）画面を表示した時
+function showHaouPrepScene() {
+  if (window.bgmManager) {
+    window.bgmManager.play('haouPrep', true); // haou.mp3 をループ再生
+  }
+}
+
+// 【6】商店画面を表示した時
+function showShopScene() {
+  if (window.bgmManager) {
+    window.bgmManager.play('shop', true); // syouten.mp3 をループ再生
+  }
 }
 
 //  NEW LAB & CREATOR SYSTEM (V3 Schema)
@@ -4724,7 +5321,8 @@ let creatorTemp = {
   name: '',
   stats: { hp: 10, attack: 10, defense: 10, speed: 10, luck: 10 },
   bonusLeft: 30,
-  skills: { active: [], passive: [] }
+  skills: { active: [], passive: [] },
+  editingLabIndex: null  // リセット薬経由の再配分時に対象モンスターのインデックスを保持
 };
 
 // V3 Schemas and default configurations
@@ -4837,6 +5435,36 @@ function goScreen(name) {
   // Clear battle timers if transitioning out of battle
   battleTimers.forEach(t => clearTimeout(t));
   battleTimers = [];
+
+  // BGM再生制御
+  if (window.bgmManager) {
+    if (name === 'lab' || name === 'creator') {
+      window.bgmManager.play('lab', true);
+    } else if (name === 'scouting') {
+      if (currentGameMode === 'survival') {
+        window.bgmManager.play('towerSelect', true);     // Tower.mp3
+      } else if (currentGameMode === 'boss-revenge') {
+        window.bgmManager.play('haouPrep', true);        // haou.mp3 (覇王バトル準備画面)
+      } else {
+        window.bgmManager.play('colosseumSelect', true); // Colosseum.mp3
+      }
+    } else if (name === 'reward-shop') {
+      window.bgmManager.play('shop', true);              // syouten.mp3 (商店画面)
+    } else if (name === 'free-battle-lobby') {
+      window.bgmManager.play('p2pShrine', true);          // P2PBGM.mp3 (異次元の祠)
+    } else if (name === 'team-arena-menu' || name === 'ta-party' || name === 'ta-progress') {
+      window.bgmManager.play('bubutai', true);            // bubutai.mp3 (武舞台)
+    } else if (name === 'battle') {
+      const isBoss = (currentEnemy && (currentEnemy.name === '覇王ゴブリン' || currentEnemy.name === '覇王ゴブリン(再戦)')) || currentGameMode === 'boss-revenge';
+      if (isBoss) {
+        window.bgmManager.play('bossBattle', true);
+      } else {
+        window.bgmManager.play('normalBattle', true);
+      }
+    } else {
+      window.bgmManager.play('title', true);
+    }
+  }
 
   document.querySelectorAll('.screen').forEach(s => {
     s.style.display = 'none';
@@ -5163,6 +5791,591 @@ function confirmPlayerName() {
 
 
 
+function renderLabGrid() {
+  const grid = document.getElementById('lab-grid-6');
+  const countDisplay = document.getElementById('lab-monsters-count');
+  const randomBtn = document.getElementById('btn-random-create');
+  const welcome = document.getElementById('lab-player-welcome');
+  
+  const activeLab = getActiveLab();
+  
+  welcome.textContent = `こんにちは、${playerName} 研究員！`;
+  countDisplay.textContent = `登録数: ${activeLab.length} / ${maxMonsterSlots}`;
+  
+  // 1ページあたり6枠表示の制御（最大スロット数基準でページを決定）
+  const maxPage = Math.max(1, Math.ceil(maxMonsterSlots / ITEMS_PER_PAGE));
+  if (currentLabPage > maxPage) currentLabPage = maxPage;
+  if (currentLabPage < 1) currentLabPage = 1;
+  
+  const startIndex = (currentLabPage - 1) * ITEMS_PER_PAGE;
+  randomBtn.disabled = activeLab.length >= maxMonsterSlots;
+
+  grid.innerHTML = '';
+  
+  // Clamp selectedLabIndex
+  if (selectedLabIndex >= activeLab.length) {
+    selectedLabIndex = Math.max(0, activeLab.length - 1);
+  }
+  
+  for (let i = 0; i < ITEMS_PER_PAGE; i++) {
+    const globalIndex = startIndex + i;
+    const card = document.createElement('div');
+    
+    if (globalIndex < activeLab.length) {
+      // Registered slot
+      const m = activeLab[globalIndex];
+      card.className = 'monster-card-6';
+      card.style.height = '230px';
+      card.style.minHeight = '230px';
+      card.style.display = 'flex';
+      card.style.flexDirection = 'column';
+      card.style.justifyContent = 'space-between';
+      card.style.alignItems = 'center';
+      card.style.padding = '12px';
+      
+      if (globalIndex === selectedLabIndex) {
+        card.classList.add('selected');
+      }
+      
+      card.innerHTML = `
+        <div onclick="selectLabMonster(${globalIndex}, false)" style="width: 100%; text-align: center; cursor: pointer;" title="クリックで選択">
+          <div style="font-weight:bold; font-size:18px; color:var(--accent-gold); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.name}</div>
+          <div style="font-size:12px; color:var(--text-dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.monsterClass}</div>
+        </div>
+        
+        <!-- Clickable Visual Area to open modal detail window -->
+        <div onclick="selectLabMonster(${globalIndex}, true)" style="height: 75px; display:flex; align-items:center; justify-content:center; cursor:pointer; width:100%; background:transparent; border-radius:6px; border: 1px dashed rgba(255,255,255,0.12);" title="画像クリックで詳細表示">
+          ${getMonsterVisualHTML(m.monsterClass, m.systemType, '60px')}
+        </div>
+        
+        <!-- Inline controls directly in card slot -->
+        <div style="width: 100%;">
+          <div style="display:flex; gap:4px; margin-bottom:4px; width:100%;">
+            <button class="btn-secondary" style="padding:2px 4px; font-size:13px; flex:1;" onclick="moveMonster(${globalIndex}, -1)" ${globalIndex === 0 ? 'disabled' : ''}>◀</button>
+            <button class="btn-secondary" style="padding:2px 4px; font-size:13px; flex:1;" onclick="moveMonster(${globalIndex}, 1)" ${globalIndex === activeLab.length - 1 ? 'disabled' : ''}>▶</button>
+          </div>
+          <div style="display:flex; gap:4px; width:100%;">
+            <button class="btn-secondary" style="border-color:rgba(245,158,11,0.3); color:var(--accent-gold); padding:2px 4px; font-size:13px; flex:1.2; display:flex; align-items:center; justify-content:center; gap:2px;" onclick="renameMonster(${globalIndex})">✏️ 改名</button>
+            <button class="btn-secondary" style="border-color:rgba(239,68,68,0.4); color:var(--accent-red); padding:2px 4px; font-size:13px; flex:1;" onclick="deleteMonster(${globalIndex})">📦 別れ</button>
+          </div>
+        </div>
+      `;
+    } else if (globalIndex < maxMonsterSlots) {
+      // Unlocked empty slot
+      card.className = 'monster-card-6 empty';
+      card.style.height = '230px';
+      card.style.minHeight = '230px';
+      card.innerHTML = `
+        <button class="empty-create-btn" onclick="startManualCreate()">＋ 調合</button>
+      `;
+    } else {
+      // Locked slot (shows lock style)
+      card.className = 'monster-card-6 empty locked';
+      card.style.height = '230px';
+      card.style.minHeight = '230px';
+      card.style.background = 'rgba(0,0,0,0.45)';
+      card.style.border = '1px dashed rgba(255,255,255,0.05)';
+      card.style.cursor = 'not-allowed';
+      card.innerHTML = `
+        <div style="font-size:24px; color:rgba(255,255,255,0.15); margin-bottom: 4px;">🔒</div>
+        <div style="font-size:11px; color:rgba(255,255,255,0.25);">ケージ未開放<br>(アイテムで拡張)</div>
+      `;
+    }
+    grid.appendChild(card);
+  }
+
+  // ページネーションUIの更新
+  document.getElementById('lab-page-text').textContent = `${currentLabPage} / ${maxPage}`;
+  document.getElementById('lab-prev-btn').disabled = (currentLabPage === 1);
+  document.getElementById('lab-next-btn').disabled = (currentLabPage === maxPage);
+
+  // Update underlying active borders but do not open popup automatically
+  selectLabMonster(selectedLabIndex, false);
+}
+
+function changeLabPage(delta) {
+  const activeLab = getActiveLab();
+  const maxPage = Math.max(1, Math.ceil(maxMonsterSlots / ITEMS_PER_PAGE));
+  currentLabPage += delta;
+  if (currentLabPage > maxPage) currentLabPage = maxPage;
+  if (currentLabPage < 1) currentLabPage = 1;
+  renderLabGrid();
+}
+
+// ============ LAB ITEM SYSTEM ============
+
+const LAB_ITEMS_DEF = {
+  resetStats: {
+    name: '💊 ステータスリセット薬',
+    desc: '対象モンスターのステータス配分を初期化し、100ptを再配分できます。',
+    icon: '💊'
+  },
+  changeSkill: {
+    name: '📜 スキル再構成薬',
+    desc: '対象モンスターのアクティブスキルをランダムに変更します。',
+    icon: '📜'
+  },
+  expandSlot2: {
+    name: '🏠 モンスター枠拡張 (+2)',
+    desc: 'モンスター保管枠を +2 拡張します。',
+    icon: '🏠'
+  }
+};
+
+function openLabItemModal() {
+  const modal = document.getElementById('lab-item-modal');
+  if (!modal) return;
+  renderOwnedItemList();
+  modal.classList.add('active');
+  modal.style.display = 'flex';
+}
+
+function closeLabItemModal() {
+  const modal = document.getElementById('lab-item-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.style.display = 'none';
+  }
+}
+
+function renderOwnedItemList() {
+  const container = document.getElementById('lab-item-list');
+  if (!container) return;
+  container.innerHTML = '';
+
+  let hasAny = false;
+  Object.entries(LAB_ITEMS_DEF).forEach(([itemId, def]) => {
+    const count = ownedItems[itemId] || 0;
+    hasAny = hasAny || count > 0;
+    
+    const card = document.createElement('div');
+    card.style = 'display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; padding:12px 16px; transition:all 0.2s;';
+    
+    const canUse = count > 0;
+    card.innerHTML = `
+      <div style="text-align:left; flex:1;">
+        <div style="font-weight:bold; font-size:15px; color:var(--text-primary);">${def.name}</div>
+        <div style="font-size:12px; color:var(--text-dim); margin-top:3px; line-height:1.3;">${def.desc}</div>
+        <div style="font-size:13px; color:var(--accent-gold); margin-top:4px;">所持数: <strong>${count}</strong></div>
+      </div>
+      <div style="margin-left:12px;">
+        <button class="title-btn" style="padding:8px 16px; font-size:13px; ${!canUse ? 'opacity:0.4; cursor:not-allowed; background:#475569; color:#cbd5e1; box-shadow:none;' : ''}" 
+          ${!canUse ? 'disabled' : ''} onclick="useLabItem('${itemId}')">使用</button>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  if (!hasAny) {
+    container.innerHTML = '<div style="text-align:center; color:var(--text-dim); padding:20px;">所持アイテムがありません。<br>バトル報酬やショップで入手できます。</div>';
+  }
+}
+
+// ============================================================
+//  MONSTER SELECT MODAL (replaces browser prompt)
+// ============================================================
+let _monsterSelectResolve = null;
+
+function showMonsterSelectModal(title, monsterList, formatFn) {
+  return new Promise((resolve) => {
+    _monsterSelectResolve = resolve;
+    const modal = document.getElementById('monster-select-modal');
+    const titleEl = document.getElementById('monster-select-title');
+    const listEl = document.getElementById('monster-select-list');
+    titleEl.textContent = title;
+    listEl.innerHTML = '';
+    monsterList.forEach((m, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'monster-select-card';
+      const label = formatFn ? formatFn(m, i) : `${m.name}`;
+      btn.innerHTML = label;
+      btn.onclick = () => {
+        // 先にresolveを取得・実行してからモーダルを閉じる
+        // (closeMonsterSelectModal内で-1にresolveされるのを防ぐ)
+        const r = _monsterSelectResolve;
+        _monsterSelectResolve = null;
+        // モーダルを視覚的に閉じる
+        const md = document.getElementById('monster-select-modal');
+        if (md) { md.classList.remove('active'); md.style.display = 'none'; }
+        // 選択されたインデックスでresolve
+        if (r) r(i);
+      };
+      listEl.appendChild(btn);
+    });
+    modal.classList.add('active');
+    modal.style.display = 'flex';
+  });
+}
+
+function closeMonsterSelectModal() {
+  const modal = document.getElementById('monster-select-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.style.display = 'none';
+  }
+  if (_monsterSelectResolve) { const r = _monsterSelectResolve; _monsterSelectResolve = null; r(-1); }
+}
+
+// ============================================================
+//  STATUS ALLOCATION POPUP SYSTEM (For Reset Stats Item)
+// ============================================================
+let _popupTempState = null;
+
+function showStatusAllocationPopup(monster, labIndex) {
+  if (!monster) return;
+  const modal = document.getElementById('status-allocation-modal');
+  if (!modal) return;
+
+  // 系統ベース値の計算
+  let sysId = 'dragon';
+  for (const [id, t] of Object.entries(MONSTER_TYPES)) {
+    if (t.label === monster.systemType) { sysId = id; break; }
+  }
+  const typeInfo = MONSTER_TYPES[sysId] || { base: { hp: 0, attack: 0, defense: 0, speed: 0, luck: 0 } };
+
+  const minHp = Math.max(1, Number(typeInfo.base.hp) || 0);
+  const minAtk = Math.max(1, Number(typeInfo.base.attack) || 0);
+  const minDef = Math.max(0, Number(typeInfo.base.defense) || 0);
+  const minSpd = Math.max(0, Number(typeInfo.base.speed) || 0);
+  const minLck = Math.max(0, Number(typeInfo.base.luck) || 0);
+
+  _popupTempState = {
+    labIndex: labIndex,
+    monster: monster,
+    minStats: { hp: minHp, attack: minAtk, defense: minDef, speed: minSpd, luck: minLck },
+    currentStats: { hp: minHp, attack: minAtk, defense: minDef, speed: minSpd, luck: minLck },
+    bonusLeft: 98
+  };
+
+  document.getElementById('stat-popup-monster-name').textContent = monster.name;
+  renderStatusAllocationPopupUI();
+  modal.classList.add('active');
+  modal.style.display = 'flex';
+}
+
+function renderStatusAllocationPopupUI() {
+  if (!_popupTempState) return;
+  document.getElementById('stat-popup-bonus-left').textContent = `${_popupTempState.bonusLeft} pt`;
+
+  const container = document.getElementById('stat-popup-rows');
+  if (!container) return;
+  container.innerHTML = '';
+
+  const statLabels = { hp: '❤️ HP', attack: '⚔️ 攻撃', defense: '🛡️ 防御', speed: '💨 素早', luck: '⭐ 運' };
+
+  Object.entries(statLabels).forEach(([key, labelText]) => {
+    const curVal = _popupTempState.currentStats[key];
+    const minVal = _popupTempState.minStats[key];
+
+    const row = document.createElement('div');
+    row.style = 'display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.04); border:1px solid rgba(0,210,255,0.2); border-radius:8px; padding:6px 12px;';
+
+    const labelSpan = document.createElement('span');
+    labelSpan.style = 'font-size:14px; font-weight:bold; width:90px; color:var(--text-primary);';
+    labelSpan.textContent = labelText;
+
+    const controls = document.createElement('div');
+    controls.style = 'display:flex; gap:4px; align-items:center;';
+
+    // -10
+    const m10 = document.createElement('button');
+    m10.className = 'alloc-btn';
+    m10.style = 'width:44px; padding:4px 0; font-size:13px;';
+    m10.textContent = '-10';
+    m10.onclick = () => changePopupStat(key, -10);
+
+    // -1
+    const m1 = document.createElement('button');
+    m1.className = 'alloc-btn';
+    m1.style = 'width:36px; padding:4px 0; font-size:13px;';
+    m1.textContent = '-1';
+    m1.onclick = () => changePopupStat(key, -1);
+
+    const valSpan = document.createElement('span');
+    valSpan.style = 'font-size:16px; font-weight:bold; color:var(--accent-cyan); width:46px; text-align:center; display:inline-block;';
+    valSpan.textContent = curVal;
+
+    // +1
+    const p1 = document.createElement('button');
+    p1.className = 'alloc-btn';
+    p1.style = 'width:36px; padding:4px 0; font-size:13px;';
+    p1.textContent = '+1';
+    p1.onclick = () => changePopupStat(key, 1);
+
+    // +10
+    const p10 = document.createElement('button');
+    p10.className = 'alloc-btn';
+    p10.style = 'width:44px; padding:4px 0; font-size:13px;';
+    p10.textContent = '+10';
+    p10.onclick = () => changePopupStat(key, 10);
+
+    controls.appendChild(m10);
+    controls.appendChild(m1);
+    controls.appendChild(valSpan);
+    controls.appendChild(p1);
+    controls.appendChild(p10);
+
+    row.appendChild(labelSpan);
+    row.appendChild(controls);
+    container.appendChild(row);
+  });
+}
+
+function changePopupStat(key, delta) {
+  if (!_popupTempState) return;
+  const cur = _popupTempState.currentStats[key];
+  const min = _popupTempState.minStats[key];
+  let target = cur + delta;
+
+  if (delta < 0) {
+    if (target < min) target = min;
+    const diff = cur - target;
+    _popupTempState.currentStats[key] = target;
+    _popupTempState.bonusLeft += diff;
+  } else {
+    if (target - cur > _popupTempState.bonusLeft) {
+      target = cur + _popupTempState.bonusLeft;
+    }
+    const diff = target - cur;
+    _popupTempState.currentStats[key] = target;
+    _popupTempState.bonusLeft -= diff;
+  }
+  renderStatusAllocationPopupUI();
+}
+
+function confirmStatusAllocationPopup() {
+  if (!_popupTempState) return;
+  if (_popupTempState.bonusLeft !== 0) {
+    alert(`ボーナスポイントが ${_popupTempState.bonusLeft}pt 残っています！すべてのポイント(残り0pt)を割り振ってください。`);
+    return;
+  }
+
+  const m = _popupTempState.monster;
+  m.stats = { ..._popupTempState.currentStats };
+  save();
+
+  closeStatusAllocationPopup();
+  renderLabGrid();
+  showSystemModal(`「${m.name}」のステータスを再設定しました！`);
+}
+
+function closeStatusAllocationPopup() {
+  const modal = document.getElementById('status-allocation-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.style.display = 'none';
+  }
+  _popupTempState = null;
+}
+
+// ============================================================
+//  SKILL SELECT POPUP SYSTEM (For Change Skill Item)
+// ============================================================
+let _skillSelectTarget = null;
+
+function showSkillSelectPopup(monster, labIndex) {
+  if (!monster) return;
+  const modal = document.getElementById('skill-select-modal');
+  if (!modal) return;
+
+  _skillSelectTarget = { monster: monster, labIndex: labIndex };
+
+  // モンスター名と現在スキルを表示
+  document.getElementById('skill-popup-monster-name').textContent = monster.name;
+  const curSkillId = (monster.skills && monster.skills.active && monster.skills.active[0]) || 'none';
+  const curSkillInfo = SKILLS[curSkillId] || SKILLS.none;
+  document.getElementById('skill-popup-current').textContent = `${curSkillInfo.icon || ''} ${curSkillInfo.name}`;
+
+  // 解放済みスキル一覧を取得
+  const availableSkills = Object.keys(SKILLS).filter(id => {
+    if (id === 'none') return false;
+    const sk = SKILLS[id];
+    return sk.isInitial || unlockedSkills.includes(id);
+  });
+
+  const listEl = document.getElementById('skill-popup-list');
+  listEl.innerHTML = '';
+
+  if (availableSkills.length === 0) {
+    listEl.innerHTML = '<div style="text-align:center; color:var(--text-dim); padding:20px;">解放済みスキルがありません。</div>';
+  } else {
+    // カテゴリ別に分類
+    const categories = {};
+    availableSkills.forEach(id => {
+      const sk = SKILLS[id];
+      const cat = sk.cat || 'その他';
+      if (!categories[cat]) categories[cat] = [];
+      categories[cat].push(id);
+    });
+
+    Object.entries(categories).forEach(([catName, skillIds]) => {
+      // カテゴリヘッダー
+      const catHeader = document.createElement('div');
+      catHeader.style = 'font-size:12px; font-weight:bold; color:var(--accent-gold); margin-top:6px; padding:2px 4px; border-bottom:1px solid rgba(245,158,11,0.2);';
+      catHeader.textContent = `── ${catName} ──`;
+      listEl.appendChild(catHeader);
+
+      skillIds.forEach(id => {
+        const sk = SKILLS[id];
+        const isCurrent = (id === curSkillId);
+        const btn = document.createElement('button');
+        btn.style = `width:100%; text-align:left; padding:8px 12px; border-radius:8px; cursor:pointer; font-size:13px; border:1px solid ${isCurrent ? 'rgba(0,210,255,0.5)' : 'rgba(255,255,255,0.08)'}; background:${isCurrent ? 'rgba(0,210,255,0.12)' : 'rgba(255,255,255,0.03)'}; color:#fff; transition:background 0.2s, border-color 0.2s; display:flex; flex-direction:column; gap:2px;`;
+        btn.innerHTML = `
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="font-size:16px;">${sk.icon || '⚡'}</span>
+            <span style="font-weight:bold; font-size:14px;">${sk.name}</span>
+            <span style="font-size:11px; color:var(--text-dim); margin-left:auto;">${sk.type}</span>
+            ${isCurrent ? '<span style="font-size:11px; color:var(--accent-cyan);">【装備中】</span>' : ''}
+          </div>
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.4; padding-left:24px;">${sk.desc}</div>
+        `;
+        btn.onmouseenter = () => { if (!isCurrent) { btn.style.background = 'rgba(245,158,11,0.12)'; btn.style.borderColor = 'rgba(245,158,11,0.5)'; } };
+        btn.onmouseleave = () => { if (!isCurrent) { btn.style.background = 'rgba(255,255,255,0.03)'; btn.style.borderColor = 'rgba(255,255,255,0.08)'; } };
+        btn.onclick = () => confirmSkillSelect(id);
+        listEl.appendChild(btn);
+      });
+    });
+  }
+
+  modal.classList.add('active');
+  modal.style.display = 'flex';
+}
+
+function confirmSkillSelect(skillId) {
+  if (!_skillSelectTarget) return;
+  const m = _skillSelectTarget.monster;
+  const oldSkillId = (m.skills && m.skills.active && m.skills.active[0]) || 'none';
+  const oldSkillName = (SKILLS[oldSkillId] || SKILLS.none).name;
+
+  if (!m.skills) m.skills = { active: ['none'], passive: [] };
+  m.skills.active[0] = skillId;
+  ownedItems.changeSkill--;
+  save();
+
+  closeSkillSelectPopup();
+  renderLabGrid();
+  showSystemModal(`「${m.name}」のスキルを変更しました！\n【${oldSkillName}】 ➔ 【${(SKILLS[skillId] || SKILLS.none).name}】`);
+}
+
+function closeSkillSelectPopup() {
+  const modal = document.getElementById('skill-select-modal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.style.display = 'none';
+  }
+  _skillSelectTarget = null;
+}
+
+async function useLabItem(itemId) {
+  try {
+    const count = ownedItems[itemId] || 0;
+    if (count <= 0) {
+      alert('このアイテムは所持していません。');
+      return;
+    }
+
+  switch (itemId) {
+    case 'resetStats': {
+      const activeLab = getActiveLab();
+      if (activeLab.length === 0) {
+        alert('対象となるモンスターがいません。');
+        return;
+      }
+      closeLabItemModal();
+      const idx = await showMonsterSelectModal(
+        '💊 ステータスリセット薬 ─ 対象を選択',
+        activeLab,
+        (m, i) => `<span>${m.name}</span><span class="msc-sub">${m.systemType || ''}</span>`
+      );
+      if (idx < 0) return;
+      const target = activeLab[idx];
+
+      // すべての選択モーダルを消去
+      if (typeof closeLabDetailModal === 'function') closeLabDetailModal();
+      if (typeof closeLabItemModal === 'function') closeLabItemModal();
+      if (typeof closeMonsterSelectModal === 'function') closeMonsterSelectModal();
+      document.querySelectorAll('#monster-select-modal, #lab-item-modal, #lab-detail-modal').forEach(m => {
+        m.style.display = 'none';
+        m.classList.remove('active');
+      });
+
+      ownedItems.resetStats--;
+      save();
+
+      // ポップアップダイアログ形式でステータス再分配UIを表示
+      showStatusAllocationPopup(target, idx);
+      break;
+    }
+    case 'changeSkill': {
+      const activeLab = getActiveLab();
+      if (activeLab.length === 0) {
+        alert('対象となるモンスターがいません。');
+        return;
+      }
+      closeLabItemModal();
+      const idx = await showMonsterSelectModal(
+        '🧪 スキル再構成薬 ─ 対象を選択',
+        activeLab,
+        (m, i) => {
+          const sk = m.skills && m.skills.active ? m.skills.active.map(s => (SKILLS[s] || SKILLS.none).name).join(', ') : 'なし';
+          return `<span>${m.name}</span><span class="msc-sub">現在: ${sk}</span>`;
+        }
+      );
+      if (idx < 0) return;
+      const target = activeLab[idx];
+
+      // 解放済みスキルの存在チェック
+      const availableSkills = Object.keys(SKILLS).filter(id => {
+        if (id === 'none') return false;
+        const sk = SKILLS[id];
+        return sk.isInitial || unlockedSkills.includes(id);
+      });
+      if (availableSkills.length === 0) {
+        alert('解放済みスキルがありません。');
+        return;
+      }
+
+      // すべての選択モーダルを消去
+      if (typeof closeLabDetailModal === 'function') closeLabDetailModal();
+      if (typeof closeLabItemModal === 'function') closeLabItemModal();
+      document.querySelectorAll('#monster-select-modal, #lab-item-modal, #lab-detail-modal').forEach(m => {
+        m.style.display = 'none';
+        m.classList.remove('active');
+      });
+
+      // スキル選択ポップアップを表示（アイテム消費は選択確定時に実行）
+      showSkillSelectPopup(target, idx);
+      break;
+    }
+    case 'expandSlot2': {
+      const ok = await showConfirmModal('モンスター枠拡張 (+2) を使用しますか？\nモンスター保管枠が +2 拡張されます。');
+      if (!ok) return;
+      ownedItems.expandSlot2--;
+      maxMonsterSlots += 2;
+      save();
+      closeLabItemModal();
+      // 即座にDOM要素を直接更新
+      const countEl = document.getElementById('lab-monsters-count');
+      if (countEl) countEl.textContent = `登録数: ${getActiveLab().length} / ${maxMonsterSlots}`;
+      const maxPg = Math.max(1, Math.ceil(maxMonsterSlots / ITEMS_PER_PAGE));
+      const pgText = document.getElementById('lab-page-text');
+      if (pgText) pgText.textContent = `${currentLabPage} / ${maxPg}`;
+      const nextBtn = document.getElementById('lab-next-btn');
+      if (nextBtn) nextBtn.disabled = (currentLabPage >= maxPg);
+      // メッセージを閉じた後にラボ全体を再描画
+      showSystemModal(`保管枠が拡張されました！ 現在の最大枠: ${maxMonsterSlots}`, function() {
+        renderLabGrid();
+      });
+      return;
+    }
+  }
+  closeLabItemModal();
+  } catch (err) {
+    console.error('アイテム使用処理でエラーが発生しました:', err);
+  }
+}
+
+
 function openSkillsLibrary() {
   const overlay = document.getElementById('skills-library-overlay');
   const content = document.getElementById('skills-library-content');
@@ -5203,7 +6416,6 @@ function openSkillsLibrary() {
       const badgeColor = sk.type === 'アクティブ' ? 'var(--accent-red)' : 'var(--accent-green)';
       
       if (isUnlocked) {
-        // Unlocked: show icon, name, details, and flavor description
         item.innerHTML = `
           <div style="font-size:28px; min-width:36px; text-align:center;">${sk.icon}</div>
           <div style="flex:1;">
@@ -5217,7 +6429,6 @@ function openSkillsLibrary() {
           </div>
         `;
       } else {
-        // Locked: show hidden name and explanation
         item.style.opacity = '0.5';
         item.innerHTML = `
           <div style="font-size:24px; min-width:32px; text-align:center; color:var(--text-dim);">🔒</div>
@@ -5308,6 +6519,8 @@ function moveMonster(idx, dir) {
 
 
 let selectedLabIndex = 0;
+let currentLabPage = 1;
+const ITEMS_PER_PAGE = 6;
 
 function getMonsterVisualHTML(monsterClass, systemType, height = '75px') {
   const sysKey = Object.keys(MONSTER_TYPES).find(k => MONSTER_TYPES[k].label === systemType) || 'other';
@@ -5499,79 +6712,7 @@ function selectLabMonster(idx, autoOpen = true) {
   }
 }
 
-function renderLabGrid() {
-  const grid = document.getElementById('lab-grid-6');
-  const countDisplay = document.getElementById('lab-monsters-count');
-  const randomBtn = document.getElementById('btn-random-create');
-  const welcome = document.getElementById('lab-player-welcome');
-  
-  welcome.textContent = `こんにちは、${playerName} 研究員！`;
-  countDisplay.textContent = `登録数: ${getActiveLab().length} / 6`;
-  
-  // Random button disabled if full
-  randomBtn.disabled = getActiveLab().length >= 6;
 
-  grid.innerHTML = '';
-  const activeLab = getActiveLab();
-  
-  // Clamp selectedLabIndex
-  if (selectedLabIndex >= activeLab.length) {
-    selectedLabIndex = Math.max(0, activeLab.length - 1);
-  }
-  
-  for (let i = 0; i < 6; i++) {
-    const card = document.createElement('div');
-    if (i < activeLab.length) {
-      // Registered slot
-      const m = activeLab[i];
-      card.className = 'monster-card-6';
-      card.style.height = '230px';
-      card.style.minHeight = '230px';
-      card.style.display = 'flex';
-      card.style.flexDirection = 'column';
-      card.style.justifyContent = 'space-between';
-      card.style.alignItems = 'center';
-      card.style.padding = '12px';
-      
-      card.innerHTML = `
-        <div onclick="selectLabMonster(${i}, false)" style="width: 100%; text-align: center; cursor: pointer;" title="クリックで選択">
-          <div style="font-weight:bold; font-size:18px; color:var(--accent-gold); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.name}</div>
-          <div style="font-size:12px; color:var(--text-dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.monsterClass}</div>
-        </div>
-        
-        <!-- Clickable Visual Area to open modal detail window -->
-        <div onclick="selectLabMonster(${i}, true)" style="height: 75px; display:flex; align-items:center; justify-content:center; cursor:pointer; width:100%; background:transparent; border-radius:6px; border: 1px dashed rgba(255,255,255,0.12);" title="画像クリックで詳細表示">
-          ${getMonsterVisualHTML(m.monsterClass, m.systemType, '60px')}
-        </div>
-        
-        <!-- Inline controls directly in card slot -->
-        <div style="width: 100%;">
-          <div style="display:flex; gap:4px; margin-bottom:4px; width:100%;">
-            <button class="btn-secondary" style="padding:2px 4px; font-size:13px; flex:1;" onclick="moveMonster(${i}, -1)" ${i === 0 ? 'disabled' : ''}>◀</button>
-            <button class="btn-secondary" style="padding:2px 4px; font-size:13px; flex:1;" onclick="moveMonster(${i}, 1)" ${i === activeLab.length - 1 ? 'disabled' : ''}>▶</button>
-          </div>
-          <div style="display:flex; gap:4px; width:100%;">
-            <button class="btn-secondary" style="border-color:rgba(245,158,11,0.3); color:var(--accent-gold); padding:2px 4px; font-size:13px; flex:1.2; display:flex; align-items:center; justify-content:center; gap:2px;" onclick="renameMonster(${i})">✏️ 改名</button>
-            <button class="btn-secondary" style="border-color:rgba(239,68,68,0.4); color:var(--accent-red); padding:2px 4px; font-size:13px; flex:1;" onclick="deleteMonster(${i})">📦 別れ</button>
-          </div>
-        </div>
-      `;
-    } else {
-      // Empty slot
-      card.className = 'monster-card-6 empty';
-      card.style.height = '230px';
-      card.style.minHeight = '230px';
-      const disabledAttr = getActiveLab().length >= 6 ? 'disabled' : '';
-      card.innerHTML = `
-        <button class="empty-create-btn" ${disabledAttr} onclick="startManualCreate()">＋ 調合</button>
-      `;
-    }
-    grid.appendChild(card);
-  }
-
-  // Update underlying active borders but do not open popup automatically
-  selectLabMonster(selectedLabIndex, false);
-}
 
 async function deleteMonster(idx) {
   if (selectedLabIndex === idx) { selectedLabIndex = Math.max(0, idx - 1); }
@@ -5587,7 +6728,7 @@ async function deleteMonster(idx) {
 
 // 3. Manual Step-by-Step Creator
 function startManualCreate() {
-  if (getActiveLab().length >= 6) {
+  if (getActiveLab().length >= maxMonsterSlots) {
     alert('ラボの登録枠がいっぱいです！');
     return;
   }
@@ -5600,7 +6741,8 @@ function startManualCreate() {
     name: '',
     stats: { hp: 1, attack: 1, defense: 1, speed: 1, luck: 1 },
     bonusLeft: 98,
-    skills: { active: [], passive: [] }
+    skills: { active: [], passive: [] },
+    editingLabIndex: null
   };
 
   // Populate System Select dropdown with optgroup separation
@@ -5709,6 +6851,11 @@ function onCreatorClassChange() {
 function creatorPrev() {
   if (creatorStep === 1) {
     // Cancel and return to lab
+    creatorTemp.editingLabIndex = null;
+    goScreen('lab');
+  } else if (creatorStep === 2 && creatorTemp.editingLabIndex !== null && creatorTemp.editingLabIndex !== undefined) {
+    // リセット薬経由の編集モード：ステップ1には戻らずラボに戻る
+    creatorTemp.editingLabIndex = null;
     goScreen('lab');
   } else if (creatorStep > 1) {
     showStep(creatorStep - 1);
@@ -5755,7 +6902,22 @@ function creatorNext() {
       return;
     }
     
-    // Set up step 3 UI
+    // リセット薬経由の再配分モード：ステータスのみ更新してスキル選択はスキップ
+    if (creatorTemp.editingLabIndex !== null && creatorTemp.editingLabIndex !== undefined) {
+      const activeLab = getActiveLab();
+      const editIdx = creatorTemp.editingLabIndex;
+      if (editIdx >= 0 && editIdx < activeLab.length) {
+        // ステータスのみ上書き（スキルは元のまま保持）
+        activeLab[editIdx].stats = { ...creatorTemp.stats };
+        save();
+        alert(`「${activeLab[editIdx].name}」のステータスを再配分しました！`);
+        creatorTemp.editingLabIndex = null;
+        goScreen('lab');
+        return;
+      }
+    }
+
+    // 新規作成モード：ステップ3（スキル選択）へ
     buildCreatorSkillSelector();
     showStep(3);
   } else if (creatorStep === 3) {
@@ -5766,8 +6928,10 @@ function creatorNext() {
       return;
     }
     
+    const activeLab = getActiveLab();
+    // 新規作成モード
     // Save to lab
-    if (getActiveLab().length >= 6) {
+    if (activeLab.length >= maxMonsterSlots) {
       alert('ラボの登録枠がいっぱいです！');
       return;
     }
@@ -5781,7 +6945,6 @@ function creatorNext() {
       skills: { ...creatorTemp.skills }
     };
     
-    const activeLab = getActiveLab();
     activeLab.push(finalMonster);
     save();
     
@@ -6043,7 +7206,7 @@ function buildCreatorSkillSelector() {
 
 // 4. Random Create Logic
 function executeRandomCreate() {
-  if (getActiveLab().length >= 6) {
+  if (getActiveLab().length >= maxMonsterSlots) {
     alert('ラボの登録枠がいっぱいです！');
     return;
   }
@@ -6174,9 +7337,13 @@ function startMode(mode) {
   currentGameMode = mode;
   
   if (mode === 'league') {
-    stageIndex = 0;
+    currentLabMode = 'story';
+    // stageIndex reset removed to support resuming league battles from saved stageIndex
   } else if (mode === 'survival') {
+    currentLabMode = 'story';
     survivalWins = 0;
+  } else if (mode === 'free') {
+    currentLabMode = 'free';
   }
   
   // Prepare the enemy immediately when starting a mode!
@@ -6335,52 +7502,76 @@ const STAGE_IMAGES_LIST = [
 
 function getEnemyImageHTML(eObj) {
   const imgClass = "enemy-monster-img";
-  const eName = (typeof eObj === 'string') ? eObj : (eObj ? eObj.name : '');
-  
-  // 1. Direct STAGE_ENEMIES index match if eObj is provided
+
+  // 1. リーグ戦（CPUリーグ）の場合は従来通りステージ画像を使用
   if (typeof stageIndex !== 'undefined' && currentGameMode === 'league' && STAGE_IMAGES_LIST[stageIndex]) {
     return `<img src="${STAGE_IMAGES_LIST[stageIndex]}" class="${imgClass}">`;
   }
 
-  // 2. Name-based match with STAGE_ENEMIES order (01 to 25)
+  // 種族名・名前の検索用キーを取得
+  let mClass = '';
+  let sysType = '';
+  let eName = '';
+  
+  if (typeof eObj === 'string') {
+    eName = eObj;
+    mClass = eObj;
+  } else if (eObj && typeof eObj === 'object') {
+    mClass = eObj.monsterClass || eObj.title || eObj.name || '';
+    sysType = eObj.systemType || '';
+    eName = eObj.name || '';
+  }
+
+  // 2. 既存のSTAGE_ENEMIES順次マッチ（リーグ戦等）
   if (typeof STAGE_ENEMIES !== 'undefined') {
-    const idx = STAGE_ENEMIES.findIndex(x => x.name === eName);
+    const idx = STAGE_ENEMIES.findIndex(x => x.name === eName || x.name === mClass);
     if (idx !== -1 && STAGE_IMAGES_LIST[idx]) {
       return `<img src="${STAGE_IMAGES_LIST[idx]}" class="${imgClass}">`;
     }
   }
 
-  // 3. Fallback map for special bosses/mobs
+  // 3. プレイヤー利用可能全27種族の敵用グラフィック画像 (B.png シリーズ)
   const getImg = (src) => `<img src="${src}" class="${imgClass}">`;
-  if (eName === 'アルファドラゴン') return getImg("IMG/dragon１B.png");
-  if (eName === 'インフェルノス') return getImg("IMG/dragon２B.png");
-  if (eName === 'オメガカイザー') return getImg("IMG/dragon３B.png");
-  if (eName === 'ストーンコング') return getImg("IMG/go-remu1B.png");
-  if (eName === 'ジェイドガーディアン') return getImg("IMG/go-remu2B.png");
-  if (eName === 'ギガストーン') return getImg("IMG/go-remu3B.png");
-  if (eName === 'ハーピィクイーン') return getImg("IMG/tori1B.png");
-  if (eName === 'ガルーダ') return getImg("IMG/tori2B.png");
-  if (eName === 'グリフォニクス') return getImg("IMG/tori3B.png");
-  if (eName === 'サーベルタイガー') return getImg("IMG/kemono1B.png");
-  if (eName === 'キマイラロード') return getImg("IMG/kemono2B.png");
-  if (eName === 'フェンリル') return getImg("IMG/kemono3B.png");
-  if (eName === 'マミースミス') return getImg("IMG/anded1B.png");
-  if (eName === 'ファントムナイト') return getImg("IMG/anded2B.png");
-  if (eName === 'デスサイズ') return getImg("IMG/anded3B.png");
-  if (eName === 'スライム') return getImg("IMG/suraim1B.png");
-  if (eName === 'キングスライム') return getImg("IMG/suraim2B.png");
-  if (eName === 'ゴッドゼリー') return getImg("IMG/suraim3B.png");
-  if (eName === 'プチデビル') return getImg("IMG/devil1B.png");
-  if (eName === 'サキュバス') return getImg("IMG/devil2B.png");
-  if (eName === 'ベルゼバブ') return getImg("IMG/devil3B.png");
-  if (eName === 'マンドラゴラ') return getImg("IMG/natu1B.png");
-  if (eName === 'アルラウネ') return getImg("IMG/natu2B.png");
-  if (eName === '世界樹の眷属') return getImg("IMG/natu3B.png");
-  if (eName === 'アイアンギガ') return getImg("IMG/metar1B.png");
-  if (eName === 'メタルビット') return getImg("IMG/metar2B.png");
-  if (eName === 'ジェノサイダー') return getImg("IMG/metar3B.png");
+  if (mClass === 'アルファドラゴン' || eName === 'アルファドラゴン') return getImg("IMG/dragon１B.png");
+  if (mClass === 'インフェルノス' || eName === 'インフェルノス') return getImg("IMG/dragon２B.png");
+  if (mClass === 'オメガカイザー' || eName === 'オメガカイザー') return getImg("IMG/dragon３B.png");
+  if (mClass === 'ストーンコング' || eName === 'ストーンコング') return getImg("IMG/go-remu1B.png");
+  if (mClass === 'ジェイドガーディアン' || eName === 'ジェイドガーディアン') return getImg("IMG/go-remu2B.png");
+  if (mClass === 'ギガストーン' || eName === 'ギガストーン') return getImg("IMG/go-remu3B.png");
+  if (mClass === 'ハーピィクイーン' || eName === 'ハーピィクイーン') return getImg("IMG/tori1B.png");
+  if (mClass === 'ガルーダ' || eName === 'ガルーダ') return getImg("IMG/tori2B.png");
+  if (mClass === 'グリフォニクス' || eName === 'グリフォニクス') return getImg("IMG/tori3B.png");
+  if (mClass === 'サーベルタイガー' || eName === 'サーベルタイガー') return getImg("IMG/kemono1B.png");
+  if (mClass === 'キマイラロード' || eName === 'キマイラロード') return getImg("IMG/kemono2B.png");
+  if (mClass === 'フェンリル' || eName === 'フェンリル') return getImg("IMG/kemono3B.png");
+  if (mClass === 'マミースミス' || eName === 'マミースミス') return getImg("IMG/anded1B.png");
+  if (mClass === 'ファントムナイト' || eName === 'ファントムナイト') return getImg("IMG/anded2B.png");
+  if (mClass === 'デスサイズ' || eName === 'デスサイズ') return getImg("IMG/anded3B.png");
+  if (mClass === 'スライム' || eName === 'スライム') return getImg("IMG/suraim1B.png");
+  if (mClass === 'キングスライム' || eName === 'キングスライム') return getImg("IMG/suraim2B.png");
+  if (mClass === 'ゴッドゼリー' || eName === 'ゴッドゼリー') return getImg("IMG/suraim3B.png");
+  if (mClass === 'プチデビル' || eName === 'プチデビル') return getImg("IMG/devil1B.png");
+  if (mClass === 'サキュバス' || eName === 'サキュバス') return getImg("IMG/devil2B.png");
+  if (mClass === 'ベルゼバブ' || eName === 'ベルゼバブ') return getImg("IMG/devil3B.png");
+  if (mClass === 'マンドラゴラ' || eName === 'マンドラゴラ') return getImg("IMG/natu1B.png");
+  if (mClass === 'アルラウネ' || eName === 'アルラウネ') return getImg("IMG/natu2B.png");
+  if (mClass === '世界樹の眷属' || eName === '世界樹の眷属') return getImg("IMG/natu3B.png");
+  if (mClass === 'アイアンギガ' || eName === 'アイアンギガ') return getImg("IMG/metar1B.png");
+  if (mClass === 'メタルビット' || eName === 'メタルビット') return getImg("IMG/metar2B.png");
+  if (mClass === 'ジェノサイダー' || eName === 'ジェノサイダー') return getImg("IMG/metar3B.png");
 
-  return `<span style="font-size: 65px; display: inline-block;">👾</span>`;
+  // 4. 系統名によるフォールバック画像設定
+  if (sysType.includes('ドラゴン')) return getImg("IMG/dragon１B.png");
+  if (sysType.includes('岩石') || sysType.includes('ゴーレム')) return getImg("IMG/go-remu1B.png");
+  if (sysType.includes('鳥')) return getImg("IMG/tori1B.png");
+  if (sysType.includes('獣')) return getImg("IMG/kemono1B.png");
+  if (sysType.includes('アンデッド') || sysType.includes('不死')) return getImg("IMG/anded1B.png");
+  if (sysType.includes('スライム')) return getImg("IMG/suraim1B.png");
+  if (sysType.includes('悪魔') || sysType.includes('デビル')) return getImg("IMG/devil1B.png");
+  if (sysType.includes('植物') || sysType.includes('自然')) return getImg("IMG/natu1B.png");
+  if (sysType.includes('メタル') || sysType.includes('機械')) return getImg("IMG/metar1B.png");
+
+  return `<span style="font-size: 65px; display: inline-block;">🐲</span>`;
 }
 
 function renderEnemyInfo() {
@@ -6649,18 +7840,20 @@ function initBattle() {
     document.getElementById('stat-val-p-luck').textContent = pLck;
     document.getElementById('stat-bar-p-luck').style.width = Math.min(100, (pLck / maxVal) * 100) + '%';
 
-    document.getElementById('stat-val-e-hp').textContent = eHp;
-    document.getElementById('stat-val-e-attack').textContent = eAtk;
-    document.getElementById('stat-bar-e-attack').style.width = Math.min(100, (eAtk / maxVal) * 100) + '%';
+    const isTutorialMode = (gameProgress.tutorialStep === 2);
     
-    document.getElementById('stat-val-e-defense').textContent = eDef;
-    document.getElementById('stat-bar-e-defense').style.width = Math.min(100, (eDef / maxVal) * 100) + '%';
+    document.getElementById('stat-val-e-hp').textContent = isTutorialMode ? '？？？' : eHp;
+    document.getElementById('stat-val-e-attack').textContent = isTutorialMode ? '？？？' : eAtk;
+    document.getElementById('stat-bar-e-attack').style.width = isTutorialMode ? '0%' : Math.min(100, (eAtk / maxVal) * 100) + '%';
     
-    document.getElementById('stat-val-e-speed').textContent = eSpd;
-    document.getElementById('stat-bar-e-speed').style.width = Math.min(100, (eSpd / maxVal) * 100) + '%';
+    document.getElementById('stat-val-e-defense').textContent = isTutorialMode ? '？？？' : eDef;
+    document.getElementById('stat-bar-e-defense').style.width = isTutorialMode ? '0%' : Math.min(100, (eDef / maxVal) * 100) + '%';
     
-    document.getElementById('stat-val-e-luck').textContent = eLck;
-    document.getElementById('stat-bar-e-luck').style.width = Math.min(100, (eLck / maxVal) * 100) + '%';
+    document.getElementById('stat-val-e-speed').textContent = isTutorialMode ? '？？？' : eSpd;
+    document.getElementById('stat-bar-e-speed').style.width = isTutorialMode ? '0%' : Math.min(100, (eSpd / maxVal) * 100) + '%';
+    
+    document.getElementById('stat-val-e-luck').textContent = isTutorialMode ? '？？？' : eLck;
+    document.getElementById('stat-bar-e-luck').style.width = isTutorialMode ? '0%' : Math.min(100, (eLck / maxVal) * 100) + '%';
 
     // Render Skills board
     const mySkill = pm.skills.active[0] || 'none';
@@ -6745,8 +7938,7 @@ function initBattle() {
 
         // Set enemy visual using unified getEnemyImageHTML
     const enemyIconEl = document.getElementById('fi-enemy');
-    const eNameForImage = em.name || em.title;
-    enemyIconEl.innerHTML = getEnemyImageHTML(eNameForImage);
+    enemyIconEl.innerHTML = getEnemyImageHTML(em);
     setHp('p', pState); setHp('e', eState);
     updateBuffsUI('p', pState); updateBuffsUI('e', eState);
     document.getElementById('battle-log').innerHTML = '';
@@ -8082,7 +9274,12 @@ function setHp(side, state) {
     else if (pct > 25) fill.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24)';
     else fill.style.background = 'linear-gradient(90deg, #ef4444, #dc2626)';
   }
-  txt.textContent = state.cur + ' / ' + state.max;
+  const isTutorialMode = (gameProgress.tutorialStep === 2);
+  if (side === 'e' && isTutorialMode) {
+    txt.textContent = '？？？ / ？？？';
+  } else {
+    txt.textContent = state.cur + ' / ' + state.max;
+  }
 }
 
 function flashHit(side) {
@@ -8284,9 +9481,23 @@ function showResult() {
   const banner = document.getElementById('battle-result-banner');
   const sub = document.getElementById('battle-result-sub');
   const nextBtn = document.getElementById('battle-result-next');
+  const labBtn = document.getElementById('battle-result-lab');
   const ctrl = document.getElementById('battle-controls');
 
   if (ctrl) ctrl.style.display = 'none';
+
+  // デフォルトでは両方のボタンを表示
+  if (nextBtn) nextBtn.style.display = 'block';
+  if (labBtn) labBtn.style.display = 'block';
+
+  // 勝敗決定時のBGM再生（ループ再生）
+  if (window.bgmManager) {
+    if (pState.cur > 0 && eState.cur <= 0) {
+      window.bgmManager.play('victory', true);
+    } else if (eState.cur > 0 && pState.cur <= 0) {
+      window.bgmManager.play('lose', true);
+    }
+  }
 
   if (currentGameMode === 'team-arena') {
     const playerWon = (pState.cur > 0 && eState.cur <= 0);
@@ -8332,13 +9543,14 @@ function showResult() {
     sub.textContent = `${pState.name} が ${eState.name} を撃破した！`;
     record.win++;
 
-    // Boss revenge victory check
+    // ラスボス覇王戦勝利時: 「ラボへ」ボタンを隠し、ボタン選択肢を「🗺️次へ」の1つにする
     if (currentGameMode === 'boss-revenge') {
+      if (labBtn) labBtn.style.display = 'none';
+      nextBtn.textContent = '🗺️ 次へ';
       save();
       updateRecord();
       const modal = document.getElementById('battle-result-modal');
       if (modal) modal.style.display = 'flex';
-      setTimeout(() => handleBossRevengeVictory(), 1500);
       return;
     }
 
@@ -8392,6 +9604,16 @@ function showResult() {
       return;
     }
 
+    // ラスボス覇王戦敗北時: 「次へ」ボタンを隠し、ボタン選択肢を「🔬 ラボへ」の1つにする
+    if (currentGameMode === 'boss-revenge') {
+      if (nextBtn) nextBtn.style.display = 'none';
+      save();
+      updateRecord();
+      const modal = document.getElementById('battle-result-modal');
+      if (modal) modal.style.display = 'flex';
+      return;
+    }
+
     if (currentGameMode === 'survival') {
       sub.textContent += ` 💀 連勝記録は ${survivalWins} でストップしました。(BEST: ${survivalBestRecord})`;
       survivalWins = 0;
@@ -8420,6 +9642,11 @@ function showResult() {
 function resultNext() {
   const modal = document.getElementById('battle-result-modal');
   if (modal) modal.style.display = 'none';
+
+  if (currentGameMode === 'boss-revenge') {
+    handleBossRevengeVictory();
+    return;
+  }
 
   if (currentGameMode === 'free') {
     const overlay = document.getElementById('result-overlay');
@@ -8736,6 +9963,101 @@ function advanceStoryDialog() {
 //  TUTORIAL PROGRESSION SYSTEM
 // ============================================================
 
+const REWARD_SHOP_ITEMS = [
+  { id: 'robo', name: '🤖 ロボシリーズ', sub: 'メカニカル小隊', desc: 'メタル・機械系の作成権をアンロック', system: 'metal', price: 500 },
+  { id: 'shin', name: '⚡ 神シリーズ', sub: '神話の聖闘士', desc: '悪魔（デビル）系の作成権をアンロック', system: 'devil', price: 500 },
+  { id: 'dinosaur', name: '🦖 恐竜シリーズ', sub: '太古 of 覇者', desc: 'ドラゴン系の作成権をアンロック', system: 'dragon', price: 500 },
+  { id: 'toy', name: '🧸 ぬいぐるみシリーズ', sub: 'パッチワーク', desc: '植物（自然）系の作成権をアンロック', system: 'plant', price: 500 },
+  { id: 'ghost', name: '👻 おばけシリーズ', sub: 'ゆめかわナイトメア', desc: 'アンデッド系の作成権をアンロック', system: 'undead', price: 500 },
+  
+  // 育成・拡張アイテム
+  { id: 'item_expand_slot_2', name: '🏠 モンスター枠拡張 (+2)', sub: 'ラボケージ拡張', desc: 'モンスター保管枠を最大+2枠拡張します（即時反映）。', isItem: true, price: 500 },
+  { id: 'item_reset_stats', name: '💊 ステータスリセット薬', sub: '育成リセット', desc: 'モンスター1体の能力配分を初期化し100ptを再配分できます。', isItem: true, price: 300 },
+  { id: 'item_change_skill', name: '📜 スキル再構成薬', sub: 'スキル再抽選', desc: 'モンスター1体のアクティブスキルをランダムに変更します。', isItem: true, price: 300 }
+];
+
+function renderRewardShop() {
+  const shopBp = document.getElementById('shop-bp-display');
+  const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
+  if (shopBp) shopBp.textContent = `${activeBp} BP`;
+  
+  const container = document.getElementById('shop-items-list');
+  if (!container) return;
+  container.innerHTML = '';
+  
+  REWARD_SHOP_ITEMS.forEach(item => {
+    const isUnlocked = !item.isItem && isSeriesUnlocked(item.id);
+    const card = document.createElement('div');
+    card.style = 'background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; transition:all 0.2s;';
+    
+    let buttonHtml = '';
+    if (isUnlocked) {
+      buttonHtml = `<button class="btn-secondary" style="border-color:var(--accent-green); color:var(--accent-green); cursor:default; font-weight:bold;" disabled>✅ 解放済み</button>`;
+    } else {
+      const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
+      const price = item.price || 500;
+      const canBuy = activeBp >= price;
+      buttonHtml = `<button class="title-btn" style="padding:8px 16px; font-size:13px; ${!canBuy ? 'opacity:0.5; cursor:not-allowed; background:#475569; color:#cbd5e1; box-shadow:none;' : ''}" ${!canBuy ? 'disabled' : ''} onclick="buyShopItem('${item.id}')">${price} BPで購入</button>`;
+    }
+    
+    card.innerHTML = `
+      <div style="text-align:left;">
+        <div style="font-weight:bold; font-size:16px; color:var(--text-primary);">${item.name}</div>
+        <div style="font-size:12px; color:var(--accent-gold); margin-top:2px;">【${item.sub}】</div>
+        <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">${item.desc}</div>
+      </div>
+      <div>
+        ${buttonHtml}
+      </div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function buyShopItem(itemId) {
+  const item = REWARD_SHOP_ITEMS.find(i => i.id === itemId);
+  if (!item) return;
+
+  const price = item.price || 500;
+  const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
+  
+  if (activeBp < price) {
+    alert('武舞台ポイント(BP)が不足しています！');
+    return;
+  }
+  
+  if (!item.isItem && isSeriesUnlocked(itemId) && !(typeof debugMode !== 'undefined' && debugMode)) {
+    alert('すでに解放されています！');
+    return;
+  }
+  
+  if (typeof debugMode !== 'undefined' && debugMode) {
+    alert('デバッグモード中は購入できません。通常モードでお楽しみください。');
+    return;
+  }
+  
+  bp -= price;
+  
+  if (item.isItem) {
+    if (itemId === 'item_expand_slot_2') {
+      ownedItems.expandSlot2 = (ownedItems.expandSlot2 || 0) + 1;
+      alert('「モンスター枠拡張 (+2)」を購入しました！ラボのアイテム画面から使用できます。');
+    } else if (itemId === 'item_reset_stats') {
+      ownedItems.resetStats = (ownedItems.resetStats || 0) + 1;
+      alert('「ステータスリセット薬」を購入しました！ラボのアイテム画面から使用できます。');
+    } else if (itemId === 'item_change_skill') {
+      ownedItems.changeSkill = (ownedItems.changeSkill || 0) + 1;
+      alert('「スキル再構成薬」を購入しました！ラボのアイテム画面から使用できます。');
+    }
+  } else {
+    unlockedSeries.push(itemId);
+    alert('シリーズを解放しました！ラボ調合で使用可能になります。');
+  }
+  
+  save();
+  renderRewardShop();
+}
+
 function getSkillProgress() {
   if (typeof debugMode !== 'undefined' && debugMode) {
     return { count: 30, total: 30, pct: 100 };
@@ -8848,6 +10170,8 @@ function onMapAreaClick(facility) {
     startMode('league');
   } else if (facility === 'free') {
     startMode('free');
+  } else if (facility === 'shop') {
+    openRewardShop();
   }
 }
 
@@ -8895,7 +10219,7 @@ function startBossRevenge() {
 
   // 戦闘前会話ストーリー
   showStoryDialog([
-    { speaker: '覇王ゴブリン', text: 'ほう……チュートリアルで散ったはずの研究者か。すべてのスキルを解明して舞い戻ってくるとはな。', color: '#ef4444', speakerTextColor: '#fff' },
+    { speaker: '覇王ゴブリン', text: 'ほう、あのときの田舎者の若造か。すべてのスキルを解明して舞い戻ってくるとはな。', color: '#ef4444', speakerTextColor: '#fff' },
     { speaker: playerName, text: 'あの時の負けを返しに来た！これが僕たちの集大成のパーティだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
     { speaker: '覇王ゴブリン', text: 'ハハハッ！良い面構えだ。ならば全力で相手をしてやろう！いくぞ！', color: '#ef4444', speakerTextColor: '#fff' }
   ], () => {
@@ -8911,12 +10235,53 @@ function handleBossRevengeVictory() {
   save();
   showStoryDialog([
     { speaker: '覇王ゴブリン', text: 'バ…バカな…！ あの時の田舎者がここまで…！', color: '#ef4444', speakerTextColor: '#fff' },
-    { speaker: playerName, text: 'あの日の借りは返したよ。僕たちは最高のチームだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
-    { speaker: 'ナレーション', text: '見事な勝利！ 全てのスキルを極めし最強のモンスター研究者よ！\n\n🏆 称号獲得：「最強の研究者」', color: 'var(--accent-gold)' },
-    { speaker: 'ナレーション', text: '100pt BUILD BATTLE ── GAME CLEAR！\n\n引き続き、リーグ戦やフリー対戦をお楽しみください。', color: 'var(--accent-gold)' },
+    { speaker: playerName || '研究員', text: 'あの日の借りは返したよ。僕たちは最高のチームだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+    { speaker: '覇王ゴブリン', text: '100ptという制限の中で、これほどの領域に達するとは…だが覚えておけ、世界にはまだ見ぬ強豪（ビルド）がごまんといることを…！', color: '#ef4444', speakerTextColor: '#fff' }
   ], () => {
-    goScreen('main-menu');
+    startEndingCredits();
   });
+}
+
+function startEndingCredits() {
+  const endingScreen = document.getElementById('ending-screen');
+  const creditsContainer = document.getElementById('credits-container');
+  const finishBtn = document.getElementById('finish-ed-btn');
+
+  if (window.bgmManager) {
+    window.bgmManager.play('victory', true); // Victory.mp3 をループ再生
+  }
+
+  if (endingScreen) {
+    endingScreen.style.display = 'flex';
+    if (creditsContainer) {
+      creditsContainer.classList.remove('roll-animation');
+      void creditsContainer.offsetWidth; // reflow
+      creditsContainer.classList.add('roll-animation');
+    }
+  }
+
+  if (finishBtn) {
+    finishBtn.onclick = () => {
+      // 1. エンディング画面を閉じる
+      if (endingScreen) endingScreen.style.display = 'none';
+
+      // 2. クリア済みフラグの保存
+      localStorage.setItem('game_cleared', 'true');
+      gameProgress.bossDefeated = true;
+      save();
+
+      // 3. マップ画面へ遷移
+      goScreen('main-menu');
+
+      // 4. BGMをマップ用（OP BGM1）へ復帰
+      if (window.bgmManager) {
+        window.bgmManager.play('map', true);
+      }
+
+      // 5. クリア後メッセージの表示
+      alert("祝・覇王撃破！\n試練の塔やコロシアムで引き続きモンスター育成とバトルをお楽しみください！");
+    };
+  }
 }
 
 // ============================================================
@@ -9530,73 +10895,7 @@ function openRewardShop() {
   goScreen('reward-shop');
 }
 
-const REWARD_SHOP_ITEMS = [
-  { id: 'robo', name: '🤖 ロボシリーズ', sub: 'メカニカル小隊', desc: 'メタル・機械系の作成権をアンロック', system: 'metal' },
-  { id: 'shin', name: '⚡ 神シリーズ', sub: '神話の聖闘士', desc: '悪魔（デビル）系の作成権をアンロック', system: 'devil' },
-  { id: 'dinosaur', name: '🦖 恐竜シリーズ', sub: '太古の覇者', desc: 'ドラゴン系の作成権をアンロック', system: 'dragon' },
-  { id: 'toy', name: '🧸 ぬいぐるみシリーズ', sub: 'パッチワーク', desc: '植物（自然）系の作成権をアンロック', system: 'plant' },
-  { id: 'ghost', name: '👻 おばけシリーズ', sub: 'ゆめかわナイトメア', desc: 'アンデッド系の作成権をアンロック', system: 'undead' }
-];
 
-function renderRewardShop() {
-  const shopBp = document.getElementById('shop-bp-display');
-  const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
-  if (shopBp) shopBp.textContent = `${activeBp} BP`;
-  
-  const container = document.getElementById('shop-items-list');
-  if (!container) return;
-  container.innerHTML = '';
-  
-  REWARD_SHOP_ITEMS.forEach(item => {
-    const isUnlocked = isSeriesUnlocked(item.id);
-    const card = document.createElement('div');
-    card.style = 'background:rgba(255,255,255,0.02); border:1px solid var(--border); border-radius:8px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; transition:all 0.2s;';
-    
-    let buttonHtml = '';
-    if (isUnlocked) {
-      buttonHtml = `<button class="btn-secondary" style="border-color:var(--accent-green); color:var(--accent-green); cursor:default; font-weight:bold;" disabled>✅ 解放済み</button>`;
-    } else {
-      const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
-      const canBuy = activeBp >= 300;
-      buttonHtml = `<button class="title-btn" style="padding:8px 16px; font-size:13px; ${!canBuy ? 'opacity:0.5; cursor:not-allowed; background:#475569; color:#cbd5e1; box-shadow:none;' : ''}" ${!canBuy ? 'disabled' : ''} onclick="buyShopItem('${item.id}')">300 BPで解放</button>`;
-    }
-    
-    card.innerHTML = `
-      <div style="text-align:left;">
-        <div style="font-weight:bold; font-size:16px; color:var(--text-primary);">${item.name}</div>
-        <div style="font-size:12px; color:var(--accent-gold); margin-top:2px;">【${item.sub}】</div>
-        <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">${item.desc}</div>
-      </div>
-      <div>
-        ${buttonHtml}
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function buyShopItem(itemId) {
-  const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
-  if (activeBp < 300) {
-    alert('武舞台ポイント(BP)が不足しています！');
-    return;
-  }
-  if (isSeriesUnlocked(itemId) && !(typeof debugMode !== 'undefined' && debugMode)) {
-    alert('すでに解放されています！');
-    return;
-  }
-  
-  if (typeof debugMode !== 'undefined' && debugMode) {
-    alert('デバッグモード中は購入しなくても全シリーズがすでに調合可能です！');
-    return;
-  }
-  
-  bp -= 300;
-  unlockedSeries.push(itemId);
-  save();
-  alert('シリーズを解放しました！ラボ調合で使用可能になります。');
-  renderRewardShop();
-}
 
 // ============================================================
 //  DEBUG MODE
@@ -9618,7 +10917,7 @@ function toggleDebugMode() {
       btn.style.borderColor = '#fca311';
       btn.style.boxShadow = '0 0 12px rgba(252,163,17,0.5)';
     }
-    
+    bp = 9999;
     alert('🛠️ デバッグモード ON\n\n・全施設・全モードのロック解除\n・全スキル解放状態として調合可能\n・BP 9999状態でショップ購入可能\n・全シリーズ解放状態で調合可能');
   } else {
     // Reset button style
@@ -9735,8 +11034,46 @@ function triggerFirstTimeHelp(facility) {
   }
 }
 
+// OP画面タップ時のイベント登録
+document.addEventListener('DOMContentLoaded', () => {
+  const opScreen = document.getElementById('op-screen');
+  
+  if (opScreen) {
+    opScreen.addEventListener('click', () => {
+      // 1. ブラウザの音声自動再生制限を解除するためにBGM再生
+      if (window.bgmManager) {
+        window.bgmManager.play('title', true); // OP BGM1.mp3 再生
+      }
+
+      // 2. OP画面をフェードアウトして非表示化
+      opScreen.style.transition = 'opacity 0.6s ease';
+      opScreen.style.opacity = '0';
+      
+      setTimeout(() => {
+        opScreen.style.display = 'none';
+        
+        // 3. タイトル／セーブデータ選択画面を表示
+        if (typeof showTitleOrSaveSelectScene === 'function') {
+          showTitleOrSaveSelectScene();
+        } else {
+          const titleScene = document.getElementById('title-scene') || document.getElementById('save-select-modal');
+          if (titleScene) titleScene.style.display = 'flex';
+          goScreen('title');
+          renderTitleSaveSlots();
+        }
+      }, 600);
+    }, { once: true }); // 1回タップで確定
+  }
+});
+
 function init() {
   updateGameScale();
+  // 初期読み込み時、すべてのモーダルを強制閉去
+  if (typeof closeMonsterSelectModal === 'function') closeMonsterSelectModal();
+  if (typeof closeLabDetailModal === 'function') closeLabDetailModal();
+  if (typeof closeLabItemModal === 'function') closeLabItemModal();
+  document.querySelectorAll('#monster-select-modal, #lab-item-modal, #lab-detail-modal, #facility-help-overlay, #save-slot-overlay').forEach(m => m.style.display = 'none');
+  
   migrateOldSaveDataIfNeeded();
   // 起動時は常にタイトル・セーブ選択画面を表示（データはまだロードしない）
   renderTitleSaveSlots();
@@ -9925,14 +11262,17 @@ function triggerP2PBotMatch() {
       updateP2PReadyUI();
       
       const nameEl = document.getElementById('p2p-my-monster-name');
-      const activeLab = getActiveLab();
+      const myIcon = document.getElementById('p2p-my-monster-preview');
+      const activeLab = labMonstersFree;
       if (p2pFormat === 'team') {
-        const myTeamData = p2pSelectedMonsters.map(idx => activeLab[idx]);
+        const myTeamData = p2pSelectedMonsters.map(idx => activeLab[idx]).filter(Boolean);
         if (nameEl) nameEl.textContent = myTeamData.map(m => m.name).join(' / ');
+        if (myIcon) myIcon.innerHTML = myTeamData.map(m => getMonsterVisualHTML(m.monsterClass, m.systemType, '35px')).join('');
       } else {
-        const myMonsterIdx = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : (selBattle || 0);
+        const myMonsterIdx = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : 0;
         const myMonster = activeLab[myMonsterIdx] || activeLab[0];
         if (myMonster && nameEl) nameEl.textContent = myMonster.name || 'モンスター';
+        if (myMonster && myIcon) myIcon.innerHTML = getMonsterVisualHTML(myMonster.monsterClass, myMonster.systemType, '70px');
       }
       
       const oppName = document.getElementById('p2p-opp-monster-name');
@@ -9942,7 +11282,13 @@ function triggerP2PBotMatch() {
           : (p2pOppMonster.name || '???');
       }
       const oppIcon = document.getElementById('p2p-opp-monster-preview');
-      if (oppIcon) oppIcon.textContent = p2pFormat === 'team' ? '👥' : '🐲';
+      if (oppIcon) {
+        if (p2pFormat === 'team') {
+          oppIcon.innerHTML = p2pOppMonsters.map(m => getMonsterVisualHTML(m.monsterClass, m.systemType, '35px')).join('');
+        } else if (p2pOppMonster) {
+          oppIcon.innerHTML = getMonsterVisualHTML(p2pOppMonster.monsterClass, p2pOppMonster.systemType, '70px');
+        }
+      }
       
       // Botは1〜2.5秒後に準備完了にする
       setTimeout(() => {
@@ -10067,9 +11413,8 @@ function renderP2PMonsterSelection() {
       card.classList.add('selected');
     }
     
-    // Icon mapping
-    const sysKey = Object.keys(MONSTER_TYPES).find(k => MONSTER_TYPES[k].label === m.systemType) || 'other';
-    const icon = MONSTER_TYPES[sysKey] ? MONSTER_TYPES[sysKey].icon : '??';
+    // Visual HTML
+    const visualHTML = getMonsterVisualHTML(m.monsterClass, m.systemType, '55px');
     
     const activeSk = (m.skills && m.skills.active && m.skills.active[0]) || 'none';
     const passiveSk = (m.skills && m.skills.passive && m.skills.passive[0]) || 'none';
@@ -10087,7 +11432,7 @@ function renderP2PMonsterSelection() {
 
     card.innerHTML = `
       <div class="select-badge">${badgeText}</div>
-      <div style="font-size:24px; margin-bottom:4px;">${icon}</div>
+      <div style="height:55px; display:flex; align-items:center; justify-content:center; margin-bottom:4px;">${visualHTML}</div>
       <div style="font-weight:bold; font-size:13px; color:#fff; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${m.name}</div>
       <div style="font-size:10px; color:var(--text-dim); margin-top:2px;">${m.monsterClass}</div>
       <div style="font-size:10px; color:var(--accent-gold); margin-top:4px;">${activeName} / ${passiveName}</div>
@@ -10347,17 +11692,20 @@ function setupP2PConnection() {
   updateP2PReadyUI();
 
   // Send my monster data
-  const activeLab = getActiveLab();
+  const activeLab = labMonstersFree;
   const nameEl = document.getElementById('p2p-my-monster-name');
+  const myIcon = document.getElementById('p2p-my-monster-preview');
   
   if (p2pFormat === 'team') {
-    const myTeamData = p2pSelectedMonsters.map(idx => activeLab[idx]);
+    const myTeamData = p2pSelectedMonsters.map(idx => activeLab[idx]).filter(Boolean);
     if (nameEl) nameEl.textContent = myTeamData.map(m => m.name).join(' / ');
+    if (myIcon) myIcon.innerHTML = myTeamData.map(m => getMonsterVisualHTML(m.monsterClass, m.systemType, '35px')).join('');
     p2pConn.send({ type: 'team-monsters', data: myTeamData });
   } else {
-    const myMonsterIdx = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : (selBattle || 0);
+    const myMonsterIdx = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : 0;
     const myMonster = activeLab[myMonsterIdx] || activeLab[0];
-    if (nameEl) nameEl.textContent = myMonster.name || 'モンスター';
+    if (myMonster && nameEl) nameEl.textContent = myMonster.name || 'モンスター';
+    if (myMonster && myIcon) myIcon.innerHTML = getMonsterVisualHTML(myMonster.monsterClass, myMonster.systemType, '70px');
     p2pConn.send({ type: 'monster', data: myMonster });
   }
 }
@@ -10372,7 +11720,9 @@ function handleP2PMessage(msg) {
       const oppName = document.getElementById('p2p-opp-monster-name');
       if (oppName) oppName.textContent = msg.data.name || '???';
       const oppIcon = document.getElementById('p2p-opp-monster-preview');
-      if (oppIcon) oppIcon.textContent = '🐲';
+      if (oppIcon && msg.data) {
+        oppIcon.innerHTML = getMonsterVisualHTML(msg.data.monsterClass, msg.data.systemType, '70px');
+      }
       break;
 
     case 'team-monsters':
@@ -10381,7 +11731,9 @@ function handleP2PMessage(msg) {
       const oppTeamName = document.getElementById('p2p-opp-monster-name');
       if (oppTeamName) oppTeamName.textContent = msg.data.map(m => m.name).join(' / ');
       const oppTeamIcon = document.getElementById('p2p-opp-monster-preview');
-      if (oppTeamIcon) oppTeamIcon.textContent = '👥';
+      if (oppTeamIcon && Array.isArray(msg.data)) {
+        oppTeamIcon.innerHTML = msg.data.map(m => getMonsterVisualHTML(m.monsterClass, m.systemType, '35px')).join('');
+      }
       break;
 
     case 'ready':
@@ -10458,11 +11810,16 @@ function startP2PBattle() {
       return;
     }
     p2pBoutState = null;
+    currentLabMode = 'free';
+    selBattle = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : 0;
+    
     const opp = p2pOppMonster;
     const oppStats = opp.stats || { hp: 22, attack: 22, defense: 22, speed: 22, luck: 22 };
     const oppSkill = (opp.skills && opp.skills.active && opp.skills.active[0]) || 'none';
     currentEnemy = {
       name: p2pIsBotActive ? p2pBotName : (opp.name || '対戦相手'),
+      monsterClass: opp.monsterClass || 'スライム',
+      systemType: opp.systemType || 'ドラゴン系',
       type: Object.keys(MONSTER_TYPES).find(k => MONSTER_TYPES[k].label === opp.systemType) || 'other',
       title: p2pIsBotActive ? p2pBotRecord : (opp.monsterClass || '対戦相手'),
       hp: Number(oppStats.hp) || 22,
@@ -10482,7 +11839,8 @@ function startP2PBattle() {
 }
 
 function startP2PTeamBout(boutIdx) {
-  const activeLab = getActiveLab();
+  currentLabMode = 'free';
+  const activeLab = labMonstersFree;
   selBattle = p2pBoutState.myTeam[boutIdx];
   const opp = p2pBoutState.oppTeam[boutIdx];
   const oppStats = opp.stats || { hp: 22, attack: 22, defense: 22, speed: 22, luck: 22 };
@@ -10490,6 +11848,8 @@ function startP2PTeamBout(boutIdx) {
   const boutNames = ['先鋒戦', '中堅戦', '大将戦'];
   currentEnemy = {
     name: opp.name || '対戦相手',
+    monsterClass: opp.monsterClass || 'スライム',
+    systemType: opp.systemType || 'ドラゴン系',
     type: Object.keys(MONSTER_TYPES).find(k => MONSTER_TYPES[k].label === opp.systemType) || 'other',
     title: 'フリー団体戦 - ' + boutNames[boutIdx],
     hp: Number(oppStats.hp) || 22,
@@ -10526,7 +11886,7 @@ function copyP2PRoomId() {
       alert('あいことば「' + code + '」をコピーしました！');
     });
   } else {
-    prompt('あいことばをコピーしてください:', code);
+    alert('あいことば: ' + code);
   }
 }
 
@@ -10573,9 +11933,19 @@ function executeP2PBattleTurn() {
   executeTurnActions(myCmd, oppCmd, playerFirst);
 }
 
-init();
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    init();
+  } catch (err) {
+    console.error('初期化エラー:', err);
+  }
+});
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  init();
+}
 </script>
 </div> <!-- End #game-viewport -->
+
 
 <!-- ============ SYSTEM MESSAGE MODAL (OUTSIDE game-viewport to avoid transform:scale influence) ============ -->
 <div id="system-modal-backdrop"></div>
