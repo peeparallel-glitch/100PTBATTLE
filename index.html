@@ -47,7 +47,10 @@
       height: 100vh !important;
       height: 100dvh !important;
       overflow: hidden !important;
-      background: #000 !important;
+      background-color: #000 !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
       font-family: 'Noto Sans JP', sans-serif;
       user-select: none;
       -webkit-user-select: none;
@@ -57,11 +60,12 @@
     #game-viewport {
       width: 1280px;
       height: 720px;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translate(-50%, 0) scale(1);
-      transform-origin: center top;
+      position: relative !important;
+      margin: 0 auto !important;
+      left: 0 !important;
+      top: 0 !important;
+      flex-shrink: 0;
+      transform-origin: center center !important;
       background: var(--bg-deep);
       background-image:
         radial-gradient(ellipse at 20% 50%, rgba(61,155,233,0.06) 0%, transparent 60%),
@@ -5069,6 +5073,20 @@ class BGMManager {
     this.currentKey = null;
   }
 
+  // BGMの一時停止（バックグラウンド移行時用）
+  pause() {
+    if (this.currentBGM && !this.currentBGM.paused) {
+      this.currentBGM.pause();
+    }
+  }
+
+  // BGMの再生再開（フォアグラウンド復帰時用）
+  resume() {
+    if (this.currentBGM && this.currentBGM.paused && this.currentKey) {
+      this.currentBGM.play().catch(() => {});
+    }
+  }
+
   // BGM音量の設定
   setBgmVolume(vol) {
     this.bgmVolume = Math.max(0, Math.min(1, vol));
@@ -5101,6 +5119,36 @@ document.addEventListener('click', () => {
     window.bgmManager.currentBGM.play().catch(() => {});
   }
 }, { once: false });
+
+// バックグラウンド切り替え（タブ移動・アプリ非アクティブ）時の自動一時停止 / 復帰制御
+let isGamePausedByVisibility = false;
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    // 1. バックグラウンド移動時: BGMを一時停止
+    if (window.bgmManager) {
+      window.bgmManager.pause();
+    }
+    // 2. バトルの思考タイマー（カウントダウン）の一時停止
+    if (typeof battleTimerInterval !== 'undefined' && battleTimerInterval) {
+      clearInterval(battleTimerInterval);
+      battleTimerInterval = null;
+      isGamePausedByVisibility = true;
+    }
+  } else {
+    // 3. フォアグラウンド復帰時: BGM再生の再開
+    if (window.bgmManager) {
+      window.bgmManager.resume();
+    }
+    // 4. 思考タイマーが一時停止中であれば再開
+    if (isGamePausedByVisibility) {
+      isGamePausedByVisibility = false;
+      if (typeof startThinkingTimer === 'function' && typeof isPlayerTurn !== 'undefined' && isPlayerTurn) {
+        startThinkingTimer();
+      }
+    }
+  }
+});
 
 // ============================================================
 //  SETTINGS MODAL (音量設定)
@@ -5432,9 +5480,10 @@ function updateCreatorPreview() {
 }
 
 function goScreen(name) {
-  // Clear battle timers if transitioning out of battle
+  // Clear battle timers and logs if transitioning screens
   battleTimers.forEach(t => clearTimeout(t));
   battleTimers = [];
+  if (typeof clearLog === 'function') clearLog();
 
   // BGM再生制御
   if (window.bgmManager) {
@@ -7649,11 +7698,12 @@ function renderEnemyInfo() {
 function initBattle() {
   console.log('initBattle started');
   
-  // 1. Clear old timers
+  // 1. Clear old timers and logs
   battleTimers.forEach(t => clearTimeout(t));
   battleTimers = [];
   activeTimers.forEach(t => clearTimeout(t));
   activeTimers = [];
+  clearLog();
 
   // ★ ゲームモードに応じてパーティ編成データを強制切替（二重安全策）
   if (currentGameMode === 'free') {
@@ -7941,7 +7991,7 @@ function initBattle() {
     enemyIconEl.innerHTML = getEnemyImageHTML(em);
     setHp('p', pState); setHp('e', eState);
     updateBuffsUI('p', pState); updateBuffsUI('e', eState);
-    document.getElementById('battle-log').innerHTML = '';
+    clearLog();
 
     // With 2 active skills, let's select active[0] for execution or active[1] if active[0] is used.
     const active1 = pm.skills.active[0] || 'none';
@@ -9180,9 +9230,12 @@ function updateBuffsUI(side, state) {
 }
 
 
-// ============================================================
-//  BATTLE UI HELPERS (復元)
-// ============================================================
+function clearLog() {
+  const log1 = document.getElementById('battle-log');
+  if (log1) log1.innerHTML = '';
+  const log2 = document.getElementById('battle-top-log');
+  if (log2) log2.innerHTML = '';
+}
 
 function addLog(msg, cls) {
   // 最上部中央に表示するための新規ログコンテナを動的に生成
@@ -10960,15 +11013,15 @@ function updateGameScale() {
   const winW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   const winH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
   
-  // 画面枠内に余裕を持って100%確実に収まるよう、スケール倍率に 0.92 (92%) の安全マージンを適用
-  // 画面全体の解像度・レイアウト比率を保ったままゲーム画面全体を小さくスケーリングして一画面に完全収容
+  // アスペクト比を維持して画面内に収めるスケール値を計算
   const scale = Math.min(winW / baseW, winH / baseH);
-  vp.style.transform = `translate(-50%, 0) scale(${scale})`;
-  vp.style.transformOrigin = 'center top';
+  vp.style.transformOrigin = 'center center';
+  vp.style.transform = `scale(${scale})`;
 }
 
 window.addEventListener('resize', updateGameScale);
 window.addEventListener('orientationchange', updateGameScale);
+window.addEventListener('load', updateGameScale);
 
 
 // ============================================================
