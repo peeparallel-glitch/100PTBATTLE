@@ -8800,6 +8800,9 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     if (parried) {
       const t = setTimeout(() => {
         addLog(`⚔️ ${target.name} はパッシブ「パリィ」を発動！ 初回攻撃を完全回避！`, 'log-skill');
+        actor.charged = false;
+        actor.chargeMultiplier = null;
+        updateBuffsUI(actorSide, actor);
         onComplete();
       }, delay(300));
       activeTimers.push(t);
@@ -8813,7 +8816,8 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       const t = setTimeout(() => {
         target.evasionStreak = (target.evasionStreak || 0) + 1;
         addLog(`💫 ${target.name} は攻撃をかわした！ (回避率:${Math.round(evasion)}%)`, 'log-miss');
-        if (isCharged) actor.charged = false;
+        actor.charged = false;
+        actor.chargeMultiplier = null;
         updateBuffsUI(actorSide, actor);
         onComplete();
       }, delay(300));
@@ -8831,7 +8835,9 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     if (target.fortressTurns > 0) {
       const t = setTimeout(() => {
         addLog(`🏰 ${target.name} は無敵状態！ ダメージを全く受けない！`, 'log-miss');
-        if (isCharged) actor.charged = false;
+        actor.charged = false;
+        actor.chargeMultiplier = null;
+        updateBuffsUI(actorSide, actor);
         onComplete();
       }, delay(300));
       activeTimers.push(t);
@@ -8916,7 +8922,9 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       if (parried) {
         const t = setTimeout(() => {
           addLog(`⚔️ ${target.name} はパッシブ「パリィ」を発動！ スキルを完全回避！`, 'log-skill');
-          if (isCharged) actor.charged = false;
+          actor.charged = false;
+          actor.chargeMultiplier = null;
+          updateBuffsUI(actorSide, actor);
           onComplete();
         }, delay(300));
         activeTimers.push(t);
@@ -8930,7 +8938,8 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       if (Math.random() * 100 < evasion) {
         const t = setTimeout(() => {
           addLog(`💫 ${target.name} はスキルの攻撃をかわした！ (回避率:${Math.round(evasion)}%)`, 'log-miss');
-          if (isCharged) actor.charged = false;
+          actor.charged = false;
+          actor.chargeMultiplier = null;
           updateBuffsUI(actorSide, actor);
           onComplete();
         }, delay(300));
@@ -8943,7 +8952,9 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       if (target.fortressTurns > 0) {
         const t = setTimeout(() => {
           addLog(`🏰 ${target.name} は無敵状態！ スキルダメージを受けない！`, 'log-miss');
-          if (isCharged) actor.charged = false;
+          actor.charged = false;
+          actor.chargeMultiplier = null;
+          updateBuffsUI(actorSide, actor);
           onComplete();
         }, delay(300));
         activeTimers.push(t);
@@ -9021,6 +9032,9 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         onComplete();
       } else {
         addLog(`🎯 一撃必殺は外れた！`, 'log-miss');
+        actor.charged = false;
+        actor.chargeMultiplier = null;
+        updateBuffsUI(actorSide, actor);
         onComplete();
       }
 
@@ -9284,7 +9298,9 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
   // Check Drawing
   if (actor.drawingTurns > 0 || target.drawingTurns > 0) {
     addLog(`🎨 ドローイングの効果により、ダメージが無効化された！`, 'log-miss');
-    if (actor.charged) actor.charged = false;
+    actor.charged = false;
+    actor.chargeMultiplier = null;
+    updateBuffsUI(actorSide, actor);
     onComplete();
     return;
   }
@@ -12184,7 +12200,7 @@ function createP2PPrivateRoom() {
   if (!validateP2PMonsterSelection()) return;
   destroyP2P();
   p2pIsHost = true;
-  p2pRoomCode = generateRoomCode();
+  p2pRoomCode = generateRoomCode().toLowerCase();
   const peerId = P2P_PREFIX + p2pRoomCode;
 
   showP2PStep(4);
@@ -12203,16 +12219,16 @@ function createP2PPrivateRoom() {
     setupP2PConnection();
   });
   p2pPeer.on('error', (err) => {
-    setP2PStatus('接続エラー', err.type + ': ' + err.message);
+    setP2PStatus('接続エラー', err.type + ': ' + (err.message || '部屋の作成に失敗しました'));
   });
 }
 
 // --- Join Private Room ---
 function joinP2PPrivateRoom() {
   const input = document.getElementById('p2p-room-code-input');
-  const code = (input ? input.value : '').trim();
+  const code = (input ? input.value : '').trim().toLowerCase();
   if (!code || code.length < 4) {
-    alert('あいことば（4〜6桁）を入力してください');
+    alert('あいことばを入力してください');
     return;
   }
   if (!validateP2PMonsterSelection()) return;
@@ -12223,24 +12239,42 @@ function joinP2PPrivateRoom() {
 
   showP2PStep(4);
   setP2PStatus('部屋に接続中...', 'あいことば: ' + code);
-  document.getElementById('p2p-room-display-box').style.display = 'none';
+  const box = document.getElementById('p2p-room-display-box');
+  if (box) box.style.display = 'none';
 
   p2pPeer = new Peer();
+  
+  let connectTimeout = null;
+
   p2pPeer.on('open', () => {
-    setP2PStatus('接続試行中...', 'Peer接続を確立中...');
-    p2pConn = p2pPeer.connect(targetPeerId, { reliable: true });
+    setP2PStatus('接続試行中...', 'ホストへ接続要求を送信中...');
+    
+    // Connect to host
+    const conn = p2pPeer.connect(targetPeerId, { reliable: true });
+    p2pConn = conn;
+
+    connectTimeout = setTimeout(() => {
+      if (p2pConn && !p2pConn.open) {
+        setP2PStatus('接続タイムアウト', '部屋が見つからないか、ホストからの応答がありません。あいことばを確認してください。');
+      }
+    }, 10000);
+
     p2pConn.on('open', () => {
+      if (connectTimeout) clearTimeout(connectTimeout);
       setupP2PConnection();
     });
     p2pConn.on('error', (err) => {
+      if (connectTimeout) clearTimeout(connectTimeout);
       setP2PStatus('接続失敗', '部屋が見つかりません。あいことばを確認してください。');
     });
   });
+
   p2pPeer.on('error', (err) => {
+    if (connectTimeout) clearTimeout(connectTimeout);
     if (err.type === 'peer-unavailable') {
       setP2PStatus('部屋が見つかりません', 'あいことばが正しいか確認してください');
     } else {
-      setP2PStatus('接続エラー', err.type);
+      setP2PStatus('接続エラー', err.type + (err.message ? ': ' + err.message : ''));
     }
   });
 }
