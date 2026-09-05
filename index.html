@@ -190,7 +190,7 @@
     }
     .screen.active { display: block; }
     #title-screen.active { display: block; }
-    #name-dialog-screen.active, #creator-screen.active, #lab-screen.active { display: flex; }
+    #name-dialog-screen.active, #creator-screen.active, #lab-screen.active, #team-arena-menu-screen.active, #ta-party-screen.active, #ta-progress-screen.active { display: flex; }
 
 
     /* ============================================================
@@ -200,6 +200,68 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(6px); }
       to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============================================================
+       TEAM ARENA (武舞台) & P2P LOBBY (異次元の祠) SCREENS
+       ============================================================ */
+    #team-arena-menu-screen, #ta-party-screen, #ta-progress-screen {
+      padding: 20px;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      margin: 0;
+      box-sizing: border-box;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('IMGTITLE/to-namennt.jpg') !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+    }
+    #team-arena-menu-screen.active, #ta-party-screen.active, #ta-progress-screen.active {
+      display: flex !important;
+    }
+
+    /* 商店（報酬ショップ）画面背景 */
+    #reward-shop-screen {
+      padding: 20px;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      margin: 0;
+      box-sizing: border-box;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('IMGTITLE/shop.jpg') !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+    }
+    #reward-shop-screen.active {
+      display: flex !important;
+    }
+
+    /* 異次元の祠（フリー対戦）準備画面背景 */
+    #free-battle-lobby-screen {
+      padding: 20px;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      margin: 0;
+      box-sizing: border-box;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('IMGTITLE/taijinhikae.jpg') !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+    }
+    #free-battle-lobby-screen.active {
+      display: flex !important;
     }
 
     /* ============================================================
@@ -214,7 +276,7 @@
       box-sizing: border-box;
       flex-direction: column;
       align-items: stretch;
-      background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('IMGTITLE/rabo.png');
+      background-image: url('IMGTITLE/rabo.png');
       background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
@@ -2000,7 +2062,7 @@
     /* Force enemy images to face RIGHT (→) in both Scouting and Battle screens */
     #scout-enemy-panel img {
       max-height: 80px !important;
-      transform: scaleX(-1) scale(1.0) !important;
+      transform: scale(1.0) !important;
     }
     .enemy-cyber-card img {
       transform: scaleX(-1) scale(1.15) !important;
@@ -2017,6 +2079,11 @@
       vertical-align: middle !important;
       pointer-events: none !important;
     }
+    /* IMG3モンスター: スカウト/コロシアム画面ではそのまま反転を適用 */
+    .enemy-monster-img.img3-enemy {
+      transform: scaleX(-1) scale(1.15) !important;
+    }
+
 
 
     /* UNIFIED BATTLE CARD LAYOUT SYNC (Equal HP Bar Height & Monster Image Sizes) */
@@ -2052,7 +2119,7 @@
       display: none;
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.75);
+      background: transparent;
       z-index: 20000;
       align-items: flex-end;
       justify-content: center;
@@ -2822,6 +2889,10 @@
       transform: scaleX(-1) scale(1.3);
       filter: drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(239,68,68,0.4));
     }
+    /* IMG3追加モンスター: 1枚画像を親の scaleX(-1) で反転させるため、img側の打ち消しを無効化 */
+    #fi-enemy img.img3-enemy {
+      transform: scale(1.3) !important;
+    }
     #fi-player {
       font-size: 100px !important;
       transform: scale(1.5);
@@ -2833,54 +2904,35 @@
       filter: drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(0,212,255,0.4));
     }
 
-    /* HPゲージをステータス枠から切り離してキャラクターの「足元」に固定配置 */
-    .battle-grid-3col .cyber-card div[style*="margin-top: 6px; margin-bottom: 6px"] {
+    /* HP/MPゲージをキャラクター足元（地面上）に綺麗に配置 */
+    .battle-grid-3col .monster-bars-under {
       position: fixed !important;
-      width: 280px !important; /* 横幅を2倍(280px)に拡張 */
+      width: 220px !important;
       z-index: 6 !important;
-      background: transparent !important; /* 背景透明化 */
-      border: none !important; /* 枠線除去 */
-      border-radius: 0 !important;
+      background: transparent !important;
+      border: none !important;
       padding: 0 !important;
       box-sizing: border-box !important;
       margin: 0 !important;
     }
     
-    /* 敵の足元HP (キャラクター真下中央に配置) */
-    .battle-grid-3col .enemy-cyber-card div[style*="margin-top: 6px; margin-bottom: 6px"] {
-      bottom: 16% !important;
+    /* 敵の足元HP/MP (キャラクター真下中央に配置) */
+    .battle-grid-3col .enemy-cyber-card .monster-bars-under {
+      bottom: 17% !important;
       left: 15% !important;
       right: auto !important;
-      transform: translateX(-30%) !important; /* キャラ画像の中心に合わせる微調整 */
+      transform: translateX(-20%) !important;
     }
-    /* 味方の足元HP (キャラクター真下中央に配置) */
-    .battle-grid-3col .player-cyber-card div[style*="margin-top: 6px; margin-bottom: 6px"] {
-      bottom: 16% !important;
+    /* 味方の足元HP/MP (キャラクター真下中央に配置) */
+    .battle-grid-3col .player-cyber-card .monster-bars-under {
+      bottom: 17% !important;
       right: 15% !important;
       left: auto !important;
-      transform: translateX(30%) !important; /* キャラ画像の中心に合わせる微調整 */
+      transform: translateX(20%) !important;
     }
 
-    /* HPゲージデザイン */
-    .battle-grid-3col .cyber-hp-bg {
-      height: 10px !important;
-      background: rgba(0, 0, 0, 0.6) !important;
-      border: 1px solid #000 !important;
-      border-radius: 2px !important;
-    }
-    
-    /* HP数値とHPテキストの視認性確保 (黒フチ処理) */
-    .battle-grid-3col div[style*="font-size: 20px; font-weight: bold"] {
-      font-size: 13px !important;
-      margin-bottom: 2px !important;
-      display: flex !important;
-      justify-content: space-between !important;
-      color: #ffffff !important;
-      text-shadow: 
-        1px 1px 2px #000, -1px -1px 2px #000,
-        1px -1px 2px #000, -1px 1px 2px #000,
-        1px 0px 2px #000, -1px 0px 2px #000,
-        0px 1px 2px #000, 0px -1px 2px #000 !important;
+    .hp-bar-wrapper, .mp-bar-wrapper {
+      box-shadow: 0 0 4px rgba(0,0,0,0.8);
     }
 
     /* --- ⑥ 下部コントロール：コマンド横一列のみ --- */
@@ -3327,27 +3379,31 @@
       box-sizing: border-box !important;
       z-index: 15001 !important;
 /* START文字のゆっくり点滅アニメーション */
-@keyframes slowBlink {
-  0% { opacity: 0.2; transform: scale(0.98); }
-  50% { opacity: 1.0; transform: scale(1.02); }
-  100% { opacity: 0.2; transform: scale(0.98); }
+@keyframes opTextBlink {
+  0% { opacity: 0.1; }
+  50% { opacity: 1; }
+  100% { opacity: 0.1; }
 }
 
 .blink-start-text {
-  animation: slowBlink 2.2s infinite ease-in-out;
+  animation: opTextBlink 1.5s infinite ease-in-out !important;
+  -webkit-animation: opTextBlink 1.5s infinite ease-in-out !important;
 }
+
+
+
 </style>
 </head>
 <body>
 <div id="game-viewport">
 
-<!-- OP（オープニング）画面 -->
-<div id="op-screen" style="position: absolute; inset: 0; background: #000; z-index: 20000; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; user-select: none;">
-  <!-- OP画像 -->
-  <img id="op-image" src="./images/op_image.png" onerror="if(this.src.indexOf('zenntaizu')===-1) this.src='./IMGTITLE/zenntaizu[name].png';" alt="OP Image" style="max-width: 90%; max-height: 70vh; object-fit: contain; margin-bottom: 30px; filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.4));">
+<!-- OP（オープニング）画面（フルスクリーン表示） -->
+<div id="op-screen" style="position: absolute; inset: 0; width: 100%; height: 100%; background: #000; z-index: 20000; overflow: hidden; cursor: pointer; user-select: none;">
+  <!-- OP背景フルスクリーン画像 -->
+  <img id="op-image" src="./IMGTITLE/OP IMG.jpg" alt="OP Image" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;">
 
-  <!-- ゆっくり点滅するスタートテキスト -->
-  <div class="blink-start-text" style="color: #ffffff; font-size: 24px; font-weight: bold; letter-spacing: 3px; text-shadow: 0 0 10px #00d2ff;">
+  <!-- ゆっくり点滅するスタートテキスト（画面下部オーバーレイ・上寄り配置） -->
+  <div id="op-start-text" class="blink-start-text" style="position: absolute; bottom: 18%; left: 50%; transform: translateX(-50%); color: #ffffff; font-size: 26px; font-weight: bold; letter-spacing: 3px; text-shadow: 0 0 12px #00d2ff, 0 0 20px #000, 2px 2px 4px #000; white-space: nowrap; z-index: 10;">
     - PRESS TAP TO START -
   </div>
 </div>
@@ -3453,6 +3509,20 @@
 </div>
 
 
+
+<!-- ============ SERIES PREVIEW MODAL ============ -->
+<div id="series-preview-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:30000; align-items:center; justify-content:center; padding:20px;">
+  <div style="background:linear-gradient(180deg, rgba(15,23,42,0.98), rgba(30,41,59,0.98)); border:2px solid var(--accent-gold); border-radius:16px; padding:24px; max-width:650px; width:95%; max-height:85vh; overflow-y:auto; box-shadow:0 0 40px rgba(245,158,11,0.25); text-align:center; position:relative;">
+    <button onclick="closeSeriesPreview()" style="position:absolute; top:12px; right:16px; background:none; border:none; color:var(--text-dim); font-size:24px; cursor:pointer; font-weight:bold;">✕</button>
+    <div id="preview-modal-title" style="font-size:20px; font-weight:900; color:var(--accent-gold); margin-bottom:4px;"></div>
+    <div id="preview-modal-sub" style="font-size:13px; color:var(--text-dim); margin-bottom:20px;"></div>
+    
+    <div id="preview-modal-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:16px; margin-bottom:20px;"></div>
+    
+    <button class="title-btn" style="padding:8px 24px; font-size:14px;" onclick="closeSeriesPreview()">閉じる</button>
+  </div>
+</div>
+
 <!-- ============ STORY DIALOG MODAL ============ -->
 <div id="story-dialog-overlay" class="story-dialog-overlay" onclick="advanceStoryDialog()">
   <div class="story-dialog-box" onclick="event.stopPropagation(); advanceStoryDialog()">
@@ -3484,15 +3554,13 @@
 
 
 <!-- ============ TITLE SCREEN ============ -->
-<div id="title-screen" class="screen active fade-in" onclick="autoFullscreen()" style="cursor:pointer;">
-  <div class="title-screen-container">
-    <div class="title-logo">100pt BUILD BATTLE</div>
-    <div class="title-subtitle">〜 6体制限・レトロモンスターラボ 〜</div>
-    <div style="font-size:14px; color:var(--accent-gold); margin-bottom:18px; animation: pulse-red 1.5s infinite alternate;">▶ セーブスロットを選んでスタート ◀</div>
+<div id="title-screen" class="screen active fade-in" onclick="autoFullscreen()" style="cursor:pointer; width:100%; height:100%; background: url('./IMGTITLE/OP IMG.jpg') no-repeat center center / cover; display:flex; flex-direction:column; justify-content:center; align-items:center; position:relative; overflow:hidden;">
+  <div class="title-screen-container" style="min-height:auto; width:100%; display:flex; flex-direction:column; align-items:center; justify-content:center; background: transparent; padding: 20px 0;">
+    <div style="font-size:16px; font-weight:bold; color:var(--accent-gold); margin-bottom:18px; text-shadow:0 0 10px #000, 2px 2px 4px #000; animation: pulse-red 1.5s infinite alternate;">▶ セーブスロットを選んでスタート ◀</div>
     <div class="title-save-slot-list" id="title-save-slot-list" onclick="event.stopPropagation()">
       <!-- スロットカードはJS (renderTitleSaveSlots) で動的生成 -->
     </div>
-    <button onclick="event.stopPropagation(); openSettingsModal();" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); border-radius:8px; padding:6px 14px; color:#ccc; font-size:14px; cursor:pointer; z-index:10;">⚙ 設定</button>
+    <button onclick="event.stopPropagation(); openSettingsModal();" style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.7); border:1px solid rgba(255,255,255,0.3); border-radius:8px; padding:6px 14px; color:#fff; font-size:14px; font-weight:bold; cursor:pointer; z-index:10; box-shadow:0 0 10px rgba(0,0,0,0.6);">⚙ 設定</button>
   </div>
 </div>
 
@@ -3611,7 +3679,7 @@
 </div>
 
 <!-- ============ TEAM ARENA MENU SCREEN ============ -->
-<div id="team-arena-menu-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
+<div id="team-arena-menu-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto;">
   <div class="cyber-card" style="width:100%; max-width:500px; padding:24px; background:var(--bg-panel); border:2px solid var(--border-bright); border-radius:14px; box-shadow:var(--glow-blue); text-align:center;">
     <div style="font-size:22px; font-weight:bold; color:var(--accent-cyan); margin-bottom:8px; display:flex; align-items:center; justify-content:center; gap:8px;">
       <span>🛡️</span> 武舞台（団体戦）メニュー <button class="help-btn" style="width:24px; height:24px; font-size:12px;" onclick="showHelp('team-arena')">?</button>
@@ -3660,7 +3728,7 @@
 </div>
 
 <!-- ============ TEAM ARENA: PARTY SELECT SCREEN ============ -->
-<div id="ta-party-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
+<div id="ta-party-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto;">
   <div class="cyber-card" style="width:100%; max-width:650px; padding:24px; background:var(--bg-panel); border:2px solid var(--accent-cyan); border-radius:14px; box-shadow:var(--glow-blue);">
     <div style="font-size:20px; font-weight:bold; color:var(--accent-cyan); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:16px;">
       🛡️ 武舞台 パーティ編成
@@ -3699,7 +3767,7 @@
 </div>
 
 <!-- ============ TEAM ARENA: TOURNAMENT PROGRESS SCREEN ============ -->
-<div id="ta-progress-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto; min-height:90vh;">
+<div id="ta-progress-screen" class="screen fade-in" style="display:none; align-items:center; justify-content:center; padding:20px; overflow-y:auto;">
   <div class="cyber-card" style="width:100%; max-width:600px; padding:24px; background:var(--bg-panel); border:2px solid var(--accent-gold); border-radius:14px; box-shadow:var(--glow-gold);">
     <div style="font-size:20px; font-weight:bold; color:var(--accent-gold); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:16px;">
       🏆 武舞台トーナメント
@@ -3942,7 +4010,7 @@
 
     <div style="border-top: 1px solid rgba(255,255,255,0.2); border-bottom: 1px solid rgba(255,255,255,0.2); padding: 20px 0; width: 100%;">
       <p style="color: #aaa; font-size: 14px; margin-bottom: 5px;">GAME CREATOR & LAB RESEARCHER</p>
-      <p style="font-size: 20px; color: #fff; font-weight: bold;">Pee研究員</p>
+      <p style="font-size: 20px; color: #fff; font-weight: bold;" id="ending-researcher-name">Pee研究員</p>
     </div>
 
     <h2 style="color: #ff9900; font-size: 32px; margin-top: 50px;">THANK YOU FOR PLAYING!</h2>
@@ -4256,20 +4324,24 @@
               <span id="enemy-class-label"></span>
             </div>
 
-            <!-- Large Monster Visual -->
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; padding: 4px 0; min-height: 110px; overflow: visible; z-index: 5;">
+            <!-- Monster Unit Container (Visual + Under Bars) -->
+            <div class="monster-unit-container" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 4px 0; min-height: 110px; overflow: visible; z-index: 5;">
               <span class="fighter-icon" id="fi-enemy" style="font-size: 85px; transform: scaleX(-1) scale(1.4); filter: drop-shadow(0 0 15px rgba(239,68,68,0.3)); transition: transform 0.1s;">👹</span>
               <div id="buffs-e" style="position: absolute; bottom: 0; display: flex; gap: 4px; font-size: 14px;"></div>
-            </div>
 
-            <!-- HP Underneath Monster -->
-            <div style="margin-top: 6px; margin-bottom: 6px;">
-              <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; margin-bottom: 2px;">
-                <span style="color: var(--accent-red);">HP</span>
-                <span id="hp-txt-e" style="font-family: monospace;">0 / 0</span>
-              </div>
-              <div class="cyber-hp-bg" style="height: 16px;">
-                <div class="cyber-hp-fill-enemy" id="hp-bar-e" style="width: 100%;"></div>
+              <!-- 足元のHP/MP表示エリア（2段構成） -->
+              <div class="monster-bars-under" style="width: 100%; max-width: 220px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+                <!-- 1段目：HPゲージ（上） -->
+                <div class="hp-bar-wrapper" style="position: relative; background: rgba(0,0,0,0.6); border: 1px solid #555; height: 16px; border-radius: 3px; overflow: hidden;">
+                  <div class="hp-bar-fill cyber-hp-fill-enemy" id="hp-bar-e" style="width: 100%; height: 100%; background: linear-gradient(90deg, #ff4500, #ff8c00); transition: width 0.4s ease-out;"></div>
+                  <span class="hp-text" id="hp-txt-e" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; font-size: 11px; font-weight: bold; color: #fff; text-shadow: 1px 1px 2px #000; display: flex; justify-content: center; align-items: center; font-family: monospace;">0 / 0</span>
+                </div>
+
+                <!-- 2段目：MPゲージ（下） -->
+                <div class="mp-bar-wrapper" style="position: relative; background: rgba(0,0,0,0.6); border: 1px solid #555; height: 12px; border-radius: 3px; overflow: hidden;">
+                  <div class="mp-bar-fill" id="mp-bar-e" style="width: 100%; height: 100%; background: linear-gradient(90deg, #00d2ff, #9900ff); transition: width 0.4s ease-out;"></div>
+                  <span class="mp-text" id="mp-txt-e" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; font-size: 10px; font-weight: bold; color: #fff; text-shadow: 1px 1px 2px #000; display: flex; justify-content: center; align-items: center; font-family: monospace;">10 / 10</span>
+                </div>
               </div>
             </div>
 
@@ -4305,20 +4377,24 @@
               <span id="player-class-label"></span>
             </div>
 
-            <!-- Large Monster Visual -->
-            <div style="flex: 1; display: flex; align-items: center; justify-content: center; position: relative; padding: 4px 0; min-height: 110px; overflow: visible; z-index: 5;">
+            <!-- Monster Unit Container (Visual + Under Bars) -->
+            <div class="monster-unit-container" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 4px 0; min-height: 110px; overflow: visible; z-index: 5;">
               <span class="fighter-icon" id="fi-player" style="font-size: 85px; transform: scale(1.4); filter: drop-shadow(0 0 15px rgba(0,212,255,0.3)); transition: transform 0.1s;">🐉</span>
               <div id="buffs-p" style="position: absolute; bottom: 0; display: flex; gap: 4px; font-size: 14px;"></div>
-            </div>
 
-            <!-- HP Underneath Monster -->
-            <div style="margin-top: 6px; margin-bottom: 6px;">
-              <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: bold; margin-bottom: 2px;">
-                <span style="color: #00d4ff;">HP</span>
-                <span id="hp-txt-p" style="font-family: monospace;">0 / 0</span>
-              </div>
-              <div class="cyber-hp-bg" style="height: 16px;">
-                <div class="cyber-hp-fill-player" id="hp-bar-p" style="width: 100%;"></div>
+              <!-- 足元のHP/MP表示エリア（2段構成） -->
+              <div class="monster-bars-under" style="width: 100%; max-width: 220px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+                <!-- 1段目：HPゲージ（上） -->
+                <div class="hp-bar-wrapper" style="position: relative; background: rgba(0,0,0,0.6); border: 1px solid #555; height: 16px; border-radius: 3px; overflow: hidden;">
+                  <div class="hp-bar-fill cyber-hp-fill-player" id="hp-bar-p" style="width: 100%; height: 100%; background: linear-gradient(90deg, #ff4500, #ff8c00); transition: width 0.4s ease-out;"></div>
+                  <span class="hp-text" id="hp-txt-p" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; font-size: 11px; font-weight: bold; color: #fff; text-shadow: 1px 1px 2px #000; display: flex; justify-content: center; align-items: center; font-family: monospace;">0 / 0</span>
+                </div>
+
+                <!-- 2段目：MPゲージ（下） -->
+                <div class="mp-bar-wrapper" style="position: relative; background: rgba(0,0,0,0.6); border: 1px solid #555; height: 12px; border-radius: 3px; overflow: hidden;">
+                  <div class="mp-bar-fill" id="mp-bar-p" style="width: 100%; height: 100%; background: linear-gradient(90deg, #00d2ff, #9900ff); transition: width 0.4s ease-out;"></div>
+                  <span class="mp-text" id="mp-txt-p" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; font-size: 10px; font-weight: bold; color: #fff; text-shadow: 1px 1px 2px #000; display: flex; justify-content: center; align-items: center; font-family: monospace;">10 / 10</span>
+                </div>
               </div>
             </div>
 
@@ -4401,8 +4477,8 @@
             </div>
           </div>
 
-          <!-- Command Panel (Vertical style with Fight, Charge, Defend, Skill) -->
-          <div id="manual-commands-panel" style="display: flex; flex-direction: column; gap: 4px; padding: 1px 0; width: 100%; box-sizing: border-box; flex: 1; min-height: 0; overflow: hidden;">
+          <!-- Command Panel (Vertical/Grid style with Fight, Charge, Defend, Skill, Escape) -->
+          <div id="manual-commands-panel" style="display: flex; flex-direction: row; gap: 4px; padding: 1px 0; width: 100%; box-sizing: border-box; flex: 1; min-height: 0; overflow: hidden;">
             
             <button class="go-scouting-btn" id="btn-cmd-normal" onclick="selectCommand('attack')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #1c1c1c, #000000); border: 2px solid rgba(255,255,255,0.4); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.1);" >
               <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">⚔️ 戦う</div>
@@ -4417,7 +4493,11 @@
             </button>
             
             <button class="go-scouting-btn" id="btn-command-skill" onclick="selectCommand('skill')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #1c1c1c, #000000); border: 2px solid rgba(255,255,255,0.4); border-radius: 5px; color: #fff; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,255,255,0.1);" >
-              <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">⚡ スキル <span id="skill-btn-usage-info" style="font-size: 12px; font-weight: normal; opacity: 0.85; margin-left: 2px;">(1戦1回)</span></div>
+              <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">⚡ スキル <span id="skill-btn-usage-info" style="font-size: 12px; font-weight: normal; opacity: 0.85; margin-left: 2px;">(MP: 8)</span></div>
+            </button>
+
+            <button class="go-scouting-btn escape-style" id="escape-btn" onclick="selectCommand('escape')" style="flex: 1; min-height: 0; padding: 0; font-size: 19px; font-weight: bold; background: linear-gradient(135deg, #2b1212, #000000); border: 2px solid #ff4444; border-radius: 5px; color: #ff8888; display: flex; align-items: center; justify-content: center; width: 100%; box-sizing: border-box; box-shadow: 0 0 4px rgba(255,68,68,0.2);" >
+              <div style="font-size: 19px; font-weight: 900; line-height: 1; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 4px;">🏃 撤退</div>
             </button>
             
           </div>
@@ -4518,18 +4598,18 @@ const SKILLS = {
   shuriken: { name: '魔力の手裏剣', icon: '🌀', desc: '自身の攻撃力の75%相当の威力で、相手の防御の構えを完全に無視してダイレクトに突き立てる。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', isInitial: true },
   midare: { name: 'みだれうち', icon: '🏹', desc: '自身の運命力に応じた確率で、目にも留まらぬ2連撃を繰り出す。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', isInitial: true },
   weakmaker: { name: 'ウィークメーカー', icon: '📉', desc: '痛烈な一撃を見舞うと同時に、相手の最も秀でた能力を数ターンの間削ぎ落とす。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', isInitial: true },
-  heal: { name: 'ヒール', icon: '💖', desc: '標準的な治癒魔術。傷ついた己の生命力を一定量回復する。', type: 'アクティブ', cat: '回復系', badge: 'heal', isInitial: true },
-  regen: { name: 'リジェネレート', icon: '💧', desc: '数ターンの間、大自然の恩恵を得てターン開始時に生命力を微量ずつ再生し続ける。', type: 'アクティブ', cat: '回復系', badge: 'heal', isInitial: true },
+  heal: { name: 'ヒール', icon: '💖', desc: '標準的な治癒魔術。自身の最大生命力の30%を回復する。', type: 'アクティブ', cat: '回復系', badge: 'heal', isInitial: true },
+  regen: { name: 'リジェネレート', icon: '💧', desc: '3ターンの間、ターン開始時に自身の最大生命力の8%ずつ再生し続ける。', type: 'アクティブ', cat: '回復系', badge: 'heal', isInitial: true },
   soulshare: { name: 'ソウルシェア', icon: '🧪', desc: '相手の生命力が己を上回る時、その因果の糸を手繰り寄せて生命力を10奪い取る。', type: 'アクティブ', cat: '回復系', badge: 'heal', isInitial: true },
   teppeki: { name: '鉄壁の構え', icon: '🧱', desc: '数ターンの間、身構えることで自身の防御能力を倍加させる。', type: 'アクティブ', cat: '防御系', badge: 'defense', isInitial: true },
   enmaku: { name: '煙幕', icon: '🌫️', desc: '視界を遮る煙を巻き散らし、数ターンの間、相手の攻撃や致命の一撃の命中率を半減させる。', type: 'アクティブ', cat: '防御系', badge: 'defense', isInitial: true },
   paperarmor: { name: '紙装甲の呪い', icon: '📜', desc: '不吉な呪言。数ターンの間、相手の身に纏う守りの力を半分に低下させる。', type: 'アクティブ', cat: '補助系', badge: 'support', isInitial: true },
   strengthen: { name: '筋力強化', icon: '💪', desc: '肉体のリミッターを一時的に解除し、数ターンの間、自身の攻撃威力を1.5倍にする。', type: 'アクティブ', cat: '補助系', badge: 'support', isInitial: true },
-  slownurse: { name: '鈍足 of 呪い', icon: '⏳', desc: '大気の枷。数ターンの間、相手の身のこなし（素早さ）を大きく引き下げる。', type: 'アクティブ', cat: '補助系', badge: 'support', isInitial: true },
+  slownurse: { name: '鈍足の呪い', icon: '⏳', desc: '大気の枷。数ターンの間、相手の身のこなし（素早さ）を大きく引き下げる。', type: 'アクティブ', cat: '補助系', badge: 'support', isInitial: true },
   draw: { name: 'ドローイング', icon: '🎨', desc: '戦場の時間を一時的に凍結させ、このターンはお互いに一切の干渉（ダメージ）を無効化する。', type: 'アクティブ', cat: 'その他', badge: 'special', isInitial: true },
   toge: { name: 'トゲトゲの甲羅', icon: '🌵', desc: '（自動発動）衝撃を受けた際、その反動で一度だけ相手の足留め（素早さ減衰）を行う。', type: 'パッシブ', cat: '防御系', badge: 'defense', isInitial: true },
   secondwind: { name: 'セカンド風', icon: '🌬️', desc: '（自動発動）生命力が残り4分の1以下になった刹那、防衛本能が働き生命力を10回復する。', type: 'パッシブ', cat: '回復系', badge: 'heal', isInitial: true },
-  firstwind: { name: '最速の風', icon: '🍃', desc: '（自動発動）戦闘開始の合図とともに追い風を纏い、最初の1ターン目のみ驚異的な先制判定を得る。', type: 'パッシブ', cat: '補助系', badge: 'support', isInitial: true },
+  firstwind: { name: '最速の風', icon: '🍃', desc: '（自動発動）追い風を纏い、最初の2ターンの間のみ驚異的な先制判定（素早さ+100）を得る。', type: 'パッシブ', cat: '補助系', badge: 'support', isInitial: true },
   shuffle: { name: 'ステータス・シャッフル', icon: '🔀', desc: '（自動発動）初手のみ発動。因果を歪め、この戦闘中お互いの「素早さ」の数値を完全にストップ（入れ替え）する。', type: 'パッシブ', cat: 'その他', badge: 'special', isInitial: true },
 
   // 【リーグ優勝景品スキル（21個：ミステリー枠）】
@@ -4544,7 +4624,7 @@ const SKILLS = {
   charge: { name: 'ハイパーチャージ', icon: '🔋', desc: '1ターン精神を統一して行動をパスする代わりに、次ターンの攻撃威力を3倍に膨れ上がらせる。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
   haisui: { name: '背水の陣', icon: '🔥', desc: '己の生命力が半分以下の窮地にて、一度だけ守りを貫通する確定の致命（クリティカル）を放つ。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
 
-  daibogyo: { name: '大防御', icon: '🛡️', desc: 'すべての因果を遮断する絶対の構え。大半のダメージを無に帰すが、完璧な無敵など存在しない……？', type: 'アクティブ', cat: '防御系', badge: 'defense', scrollType: 'defense' },
+  daibogyo: { name: '大防御', icon: '🛡️', desc: '大半のダメージ（80%）をカットする絶対の構え。2ターンの間効果が継続する。', type: 'アクティブ', cat: '防御系', badge: 'defense', scrollType: 'defense' },
   fudo: { name: '不動の構え', icon: '🏔️', desc: '如何なる致命の理（防御無視）をもシャットアウトし、ただの通常攻撃として受け流す不屈の構え。', type: 'アクティブ', cat: '防御系', badge: 'defense', scrollType: 'defense' },
   shield: { name: 'エネルギーシールド', icon: '🔮', desc: '自身の『運』の数値に呼応した、ダメージを肩代わりする魔力の障壁を自らに展開する。', type: 'アクティブ', cat: '防御系', badge: 'defense', scrollType: 'defense' },
   吸血: { name: '吸血の牙', icon: '🦇', desc: '吸血鬼の如き一撃。このターン相手に与えた損害の半分を、そのまま自身の生命力として吸収する。', type: 'アクティブ', cat: '回復系', badge: 'heal', scrollType: 'defense' },
@@ -4627,30 +4707,90 @@ const MONSTER_TYPES = {
     names:['アイアンギガ','メタルビット','ジェノサイダー'] },
   // === 追加5系統（武舞台ショップ解放枠） ===
   robo: { label:'ロボ系', icon:'🤖', color:'#60a5fa', series:'robo',
-    bonus:{ hp:0, attack:5, defense:5, speed:0, luck:0 },
-    base:{ hp:1, attack:6, defense:5, speed:0, luck:0 },
-    names:[] },
+    bonus:{ hp:0, attack:0, defense:0, speed:0, luck:0 },
+    base:{ hp:0, attack:0, defense:0, speed:0, luck:0 },
+    names:['セイバー・ブルー','アイアン・トルーパー','アーク・オーロラ'] },
   god: { label:'神系', icon:'⚡', color:'#fbbf24', series:'shin',
-    bonus:{ hp:0, attack:0, defense:0, speed:5, luck:5 },
-    base:{ hp:1, attack:1, defense:0, speed:5, luck:5 },
-    names:[] },
+    bonus:{ hp:0, attack:0, defense:0, speed:0, luck:0 },
+    base:{ hp:0, attack:0, defense:0, speed:0, luck:0 },
+    names:['アテナ','ゼウス','アヌビス'] },
   dinosaur: { label:'恐竜系', icon:'🦖', color:'#dc2626', series:'dinosaur',
-    bonus:{ hp:5, attack:5, defense:0, speed:0, luck:0 },
-    base:{ hp:6, attack:6, defense:0, speed:0, luck:0 },
-    names:[] },
+    bonus:{ hp:0, attack:0, defense:0, speed:0, luck:0 },
+    base:{ hp:0, attack:0, defense:0, speed:0, luck:0 },
+    names:['ティラノス','トリケラトン','プテラノドン'] },
   toy: { label:'ぬいぐるみ系', icon:'🧸', color:'#f472b6', series:'toy',
-    bonus:{ hp:5, attack:0, defense:0, speed:0, luck:5 },
-    base:{ hp:6, attack:1, defense:0, speed:0, luck:5 },
-    names:[] },
-  ghost: { label:'おばけ系', icon:'👻', color:'#c084fc', series:'ghost',
-    bonus:{ hp:0, attack:0, defense:5, speed:5, luck:0 },
-    base:{ hp:1, attack:1, defense:5, speed:5, luck:0 },
-    names:[] },
+    bonus:{ hp:0, attack:0, defense:0, speed:0, luck:0 },
+    base:{ hp:0, attack:0, defense:0, speed:0, luck:0 },
+    names:['クマさんパペット','呪いのウサギ','ネコぬぐるみ'] },
+  ghost: { label:'妖怪系', icon:'🦊', color:'#c084fc', series:'ghost',
+    bonus:{ hp:0, attack:0, defense:0, speed:0, luck:0 },
+    base:{ hp:0, attack:0, defense:0, speed:0, luck:0 },
+    names:['九尾の狐','酒呑童子','ぬらりひょん'] },
   other: { label:'その他', icon:'⭐', color:'#94a3b8',
     bonus:{ hp:2, attack:2, defense:2, speed:2, luck:2 },
     base:{ hp:3, attack:3, defense:2, speed:2, luck:2 },
     names:[], hidden:true },
 };
+
+// ============================================================
+//  ADDITIONAL MONSTERS & IMAGE MAPPINGS (IMG3)
+// ============================================================
+const ADDITIONAL_MONSTER_IMAGES = {
+  // ロボシリーズ
+  'セイバー・ブルー': 'IMG3/01seiva.png',
+  'アイアン・トルーパー': 'IMG3/02aian.png',
+  'アーク・オーロラ': 'IMG3/03a-ku.png',
+  // 神シリーズ
+  'アテナ': 'IMG3/04atena.jpg',
+  'ゼウス': 'IMG3/05zeus.jpg',
+  'アヌビス': 'IMG3/06erumes.jpg',
+  // 恐竜シリーズ
+  'ティラノス': 'IMG3/07thirano.jpg',
+  'トリケラトン': 'IMG3/08torikeran.jpg',
+  'プテラノドン': 'IMG3/09putera.jpg',
+  // ぬいぐるみシリーズ
+  'クマさんパペット': 'IMG3/10kumapape.jpg',
+  '呪いのウサギ': 'IMG3/11usagi.jpg',
+  'ネコぬぐるみ': 'IMG3/12neko.jpg',
+  // 妖怪シリーズ
+  '九尾の狐': 'IMG3/13kyuubi.jpg',
+  '酒呑童子': 'IMG3/14syutenn.jpg',
+  'ぬらりひょん': 'IMG3/15nurai.jpg'
+};
+
+const additionalMonsters = [
+  // ロボシリーズ
+  { id: 'm_robo_01', name: 'セイバー・ブルー', category: 'ロボ', systemType: 'ロボ系', monsterClass: 'セイバー・ブルー', image: 'IMG3/01seiva.png' },
+  { id: 'm_robo_02', name: 'アイアン・トルーパー', category: 'ロボ', systemType: 'ロボ系', monsterClass: 'アイアン・トルーパー', image: 'IMG3/02aian.png' },
+  { id: 'm_robo_03', name: 'アーク・オーロラ', category: 'ロボ', systemType: 'ロボ系', monsterClass: 'アーク・オーロラ', image: 'IMG3/03a-ku.png' },
+  // 神シリーズ
+  { id: 'm_god_01', name: 'アテナ', category: '神', systemType: '神系', monsterClass: 'アテナ', image: 'IMG3/04atena.jpg' },
+  { id: 'm_god_02', name: 'ゼウス', category: '神', systemType: '神系', monsterClass: 'ゼウス', image: 'IMG3/05zeus.jpg' },
+  { id: 'm_god_03', name: 'アヌビス', category: '神', systemType: '神系', monsterClass: 'アヌビス', image: 'IMG3/06erumes.jpg' },
+  // 恐竜シリーズ
+  { id: 'm_dino_01', name: 'ティラノス', category: '恐竜', systemType: '恐竜系', monsterClass: 'ティラノス', image: 'IMG3/07thirano.jpg' },
+  { id: 'm_dino_02', name: 'トリケラトン', category: '恐竜', systemType: '恐竜系', monsterClass: 'トリケラトン', image: 'IMG3/08torikeran.jpg' },
+  { id: 'm_dino_03', name: 'プテラノドン', category: '恐竜', systemType: '恐竜系', monsterClass: 'プテラノドン', image: 'IMG3/09putera.jpg' },
+  // ぬいぐるみシリーズ
+  { id: 'm_plush_01', name: 'クマさんパペット', category: 'ぬいぐるみ', systemType: 'ぬいぐるみ系', monsterClass: 'クマさんパペット', image: 'IMG3/10kumapape.jpg' },
+  { id: 'm_plush_02', name: '呪いのウサギ', category: 'ぬいぐるみ', systemType: 'ぬいぐるみ系', monsterClass: '呪いのウサギ', image: 'IMG3/11usagi.jpg' },
+  { id: 'm_plush_03', name: 'ネコぬぐるみ', category: 'ぬいぐるみ', systemType: 'ぬいぐるみ系', monsterClass: 'ネコぬぐるみ', image: 'IMG3/12neko.jpg' },
+  // 妖怪シリーズ
+  { id: 'm_yokai_01', name: '九尾の狐', category: '妖怪', systemType: '妖怪系', monsterClass: '九尾の狐', image: 'IMG3/13kyuubi.jpg' },
+  { id: 'm_yokai_02', name: '酒呑童子', category: '妖怪', systemType: '妖怪系', monsterClass: '酒呑童子', image: 'IMG3/14syutenn.jpg' },
+  { id: 'm_yokai_03', name: 'ぬらりひょん', category: '妖怪', systemType: '妖怪系', monsterClass: 'ぬらりひょん', image: 'IMG3/15nurai.jpg' }
+];
+
+
+
+function isNewSeriesCategory(sysId, className) {
+  const newSysKeys = ['robo', 'god', 'dinosaur', 'toy', 'ghost', 'yokai'];
+  if (newSysKeys.includes(sysId)) return true;
+  if (typeof additionalMonsters !== 'undefined') {
+    return additionalMonsters.some(m => m.monsterClass === className || m.name === className);
+  }
+  return false;
+}
 
 function getBaseStatus(type) {
   var t = MONSTER_TYPES[type] || MONSTER_TYPES.other;
@@ -4838,6 +4978,35 @@ function setSpeed(spd) {
       } else {
         btn.classList.remove('active');
       }
+    }
+  });
+}
+
+function setBattleMode(mode) {
+  battleMode = mode;
+  const btnManual = document.getElementById("btn-mode-manual");
+  const btnAuto = document.getElementById("btn-mode-auto");
+  const stratPanel = document.getElementById("auto-strategy-panel");
+  if (btnManual) {
+    if (mode === "manual") btnManual.classList.add("active");
+    else btnManual.classList.remove("active");
+  }
+  if (btnAuto) {
+    if (mode === "auto") btnAuto.classList.add("active");
+    else btnAuto.classList.remove("active");
+  }
+  if (stratPanel) {
+    stratPanel.style.display = (mode === "auto") ? "flex" : "none";
+  }
+}
+
+function setStrategy(strat) {
+  autoStrategy = strat;
+  ["gangan", "inochi", "batchiri"].forEach(s => {
+    const btn = document.getElementById("strat-" + s);
+    if (btn) {
+      if (s === strat) btn.classList.add("active");
+      else btn.classList.remove("active");
     }
   });
 }
@@ -5345,7 +5514,7 @@ let gameProgress = {
 };
 
 const TUTORIAL_BOSS = {
-  name: '覇王ゴブリン',
+  name: '覇王 ヴィクター',
   title: '闘技場の覇王',
   icon: '👹',
   rumor: '闘技場で数多の挑戦者を退けてきた最強の存在。未知のスキルを使うという噂も…',
@@ -5354,7 +5523,7 @@ const TUTORIAL_BOSS = {
 };
 
 const HAOU_REVENGE_BOSS = {
-  name: '覇王ゴブリン',
+  name: '覇王ヴィクター',
   title: '闘技場の覇王 (リベンジ)',
   icon: '👹',
   rumor: 'すべてのスキルを極めし研究者と対峙する覇王の全力。超高火力・紙耐久の極限ビルド！',
@@ -5396,7 +5565,9 @@ function updateCreatorPreview() {
     const sysKey = Object.keys(MONSTER_TYPES).find(k => MONSTER_TYPES[k].label === pSys) || 'other';
     const defaultIcon = MONSTER_TYPES[sysKey] ? MONSTER_TYPES[sysKey].icon : '🐲';
     
-    if (pClass === 'アルファドラゴン') {
+    if (typeof ADDITIONAL_MONSTER_IMAGES !== 'undefined' && ADDITIONAL_MONSTER_IMAGES[pClass]) {
+      visualEl.innerHTML = `<img src="${ADDITIONAL_MONSTER_IMAGES[pClass]}" style="height: 100px; width: auto; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35));">`;
+    } else if (pClass === 'アルファドラゴン') {
       visualEl.innerHTML = `<img src="IMG/dragon１A.png" style="height: 100px; width: auto; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35));">`;
     } else if (pClass === 'インフェルノス') {
       visualEl.innerHTML = `<img src="IMG/dragon２A.png" style="height: 100px; width: auto; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35));">`;
@@ -5463,20 +5634,29 @@ function updateCreatorPreview() {
     const val = stats[k] || 0;
     const valEl = document.getElementById(`cr-preview-val-${k}`);
     const barEl = document.getElementById(`cr-preview-bar-${k}`);
-    if (valEl) valEl.textContent = val;
+    if (valEl) valEl.textContent = (k === 'hp') ? `${val * 5} (${val}pt)` : val;
     if (barEl) barEl.style.width = `${Math.min(100, (val / maxAlloc) * 100)}%`;
   });
   
   // 4. Skill details
   const skillNameEl = document.getElementById('cr-preview-skill-name');
   const skillDescEl = document.getElementById('cr-preview-skill-desc');
-  const activeSkill = creatorTemp.skills.active[0] || '';
-  const passiveSkill = creatorTemp.skills.passive[0] || '';
-  const skillId = activeSkill || passiveSkill || 'none';
-  const sk = SKILLS[skillId] || SKILLS.none;
+  const activeSkill = (creatorTemp.skills && creatorTemp.skills.active && creatorTemp.skills.active[0]) || '';
+  const passiveSkill = (creatorTemp.skills && creatorTemp.skills.passive && creatorTemp.skills.passive[0]) || '';
   
-  if (skillNameEl) skillNameEl.textContent = sk.name;
-  if (skillDescEl) skillDescEl.textContent = sk.desc;
+  const actSk = SKILLS[activeSkill] || null;
+  const pasSk = SKILLS[passiveSkill] || null;
+
+  if (actSk && actSk.id !== 'none') {
+    if (skillNameEl) skillNameEl.textContent = `⚡ ${actSk.name} (MP: 8)`;
+    if (skillDescEl) skillDescEl.textContent = `【攻撃スキル】${actSk.desc}`;
+  } else if (pasSk && pasSk.id !== 'none') {
+    if (skillNameEl) skillNameEl.textContent = `🛡️ ${pasSk.name} (MP 8で自動発動)`;
+    if (skillDescEl) skillDescEl.textContent = `【パッシブスキル】${pasSk.desc}`;
+  } else {
+    if (skillNameEl) skillNameEl.textContent = 'なし';
+    if (skillDescEl) skillDescEl.textContent = 'スキルが選択されていません。';
+  }
 }
 
 function goScreen(name) {
@@ -5504,7 +5684,7 @@ function goScreen(name) {
     } else if (name === 'team-arena-menu' || name === 'ta-party' || name === 'ta-progress') {
       window.bgmManager.play('bubutai', true);            // bubutai.mp3 (武舞台)
     } else if (name === 'battle') {
-      const isBoss = (currentEnemy && (currentEnemy.name === '覇王ゴブリン' || currentEnemy.name === '覇王ゴブリン(再戦)')) || currentGameMode === 'boss-revenge';
+      const isBoss = (currentEnemy && (currentEnemy.name === '覇王ヴィクター' || currentEnemy.name === '覇王ヴィクター(再戦)')) || currentGameMode === 'boss-revenge';
       if (isBoss) {
         window.bgmManager.play('bossBattle', true);
       } else {
@@ -5561,7 +5741,12 @@ function goScreen(name) {
         battleWrapper.style.backgroundSize = "cover";
         battleWrapper.style.backgroundPosition = "center bottom";
         battleWrapper.style.backgroundRepeat = "no-repeat";
-      } else if (currentGameMode === 'free' || currentGameMode === 'team-arena') {
+      } else if (currentGameMode === 'free') {
+        battleWrapper.style.backgroundImage = "url('IMGTITLE/taijinp2p.jpg')";
+        battleWrapper.style.backgroundSize = "cover";
+        battleWrapper.style.backgroundPosition = "center bottom";
+        battleWrapper.style.backgroundRepeat = "no-repeat";
+      } else if (currentGameMode === 'team-arena') {
         battleWrapper.style.backgroundImage = "url('IMGTITLE/bubutai.jpg')";
         battleWrapper.style.backgroundSize = "cover";
         battleWrapper.style.backgroundPosition = "center bottom";
@@ -5594,17 +5779,22 @@ function goScreen(name) {
     triggerFirstTimeHelp('lab');
 
     // Tutorial Phase 2: Auto-create first monster
+    // Tutorial Phase 2: Auto-create first monster & transition to Colosseum
     if (gameProgress.tutorialStep === 1) {
+      // メッセージ1（ラボ到達時）
       showStoryDialog([
-        { speaker: 'ナレーション', text: 'ここがモンスター研究所（ラボ）だ。まずは初めてのモンスターを育成しよう！', color: 'var(--accent-gold)' },
-        { speaker: 'ナレーション', text: '研究所の装置が起動し、最初のモンスターが誕生した！', color: 'var(--accent-gold)' },
+        { speaker: playerName || '主人公', text: '「これが王都のラボか、さすがだな。よし、手始めに自慢のモンスターを作ろう！」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
       ], () => {
-        // Auto-generate starter monster "ポチ" (Slime)
+        // モンスター生成演出 & ポチ自動生成
+        if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+          try { window.soundManager.playSE('create'); } catch(e) {}
+        }
+        
         const starterMonster = {
           name: 'ポチ',
           systemType: 'スライム系',
           monsterClass: 'スライム',
-          stats: { hp: 20, attack: 15, defense: 15, speed: 15, luck: 15 },
+          stats: { hp: 20, attack: 20, defense: 20, speed: 20, luck: 20 },
           skills: { active: ['none'], passive: ['none'] }
         };
         labMonstersSolo.push(starterMonster);
@@ -5612,11 +5802,12 @@ function goScreen(name) {
         save();
         renderLabGrid();
 
+        // メッセージ2（ポチ誕生後）
         showStoryDialog([
-          { speaker: 'ナレーション', text: 'スライムの「ポチ」が仲間になった！ さっそく闘技場の覇王戦に挑んでみよう！', color: 'var(--accent-gold)' },
-          { speaker: playerName, text: 'よし、ポチ！ 一緒に闘技場に行こう！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+          { speaker: playerName || '主人公', text: '「よしできた！王都モンスター１号のポチだ！コイツと共にこの国で一番強い奴に挑戦して、一気に名前を売ってやる！」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
         ], () => {
-          goScreen('main-menu');
+          // メッセージ2のタップ後、コロシアムへの自動移動演出
+          onPochiCreatedStoryEnd();
         });
       });
     }
@@ -5624,9 +5815,8 @@ function goScreen(name) {
     // Tutorial Phase 3: Return after defeat
     if (gameProgress.tutorialStep === 3) {
       showStoryDialog([
-        { speaker: 'ナレーション', text: 'モンスターは倒れてしまった…だが、敗北は研究の第一歩だ！ もう一度ラボで新たなモンスターを生み出そう！', color: 'var(--accent-gold)' },
-        { speaker: playerName, text: 'くそ…あのボスは強すぎた。でも諦めない！ 新しいモンスターを作って、スキルを集めるんだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
-        { speaker: 'ナレーション', text: 'まずは「闘技場」の個人リーグ戦に挑み、勝利報酬として新たな「スキル」を集めよう！\n\n＋ボタンまたは🎲ランダムでモンスターを作成してください。', color: 'var(--accent-gold)' },
+        { speaker: playerName || '主人公', text: '「くっそ〜〜！ 言いたい放題言いやがって……！ でも、悔しいけどあいつの言う通りだ。手も足も出なかった……。」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+        { speaker: playerName || '主人公', text: '「『ステータスの割り振り』と『スキル』か……。よし！ 新しいモンスターを生成して、今度はちゃんと考えてポイント（100pt）を振り分けてやる！\n\nHPを増やして一撃死を防ぐか、攻撃に全振りして大技を叩き込むか……待ってろよヴィクター！ 次に会った時は、びっくりさせてやるからな！」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
       ], null);
     }
   } else if (name === 'scouting') {
@@ -5667,6 +5857,23 @@ function goScreen(name) {
     }
     renderSelList();
     renderEnemyInfo();
+    // チュートリアル（覇王戦前）会話イベント
+    if (gameProgress.tutorialStep === 2) {
+      const startBtn = document.getElementById('btn-battle') || document.querySelector('.battle-start-btn');
+      if (startBtn) {
+        startBtn.disabled = true;
+        startBtn.classList.remove('active');
+        startBtn.style.opacity = '0.5';
+        startBtn.style.pointerEvents = 'none';
+      }
+      showStoryDialog([
+        { speaker: playerName || '主人公', text: '「こ、これが覇王か。とんでもない化け物だ。よし！やってやる！」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+        { speaker: playerName || '主人公', text: '「おい！ あんたがこの国で一番強いっていう『覇王 ヴィクター』だな！ オレとバトルしろ！」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+        { speaker: '覇王 ヴィクター', text: '「……ほう。見慣れぬ身なり、そして洗練されていない顔つき……片田舎から出てきたばかりの新米か。いいだろう、相手になってやる。私に挑む愚かさに、いつ気づくか見ものだな。」', color: '#ef4444', speakerTextColor: '#fff' },
+      ], () => {
+        onColosseumPreBattleStoryEnd();
+      });
+    }
   }
 
   // Header UI elements display logic depending on active screen
@@ -5810,29 +6017,55 @@ function showNameDialog() {
 }
 
 function confirmPlayerName() {
-  const input = document.getElementById('player-name-input');
-  const error = document.getElementById('name-error');
+  const input = document.getElementById("player-name-input");
+  const error = document.getElementById("name-error");
   const val = input.value.trim();
   if (!val) {
-    error.style.display = 'block';
+    error.style.display = "block";
     return;
   }
-  error.style.display = 'none';
+  error.style.display = "none";
   playerName = val;
   save();
   
   if (gameProgress.tutorialStep === 0) {
-    // Phase 1: Opening narrative dialog
+    // 名前入力画面を閉じてマップ画面を表示し、その上でオープニングメッセージを表示
+    goScreen("main-menu");
     showStoryDialog([
-      { speaker: 'ナレーション', text: '田舎からやってきた新米モンスター研究者のあなた。腕試しのため、巨重大闘技場を擁するこの国の首都へ足を踏み入れた……', color: 'var(--accent-gold)' },
-      { speaker: 'ナレーション', text: '首都には強大なモンスターを率いる猛者たちが集う闘技場がある。まずは研究所（ラボ）で自分だけのモンスターを生み出そう！', color: 'var(--accent-gold)' },
+      { speaker: playerName, text: "すっげえ……！ これが王都か！ 人も街も見たことないデカさだ！", color: "var(--accent-cyan)", speakerTextColor: "#000" },
+      { speaker: "ナレーション", text: "片田舎の村から自分の力を試したくて王都に出てきた主人公。\nこの王都で最強のモンスターを作り名を売ろうと野心を燃やす。\nこの王都には強大なモンスターを率いる猛者たちが集うコロシアムがある。\nまずは研究所で自分だけのモンスターを生み出そう！", color: "var(--accent-gold)" },
+      { speaker: playerName, text: "まずはラボだ！モンスターを作って俺のデビュー戦だ！", color: "var(--accent-cyan)", speakerTextColor: "#000" },
     ], () => {
-      gameProgress.tutorialStep = 1;
-      save();
-      goScreen('main-menu');
+      onOpeningStoryEnd();
     });
   } else {
-    goScreen('main-menu');
+    goScreen("main-menu");
+  }
+}
+function onOpeningStoryEnd() {
+  // 1. テキストウィンドウを閉じる
+  const overlay = document.getElementById("story-dialog-overlay");
+  if (overlay) overlay.style.display = "none";
+
+  // チュートリアルステップ更新とセーブ (Step 1: プレイヤーのラボタップ待ち)
+  gameProgress.tutorialStep = 1;
+  save();
+
+  // 2. マップ画面を表示（背景：王都マップ）
+  goScreen("main-menu");
+
+  // 3. マップ上の「ラボ（研究所）」アイコンを強調ハイライト（タップ誘導）
+  highlightLabIcon();
+}
+
+function highlightLabIcon() {
+  const labArea = document.getElementById("map-area-lab");
+  const arrowLab = document.getElementById("tutorial-arrow-lab");
+  if (arrowLab) arrowLab.style.display = "block";
+  if (labArea) {
+    labArea.style.boxShadow = "0 0 35px var(--accent-gold), inset 0 0 20px rgba(245,158,11,0.8)";
+    labArea.style.borderColor = "var(--accent-gold)";
+    labArea.style.transform = "scale(1.05)";
   }
 }
 
@@ -6572,6 +6805,9 @@ let currentLabPage = 1;
 const ITEMS_PER_PAGE = 6;
 
 function getMonsterVisualHTML(monsterClass, systemType, height = '75px') {
+  if (monsterClass && typeof ADDITIONAL_MONSTER_IMAGES !== 'undefined' && ADDITIONAL_MONSTER_IMAGES[monsterClass]) {
+    return `<img src="${ADDITIONAL_MONSTER_IMAGES[monsterClass]}" style="height: ${height}; width: auto; object-fit: contain; filter: drop-shadow(0 0 10px rgba(0,212,255,0.3));">`;
+  }
   const sysKey = Object.keys(MONSTER_TYPES).find(k => MONSTER_TYPES[k].label === systemType) || 'other';
   const defaultIcon = MONSTER_TYPES[sysKey] ? MONSTER_TYPES[sysKey].icon : '🐲';
   
@@ -6815,7 +7051,7 @@ function startManualCreate() {
     if (t.series) {
       // 追加5系統：シリーズ解放が必要
       const isLocked = !isSeriesUnlocked(t.series);
-      const seriesNames = { robo:'ロボシリーズ', shin:'神シリーズ', dinosaur:'恐竜シリーズ', toy:'ぬいぐるみシリーズ', ghost:'おばけシリーズ' };
+      const seriesNames = { robo:'ロボシリーズ', shin:'神シリーズ', dinosaur:'恐竜シリーズ', toy:'ぬいぐるみシリーズ', ghost:'妖怪シリーズ' };
       if (isLocked) {
         opt.textContent = `${t.icon} ${t.label} (🔒 ${seriesNames[t.series] || t.series}解放が必要)`;
         opt.disabled = true;
@@ -6923,14 +7159,23 @@ function creatorNext() {
     
     // Copy the selected system type's base status and add basic minimum
     const sysId = document.getElementById('creator-system-select').value;
+    const className = creatorTemp.monsterClass || '';
+    const isNew = isNewSeriesCategory(sysId, className);
     const typeInfo = MONSTER_TYPES[sysId] || { base: { hp: 0, attack: 0, defense: 0, speed: 0, luck: 0 } };
     
-    // Minimum boundary: The larger of basic minimums (HP:1, ATK:1, others:0) or system-specific bases
-    const minHp = Math.max(1, Number(typeInfo.base.hp) || 0);
-    const minAtk = Math.max(1, Number(typeInfo.base.attack) || 0);
-    const minDef = Math.max(0, Number(typeInfo.base.defense) || 0);
-    const minSpd = Math.max(0, Number(typeInfo.base.speed) || 0);
-    const minLck = Math.max(0, Number(typeInfo.base.luck) || 0);
+    let minHp, minAtk, minDef, minSpd, minLck, totalPool;
+    if (isNew) {
+      // 新キャラシリーズ15体: 初期ステータスすべて0、合計110ptを自由に振れる
+      minHp = 0; minAtk = 0; minDef = 0; minSpd = 0; minLck = 0;
+      totalPool = 110;
+    } else {
+      minHp = Math.max(1, Number(typeInfo.base.hp) || 0);
+      minAtk = Math.max(1, Number(typeInfo.base.attack) || 0);
+      minDef = Math.max(0, Number(typeInfo.base.defense) || 0);
+      minSpd = Math.max(0, Number(typeInfo.base.speed) || 0);
+      minLck = Math.max(0, Number(typeInfo.base.luck) || 0);
+      totalPool = 98;
+    }
 
     creatorTemp.stats = {
       hp: minHp,
@@ -6939,7 +7184,7 @@ function creatorNext() {
       speed: minSpd,
       luck: minLck
     };
-    creatorTemp.bonusLeft = 98;
+    creatorTemp.bonusLeft = totalPool;
     
     // Set up step 2 UI
     buildCreatorStatAllocator();
@@ -6997,16 +7242,16 @@ function creatorNext() {
     activeLab.push(finalMonster);
     save();
     
-    // Tutorial Phase 3 completion: Complete after creating 2nd monster
-    if (gameProgress.tutorialStep === 3 && activeLab.length >= 2) {
-      gameProgress.tutorialStep = 4;
-      save();
+    // Tutorial Phase 3 completion: Messages 3 & 4
+    if (gameProgress.tutorialStep === 3) {
       showStoryDialog([
-        { speaker: 'ナレーション', text: '新たなモンスターが誕生した！ これで闘技場の個人リーグに挑む準備が整った！', color: 'var(--accent-gold)' },
-        { speaker: playerName, text: 'よし！ 今度こそスキルを集めて、あの覇王にリベンジするぞ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
-      ], null);
+        { speaker: playerName || '主人公', text: '「よし、できたぞ！ コイツが俺の考え抜いた『最高のビルドモンスター』だ！」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+        { speaker: playerName || '主人公', text: '「まずはコイツで闘技場を勝ち進んで、もっと強力なスキルを手に入れるぞ！ 待ってろよヴィクター、すぐに追いついてやる！」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+      ], () => {
+        onFirstBuildCompleteStoryEnd();
+      });
+      return; // チュートリアル中はダイアログ完了後に遷移
     }
-    
     if (creatorReturnToScouting) {
       creatorReturnToScouting = false;
       goScreen('scouting');
@@ -7139,18 +7384,20 @@ function updateAllocatorUI() {
   
   const sysSelect = document.getElementById('creator-system-select');
   const sysId = sysSelect ? sysSelect.value : 'dragon';
+  const isNew = isNewSeriesCategory(sysId, creatorTemp.monsterClass || '');
   const typeInfo = MONSTER_TYPES[sysId] || { base: { hp: 0, attack: 0, defense: 0, speed: 0, luck: 0 } };
+  const totalPool = isNew ? 110 : 98;
   
   // Calculate allocated bonus points based on (currentVal - minVal)
   let allocatedPoints = 0;
   statKeys.forEach(k => {
-    const basicMin = (k === 'hp' || k === 'attack') ? 1 : 0;
-    const minVal = Math.max(basicMin, Number(typeInfo.base[k]) || 0);
+    const basicMin = isNew ? 0 : ((k === 'hp' || k === 'attack') ? 1 : 0);
+    const minVal = isNew ? 0 : Math.max(basicMin, Number(typeInfo.base[k]) || 0);
     const currentVal = Number(creatorTemp.stats[k]);
     allocatedPoints += Math.max(0, currentVal - minVal);
   });
   
-  const remaining = Math.max(0, 98 - allocatedPoints);
+  const remaining = Math.max(0, totalPool - allocatedPoints);
   creatorTemp.bonusLeft = remaining;
   
   const bonusPtsDisplay = document.getElementById('creator-bonus-pts');
@@ -7159,8 +7406,8 @@ function updateAllocatorUI() {
   }
   
   statKeys.forEach(statKey => {
-    const basicMin = (statKey === 'hp' || statKey === 'attack') ? 1 : 0;
-    const minVal = Math.max(basicMin, Number(typeInfo.base[statKey]) || 0);
+    const basicMin = isNew ? 0 : ((statKey === 'hp' || statKey === 'attack') ? 1 : 0);
+    const minVal = isNew ? 0 : Math.max(basicMin, Number(typeInfo.base[statKey]) || 0);
     const currentVal = Number(creatorTemp.stats[statKey]);
     
     const valSpan = document.getElementById('creator-alloc-val-' + statKey);
@@ -7227,16 +7474,21 @@ function buildCreatorSkillSelector() {
       
       const rad = document.createElement('input');
       rad.type = 'radio';
-      rad.name = 'creator-single-skill';
+      rad.name = 'creator-skill-choice';
       rad.value = sk.id;
       rad.style = 'margin-top:2px;';
-      rad.checked = (currentSkillId === sk.id);
+      
+      const isSelected = (sk.type === 'アクティブ' && creatorTemp.skills.active.includes(sk.id)) ||
+                         (sk.type === 'パッシブ' && creatorTemp.skills.passive.includes(sk.id));
+      rad.checked = isSelected;
       
       rad.onchange = () => {
-        if (sk.type === 'アクティブ') {
-          creatorTemp.skills = { active: [sk.id], passive: [] };
-        } else {
-          creatorTemp.skills = { active: [], passive: [sk.id] };
+        if (rad.checked) {
+          if (sk.type === 'アクティブ') {
+            creatorTemp.skills = { active: [sk.id], passive: [] };
+          } else {
+            creatorTemp.skills = { active: [], passive: [sk.id] };
+          }
         }
         updateCreatorPreview();
       };
@@ -7245,7 +7497,7 @@ function buildCreatorSkillSelector() {
       
       const descDiv = document.createElement('div');
       const badgeColor = sk.type === 'アクティブ' ? 'var(--accent-red)' : 'var(--accent-green)';
-      const typeLabel = sk.type;
+      const typeLabel = sk.type === 'アクティブ' ? `${sk.type} (MP: 8)` : `${sk.type} (MP 8で自動発動)`;
       descDiv.innerHTML = '<strong>' + sk.icon + ' ' + sk.name + '</strong> <span style="font-size:12px; background:rgba(255,255,255,0.06); color:' + badgeColor + '; border:1px solid ' + badgeColor + '; padding:0px 3px; border-radius:3px; margin-left:4px;">' + typeLabel + '</span><br><span style="font-size:14px; color:var(--text-dim);">' + sk.desc + '</span>';
       item.appendChild(descDiv);
       container.appendChild(item);
@@ -7307,16 +7559,16 @@ function executeRandomCreate() {
   activeLab.push(randomMonster);
   save();
   
-  // Tutorial Phase 3 completion: Complete after creating 2nd monster
-  if (gameProgress.tutorialStep === 3 && activeLab.length >= 2) {
-    gameProgress.tutorialStep = 4;
-    save();
+  // Tutorial Phase 3 completion: Messages 3 & 4
+  if (gameProgress.tutorialStep === 3) {
     showStoryDialog([
-      { speaker: 'ナレーション', text: '新たなモンスターが誕生した！ これで闘技場の個人リーグに挑む準備が整った！', color: 'var(--accent-gold)' },
-      { speaker: playerName, text: 'よし！ 今度こそスキルを集めて、あの覇王にリベンジするぞ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
-    ], null);
+      { speaker: playerName || '主人公', text: '「よし、できたぞ！ コイツが俺の考え抜いた『最高のビルドモンスター』だ！」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+      { speaker: playerName || '主人公', text: '「まずはコイツで闘技場を勝ち進んで、もっと強力なスキルを手に入れるぞ！ 待ってろよヴィクター、すぐに追いついてやる！」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+    ], () => {
+      onFirstBuildCompleteStoryEnd();
+    });
+    return; // チュートリアル中はダイアログ完了後に遷移
   }
-
   renderLabGrid();
   
   addLogMessageToBattleScreen(`🎲 【${className}】がランダム作成されました！`);
@@ -7551,6 +7803,24 @@ const STAGE_IMAGES_LIST = [
 
 function getEnemyImageHTML(eObj) {
   const imgClass = "enemy-monster-img";
+  // 0. eObj が sprite / image を持つ場合、または「覇王」の場合は指定パス画像（./IMG2/haou.jpg）を表示
+  if (eObj && typeof eObj === "object") {
+    const customImgFromSprite = eObj.sprite || eObj.image;
+    const customImgFromAdditional = (!customImgFromSprite && typeof ADDITIONAL_MONSTER_IMAGES !== 'undefined') ? (ADDITIONAL_MONSTER_IMAGES[eObj.monsterClass || eObj.name] || ADDITIONAL_MONSTER_IMAGES[eObj.name]) : null;
+    if (customImgFromSprite) {
+      return `<img src="${customImgFromSprite}" class="${imgClass}">`;
+    }
+    if (customImgFromAdditional) {
+      return `<img src="${customImgFromAdditional}" class="${imgClass} img3-enemy">`;
+    }
+    if (eObj.name && eObj.name.includes("覇王")) {
+      return `<img src="./IMG2/haou.jpg" class="${imgClass}">`;
+    }
+  }
+  if (typeof eObj === "string" && eObj.includes("覇王")) {
+    return `<img src="./IMG2/haou.jpg" class="${imgClass}">`;
+  }
+
 
   // 1. リーグ戦（CPUリーグ）の場合は従来通りステージ画像を使用
   if (typeof stageIndex !== 'undefined' && currentGameMode === 'league' && STAGE_IMAGES_LIST[stageIndex]) {
@@ -7608,6 +7878,12 @@ function getEnemyImageHTML(eObj) {
   if (mClass === 'アイアンギガ' || eName === 'アイアンギガ') return getImg("IMG/metar1B.png");
   if (mClass === 'メタルビット' || eName === 'メタルビット') return getImg("IMG/metar2B.png");
   if (mClass === 'ジェノサイダー' || eName === 'ジェノサイダー') return getImg("IMG/metar3B.png");
+
+  // 3.5 追加モンスター (IMG3) のフォールバック画像
+  if (typeof ADDITIONAL_MONSTER_IMAGES !== 'undefined') {
+    const addImg = ADDITIONAL_MONSTER_IMAGES[mClass] || ADDITIONAL_MONSTER_IMAGES[eName];
+    if (addImg) return `<img src="${addImg}" class="${imgClass} img3-enemy">`;
+  }
 
   // 4. 系統名によるフォールバック画像設定
   if (sysType.includes('ドラゴン')) return getImg("IMG/dragon１B.png");
@@ -7741,7 +8017,7 @@ function initBattle() {
   if (!pm.stats) pm.stats = { hp: 22, attack: 22, defense: 22, speed: 22, luck: 22 };
   if (!pm.skills) pm.skills = { active: ['none'], passive: [] };
 
-  const pHp = (pm.stats.hp !== undefined && pm.stats.hp !== null) ? Number(pm.stats.hp) : 22;
+  const pHp = (pm.stats.hp !== undefined && pm.stats.hp !== null) ? Number(pm.stats.hp) * 5 : 100;
   const pAtk = (pm.stats.attack !== undefined && pm.stats.attack !== null) ? Number(pm.stats.attack) : 22;
   const pDef = (pm.stats.defense !== undefined && pm.stats.defense !== null) ? Number(pm.stats.defense) : 22;
   const pSpd = (pm.stats.speed !== undefined && pm.stats.speed !== null) ? Number(pm.stats.speed) : 22;
@@ -7755,7 +8031,10 @@ function initBattle() {
     defense: pDef,
     speed: pSpd,
     luck: pLck,
-    skill: pm.skills.active[0] || 'none',
+    mp: 10,
+    maxMp: 10,
+    skill: (pm.skills && pm.skills.active && pm.skills.active[0]) || 'none',
+    passiveSkill: (pm.skills && pm.skills.passive && pm.skills.passive[0]) || 'none',
     skillsList: pm.skills,
     cur: pHp, 
     max: pHp, 
@@ -7778,11 +8057,13 @@ function initBattle() {
     migawariTriggered: false,
     togeTriggered: false,
     fortressTurns: 0,
+    drawingTurns: 0,
     parryTriggered: false,
     recycleHeal: 0,
     lastOpponentSkill: 'none',
     scared: false,
     glassShieldActive: false,
+    evasionStreak: 0,
     playdeadTriggered: false,
   };
 
@@ -7800,7 +8081,7 @@ function initBattle() {
     skill: 'none'
   };
 
-  const eHp = (em.hp !== undefined && em.hp !== null) ? Number(em.hp) : 18;
+  const eHp = (em.hp !== undefined && em.hp !== null) ? (Number(em.hp) <= 100 ? Number(em.hp) * 5 : Number(em.hp)) : 100;
   const eAtk = (em.attack !== undefined && em.attack !== null) ? Number(em.attack) : 22;
   const eDef = (em.defense !== undefined && em.defense !== null) ? Number(em.defense) : 15;
   const eSpd = (em.speed !== undefined && em.speed !== null) ? Number(em.speed) : 25;
@@ -7815,6 +8096,8 @@ function initBattle() {
     defense: eDef,
     speed: eSpd,
     luck: eLck,
+    mp: 10,
+    maxMp: 10,
     skill: em.skill || 'none',
     skillsList: { active: [em.skill || 'none'], passive: [em.skill || 'none'] },
     cur: eHp, 
@@ -7838,11 +8121,13 @@ function initBattle() {
     migawariTriggered: false,
     togeTriggered: false,
     fortressTurns: 0,
+    drawingTurns: 0,
     parryTriggered: false,
     recycleHeal: 0,
     lastOpponentSkill: 'none',
     scared: false,
     glassShieldActive: false,
+    evasionStreak: 0,
     playdeadTriggered: false,
   };
 
@@ -7982,6 +8267,8 @@ function initBattle() {
       playerIconEl.innerHTML = `<img src="IMG/metar2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else if (pNameForImage === 'ジェノサイダー') {
       playerIconEl.innerHTML = `<img src="IMG/metar3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+    } else if (typeof ADDITIONAL_MONSTER_IMAGES !== 'undefined' && ADDITIONAL_MONSTER_IMAGES[pNameForImage]) {
+      playerIconEl.innerHTML = `<img src="${ADDITIONAL_MONSTER_IMAGES[pNameForImage]}" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
     } else {
       playerIconEl.innerHTML = MONSTER_TYPES[sysKey] ? MONSTER_TYPES[sysKey].icon : '🐲';
     }
@@ -7990,42 +8277,41 @@ function initBattle() {
     const enemyIconEl = document.getElementById('fi-enemy');
     enemyIconEl.innerHTML = getEnemyImageHTML(em);
     setHp('p', pState); setHp('e', eState);
+    setMp('p', pState); setMp('e', eState);
     updateBuffsUI('p', pState); updateBuffsUI('e', eState);
     clearLog();
 
-    // With 2 active skills, let's select active[0] for execution or active[1] if active[0] is used.
-    const active1 = pm.skills.active[0] || 'none';
-    const active2 = pm.skills.active[1] || 'none';
-    
-    pState.activeSkills = pm.skills.active;
-    pState.skill = active1; // Default command skill
+    const active1 = (pm.skills && pm.skills.active && pm.skills.active[0]) || 'none';
+    pState.skill = active1;
     
     const userSk = SKILLS[pState.skill] || SKILLS.none;
-    if (pState.skill === 'none') {
+    if (pState.skill === 'none' || userSk.type === 'パッシブ') {
       skillBtn.disabled = true;
       skillBtn.style.opacity = '0.5';
-      skillBtn.textContent = '⚡ スキルなし';
+      skillBtn.textContent = '⚡ スキルなし (MP: 8)';
     } else {
-      skillBtn.disabled = false;
-      skillBtn.style.opacity = '1.0';
-      skillBtn.textContent = '⚡ ' + userSk.name + (active2 !== 'none' ? ' / ' + SKILLS[active2].name : '');
+      const canUseSkill = (pState.mp >= 8);
+      skillBtn.disabled = !canUseSkill;
+      skillBtn.style.opacity = canUseSkill ? '1.0' : '0.5';
+      skillBtn.textContent = '⚡ ' + userSk.name + ' (MP: 8)';
     }
     
-    // Custom click handler to prompt choice or alternate
-    skillBtn.onclick = async () => {
-      if (active2 !== 'none' && !pState.skillUsed) {
-        // Show skill choice modal
-        const chooseFirst = await showConfirmModal('使用するスキルを選択してください。\n\n【OK】 ' + SKILLS[active1].name + '\n【キャンセル】 ' + SKILLS[active2].name);
-        if (chooseFirst) {
-          pState.skill = active1;
-        } else {
-          pState.skill = active2;
-        }
-      } else {
-        pState.skill = active1;
+    skillBtn.onclick = () => {
+      if (pState.mp < 8) {
+        alert('MPが足りません！（必要MP: 8）');
+        return;
       }
       selectCommand('skill');
     };
+
+    // イベント戦・ラスボス覇王戦での撤退制御
+    const escapeBtn = document.getElementById('escape-btn');
+    if (escapeBtn) {
+      const isBossFight = (eState && (eState.name === '覇王ヴィクター' || eState.isBoss));
+      escapeBtn.disabled = isBossFight;
+      escapeBtn.style.opacity = isBossFight ? '0.4' : '1.0';
+      escapeBtn.style.cursor = isBossFight ? 'not-allowed' : 'pointer';
+    }
 
     currentTurn = 0;
     addLog(`⚔️ バトル開始！ 【${pState.name}】 vs 【${eState.name}】`, 'log-info');
@@ -8043,7 +8329,7 @@ function initBattle() {
       
       // フォーチュンダイス
       if (sk === 'fdice' || passives.includes('fdice')) {
-        const roll = Math.floor(Math.random() * 41) - 10; // -10 ~ +30
+        const roll = Math.floor(Math.random() * 41) - 10;
         actor.luck = Math.max(0, actor.luck + roll);
         addLog(`🎲 ${actor.name} の「フォーチュンダイス」！ 運が ${roll >= 0 ? '+' + roll : roll} 変動し、運:${actor.luck} になった！`, 'log-skill');
       }
@@ -8073,10 +8359,8 @@ function initBattle() {
 
       // 威嚇のポーズ
       if (sk === 'intimidate' || passives.includes('intimidate')) {
-        if (Math.random() < 0.1) {
-          opp.attack = Math.max(1, opp.attack - 1);
-          addLog(`🦁 ${actor.name} の「威嚇のポーズ」！ ${opp.name} の攻撃力を 1 減少させた！ (攻撃:${opp.attack})`, 'log-skill');
-        }
+        opp.attack = Math.max(1, opp.attack - 1);
+        addLog(`🦁 ${actor.name} の「威嚇のポーズ」！ ${opp.name} の攻撃力を 1 減少させた！ (攻撃:${opp.attack})`, 'log-skill');
       }
 
       // ガラスの盾
@@ -8097,85 +8381,41 @@ function initBattle() {
   }
 }
 
-function setBattleMode(mode) {
-  battleMode = mode;
-  document.getElementById('btn-mode-manual').className = 'nav-tab' + (mode === 'manual' ? ' active' : '');
-  document.getElementById('btn-mode-auto').className = 'nav-tab' + (mode === 'auto' ? ' active' : '');
-  
-  const strategyPanel = document.getElementById('auto-strategy-panel');
-  const commandsPanel = document.getElementById('manual-commands-panel');
-  
-  if (mode === 'auto') {
-    strategyPanel.style.display = 'flex';
-    commandsPanel.style.display = 'none';
-    if (isPlayerTurn) {
-      isPlayerTurn = false;
-      triggerAutoAction();
-    }
-  } else {
-    strategyPanel.style.display = 'none';
-    commandsPanel.style.display = 'grid';
-  }
-}
-
-function setStrategy(strat) {
-  autoStrategy = strat;
-  ['gangan', 'inochi', 'batchiri'].forEach(s => {
-    const el = document.getElementById('strat-' + s);
-    if (el) el.className = 'nav-tab' + (s === strat ? ' active' : '');
-  });
-}
-
-// ============================================================
-//  BATTLE SYSTEM REBORN (98pt/37 Skills System)
-// ============================================================
-
 function nextTurn() {
-  if (pState.cur <= 0 || eState.cur <= 0) {
-    checkBattleEnd();
-    return;
-  }
-
   currentTurn++;
-  if (currentTurn > 20) {
-    addLog(`⚖️ 20ターン経過！引き分け！`, 'log-miss');
-    const t = setTimeout(() => showResult(), delay(600));
-    activeTimers.push(t);
-    return;
-  }
+  addLog(`<span class="log-turn">◆ ターン ${currentTurn} ◆</span>`, 'log-turn');
 
-  addLog(`── ターン ${currentTurn} ──`, 'log-divider');
-
-  pState.defending = false;
-  eState.defending = false;
-
-  // Process Turn-Start Passives & Buff decrements
+  // MP auto-recovery per turn (+1)
   [pState, eState].forEach((actor, i) => {
+    if (actor.cur <= 0) return;
+    actor.mp = Math.min(actor.maxMp || 10, (actor.mp || 0) + 1);
+    setMp(i === 0 ? 'p' : 'e', actor);
+    
+    // MPが8以上たまり次第、パッシブスキルをターン頭で自動発動
     const opp = i === 0 ? eState : pState;
+    checkAutoPassiveTrigger(i === 0 ? 'p' : 'e', actor, i === 0 ? 'e' : 'p', opp);
 
-    // Regen (持続回復)
+    // Regen passive
     if (actor.regenTurns > 0) {
+      const healAmt = Math.min(actor.max - actor.cur, Math.max(1, Math.floor(actor.max * 0.08)));
+      actor.cur = Math.min(actor.max, actor.cur + healAmt);
+      setHp(i === 0 ? 'p' : 'e', actor);
+      addLog(`💧 ${actor.name} のリジェネレートで最大HPの8%(${healAmt})回復！ (残HP: ${actor.cur})`, 'log-info');
       actor.regenTurns--;
-      const healAmt = Math.min(actor.max - actor.cur, 10);
-      if (healAmt > 0) {
-        actor.cur += healAmt;
-        addLog(`💧 ${actor.name} の「リジェネレート」！ HPが ${healAmt} 持続回復した！`, i === 0 ? 'log-dmg-p' : 'log-dmg-e');
-        setHp(i === 0 ? 'p' : 'e', actor);
+      if (actor.regenTurns === 0) addLog(`💧 ${actor.name} のリジェネレートが切れた。`, 'log-info');
+    }
+
+    // Buff turn countdowns
+    if (actor.daibogyoTurns > 0) {
+      actor.daibogyoTurns--;
+      if (actor.daibogyoTurns === 0) {
+        actor.daibogyoActive = false;
+        addLog(`🛡️ ${actor.name} の大防御の効果が切れた。`, 'log-info');
       }
     }
-
-    // Buff tick counts
     if (actor.teppekiTurns > 0) {
       actor.teppekiTurns--;
       if (actor.teppekiTurns === 0) addLog(`🧱 ${actor.name} の鉄壁の構えが切れた。`, 'log-info');
-    }
-    if (actor.enmakuTurns > 0) {
-      actor.enmakuTurns--;
-      if (actor.enmakuTurns === 0) addLog(`🌫️ ${actor.name} の煙幕効果が切れた。`, 'log-info');
-    }
-    if (actor.weakmakerTurns > 0) {
-      actor.weakmakerTurns--;
-      if (actor.weakmakerTurns === 0) addLog(`📉 ${actor.name} のステータス減少効果が回復した。`, 'log-info');
     }
     if (actor.strengthenTurns > 0) {
       actor.strengthenTurns--;
@@ -8209,6 +8449,13 @@ function nextTurn() {
       actor.fortressTurns--;
       if (actor.fortressTurns === 0) addLog(`🏰 ${actor.name} の最後の砦（無敵効果）が切れた。`, 'log-info');
     }
+    if (actor.drawingTurns > 0) {
+      actor.drawingTurns--;
+      if (actor.drawingTurns === 0) addLog(`🎨 ${actor.name} のドローイング効果が切れた。`, 'log-info');
+    }
+
+    // 規定ターン経過のバフ解除＆ステータス復元更新
+    updateMonsterBuffs(actor, i === 0 ? 'p' : 'e');
   });
 
   updateBuffsUI('p', pState);
@@ -8257,18 +8504,16 @@ function nextTurn() {
 
 function enableCommandButtons(enable) {
   const buttons = document.querySelectorAll('#manual-commands-panel button');
-  const userSk = SKILLS[pState.skill] || SKILLS.none;
+  const userSk = (pState && SKILLS[pState.skill]) ? SKILLS[pState.skill] : SKILLS.none;
+  const pMp = (pState && pState.mp !== undefined) ? pState.mp : 10;
+  
   buttons.forEach(btn => {
     if (btn.id === 'btn-command-skill') {
-      btn.disabled = !enable || skillUsedThisBattle || pState.skill === 'none' || userSk.type === 'パッシブ';
+      const isSkillAvailable = enable && pMp >= 8 && pState.skill !== 'none' && userSk.type !== 'パッシブ';
+      btn.disabled = !isSkillAvailable;
+      btn.style.opacity = isSkillAvailable ? '1.0' : '0.5';
       const usageInfo = document.getElementById('skill-btn-usage-info');
-      if (skillUsedThisBattle && btn.id === 'btn-command-skill') {
-        btn.style.opacity = '0.5';
-        if (usageInfo) usageInfo.textContent = '使用済';
-      } else if (btn.id === 'btn-command-skill') {
-        btn.style.opacity = '1';
-        if (usageInfo) usageInfo.textContent = '1戦1回限り';
-      }
+      if (usageInfo) usageInfo.textContent = '(MP: 8)';
     } else {
       btn.disabled = !enable;
     }
@@ -8286,8 +8531,21 @@ function getEffectiveSpeed(state) {
   let spd = state.speed;
   if (state.slownurseTurns > 0) spd = Math.max(0, spd - 20);
   if (state.overclockTurns > 0) spd *= 2;
-  if (currentTurn === 1 && state.skill === 'firstwind') spd += 10;
+  const passives = (state.skillsList && Array.isArray(state.skillsList.passive)) ? state.skillsList.passive : [];
+  if (currentTurn <= 2 && (state.skill === 'firstwind' || passives.includes('firstwind'))) spd += 100;
   return spd;
+}
+
+function calculateEvasionRate(attacker, defender) {
+  const atkSpd = getEffectiveSpeed(attacker);
+  const defSpd = getEffectiveSpeed(defender);
+
+  // 基本計算: 防御側SPD + 防御側LUK×0.5 - 攻撃側LUK×0.5
+  let evasion = defSpd + (defender.luck * 0.5) - (attacker.luck * 0.5);
+  if (defender.shadowstepTurns > 0) evasion += 20;
+  if (attacker.enmakuTurns > 0) evasion += 50;
+
+  return Math.max(0, Math.min(100, Math.floor(evasion)));
 }
 
 function getGlassShieldDefense(state) {
@@ -8311,12 +8569,15 @@ function getGlassShieldDefense(state) {
 function selectCommand(playerCmd) {
   if (!isPlayerTurn) return;
 
-  if (playerCmd === 'surrender') {
-    showConfirmModal('本当に降参してラボに戻りますか？').then(result => {
+  if (playerCmd === 'surrender' || playerCmd === 'escape') {
+    showConfirmModal('戦闘から撤退しますか？').then(result => {
       if (result) {
+        addLog(`🏃 ${pState.name} は戦闘から撤退した！`, 'log-miss');
+        if (window.soundManager) window.soundManager.playSE('escape');
         pState.cur = 0;
-        addLog(`🏳️ ${pState.name} は戦闘を放棄して降参した…`, 'log-miss');
-        showResult();
+        setTimeout(() => {
+          showResult();
+        }, 500);
       }
     });
     return;
@@ -8324,11 +8585,10 @@ function selectCommand(playerCmd) {
 
 
   if (playerCmd === 'skill') {
-    if (skillUsedThisBattle) {
-      alert('スキルはすでに使用済みです！ (1戦1回限り)');
+    if (!pState || pState.mp < 8) {
+      alert('MPが足りません！（必要MP: 8）');
       return;
     }
-    skillUsedThisBattle = true;
   }
 
   isPlayerTurn = false;
@@ -8409,8 +8669,9 @@ function decidePlayerAutoCommand() {
   const hpPct = pState.cur / pState.max;
   const userSk = SKILLS[sk] || SKILLS.none;
 
-  // If skill can be used, use under matching conditions
-  if (sk !== 'none' && !pState.skillUsed && userSk.type === 'アクティブ') {
+  // If skill can be used (MP >= 8), use under matching conditions
+  const pMpAuto = (pState.mp !== undefined) ? pState.mp : 10;
+  if (sk !== 'none' && pMpAuto >= 8 && userSk.type === 'アクティブ') {
     // Healing action priority
     if (['heal', 'pray', 'soulshare', 'fukutsu'].includes(sk)) {
       if (sk === 'fukutsu' && pState.cur === 1) return 'skill';
@@ -8446,20 +8707,25 @@ function decidePlayerAutoCommand() {
 }
 
 function decideEnemyCommand() {
-  // Simple enemy logic matching player
   const sk = eState.skill;
   const hpPct = eState.cur / eState.max;
   const enemySk = SKILLS[sk] || SKILLS.none;
+  const eMp = (eState.mp !== undefined) ? eState.mp : 10;
 
-  if (sk !== 'none' && !eState.skillUsed && enemySk.type === 'アクティブ') {
+  // MP 8以上でスキルを使用可能
+  if (sk !== 'none' && enemySk.type === 'アクティブ' && eMp >= 8) {
     if (['heal', 'pray', 'soulshare', 'fukutsu'].includes(sk)) {
       if (sk === 'fukutsu' && eState.cur === 1) return 'skill';
       if (hpPct <= 0.4) return 'skill';
     }
-    if (sk === 'blankshot') {
-      if (currentTurn === 1) return 'skill';
-    }
-    if (Math.random() < 0.4) return 'skill';
+    if (sk === 'blankshot' && currentTurn === 1) return 'skill';
+    if (Math.random() < 0.6) return 'skill';
+  }
+
+  // MPが不足している際、チャージやガードで効率よくMPを貯める
+  if (eMp < 8) {
+    if (!eState.charged && Math.random() < 0.3) return 'charge';
+    if (hpPct <= 0.3 && Math.random() < 0.25) return 'defend';
   }
 
   if (hpPct <= 0.25 && Math.random() < 0.2) return 'defend';
@@ -8474,8 +8740,13 @@ function executeTurnActions(pCmd, eCmd, playerFirst) {
   executeSingleAction(actions[0].side, actions[0].cmd, actions[1].side, actions[1].cmd, () => {
     if (pState.cur > 0 && eState.cur > 0) {
       executeSingleAction(actions[1].side, actions[1].cmd, actions[0].side, actions[0].cmd, () => {
-        const t = setTimeout(() => nextTurn(), delay(400));
-        activeTimers.push(t);
+        if (pState.cur > 0 && eState.cur > 0) {
+          const t = setTimeout(() => nextTurn(), delay(400));
+          activeTimers.push(t);
+        } else {
+          const t = setTimeout(() => checkBattleEnd(), delay(400));
+          activeTimers.push(t);
+        }
       });
     } else {
       const t = setTimeout(() => checkBattleEnd(), delay(400));
@@ -8508,7 +8779,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
 
   // Pre-action passive: Parry (パリィ - Initial fast dodge)
   let parried = false;
-  if (target.skill === 'parry' && !target.parryTriggered) {
+  if (hasPassive(target, 'parry') && !target.parryTriggered) {
     const actorSpd = getEffectiveSpeed(actor);
     const targetSpd = getEffectiveSpeed(target);
     if (actorSpd > targetSpd) {
@@ -8535,21 +8806,12 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       return;
     }
 
-    let pSpd = getEffectiveSpeed(actor);
-    let tSpd = getEffectiveSpeed(target);
-
-    // Evasion calculation (includes shadowstep buff)
-    let evasion = tSpd + (target.luck * 0.5) - (actor.luck * 0.5);
-    if (target.shadowstepTurns > 0) evasion += 20;
-    if (target.enmakuTurns > 0) evasion = evasion * 0.5; // Target evasion halved if blinded, wait actually enmaku decreases actor hit rate:
-    // Let's implement enmaku: "煙幕: 2ターンの間、相手の命中率（クリティカル率含む）を50%低下" -> reduces actor hit rate.
-    // If actor is under enmaku, evasion goes up / hit rate goes down by 50%
-    if (actor.enmakuTurns > 0) evasion += 50; 
-
-    evasion = Math.max(0, Math.min(100, evasion));
+    // 回避率計算（新方式）
+    let evasion = calculateEvasionRate(actor, target);
 
     if (Math.random() * 100 < evasion) {
       const t = setTimeout(() => {
+        target.evasionStreak = (target.evasionStreak || 0) + 1;
         addLog(`💫 ${target.name} は攻撃をかわした！ (回避率:${Math.round(evasion)}%)`, 'log-miss');
         if (isCharged) actor.charged = false;
         updateBuffsUI(actorSide, actor);
@@ -8559,6 +8821,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       return;
     }
 
+    target.evasionStreak = 0; // 命中したのでストリークリセット
     // Critical check
     let critChance = actor.luck;
     if (actor.enmakuTurns > 0) critChance *= 0.5; // enmaku halves crit
@@ -8609,20 +8872,27 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     if (!actor.chargeMultiplier) {
       actor.chargeMultiplier = 2; // Normal charge command gives 2x damage multiplier next turn
     }
-    addLog(`🔋 ${actor.name} は力をためている！`, 'log-info');
+    actor.mp = Math.min(actor.maxMp || 10, (actor.mp || 0) + 2);
+    setMp(actorSide, actor);
+    addLog(`🔋 ${actor.name} は力をためている！（MP +2 回復 / MP:${actor.mp}）`, 'log-info');
+    checkAutoPassiveTrigger(actorSide, actor, targetSide, target);
     updateBuffsUI(actorSide, actor);
     const t = setTimeout(() => onComplete(), delay(400));
     activeTimers.push(t);
 
   } else if (cmd === 'defend') {
     actor.defending = true;
-    addLog(`🛡️ ${actor.name} は身を守っている！`, 'log-info');
+    actor.mp = Math.min(actor.maxMp || 10, (actor.mp || 0) + 1);
+    setMp(actorSide, actor);
+    addLog(`🛡️ ${actor.name} は身を守っている！（MP +1 回復 / MP:${actor.mp}）`, 'log-info');
+    checkAutoPassiveTrigger(actorSide, actor, targetSide, target);
     updateBuffsUI(actorSide, actor);
     const t = setTimeout(() => onComplete(), delay(400));
     activeTimers.push(t);
 
   } else if (cmd === 'skill') {
-    actor.skillUsed = true;
+    actor.mp = Math.max(0, (actor.mp || 0) - 8);
+    setMp(actorSide, actor);
     const sk = actor.skill;
     // Reveal enemy skill on first use
     if (actor === eState && !actor.skillRevealed && sk !== 'none' && SKILLS[sk]) {
@@ -8637,7 +8907,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     }
 
     oppLastActiveSkill(target, sk); // Store last skill for copycat
-    addLog(`⚡ ${actor.name} の「${(SKILLS[sk]||SKILLS.none).name}」！`, 'log-skill');
+    addLog(`⚡ ${actor.name} の「${(SKILLS[sk]||SKILLS.none).name}」！（MP -8 / MP:${actor.mp}）`, 'log-skill');
 
     // 攻撃スキルの命中率・回避判定（通常攻撃と同等の回避率・パリィ・無敵判定）
     const attackSkills = ['gigabreak', 'moroha', 'sutemi', 'shuriken', 'midare', 'ichigeki', 'weakmaker', 'haisui', '吸血', 'jackpot'];
@@ -8654,14 +8924,8 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       }
 
       // 2. 回避率判定 (相手のSPD, LUK, 残像, 煙幕等)
-      let pSpd = getEffectiveSpeed(actor);
-      let tSpd = getEffectiveSpeed(target);
-
-      let evasion = tSpd + (target.luck * 0.5) - (actor.luck * 0.5);
-      if (target.shadowstepTurns > 0) evasion += 20;
-      if (actor.enmakuTurns > 0) evasion += 50; 
-
-      evasion = Math.max(0, Math.min(100, evasion));
+    // 回避率計算（新方式）
+    let evasion = calculateEvasionRate(actor, target);
 
       if (Math.random() * 100 < evasion) {
         const t = setTimeout(() => {
@@ -8674,6 +8938,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         return;
       }
 
+      target.evasionStreak = 0; // 命中したのでストリークリセット
       // 3. 無敵判定 (最後の砦)
       if (target.fortressTurns > 0) {
         const t = setTimeout(() => {
@@ -8774,8 +9039,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       if (target.speed > highestVal) { highestStat = 'speed'; highestVal = target.speed; }
       if (target.luck > highestVal) { highestStat = 'luck'; highestVal = target.luck; }
       
-      target[highestStat] = Math.max(0, target[highestStat] - 20);
-      target.weakmakerTurns = 3;
+      applyBuff(target, { id: 'weakmaker_' + highestStat, name: 'ウィークメーカー', type: highestStat, val: -20, duration: 3 });
       addLog(`📉 ウィークメーカー！ ${target.name} の最大能力【${highestStat.toUpperCase()}】を 20 減少させた！`, 'log-skill');
       
       let dmg = Math.max(1, actor.attack - getGlassShieldDefense(target));
@@ -8794,10 +9058,10 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
 
     } else if (sk === 'daibogyo') {
       actor.defending = true;
-      actor.daibogyoActive = true; // Damage to 0
-      addLog(`🛡️ ${actor.name} は完全防御の体勢をとった！`, 'log-info');
+      actor.daibogyoActive = true;
+      actor.daibogyoTurns = 2;
+      addLog(`🛡️ ${actor.name} は大防御の構え！ 2ターンの間、受けるダメージの80%をカット！`, 'log-info');
       onComplete();
-
     } else if (sk === 'teppeki') {
       actor.teppekiTurns = 3;
       addLog(`🧱 鉄壁の構え！ 3ターンの間、自身の防御力が2倍になる！`, 'log-info');
@@ -8820,9 +9084,9 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       onComplete();
 
     } else if (sk === 'heal') {
-      const healAmt = Math.min(actor.max - actor.cur, 30);
+      const healAmt = Math.min(actor.max - actor.cur, Math.max(1, Math.floor(actor.max * 0.3)));
       actor.cur += healAmt;
-      addLog(`💖 ヒール！ HPが ${healAmt} 回復した！`, 'log-skill');
+      addLog(`💖 ヒール！ 最大HPの30%(${healAmt})回復した！`, 'log-skill');
       setHp(actorSide, actor);
       onComplete();
 
@@ -8870,7 +9134,8 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
 
     } else if (sk === 'blankshot') {
       if (currentTurn === 1) {
-        target.defense = Math.max(0, Math.floor(target.defense * 0.95));
+        const defReduction = Math.floor(target.defense * 0.05);
+        applyBuff(target, { id: 'blankshot', name: '空砲', type: 'defense', val: -defReduction, duration: 3 });
         addLog(`💨 ${actor.name} の「空砲」！ ${target.name} の防御力を5%低下させた！ (防御:${target.defense})`, 'log-skill');
         processDamage(actorSide, actor, targetSide, target, 0, false, false, onComplete);
       } else {
@@ -8908,7 +9173,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
 
     } else if (sk === 'weightdown') {
       const reduction = target.defense;
-      target.speed = Math.max(0, target.speed - reduction);
+      applyBuff(target, { id: 'weightdown', name: 'ウェイトダウン', type: 'speed', val: -reduction, duration: 3 });
       addLog(`⚓ ウェイトダウン！ ${target.name} の素早さを防御力分(-${reduction})引き下げた！`, 'log-info');
       onComplete();
 
@@ -9035,7 +9300,7 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     showDmgFloat(target === pState ? 'p' : 'e', penDmg, '#f59e0b');
     addLog(`🛡️ ${target.name} は大防御の構え！ 大半を防いだが ${penDmg} ダメージ貫通！`, 'log-miss');
     if (actor.charged) actor.charged = false;
-    target.daibogyoActive = false;
+    // target.daibogyoActive persists for daibogyoTurns duration
     if (target.cur <= 0) {
       // 自己満足 (撃破時回復)
       const actorPassives = (actor.skillsList && Array.isArray(actor.skillsList.passive)) ? actor.skillsList.passive : [];
@@ -9124,7 +9389,7 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     // ==========================================
     triggerPostDamagePassives(actorSide, actor, targetSide, target, finalDmg, () => {
       // Check Counter blow (カウンターブロー)
-      if (target.skill === 'counter' && !target.skillUsed && target.cur > 0 && finalDmg > 0) {
+      if (hasPassive(target, 'counter') && !target.skillUsed && target.cur > 0 && finalDmg > 0) {
         target.skillUsed = true;
         const counterDmg = Math.floor(finalDmg * 1.5);
         addLog(`🔁 ${target.name} の「カウンターブロー」発動！ ダメージの1.5倍を撃ち返す！`, 'log-skill');
@@ -9160,7 +9425,7 @@ function triggerPostDamagePassives(actorSide, actor, targetSide, target, dmg, cb
   }
 
   // 死んだふり (HP10%以下で1ターン両者行動不能)
-  if ((target.skill === 'playdead' || targetPassives.includes('playdead')) && hpPct <= 0.10 && target.cur > 0 && !target.playdeadTriggered) {
+  if ((hasPassive(target, 'playdead') || targetPassives.includes('playdead')) && hpPct <= 0.10 && target.cur > 0 && !target.playdeadTriggered) {
     target.playdeadTriggered = true;
     pState.scared = true;
     eState.scared = true;
@@ -9168,14 +9433,14 @@ function triggerPostDamagePassives(actorSide, actor, targetSide, target, dmg, cb
   }
 
   // 1. Toge (トゲトゲの甲羅)
-  if (target.skill === 'toge' && !target.togeTriggered && target.cur > 0) {
+  if (hasPassive(target, 'toge') && !target.togeTriggered && target.cur > 0) {
     target.togeTriggered = true;
     actor.speed = Math.max(0, actor.speed - 10);
     addLog(`🌵 ${target.name} の「トゲトゲの甲羅」！ ${actor.name} の素早さを 10 減少させた！`, 'log-skill');
   }
 
   // 2. Second wind (セカンド風 - HP25%以下で10回復)
-  if (target.skill === 'secondwind' && hpPct <= 0.25 && target.cur > 0 && !target.secondwindTriggered) {
+  if (hasPassive(target, 'secondwind') && hpPct <= 0.25 && target.cur > 0 && !target.secondwindTriggered) {
     target.secondwindTriggered = true;
     const restore = Math.min(target.max - target.cur, 10);
     target.cur += restore;
@@ -9184,7 +9449,7 @@ function triggerPostDamagePassives(actorSide, actor, targetSide, target, dmg, cb
   }
 
   // 3. Recycle (リサイクル - 相手のアクティブ使用に被ダメ半分回復)
-  if (target.skill === 'recycle' && actor.skillUsed && target.recycleHeal > 0 && target.cur > 0) {
+  if (hasPassive(target, 'recycle') && actor.skillUsed && target.recycleHeal > 0 && target.cur > 0) {
     const restore = Math.min(target.max - target.cur, target.recycleHeal);
     target.cur += restore;
     addLog(`♻️ ${target.name} の「リサイクル」！ 相手のアクティブスキルダメージの半分(${restore})を回復した！`, 'log-skill');
@@ -9193,14 +9458,14 @@ function triggerPostDamagePassives(actorSide, actor, targetSide, target, dmg, cb
   }
 
   // 4. Fortress (最後の砦 - HP20%以下で無敵1ターン)
-  if (target.skill === 'fortress' && hpPct <= 0.20 && target.cur > 0 && !target.fortressTriggered) {
+  if (hasPassive(target, 'fortress') && hpPct <= 0.20 && target.cur > 0 && !target.fortressTriggered) {
     target.fortressTriggered = true;
     target.fortressTurns = 1;
     addLog(`🏰 ${target.name} の「最後の砦」発動！ 1ターンの間無敵になる！`, 'log-skill');
   }
 
   // 5. Migawari (身代わり人形 - 致死回避)
-  if (target.cur === 0 && target.skill === 'migawari' && !target.migawariTriggered) {
+  if (target.cur === 0 && hasPassive(target, 'migawari') && !target.migawariTriggered) {
     target.migawariTriggered = true;
     target.cur = 1;
     addLog(`🧸 ${target.name} の「身代わり人形」発動！ HP 1 で踏みとどまった！`, 'log-skill');
@@ -9208,6 +9473,55 @@ function triggerPostDamagePassives(actorSide, actor, targetSide, target, dmg, cb
   }
 
   cb();
+}
+
+// バフ/デバフ管理：重複防止（効果を加算せず、ターン数のみリセット）および新規付与
+function applyBuff(monster, newBuff) {
+  if (!monster) return;
+  if (!monster.activeBuffs) monster.activeBuffs = [];
+
+  const existingBuff = monster.activeBuffs.find(b => b.id === newBuff.id);
+  if (existingBuff) {
+    // 既存バフがある場合はターン数のみ更新（ステータス重複加算を防止）
+    existingBuff.duration = newBuff.duration;
+    addLog(`✨ ${monster.name} の『${newBuff.name}』の効果時間がリセットされた！（残り ${newBuff.duration} ターン）`, 'log-skill');
+  } else {
+    // 新規付与：ステータス変化を適用して配列に保持
+    if (newBuff.val && newBuff.type) {
+      monster[newBuff.type] = (monster[newBuff.type] || 0) + newBuff.val;
+      if (monster[newBuff.type] < 0) monster[newBuff.type] = 0;
+    }
+    monster.activeBuffs.push(newBuff);
+    const sign = newBuff.val >= 0 ? '+' : '';
+    if (newBuff.val && newBuff.type) {
+      addLog(`✨ ${monster.name} の ${newBuff.type.toUpperCase()} が ${sign}${newBuff.val}！ (${newBuff.duration}ターン)`, 'log-skill');
+    }
+  }
+}
+
+// ターン経過時のバフ更新・効果解除ロジック
+function updateMonsterBuffs(monster, side) {
+  if (!monster || !monster.activeBuffs || monster.activeBuffs.length === 0) return;
+
+  for (let i = monster.activeBuffs.length - 1; i >= 0; i--) {
+    let buff = monster.activeBuffs[i];
+    buff.duration -= 1; // 1ターン消費
+
+    // 規定ターン終了（残り0ターン）の判定
+    if (buff.duration <= 0) {
+      // 1. 上昇・低下させたステータスを元に戻す
+      if (buff.val && buff.type) {
+        monster[buff.type] -= buff.val;
+        if (monster[buff.type] < 0) monster[buff.type] = 0;
+      }
+
+      // 2. ログ表示
+      addLog(`⏳ ${monster.name} のスキル効果『${buff.name}』が切れた！`, 'log-info');
+
+      // 3. 配列から削除
+      monster.activeBuffs.splice(i, 1);
+    }
+  }
 }
 
 function updateBuffsUI(side, state) {
@@ -9225,6 +9539,12 @@ function updateBuffsUI(side, state) {
   if (state.shadowstepTurns > 0) buffs.push(`<span style="background:rgba(245,158,11,0.15); color:var(--accent-gold); border:1px solid rgba(245,158,11,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">👣 回避率+20%</span>`);
   if (state.reverseTurns > 0) buffs.push(`<span style="background:rgba(168,85,247,0.15); color:var(--accent-purple); border:1px solid rgba(168,85,247,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🌀 リバース</span>`);
   if (state.fortressTurns > 0) buffs.push(`<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); border:1px solid rgba(16,185,129,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🏰 無敵</span>`);
+
+  if (state.activeBuffs && state.activeBuffs.length > 0) {
+    state.activeBuffs.forEach(b => {
+      buffs.push(`<span style="background:rgba(0,212,255,0.15); color:var(--accent-cyan); border:1px solid rgba(0,212,255,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">✨ ${b.name}(${b.duration})</span>`);
+    });
+  }
 
   container.innerHTML = buffs.join(' ');
 }
@@ -9329,9 +9649,108 @@ function setHp(side, state) {
   }
   const isTutorialMode = (gameProgress.tutorialStep === 2);
   if (side === 'e' && isTutorialMode) {
-    txt.textContent = '？？？ / ？？？';
+    txt.textContent = 'HP ？？？ / ？？？';
   } else {
-    txt.textContent = state.cur + ' / ' + state.max;
+    txt.textContent = 'HP ' + state.cur + ' / ' + state.max;
+  }
+}
+
+// パッシブスキル判定ヘルパー：skill または passiveSkill に指定IDが含まれているか確認
+function hasPassive(actor, skillId) {
+  if (!actor) return false;
+  if (actor.passiveSkill === skillId) return true;
+  if (actor.skill === skillId) return true;
+  return false;
+}
+
+// パッシブスキルの自動MP消費発動システム (MP 8以上で自動発動し、MP 8を消費して強力な効果を適用)
+function checkAutoPassiveTrigger(actorSide, actor, targetSide, target) {
+  if (!actor || actor.cur <= 0) return;
+  const psk = actor.passiveSkill || (actor.skillsList && actor.skillsList.passive && actor.skillsList.passive[0]) || 'none';
+  if (psk === 'none') return;
+  
+  const skInfo = SKILLS[psk];
+  if (!skInfo || skInfo.type !== 'パッシブ') return;
+
+  // MPが8以上あるかチェック
+  const curMp = (actor.mp !== undefined) ? actor.mp : 10;
+  if (curMp < 8) return;
+
+  // MP 8 を消費
+  actor.mp = Math.max(0, curMp - 8);
+  setMp(actorSide, actor);
+
+  addLog(`✨ ${actor.name} のパッシブスキル『${skInfo.name}』が自動発動！（MP 8消費 / 残MP:${actor.mp}）`, 'log-crit');
+
+  // スキルごとのパッシブ効果を発動
+  if (psk === 'secondwind') {
+    const heal = Math.min(actor.max - actor.cur, Math.floor(actor.max * 0.4) || 25);
+    actor.cur += heal;
+    setHp(actorSide, actor);
+    addLog(`🌬️ 【${skInfo.name}】 活力がみなぎり、生命力が ${heal} 回復した！`, actorSide === 'p' ? 'log-dmg-p' : 'log-dmg-e');
+  } else if (psk === 'fortress') {
+    actor.fortressTurns = 1;
+    addLog(`🏰 【${skInfo.name}】 鉄壁の結界を展開！ 1ターンの間無敵状態となった！`, 'log-skill');
+  } else if (psk === 'heavyatk') {
+    actor.strengthenTurns = 2;
+    addLog(`💪 【${skInfo.name}】 剛力解放！ 2ターンの間、攻撃威力が1.5倍に上昇！`, 'log-skill');
+  } else if (psk === 'firstwind') {
+    applyBuff(actor, { id: 'psk_spd_boost', name: skInfo.name, type: 'speed', val: 100, duration: 2 });
+  } else if (psk === 'shuffle') {
+    const spdBoost = Math.floor(actor.speed * 0.5) + 5;
+    applyBuff(actor, { id: 'psk_spd_boost', name: skInfo.name, type: 'speed', val: spdBoost, duration: 2 });
+    applyBuff(actor, { id: 'psk_spd_boost', name: skInfo.name, type: 'speed', val: spdBoost, duration: 2 });
+  } else if (psk === 'toge' || psk === 'intimidate') {
+    if (target && target.cur > 0) {
+      applyBuff(target, { id: 'psk_toge_spd', name: skInfo.name, type: 'speed', val: -15, duration: 2 });
+      applyBuff(target, { id: 'psk_toge_atk', name: skInfo.name, type: 'attack', val: -5, duration: 2 });
+    }
+  } else if (psk === 'glassshield' || psk === 'parry' || psk === 'poorcounter') {
+    actor.teppekiTurns = 2;
+    addLog(`🛡️ 【${skInfo.name}】 守護のオーラ！ 2ターンの間、防御力が2倍に上昇！`, 'log-skill');
+  } else if (psk === 'recycle' || psk === 'selfsatisfaction') {
+    actor.regenTurns = 3;
+    addLog(`💧 【${skInfo.name}】 生命の循環！ 3ターンの間リジェネレート(毎ターン持続回復)が付与された！`, 'log-skill');
+  } else if (psk === 'fdice' || psk === 'pressure') {
+    applyBuff(actor, { id: 'psk_luck_boost', name: skInfo.name, type: 'luck', val: 15, duration: 2 });
+    if (target) target.scared = true;
+  } else if (psk === 'migawari' || psk === 'playdead') {
+    actor.barrier = (actor.barrier || 0) + 20;
+    addLog(`🧸 【${skInfo.name}】 身代わりの防護壁！ ダメージを20肩代わりするバリアを展開した！`, 'log-skill');
+  } else {
+    // 汎用パッシブ（particularityなど）：攻防ブースト
+    actor.strengthenTurns = 2;
+    actor.teppekiTurns = 2;
+    addLog(`✨ 【${skInfo.name}】 潜在能力が極限覚醒！ 2ターンの間、攻撃1.5倍＆防御2倍！`, 'log-skill');
+  }
+
+  updateBuffsUI(actorSide, actor);
+  if (targetSide && target) updateBuffsUI(targetSide, target);
+}
+
+function setMp(side, state) {
+  if (!state) return;
+  const fill = document.getElementById('mp-bar-' + side);
+  const txt = document.getElementById('mp-txt-' + side);
+  if (!fill || !txt) return;
+  const cur = Math.max(0, Math.min(state.maxMp || 10, state.mp !== undefined ? state.mp : 10));
+  const max = state.maxMp || 10;
+  const pct = Math.max(0, Math.min(100, (cur / max) * 100));
+  fill.style.width = pct + '%';
+  txt.textContent = 'MP ' + cur + ' / ' + max;
+
+  if (side === 'p') {
+    const skillBtn = document.getElementById('btn-command-skill');
+    if (skillBtn) {
+      const userSk = (pState && SKILLS[pState.skill]) ? SKILLS[pState.skill] : SKILLS.none;
+      if (cur < 8 || state.skill === 'none' || userSk.type === 'パッシブ') {
+        skillBtn.disabled = true;
+        skillBtn.style.opacity = '0.5';
+      } else if (isPlayerTurn) {
+        skillBtn.disabled = false;
+        skillBtn.style.opacity = '1.0';
+      }
+    }
   }
 }
 
@@ -9637,23 +10056,28 @@ function showResult() {
     record.lose++;
 
     // Tutorial boss defeat event
-    if (gameProgress.tutorialStep === 2 && currentEnemy && currentEnemy.name === '覇王ゴブリン') {
+    if (gameProgress.tutorialStep === 2 && currentEnemy && (currentEnemy.name.includes('覇王'))) {
       record.lose--; // Don't count tutorial defeat in stats
       save();
       updateRecord();
+      
       const modal = document.getElementById('battle-result-modal');
+      const labBtn = document.getElementById('battle-result-lab') || document.querySelector('.result-btn.secondary');
+      
+      if (labBtn) labBtn.style.display = 'none';
+      if (nextBtn) {
+        nextBtn.style.display = 'inline-block';
+        nextBtn.textContent = '🗺️ 次へ';
+        const defaultOnClick = nextBtn.onclick;
+        nextBtn.onclick = () => {
+          if (modal) modal.style.display = 'none';
+          if (labBtn) labBtn.style.display = '';
+          nextBtn.onclick = defaultOnClick;
+          onTutorialBossDefeat();
+        };
+      }
+      
       if (modal) modal.style.display = 'flex';
-      setTimeout(() => {
-        showStoryDialog([
-          { speaker: '覇王ゴブリン', text: 'フッ、スキルも知らん田舎者が…出直してくるんだな', color: '#ef4444', speakerTextColor: '#fff' },
-          { speaker: playerName, text: 'くっ…！ なんだあの技は…？ 僕のモンスターにはまだ知らない「スキル」が存在するんだ…！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
-          { speaker: 'ナレーション', text: '圧倒的な力の差…だが、この敗北が研究者としての本当の旅の始まりだ。', color: 'var(--accent-gold)' },
-        ], () => {
-          gameProgress.tutorialStep = 3;
-          save();
-          goScreen('lab');
-        });
-      }, 1500);
       return;
     }
 
@@ -9985,6 +10409,68 @@ function resolveConfirmModal(result) {
 let storyDialogQueue = [];
 let storyDialogCallback = null;
 
+function onFirstBuildCompleteStoryEnd() {
+  gameProgress.tutorialStep = 4;
+  save();
+  goScreen('main-menu');
+  
+  const arrowArena = document.getElementById('tutorial-arrow-arena');
+  const btnArena = document.querySelector('.menu-mode-btn[onclick*="startMode(\'league\')"]');
+  if (arrowArena) {
+    arrowArena.style.display = 'block';
+    arrowArena.style.animation = 'tutorial-bounce 0.8s ease-in-out infinite';
+  }
+  if (btnArena) {
+    btnArena.style.boxShadow = '0 0 25px var(--accent-gold)';
+    btnArena.style.borderColor = 'var(--accent-gold)';
+  }
+}
+
+function onTutorialBossDefeat() {
+  const pName = playerName || '主人公';
+  showStoryDialog([
+    { speaker: pName, text: '「な、なんだよこれ……！ こんなにあっさり倒されるなんて……そんなのありかよ！？」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+    { speaker: '覇王 ヴィクター', text: '「……ガッカリさせないでくれ。力自慢の田舎者が、ただ数値を適当に割り振っただけの『ゴミクズ』を引き連れてくるとはな。」', color: '#ef4444', speakerTextColor: '#fff' },
+    { speaker: pName, text: '「ゴミクズだと……！？ オレの相棒をバカにするな！」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+    { speaker: '覇王 ヴィクター', text: '「事実を言っているのだ。この世界において、ステータスの数値をどう配分するか……そしてどんなスキルを1つセットするか、その『ビルド』にこそ真の強さが宿る。\n\nお前のモンスターには何の戦略も、尖った強さ（ビルド）も存在しない。これでは戦い以前の問題だ。」', color: '#ef4444', speakerTextColor: '#fff' },
+    { speaker: pName, text: '「・・・・・・」', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+    { speaker: '覇王 ヴィクター', text: '「無知な若者よ、街のラボへ戻るがいい。モンスターを作り直し、100という限られたポイントを研ぎ澄ませ。スキルのシナジーを理解し、真に強いビルドを組み上げたなら……また私に挑戦するがいい。フハハハ！」', color: '#ef4444', speakerTextColor: '#fff' },
+  ], () => {
+    gameProgress.tutorialStep = 3;
+    save();
+    goScreen('lab');
+  });
+}
+
+function onColosseumPreBattleStoryEnd() {
+  // 1. テキストウィンドウを閉じる
+  // 2. 「バトル開始！」ボタンを活性化（クリック可能状態に）
+  const startBtn = document.getElementById('btn-battle') || document.querySelector('.battle-start-btn');
+  if (startBtn) {
+    startBtn.disabled = false;
+    startBtn.classList.add('active');
+    startBtn.style.opacity = '1';
+    startBtn.style.pointerEvents = 'auto';
+    startBtn.style.boxShadow = '0 0 20px var(--accent-gold)';
+  }
+}
+
+function onPochiCreatedStoryEnd() {
+  // 1. テキストウィンドウを閉じる
+  // 2. マップ画面へ遷移し、プレイヤーがタップで移動できるようにコロシアム（闘技場）のアイコンをハイライト演出
+  goScreen('main-menu');
+  
+  const arrowArena = document.getElementById('tutorial-arrow-arena');
+  const btnArena = document.querySelector('.menu-mode-btn[onclick*="startMode(\'league\')"]');
+  if (arrowArena) {
+    arrowArena.style.display = 'block';
+    arrowArena.style.animation = 'tutorial-bounce 0.8s ease-in-out infinite';
+  }
+  if (btnArena) {
+    btnArena.style.boxShadow = '0 0 25px var(--accent-gold)';
+    btnArena.style.borderColor = 'var(--accent-gold)';
+  }
+}
 function showStoryDialog(dialogList, onComplete) {
   storyDialogQueue = [...dialogList];
   storyDialogCallback = onComplete || null;
@@ -10021,13 +10507,61 @@ const REWARD_SHOP_ITEMS = [
   { id: 'shin', name: '⚡ 神シリーズ', sub: '神話の聖闘士', desc: '悪魔（デビル）系の作成権をアンロック', system: 'devil', price: 500 },
   { id: 'dinosaur', name: '🦖 恐竜シリーズ', sub: '太古 of 覇者', desc: 'ドラゴン系の作成権をアンロック', system: 'dragon', price: 500 },
   { id: 'toy', name: '🧸 ぬいぐるみシリーズ', sub: 'パッチワーク', desc: '植物（自然）系の作成権をアンロック', system: 'plant', price: 500 },
-  { id: 'ghost', name: '👻 おばけシリーズ', sub: 'ゆめかわナイトメア', desc: 'アンデッド系の作成権をアンロック', system: 'undead', price: 500 },
+  { id: 'ghost', name: '🦊 妖怪シリーズ', sub: '百鬼夜行', desc: 'アンデッド・妖怪系の作成権をアンロック', system: 'undead', price: 500 },
   
   // 育成・拡張アイテム
   { id: 'item_expand_slot_2', name: '🏠 モンスター枠拡張 (+2)', sub: 'ラボケージ拡張', desc: 'モンスター保管枠を最大+2枠拡張します（即時反映）。', isItem: true, price: 500 },
   { id: 'item_reset_stats', name: '💊 ステータスリセット薬', sub: '育成リセット', desc: 'モンスター1体の能力配分を初期化し100ptを再配分できます。', isItem: true, price: 300 },
   { id: 'item_change_skill', name: '📜 スキル再構成薬', sub: 'スキル再抽選', desc: 'モンスター1体のアクティブスキルをランダムに変更します。', isItem: true, price: 300 }
 ];
+
+
+function showSeriesPreview(seriesId) {
+  const item = REWARD_SHOP_ITEMS.find(i => i.id === seriesId);
+  if (!item) return;
+  
+  // シリーズに対応するモンスター種族名またはカテゴリ名でフィルター
+  let monsters = [];
+  if (typeof additionalMonsters !== 'undefined') {
+    if (seriesId === 'robo') monsters = additionalMonsters.filter(m => m.category === 'ロボ');
+    else if (seriesId === 'shin') monsters = additionalMonsters.filter(m => m.category === '神');
+    else if (seriesId === 'dinosaur') monsters = additionalMonsters.filter(m => m.category === '恐竜');
+    else if (seriesId === 'toy') monsters = additionalMonsters.filter(m => m.category === 'ぬいぐるみ');
+    else if (seriesId === 'ghost') monsters = additionalMonsters.filter(m => m.category === '妖怪');
+  }
+  
+  const modal = document.getElementById('series-preview-modal');
+  const titleEl = document.getElementById('preview-modal-title');
+  const subEl = document.getElementById('preview-modal-sub');
+  const gridEl = document.getElementById('preview-modal-grid');
+  
+  if (!modal || !gridEl) return;
+  
+  titleEl.textContent = item.name + ' - 収録モンスター一覧';
+  subEl.textContent = '【' + item.sub + '】 解放後に作成可能となるモンスタービジュアル';
+  
+  gridEl.innerHTML = '';
+  monsters.forEach(m => {
+    const card = document.createElement('div');
+    card.style = 'background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px 10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;';
+    
+    const imgHtml = `<img src="${m.image}" style="height:90px; width:auto; object-fit:contain; filter:drop-shadow(0 0 10px rgba(0,212,255,0.4));">`;
+    
+    card.innerHTML = `
+      ${imgHtml}
+      <div style="font-weight:bold; font-size:14px; color:var(--text-primary); margin-top:4px;">${m.name}</div>
+      <div style="font-size:11px; color:var(--accent-cyan);">種族: ${m.category}</div>
+    `;
+    gridEl.appendChild(card);
+  });
+  
+  modal.style.display = 'flex';
+}
+
+function closeSeriesPreview() {
+  const modal = document.getElementById('series-preview-modal');
+  if (modal) modal.style.display = 'none';
+}
 
 function renderRewardShop() {
   const shopBp = document.getElementById('shop-bp-display');
@@ -10053,13 +10587,16 @@ function renderRewardShop() {
       buttonHtml = `<button class="title-btn" style="padding:8px 16px; font-size:13px; ${!canBuy ? 'opacity:0.5; cursor:not-allowed; background:#475569; color:#cbd5e1; box-shadow:none;' : ''}" ${!canBuy ? 'disabled' : ''} onclick="buyShopItem('${item.id}')">${price} BPで購入</button>`;
     }
     
+    const previewBtnHtml = !item.isItem ? `<button class="btn-secondary" style="padding:6px 12px; font-size:12px; margin-right:8px; color:var(--accent-cyan); border-color:rgba(0,212,255,0.4);" onclick="showSeriesPreview('${item.id}')">🔍 プレビュー</button>` : '';
+
     card.innerHTML = `
       <div style="text-align:left;">
         <div style="font-weight:bold; font-size:16px; color:var(--text-primary);">${item.name}</div>
         <div style="font-size:12px; color:var(--accent-gold); margin-top:2px;">【${item.sub}】</div>
         <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">${item.desc}</div>
       </div>
-      <div>
+      <div style="display:flex; align-items:center;">
+        ${previewBtnHtml}
         ${buttonHtml}
       </div>
     `;
@@ -10195,16 +10732,48 @@ function updateMenuFacilities() {
     }
   }
   
-  // Tutorial navigation arrows
+  // Tutorial navigation arrows & Lab highlight box
   const arrowLab = document.getElementById('tutorial-arrow-lab');
   const arrowArena = document.getElementById('tutorial-arrow-arena');
   if (arrowLab) arrowLab.style.display = (gameProgress.tutorialStep === 1) ? 'block' : 'none';
   if (arrowArena) arrowArena.style.display = (gameProgress.tutorialStep === 2) ? 'block' : 'none';
+
+  const labArea = document.getElementById('map-area-lab');
+  if (labArea) {
+    if (gameProgress.tutorialStep === 1) {
+      labArea.style.boxShadow = '0 0 35px var(--accent-gold), inset 0 0 20px rgba(245,158,11,0.8)';
+      labArea.style.borderColor = 'var(--accent-gold)';
+      labArea.style.transform = 'scale(1.05)';
+    } else {
+      labArea.style.boxShadow = '';
+      labArea.style.borderColor = '';
+      labArea.style.transform = '';
+    }
+  }
 }
 
 function onMapAreaClick(facility) {
   const sp = getSkillProgress();
   
+  // ★ チュートリアル中のマップ行動制限
+  if (gameProgress.tutorialStep === 1) {
+    if (facility !== 'lab') {
+      alert('【チュートリアル中】まずはモンスター研究所（ラボ）へ向かいましょう！');
+      return;
+    }
+  } else if (gameProgress.tutorialStep === 2) {
+    if (facility !== 'league') {
+      alert('【チュートリアル中】ポチと共にコロシアム（闘技場）へ向かい、覇王 ヴィクターに挑戦しましょう！');
+      return;
+    }
+  } else if (gameProgress.tutorialStep === 3) {
+    const activeLab = getActiveLab ? getActiveLab() : [];
+    if (activeLab.length < 2 && facility !== 'lab') {
+      alert('【チュートリアル中】まずはラボで新しいモンスターを生み出しましょう！');
+      return;
+    }
+  }
+
   if (facility === 'team-arena') {
     if (sp.pct < 50) {
       alert('【武舞台（団体戦）】はスキル解明度が50%以上になると解放されます。現在: ' + sp.pct + '%');
@@ -10227,7 +10796,6 @@ function onMapAreaClick(facility) {
     openRewardShop();
   }
 }
-
 function checkSkillMilestones() {
   const sp = getSkillProgress();
   
@@ -10259,6 +10827,10 @@ function checkSkillMilestones() {
 }
 
 function startBossRevenge() {
+  if (gameProgress.tutorialStep < 4) {
+    alert('【チュートリアル中】指定の場所以外へは移動できません。');
+    return;
+  }
   if (!gameProgress.bossRevengeUnlocked) {
     alert('【ロック中】スキルを全解放（30/30）すると覇王リベンジマッチに挑戦できます！');
     return;
@@ -10272,9 +10844,9 @@ function startBossRevenge() {
 
   // 戦闘前会話ストーリー
   showStoryDialog([
-    { speaker: '覇王ゴブリン', text: 'ほう、あのときの田舎者の若造か。すべてのスキルを解明して舞い戻ってくるとはな。', color: '#ef4444', speakerTextColor: '#fff' },
+    { speaker: '覇王ヴィクター', text: 'ほう、あのときの田舎者の若造か。すべてのスキルを解明して舞い戻ってくるとはな。', color: '#ef4444', speakerTextColor: '#fff' },
     { speaker: playerName, text: 'あの時の負けを返しに来た！これが僕たちの集大成のパーティだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
-    { speaker: '覇王ゴブリン', text: 'ハハハッ！良い面構えだ。ならば全力で相手をしてやろう！いくぞ！', color: '#ef4444', speakerTextColor: '#fff' }
+    { speaker: '覇王ヴィクター', text: 'ハハハッ！良い面構えだ。ならば全力で相手をしてやろう！いくぞ！', color: '#ef4444', speakerTextColor: '#fff' }
   ], () => {
     // ストーリー読了後に専用バトル前確認画面へ遷移
     currentGameMode = 'boss-revenge';
@@ -10287,9 +10859,9 @@ function handleBossRevengeVictory() {
   gameProgress.bossDefeated = true;
   save();
   showStoryDialog([
-    { speaker: '覇王ゴブリン', text: 'バ…バカな…！ あの時の田舎者がここまで…！', color: '#ef4444', speakerTextColor: '#fff' },
+    { speaker: '覇王ヴィクター', text: 'バ…バカな…！ あの時の田舎者がここまで…！', color: '#ef4444', speakerTextColor: '#fff' },
     { speaker: playerName || '研究員', text: 'あの日の借りは返したよ。僕たちは最高のチームだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
-    { speaker: '覇王ゴブリン', text: '100ptという制限の中で、これほどの領域に達するとは…だが覚えておけ、世界にはまだ見ぬ強豪（ビルド）がごまんといることを…！', color: '#ef4444', speakerTextColor: '#fff' }
+    { speaker: '覇王ヴィクター', text: '100ptという制限の中で、これほどの領域に達するとは…だが覚えておけ、世界にはまだ見ぬ強豪（ビルド）がごまんといることを…！', color: '#ef4444', speakerTextColor: '#fff' }
   ], () => {
     startEndingCredits();
   });
@@ -10299,6 +10871,12 @@ function startEndingCredits() {
   const endingScreen = document.getElementById('ending-screen');
   const creditsContainer = document.getElementById('credits-container');
   const finishBtn = document.getElementById('finish-ed-btn');
+  
+  const nameEl = document.getElementById('ending-researcher-name');
+  if (nameEl) {
+    const pName = (typeof playerName === 'string' && playerName.trim()) ? playerName.trim() : 'Pee';
+    nameEl.textContent = pName.endsWith('研究員') ? pName : (pName + '研究員');
+  }
 
   if (window.bgmManager) {
     window.bgmManager.play('victory', true); // Victory.mp3 をループ再生
@@ -10383,6 +10961,7 @@ function startTeamArenaBattle() {
     boutIndex: 0,     // 0=先鋒, 1=中堅, 2=大将
     boutMyWins: 0,    // wins in current match
     boutEnemyWins: 0, // enemy wins in current match
+    boutResults: [null, null, null], // [0]=先鋒, [1]=中堅, [2]=大将 の勝敗 ('win'|'lose'|null)
     enemyTeams: [],   // generated enemy teams for each round
     eliminated: false,
     activeSlotIdx: 0  // which slot is being selected
@@ -10635,13 +11214,16 @@ function taStartTournament() {
   taState.round = 0;
   taState.roundWins = 0;
   taState.eliminated = false;
+  taState.boutIndex = 0;
+  taState.boutMyWins = 0;
+  taState.boutEnemyWins = 0;
+  taState.boutResults = [null, null, null];
   taShowProgressScreen();
 }
 
 // ---- Progress Screen ----
 function taShowProgressScreen() {
   const round = taState.round;
-  // ★ 武舞台はストーリー用編成を強制参照
   currentLabMode = 'story';
   const activeLab = getActiveLab();
   
@@ -10665,13 +11247,37 @@ function taShowProgressScreen() {
   // Match title
   const matchTitle = document.getElementById('ta-match-title');
   if (matchTitle) matchTitle.textContent = `第${round + 1}戦：${TA_ROUND_NAMES[round]}`;
+
+  // Render cards with win/lose badges
+  renderTaTeamPreviews();
+
+  // Score
+  const scoreMyEl = document.getElementById('ta-score-my');
+  const scoreEnemyEl = document.getElementById('ta-score-enemy');
+  if (scoreMyEl) scoreMyEl.textContent = String(taState.boutMyWins || 0);
+  if (scoreEnemyEl) scoreEnemyEl.textContent = String(taState.boutEnemyWins || 0);
   
-  // Reset bout state
-  taState.boutIndex = 0;
-  taState.boutMyWins = 0;
-  taState.boutEnemyWins = 0;
+  // Battle order & Button
+  const curBoutIdx = Math.min(2, taState.boutIndex || 0);
+  const orderEl = document.getElementById('ta-battle-order');
+  if (orderEl) orderEl.textContent = `次の対戦：【${TA_BOUT_NAMES[curBoutIdx]}】`;
   
-  // My team preview (detailed - same format as enemy)
+  const btn = document.getElementById('ta-next-battle-btn');
+  if (btn) {
+    btn.textContent = `⚔️ ${TA_BOUT_NAMES[curBoutIdx]} 開始！`;
+    btn.disabled = false;
+    btn.onclick = () => taStartNextBout();
+  }
+  
+  goScreen('ta-progress');
+}
+
+function renderTaTeamPreviews() {
+  const round = taState.round;
+  const activeLab = getActiveLab();
+  const results = taState.boutResults || [null, null, null];
+
+  // My team preview
   const myPreview = document.getElementById('ta-my-team-preview');
   if (myPreview) {
     myPreview.innerHTML = '';
@@ -10679,7 +11285,6 @@ function taShowProgressScreen() {
       const m = activeLab[taState.myTeam[i]];
       if (!m) continue;
       
-      // スキル名の解決
       const mySkillsText = [];
       if (m.skills && m.skills.active) {
         m.skills.active.forEach(sid => {
@@ -10693,21 +11298,28 @@ function taShowProgressScreen() {
       }
       const mySkillStr = mySkillsText.length > 0 ? mySkillsText.join(' / ') : 'なし';
       
-      // アイコンの取得
       let mIcon = '';
       const typeKeys = Object.keys(MONSTER_TYPES);
       for (const tk of typeKeys) {
         if (MONSTER_TYPES[tk].label === m.systemType) { mIcon = MONSTER_TYPES[tk].icon; break; }
       }
 
+      let overlayMarkHtml = '';
+      if (results[i] === 'win') {
+        overlayMarkHtml = '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(34,197,94,0.15); border-radius:8px; pointer-events:none; z-index:5;"><span style="font-size:42px; font-weight:900; color:#22c55e; text-shadow:0 0 12px rgba(34,197,94,0.9), 0 0 4px #000; line-height:1;">⭕</span></div>';
+      } else if (results[i] === 'lose') {
+        overlayMarkHtml = '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(239,68,68,0.15); border-radius:8px; pointer-events:none; z-index:5;"><span style="font-size:42px; font-weight:900; color:#ef4444; text-shadow:0 0 12px rgba(239,68,68,0.9), 0 0 4px #000; line-height:1;">❌</span></div>';
+      }
+
       const div = document.createElement('div');
-      div.style = 'padding:6px 10px; border-radius:6px; background:rgba(0,100,255,0.08); border: 1px solid rgba(0,100,255,0.15); margin-bottom: 6px; line-height: 1.4; text-align: left;';
+      div.style = 'padding:8px 12px; border-radius:8px; background:rgba(0,100,255,0.08); border: 1px solid rgba(0,100,255,0.2); margin-bottom: 8px; line-height: 1.4; text-align: left; position:relative; overflow:hidden;';
       div.innerHTML = `
-        <div style="display: flex; justify-content: space-between;">
+        ${overlayMarkHtml}
+        <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="color:var(--accent-gold); font-weight:bold;">${TA_SLOT_LABELS[i]}</span>
           <span style="color:#fff; font-weight: bold;">${mIcon} ${m.name}</span>
         </div>
-        <div style="font-size:11px; color:var(--text-dim); margin-top: 2px;">
+        <div style="font-size:11px; color:var(--text-dim); margin-top: 4px;">
           HP:${m.stats.hp} A:${m.stats.attack} D:${m.stats.defense} S:${m.stats.speed} L:${m.stats.luck}
         </div>
         <div style="font-size:11px; color:var(--accent-cyan); margin-top: 2px; font-weight: bold;">
@@ -10737,14 +11349,22 @@ function taShowProgressScreen() {
       }
       const skillStr = skillsText.length > 0 ? skillsText.join(' / ') : 'なし';
 
+      let enemyOverlayMarkHtml = '';
+      if (results[i] === 'lose') {
+        enemyOverlayMarkHtml = '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(34,197,94,0.15); border-radius:8px; pointer-events:none; z-index:5;"><span style="font-size:42px; font-weight:900; color:#22c55e; text-shadow:0 0 12px rgba(34,197,94,0.9), 0 0 4px #000; line-height:1;">⭕</span></div>';
+      } else if (results[i] === 'win') {
+        enemyOverlayMarkHtml = '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(239,68,68,0.15); border-radius:8px; pointer-events:none; z-index:5;"><span style="font-size:42px; font-weight:900; color:#ef4444; text-shadow:0 0 12px rgba(239,68,68,0.9), 0 0 4px #000; line-height:1;">❌</span></div>';
+      }
+
       const div = document.createElement('div');
-      div.style = 'padding:6px 10px; border-radius:6px; background:rgba(255,0,0,0.08); border: 1px solid rgba(255,0,0,0.15); margin-bottom: 6px; line-height: 1.4; text-align: left;';
+      div.style = 'padding:8px 12px; border-radius:8px; background:rgba(255,0,0,0.08); border: 1px solid rgba(255,0,0,0.2); margin-bottom: 8px; line-height: 1.4; text-align: left; position:relative; overflow:hidden;';
       div.innerHTML = `
-        <div style="display: flex; justify-content: space-between;">
-          <span style="color:var(--accent-gold); font-weight:bold;">${TA_SLOT_LABELS[i]}</span>
+        ${enemyOverlayMarkHtml}
+        <div style="display: flex; justify-content: space-between; align-items: center;">
           <span style="color:#fff; font-weight: bold;">${e.icon} ${e.name}</span>
+          <span style="color:var(--accent-gold); font-weight:bold;">${TA_SLOT_LABELS[i]}</span>
         </div>
-        <div style="font-size:11px; color:var(--text-dim); margin-top: 2px;">
+        <div style="font-size:11px; color:var(--text-dim); margin-top: 4px;">
           HP:${e.stats.hp} A:${e.stats.attack} D:${e.stats.defense} S:${e.stats.speed} L:${e.stats.luck}
         </div>
         <div style="font-size:11px; color:var(--accent-cyan); margin-top: 2px; font-weight: bold;">
@@ -10754,54 +11374,29 @@ function taShowProgressScreen() {
       enemyPreview.appendChild(div);
     }
   }
-  
-  // Score
-  const scoreMyEl = document.getElementById('ta-score-my');
-  const scoreEnemyEl = document.getElementById('ta-score-enemy');
-  if (scoreMyEl) scoreMyEl.textContent = '0';
-  if (scoreEnemyEl) scoreEnemyEl.textContent = '0';
-  
-  // Battle order
-  const orderEl = document.getElementById('ta-battle-order');
-  if (orderEl) orderEl.textContent = `次の対戦：【${TA_BOUT_NAMES[0]}】`;
-  
-  // Button
-  const btn = document.getElementById('ta-next-battle-btn');
-  if (btn) {
-    btn.textContent = '⚔️ 先鋒戦 開始！';
-    btn.disabled = false;
-    btn.onclick = () => taStartNextBout();
-  }
-  
-  goScreen('ta-progress');
 }
+
 
 // ---- Start Next Bout (1v1 Battle) ----
 function taStartNextBout() {
-  // ★ 武舞台はストーリー用編成を強制参照
   currentLabMode = 'story';
   const activeLab = getActiveLab();
   const round = taState.round;
   const bout = taState.boutIndex;
   
-  // Set game mode
   currentGameMode = 'team-arena';
   
-  // Set my monster for this bout
   const myMonsterIdx = taState.myTeam[bout];
   selBattle = myMonsterIdx;
   
-  // Set enemy for this bout
   const enemyData = taState.enemyTeams[round][bout];
   
-  // 装備するスキルの決定（アクティブ・パッシブから選定）
   let chosenSkill = 'none';
   if (enemyData.skills.active[0] && enemyData.skills.active[0] !== 'none') {
     chosenSkill = enemyData.skills.active[0];
   } else if (enemyData.skills.passive[0] && enemyData.skills.passive[0] !== 'none') {
     chosenSkill = enemyData.skills.passive[0];
   }
-  // 両方持っている場合は50%の確率でどちらかを選択
   if (enemyData.skills.active[0] && enemyData.skills.active[0] !== 'none' &&
       enemyData.skills.passive[0] && enemyData.skills.passive[0] !== 'none') {
     chosenSkill = Math.random() < 0.5 ? enemyData.skills.active[0] : enemyData.skills.passive[0];
@@ -10823,7 +11418,6 @@ function taStartNextBout() {
     type: enemyData.type
   };
   
-  // Update stage display
   const badge = document.getElementById('stage-display');
   if (badge) badge.textContent = `武舞台 ${TA_ROUND_NAMES[round]} - ${TA_BOUT_NAMES[bout]}`;
   
@@ -10836,8 +11430,10 @@ function taHandleBoutResult(playerWon) {
   
   if (playerWon) {
     taState.boutMyWins++;
+    if (taState.boutResults) taState.boutResults[taState.boutIndex] = 'win';
   } else {
     taState.boutEnemyWins++;
+    if (taState.boutResults) taState.boutResults[taState.boutIndex] = 'lose';
   }
   
   // Check if match is decided (best of 3 = first to 2 wins)
@@ -10851,6 +11447,11 @@ function taHandleBoutResult(playerWon) {
       taEndTournament(true);
       return 'tournament-won';
     } else {
+      // 次のラウンドに進むのでリセット
+      taState.boutIndex = 0;
+      taState.boutMyWins = 0;
+      taState.boutEnemyWins = 0;
+      taState.boutResults = [null, null, null];
       return 'match-won';
     }
   } else if (taState.boutEnemyWins >= 2) {
@@ -10866,25 +11467,7 @@ function taHandleBoutResult(playerWon) {
 }
 
 function taShowBoutInterim() {
-  const scoreMyEl = document.getElementById('ta-score-my');
-  const scoreEnemyEl = document.getElementById('ta-score-enemy');
-  if (scoreMyEl) scoreMyEl.textContent = String(taState.boutMyWins);
-  if (scoreEnemyEl) scoreEnemyEl.textContent = String(taState.boutEnemyWins);
-  
-  const orderEl = document.getElementById('ta-battle-order');
-  if (orderEl) orderEl.textContent = `次の対戦：【${TA_BOUT_NAMES[taState.boutIndex]}】`;
-  
-  const matchTitle = document.getElementById('ta-match-title');
-  if (matchTitle) matchTitle.textContent = `第${taState.round + 1}戦：${TA_ROUND_NAMES[taState.round]}`;
-  
-  const btn = document.getElementById('ta-next-battle-btn');
-  if (btn) {
-    btn.textContent = `⚔️ ${TA_BOUT_NAMES[taState.boutIndex]} 開始！`;
-    btn.disabled = false;
-    btn.onclick = () => taStartNextBout();
-  }
-  
-  goScreen('ta-progress');
+  taShowProgressScreen();
 }
 
 function taEndTournament(isChampion) {
@@ -11087,12 +11670,31 @@ function triggerFirstTimeHelp(facility) {
   }
 }
 
-// OP画面タップ時のイベント登録
+// OP画面タップ時のイベント登録＆スタートテキスト点滅補助
 document.addEventListener('DOMContentLoaded', () => {
   const opScreen = document.getElementById('op-screen');
+  const opStartText = document.getElementById('op-start-text');
+
+  // JSによる点滅タイマー（CSSアニメーションがブラウザで無効化される場合への対策）
+  let blinkTimer = null;
+  if (opStartText) {
+    let opacity = 1;
+    let fadeOut = true;
+    blinkTimer = setInterval(() => {
+      if (fadeOut) {
+        opacity -= 0.08;
+        if (opacity <= 0.15) { opacity = 0.15; fadeOut = false; }
+      } else {
+        opacity += 0.08;
+        if (opacity >= 1.0) { opacity = 1.0; fadeOut = true; }
+      }
+      opStartText.style.opacity = opacity.toFixed(2);
+    }, 60);
+  }
   
   if (opScreen) {
     opScreen.addEventListener('click', () => {
+      if (blinkTimer) clearInterval(blinkTimer);
       // 1. ブラウザの音声自動再生制限を解除するためにBGM再生
       if (window.bgmManager) {
         window.bgmManager.play('title', true); // OP BGM1.mp3 再生
