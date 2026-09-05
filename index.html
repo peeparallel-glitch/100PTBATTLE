@@ -12245,7 +12245,12 @@ function joinP2PPrivateRoom() {
   p2pPeer.on('open', () => {
     setP2PStatus('接続試行中...', 'Peer接続を確立中...');
     p2pConn = p2pPeer.connect(targetPeerId);
-    setupP2PConnection();
+    p2pConn.on('open', () => {
+      setupP2PConnection();
+    });
+    p2pConn.on('error', (err) => {
+      setP2PStatus('接続失敗', '部屋が見つかりません。あいことばを確認してください。');
+    });
   });
   p2pPeer.on('error', (err) => {
     if (err.type === 'peer-unavailable') {
@@ -12357,35 +12362,45 @@ function setupP2PConnection() {
   p2pOppReady = false;
   updateP2PReadyUI();
 
-  // Send my monster data - defer until connection is fully open
+  // Render MY monster UI immediately
   const activeLab = labMonstersFree;
   const nameEl = document.getElementById('p2p-my-monster-name');
   const myIcon = document.getElementById('p2p-my-monster-preview');
-
-  let monsterDataSent = false;
-  function sendMonsterData() {
-    if (monsterDataSent) return;
-    monsterDataSent = true;
-    if (p2pFormat === 'team') {
-      const myTeamData = p2pSelectedMonsters.map(idx => activeLab[idx]).filter(Boolean);
-      if (nameEl) nameEl.textContent = myTeamData.map(m => m.name).join(' / ');
-      if (myIcon) myIcon.innerHTML = myTeamData.map(m => getMonsterVisualHTML(m.monsterClass, m.systemType, '35px')).join('');
-      p2pConn.send({ type: 'team-monsters', data: myTeamData });
-    } else {
-      const myMonsterIdx = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : 0;
-      const myMonster = activeLab[myMonsterIdx] || activeLab[0];
-      if (myMonster && nameEl) nameEl.textContent = myMonster.name || 'モンスター';
-      if (myMonster && myIcon) myIcon.innerHTML = getMonsterVisualHTML(myMonster.monsterClass, myMonster.systemType, '70px');
-      p2pConn.send({ type: 'monster', data: myMonster });
-    }
+  
+  let payload = null;
+  if (p2pFormat === 'team') {
+    const myTeamData = p2pSelectedMonsters.map(idx => activeLab[idx]).filter(Boolean);
+    if (nameEl) nameEl.textContent = myTeamData.map(m => m.name).join(' / ');
+    if (myIcon) myIcon.innerHTML = myTeamData.map(m => getMonsterVisualHTML(m.monsterClass, m.systemType, '35px')).join('');
+    payload = { type: 'team-monsters', data: myTeamData };
+  } else {
+    const myMonsterIdx = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : 0;
+    const myMonster = activeLab[myMonsterIdx] || activeLab[0];
+    if (myMonster && nameEl) nameEl.textContent = myMonster.name || 'モンスター';
+    if (myMonster && myIcon) myIcon.innerHTML = getMonsterVisualHTML(myMonster.monsterClass, myMonster.systemType, '70px');
+    payload = { type: 'monster', data: myMonster };
   }
 
+  // Send payload safely when connection is open
+  const sendData = () => {
+    if (p2pConn && p2pConn.open && payload) {
+      try {
+        p2pConn.send(payload);
+      } catch(e) {
+        console.error('Failed to send P2P monster data:', e);
+      }
+    }
+  };
+
   if (p2pConn.open) {
-    sendMonsterData();
+    sendData();
   } else {
     p2pConn.on('open', () => {
-      sendMonsterData();
+      sendData();
     });
+    // Fallback retry check in case open event already fired
+    setTimeout(sendData, 500);
+    setTimeout(sendData, 1500);
   }
 }
 
