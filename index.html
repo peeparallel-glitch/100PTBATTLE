@@ -3898,7 +3898,7 @@
           <div style="display:flex; gap:10px;">
             <button class="btn-secondary" style="flex:1; padding:12px; font-weight:bold; border-color:var(--accent-cyan); color:var(--accent-cyan);" onclick="createP2PPrivateRoom()">部屋を作る</button>
             <div style="flex:1; display:flex; flex-direction:column; gap:6px;">
-              <input type="text" id="p2p-room-code-input" maxlength="6" placeholder="あいことば入力" style="width:100%; padding:10px; border-radius:6px; border:1px solid var(--border); background:rgba(0,0,0,0.3); color:#fff; text-align:center; font-weight:bold; font-size:16px; letter-spacing:2px;">
+              <input type="text" id="p2p-room-code-input" maxlength="4" placeholder="あいことば入力" style="width:100%; padding:10px; border-radius:6px; border:1px solid var(--border); background:rgba(0,0,0,0.3); color:#fff; text-align:center; font-weight:bold; font-size:16px; letter-spacing:2px;">
               <button class="title-btn" style="padding:6px; font-size:14px;" onclick="joinP2PPrivateRoom()">部屋に入る</button>
             </div>
           </div>
@@ -12208,7 +12208,7 @@ function createP2PPrivateRoom() {
 
   p2pPeer = new Peer(peerId);
   p2pPeer.on('open', (id) => {
-    setP2PStatus('対戦相手の接続を待っています...', 'あいことば: ' + p2pRoomCode + ' を相手に伝えてください');
+    setP2PStatus('対戦相手の接続を待っています...', 'あいことばを相手に伝えてください');
     const box = document.getElementById('p2p-room-display-box');
     if (box) box.style.display = 'block';
     const idEl = document.getElementById('p2p-display-room-id');
@@ -12216,17 +12216,10 @@ function createP2PPrivateRoom() {
   });
   p2pPeer.on('connection', (conn) => {
     p2pConn = conn;
-    // Host waits for connection open event or sets up immediately
-    if (conn.open) {
-      setupP2PConnection();
-    } else {
-      conn.on('open', () => {
-        setupP2PConnection();
-      });
-    }
+    setupP2PConnection();
   });
   p2pPeer.on('error', (err) => {
-    setP2PStatus('接続エラー', err.type + ': ' + (err.message || '部屋の作成に失敗しました'));
+    setP2PStatus('接続エラー', err.type + ': ' + err.message);
   });
 }
 
@@ -12234,8 +12227,8 @@ function createP2PPrivateRoom() {
 function joinP2PPrivateRoom() {
   const input = document.getElementById('p2p-room-code-input');
   const code = (input ? input.value : '').trim();
-  if (!code || code.length !== 4 || isNaN(code)) {
-    alert('4桁の数字の「あいことば」を入力してください');
+  if (!code || code.length < 4) {
+    alert('あいことば（4桁）を入力してください');
     return;
   }
   if (!validateP2PMonsterSelection()) return;
@@ -12246,42 +12239,24 @@ function joinP2PPrivateRoom() {
 
   showP2PStep(4);
   setP2PStatus('部屋に接続中...', 'あいことば: ' + code);
-  const box = document.getElementById('p2p-room-display-box');
-  if (box) box.style.display = 'none';
+  document.getElementById('p2p-room-display-box').style.display = 'none';
 
   p2pPeer = new Peer();
-  
-  let connectTimeout = null;
-
   p2pPeer.on('open', () => {
-    setP2PStatus('接続試行中...', 'ホストへ接続要求を送信中...');
-    
-    // Connect to host
-    const conn = p2pPeer.connect(targetPeerId, { reliable: true });
-    p2pConn = conn;
-
-    connectTimeout = setTimeout(() => {
-      if (p2pConn && !p2pConn.open) {
-        setP2PStatus('接続タイムアウト', '部屋が見つからないか、ホストからの応答がありません。あいことばを確認してください。');
-      }
-    }, 12000);
-
+    setP2PStatus('接続試行中...', 'Peer接続を確立中...');
+    p2pConn = p2pPeer.connect(targetPeerId, { reliable: true });
     p2pConn.on('open', () => {
-      if (connectTimeout) clearTimeout(connectTimeout);
       setupP2PConnection();
     });
     p2pConn.on('error', (err) => {
-      if (connectTimeout) clearTimeout(connectTimeout);
       setP2PStatus('接続失敗', '部屋が見つかりません。あいことばを確認してください。');
     });
   });
-
   p2pPeer.on('error', (err) => {
-    if (connectTimeout) clearTimeout(connectTimeout);
     if (err.type === 'peer-unavailable') {
       setP2PStatus('部屋が見つかりません', 'あいことばが正しいか確認してください');
     } else {
-      setP2PStatus('接続エラー', err.type + (err.message ? ': ' + err.message : ''));
+      setP2PStatus('接続エラー', err.type);
     }
   });
 }
