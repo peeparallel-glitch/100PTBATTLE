@@ -12172,7 +12172,7 @@ function exitP2PLobby() {
 }
 
 function generateRoomCode() {
-  return String(Math.floor(100000 + Math.random() * 900000));
+  return String(Math.floor(1000 + Math.random() * 9000));
 }
 
 function destroyP2P() {
@@ -12200,7 +12200,7 @@ function createP2PPrivateRoom() {
   if (!validateP2PMonsterSelection()) return;
   destroyP2P();
   p2pIsHost = true;
-  p2pRoomCode = generateRoomCode().toLowerCase();
+  p2pRoomCode = generateRoomCode();
   const peerId = P2P_PREFIX + p2pRoomCode;
 
   showP2PStep(4);
@@ -12208,7 +12208,7 @@ function createP2PPrivateRoom() {
 
   p2pPeer = new Peer(peerId);
   p2pPeer.on('open', (id) => {
-    setP2PStatus('対戦相手の接続を待っています...', 'あいことばを相手に伝えてください');
+    setP2PStatus('対戦相手の接続を待っています...', 'あいことば: ' + p2pRoomCode + ' を相手に伝えてください');
     const box = document.getElementById('p2p-room-display-box');
     if (box) box.style.display = 'block';
     const idEl = document.getElementById('p2p-display-room-id');
@@ -12216,7 +12216,14 @@ function createP2PPrivateRoom() {
   });
   p2pPeer.on('connection', (conn) => {
     p2pConn = conn;
-    setupP2PConnection();
+    // Host waits for connection open event or sets up immediately
+    if (conn.open) {
+      setupP2PConnection();
+    } else {
+      conn.on('open', () => {
+        setupP2PConnection();
+      });
+    }
   });
   p2pPeer.on('error', (err) => {
     setP2PStatus('接続エラー', err.type + ': ' + (err.message || '部屋の作成に失敗しました'));
@@ -12226,9 +12233,9 @@ function createP2PPrivateRoom() {
 // --- Join Private Room ---
 function joinP2PPrivateRoom() {
   const input = document.getElementById('p2p-room-code-input');
-  const code = (input ? input.value : '').trim().toLowerCase();
-  if (!code || code.length < 4) {
-    alert('あいことばを入力してください');
+  const code = (input ? input.value : '').trim();
+  if (!code || code.length !== 4 || isNaN(code)) {
+    alert('4桁の数字の「あいことば」を入力してください');
     return;
   }
   if (!validateP2PMonsterSelection()) return;
@@ -12257,7 +12264,7 @@ function joinP2PPrivateRoom() {
       if (p2pConn && !p2pConn.open) {
         setP2PStatus('接続タイムアウト', '部屋が見つからないか、ホストからの応答がありません。あいことばを確認してください。');
       }
-    }, 10000);
+    }, 12000);
 
     p2pConn.on('open', () => {
       if (connectTimeout) clearTimeout(connectTimeout);
