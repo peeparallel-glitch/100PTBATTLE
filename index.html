@@ -11213,6 +11213,50 @@ function startP2PRandomMatch() {
 }
 
 // --- P2P Connection Established ---
+
+// --- P2P Network Helper Functions ---
+function initP2PNetwork(callback) {
+  if (p2pPeer && !p2pPeer.destroyed) {
+    if (callback) callback();
+    return;
+  }
+  p2pPeer = new Peer();
+  p2pPeer.on('open', (id) => {
+    if (callback) callback();
+  });
+  p2pPeer.on('error', (err) => {
+    setP2PStatus('接続エラー', err.type + ': ' + err.message);
+  });
+}
+
+function connectToP2PPeer(targetPeerId) {
+  if (!p2pPeer || p2pPeer.destroyed) {
+    initP2PNetwork(() => connectToP2PPeer(targetPeerId));
+    return;
+  }
+  p2pIsHost = false;
+  showP2PStep(4);
+  document.getElementById('p2p-room-display-box').style.display = 'none';
+  setP2PStatus('部屋に接続中...', '対戦相手に接続しています...');
+  
+  const conn = p2pPeer.connect(targetPeerId);
+  const timeout = setTimeout(() => {
+    if (!p2pConn) {
+      setP2PStatus('接続エラー', '部屋が見つからないか、満員です。');
+    }
+  }, 5000);
+  
+  conn.on('open', () => {
+    clearTimeout(timeout);
+    p2pConn = conn;
+    setupP2PConnection();
+  });
+  conn.on('error', (err) => {
+    clearTimeout(timeout);
+    setP2PStatus('接続エラー', err.type + ': ' + err.message);
+  });
+}
+
 function setupP2PConnection() {
   if (p2pMatchingTimeoutTimer) { clearTimeout(p2pMatchingTimeoutTimer); p2pMatchingTimeoutTimer = null; }
   setP2PStatus('接続確立！', 'モンスター情報を同期中...');
