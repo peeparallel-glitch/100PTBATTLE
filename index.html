@@ -12222,13 +12222,7 @@ function createP2PPrivateRoom() {
   });
   p2pPeer.on('connection', (conn) => {
     p2pConn = conn;
-    if (conn.open) {
-      setupP2PConnection();
-    } else {
-      conn.on('open', () => {
-        setupP2PConnection();
-      });
-    }
+    setupP2PConnection();
   });
   p2pPeer.on('error', (err) => {
     setP2PStatus('接続エラー', err.type + ': ' + err.message);
@@ -12256,14 +12250,8 @@ function joinP2PPrivateRoom() {
   p2pPeer = new Peer();
   p2pPeer.on('open', () => {
     setP2PStatus('接続試行中...', 'Peer接続を確立中...');
-    const conn = p2pPeer.connect(targetPeerId);
-    p2pConn = conn;
-    conn.on('open', () => {
-      setupP2PConnection();
-    });
-    conn.on('error', (err) => {
-      setP2PStatus('接続失敗', '部屋が見つかりません。あいことばを確認してください。');
-    });
+    p2pConn = p2pPeer.connect(targetPeerId);
+    setupP2PConnection();
   });
   p2pPeer.on('error', (err) => {
     if (err.type === 'peer-unavailable') {
@@ -12360,6 +12348,8 @@ function setupP2PConnection() {
   if (p2pMatchingTimeoutTimer) { clearTimeout(p2pMatchingTimeoutTimer); p2pMatchingTimeoutTimer = null; }
   setP2PStatus('接続確立！', 'モンスター情報を同期中...');
 
+  if (!p2pConn) return;
+
   p2pConn.on('data', (data) => {
     handleP2PMessage(data);
   });
@@ -12394,32 +12384,32 @@ function setupP2PConnection() {
     payload = { type: 'monster', data: myMonster };
   }
 
-  const doSendMonsterData = () => {
+  const sendPayload = () => {
     if (p2pConn && payload) {
       try {
         p2pConn.send(payload);
-      } catch(e) {
-        console.error('P2P send error:', e);
-      }
+      } catch(e) {}
     }
   };
 
-  if (p2pConn.open) {
-    doSendMonsterData();
-  } else {
+  // Immediate send attempt
+  sendPayload();
+
+  // Handle open event if connection wasn't fully open yet
+  if (!p2pConn.open) {
     p2pConn.on('open', () => {
-      doSendMonsterData();
+      sendPayload();
     });
   }
 
-  // Periodic fallback until opponent monster is received
-  const intervalId = setInterval(() => {
+  // Periodic fallback retry (stops when opp monster received or p2p destroyed)
+  const syncTimer = setInterval(() => {
     if (p2pOppMonster || !p2pConn) {
-      clearInterval(intervalId);
+      clearInterval(syncTimer);
       return;
     }
-    doSendMonsterData();
-  }, 500);
+    sendPayload();
+  }, 600);
 }
 
 function handleP2PMessage(msg) {
