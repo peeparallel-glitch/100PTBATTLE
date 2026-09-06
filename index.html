@@ -12524,6 +12524,7 @@ function startP2PBattle() {
       speed: Number(oppStats.speed) || 22,
       luck: Number(oppStats.luck) || 22,
       skill: oppSkill,
+      sprite: opp.sprite || opp.image || null,
     };
     if (p2pIsHost) {
       p2pBattleSeed = Date.now();
@@ -12554,6 +12555,7 @@ function startP2PTeamBout(boutIdx) {
     speed: Number(oppStats.speed) || 22,
     luck: Number(oppStats.luck) || 22,
     skill: oppSkill,
+    sprite: opp.sprite || opp.image || null,
   };
   const badge = document.getElementById('stage-display');
   if (badge) badge.textContent = 'フリー団体戦 - ' + boutNames[boutIdx];
