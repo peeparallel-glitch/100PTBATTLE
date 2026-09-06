@@ -12382,26 +12382,32 @@ function setupP2PConnection() {
     payload = { type: 'monster', data: myMonster };
   }
 
-  // Send payload safely when connection is open
-  const sendData = () => {
-    if (p2pConn && p2pConn.open && payload) {
+  const doSendMonsterData = () => {
+    if (p2pConn && payload) {
       try {
         p2pConn.send(payload);
       } catch(e) {
-        console.error('Failed to send P2P monster data:', e);
+        console.error('P2P send error:', e);
       }
     }
   };
 
-  // Immediate attempt & scheduled retries until opponent monster is received
-  sendData();
-  const sendInterval = setInterval(() => {
+  if (p2pConn.open) {
+    doSendMonsterData();
+  } else {
+    p2pConn.on('open', () => {
+      doSendMonsterData();
+    });
+  }
+
+  // Periodic fallback until opponent monster is received
+  const intervalId = setInterval(() => {
     if (p2pOppMonster || !p2pConn) {
-      clearInterval(sendInterval);
+      clearInterval(intervalId);
       return;
     }
-    sendData();
-  }, 400);
+    doSendMonsterData();
+  }, 500);
 }
 
 function handleP2PMessage(msg) {
