@@ -8583,7 +8583,6 @@ function selectCommand(playerCmd) {
     return;
   }
 
-
   if (playerCmd === 'skill') {
     if (!pState || pState.mp < 8) {
       alert('MPが足りません！（必要MP: 8）');
@@ -8593,6 +8592,13 @@ function selectCommand(playerCmd) {
 
   isPlayerTurn = false;
   enableCommandButtons(false);
+
+  // If in active P2P session (and not bot match), route through P2P command sync
+  if (currentGameMode === 'free' && p2pConn && !p2pIsBotActive) {
+    addLog('⌛ あなたはコマンドを選択した！ 相手の入力待ち...', 'log-info');
+    sendP2PCommand(playerCmd);
+    return;
+  }
 
   const enemyCmd = decideEnemyCommand();
 
