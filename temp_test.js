@@ -2128,18 +2128,14 @@ function openSkillsLibrary() {
         `;
       } else {
         item.style.opacity = '0.5';
-        item.innerHTML = `
-          <div style="font-size:24px; min-width:32px; text-align:center; color:var(--text-dim);">�白</div>
-          <div style="flex:1;">
-            <div style="font-weight:bold; font-size:16px; color:var(--text-dim);">
-              �滂ｼ滂ｼ滂ｼ�
-              <span style="font-size:12px; background:rgba(255,255,255,0.04); color:var(--text-dim); border:1px solid var(--text-dim); padding:0px 3px; border-radius:3px; margin-left:4px; font-weight:normal;">
-                ${sk.type}
-              </span>
-            </div>
-            <div style="font-size:14px; color:var(--text-dim); margin-top:2px;">�育ｧ倅ｼ昴�譖ｸ縺九ｉ隗｣謾ｾ縺吶ｋ縺ｨ陦ｨ遉ｺ縺輔ｌ縺ｾ縺呻ｼ�</div>
-          </div>
-        `;
+        let itemHtml = '<div style="font-size:24px; min-width:32px; text-align:center; color:var(--text-dim);">🔒</div>';
+        itemHtml += '<div style="flex:1;">';
+        itemHtml += '<div style="font-weight:bold; font-size:16px; color:var(--text-dim);">？？？？';
+        itemHtml += '<span style="font-size:12px; background:rgba(255,255,255,0.04); color:var(--text-dim); border:1px solid var(--text-dim); padding:0px 3px; border-radius:3px; margin-left:4px; font-weight:normal;">' + sk.type + '</span>';
+        itemHtml += '</div>';
+        itemHtml += '<div style="font-size:14px; color:var(--text-dim); margin-top:2px;">（秘伝の書から解放すると表示されます）</div>';
+        itemHtml += '</div>';
+        item.innerHTML = itemHtml;
       }
       
       content.appendChild(item);
@@ -3025,18 +3021,18 @@ function renderSelList() {
     const actSkills = m.skills.active.map(sk => SKILLS[sk] ? SKILLS[sk].name : sk).join(', ');
     const pasSkill = SKILLS[m.skills.passive[0]] ? SKILLS[m.skills.passive[0]].name : m.skills.passive[0];
 
-    d.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-        <span style="font-weight:bold; color:var(--accent-gold); font-size:16px;">${m.name}</span>
-        <span style="font-size:14px; color:var(--text-dim);">${m.monsterClass} (${m.systemType})</span>
-      </div>
-      <div style="font-size:14px; color:var(--text-main); margin-bottom:4px;">
-        HP:${m.stats.hp} ATK:${m.stats.attack} DEF:${m.stats.defense} SPD:${m.stats.speed} LCK:${m.stats.luck}
-      </div>
-      <div style="font-size:13px; color:var(--text-dim);">
-        笞｡ 繧ｹ繧ｭ繝ｫ: ${actSkills || pasSkill || '縺ｪ縺�'}
-      </div>
-    `;
+    let dHtml = '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">';
+    dHtml += '<span style="font-weight:bold; color:var(--accent-gold); font-size:16px;">' + m.name + '</span>';
+    dHtml += '<span style="font-size:14px; color:var(--text-dim);">' + m.monsterClass + ' (' + m.systemType + ')</span>';
+    dHtml += '</div>';
+    dHtml += '<div style="font-size:14px; color:var(--text-main); margin-bottom:4px;">';
+    dHtml += 'HP:' + m.stats.hp + ' ATK:' + m.stats.attack + ' DEF:' + m.stats.defense + ' SPD:' + m.stats.speed + ' LCK:' + m.stats.luck;
+    dHtml += '</div>';
+    dHtml += '<div style="font-size:13px; color:var(--text-dim);">';
+    dHtml += '✨ スキル: ' + (actSkills || pasSkill || 'なし');
+    dHtml += '</div>';
+
+    d.innerHTML = dHtml;
     container.appendChild(d);
   });
 
@@ -3219,28 +3215,27 @@ const STAGE_IMAGES_LIST = [
 
 function getEnemyImageHTML(eObj) {
   const imgClass = "enemy-monster-img";
-  // 0. eObj image check
   if (eObj && typeof eObj === "object") {
     const customImgFromSprite = eObj.sprite || eObj.image;
     const customImgFromAdditional = (!customImgFromSprite && typeof ADDITIONAL_MONSTER_IMAGES !== 'undefined') ? (ADDITIONAL_MONSTER_IMAGES[eObj.monsterClass || eObj.name] || ADDITIONAL_MONSTER_IMAGES[eObj.name]) : null;
     if (customImgFromSprite) {
-      return `<img src="${customImgFromSprite}" class="${imgClass}">`;
+      return '<img src="' + customImgFromSprite + '" class="' + imgClass + '">';
     }
     if (customImgFromAdditional) {
-      return `<img src="${customImgFromAdditional}" class="${imgClass} img3-enemy">`;
+      return '<img src="' + customImgFromAdditional + '" class="' + imgClass + ' img3-enemy">';
     }
-    if (eObj.name && eObj.name.includes("隕�視")) {
-      return `<img src="./IMG2/haou.jpg" class="${imgClass}">`;
+    if (eObj.name && eObj.name.includes("覇王")) {
+      return '<img src="./IMG2/haou.jpg" class="' + imgClass + '">';
     }
   }
-  if (typeof eObj === "string" && eObj.includes("隕�視")) {
-    return `<img src="./IMG2/haou.jpg" class="${imgClass}">`;
+  if (typeof eObj === "string" && eObj.includes("覇王")) {
+    return '<img src="./IMG2/haou.jpg" class="' + imgClass + '">';
   }
 
 
-  // 1. 繝ｪ繝ｼ繧ｰ謌ｦ��PU繝ｪ繝ｼ繧ｰ�峨�蝣ｴ蜷医�蠕捺擂騾壹ｊ繧ｹ繝��繧ｸ逕ｻ蜒上ｒ菴ｿ逕ｨ
+  // 1. 繝ｪ繝ｼ繧ｰ謌ｦPU繝ｪ繝ｼ繧ｰ峨蝣ｴ蜷医蠕捺擂騾壹ｊ繧ｹ繝繧ｸ逕ｻ蜒上ｒ菴ｿ逕ｨ
   if (typeof stageIndex !== 'undefined' && currentGameMode === 'league' && STAGE_IMAGES_LIST[stageIndex]) {
-    return `<img src="${STAGE_IMAGES_LIST[stageIndex]}" class="${imgClass}">`;
+    return '<img src="' + STAGE_IMAGES_LIST[stageIndex] + '" class="' + imgClass + '">';
   }
 
   // 遞ｮ譌丞錐繝ｻ蜷榊燕縺ｮ讀懃ｴ｢逕ｨ繧ｭ繝ｼ繧貞叙蠕�
@@ -3257,62 +3252,62 @@ function getEnemyImageHTML(eObj) {
     eName = eObj.name || '';
   }
 
-  // 2. 譌｢蟄倥�STAGE_ENEMIES鬆�ｬ｡繝槭ャ繝�ｼ医Μ繝ｼ繧ｰ謌ｦ遲会ｼ�
+  // 2. 譌｢蟄倥STAGE_ENEMIES鬆ｬ｡繝槭ャ繝ｼ医Μ繝ｼ繧ｰ謌ｦ遲会ｼ
   if (typeof STAGE_ENEMIES !== 'undefined') {
     const idx = STAGE_ENEMIES.findIndex(x => x.name === eName || x.name === mClass);
     if (idx !== -1 && STAGE_IMAGES_LIST[idx]) {
-      return `<img src="${STAGE_IMAGES_LIST[idx]}" class="${imgClass}">`;
+      return '<img src="' + STAGE_IMAGES_LIST[idx] + '" class="' + imgClass + '">';
     }
   }
 
-  // 3. 繝励Ξ繧､繝､繝ｼ蛻ｩ逕ｨ蜿ｯ閭ｽ蜈ｨ27遞ｮ譌上�謨ｵ逕ｨ繧ｰ繝ｩ繝輔ぅ繝�け逕ｻ蜒� (B.png 繧ｷ繝ｪ繝ｼ繧ｺ)
-  const getImg = (src) => `<img src="${src}" class="${imgClass}">`;
-  if (mClass === '繧｢繝ｫ繝輔ぃ繝峨Λ繧ｴ繝ｳ' || eName === '繧｢繝ｫ繝輔ぃ繝峨Λ繧ｴ繝ｳ') return getImg("IMG/dragon�腺.png");
-  if (mClass === '繧､繝ｳ繝輔ぉ繝ｫ繝弱せ' || eName === '繧､繝ｳ繝輔ぉ繝ｫ繝弱せ') return getImg("IMG/dragon�達.png");
-  if (mClass === '繧ｪ繝｡繧ｬ繧ｫ繧､繧ｶ繝ｼ' || eName === '繧ｪ繝｡繧ｬ繧ｫ繧､繧ｶ繝ｼ') return getImg("IMG/dragon�釘.png");
-  if (mClass === '繧ｹ繝医�繝ｳ繧ｳ繝ｳ繧ｰ' || eName === '繧ｹ繝医�繝ｳ繧ｳ繝ｳ繧ｰ') return getImg("IMG/go-remu1B.png");
-  if (mClass === '繧ｸ繧ｧ繧､繝峨ぎ繝ｼ繝�ぅ繧｢繝ｳ' || eName === '繧ｸ繧ｧ繧､繝峨ぎ繝ｼ繝�ぅ繧｢繝ｳ') return getImg("IMG/go-remu2B.png");
-  if (mClass === '繧ｮ繧ｬ繧ｹ繝医�繝ｳ' || eName === '繧ｮ繧ｬ繧ｹ繝医�繝ｳ') return getImg("IMG/go-remu3B.png");
-  if (mClass === '繝上�繝斐ぅ繧ｯ繧､繝ｼ繝ｳ' || eName === '繝上�繝斐ぅ繧ｯ繧､繝ｼ繝ｳ') return getImg("IMG/tori1B.png");
-  if (mClass === '繧ｬ繝ｫ繝ｼ繝' || eName === '繧ｬ繝ｫ繝ｼ繝') return getImg("IMG/tori2B.png");
-  if (mClass === '繧ｰ繝ｪ繝輔か繝九け繧ｹ' || eName === '繧ｰ繝ｪ繝輔か繝九け繧ｹ') return getImg("IMG/tori3B.png");
-  if (mClass === '繧ｵ繝ｼ繝吶Ν繧ｿ繧､繧ｬ繝ｼ' || eName === '繧ｵ繝ｼ繝吶Ν繧ｿ繧､繧ｬ繝ｼ') return getImg("IMG/kemono1B.png");
-  if (mClass === '繧ｭ繝槭う繝ｩ繝ｭ繝ｼ繝�' || eName === '繧ｭ繝槭う繝ｩ繝ｭ繝ｼ繝�') return getImg("IMG/kemono2B.png");
-  if (mClass === '繝輔ぉ繝ｳ繝ｪ繝ｫ' || eName === '繝輔ぉ繝ｳ繝ｪ繝ｫ') return getImg("IMG/kemono3B.png");
-  if (mClass === '繝槭Α繝ｼ繧ｹ繝溘せ' || eName === '繝槭Α繝ｼ繧ｹ繝溘せ') return getImg("IMG/anded1B.png");
-  if (mClass === '繝輔ぃ繝ｳ繝医Β繝翫う繝�' || eName === '繝輔ぃ繝ｳ繝医Β繝翫う繝�') return getImg("IMG/anded2B.png");
-  if (mClass === '繝�せ繧ｵ繧､繧ｺ' || eName === '繝�せ繧ｵ繧､繧ｺ') return getImg("IMG/anded3B.png");
-  if (mClass === '繧ｹ繝ｩ繧､繝�' || eName === '繧ｹ繝ｩ繧､繝�') return getImg("IMG/suraim1B.png");
-  if (mClass === '繧ｭ繝ｳ繧ｰ繧ｹ繝ｩ繧､繝�' || eName === '繧ｭ繝ｳ繧ｰ繧ｹ繝ｩ繧､繝�') return getImg("IMG/suraim2B.png");
-  if (mClass === '繧ｴ繝�ラ繧ｼ繝ｪ繝ｼ' || eName === '繧ｴ繝�ラ繧ｼ繝ｪ繝ｼ') return getImg("IMG/suraim3B.png");
-  if (mClass === '繝励メ繝�ン繝ｫ' || eName === '繝励メ繝�ン繝ｫ') return getImg("IMG/devil1B.png");
-  if (mClass === '繧ｵ繧ｭ繝･繝舌せ' || eName === '繧ｵ繧ｭ繝･繝舌せ') return getImg("IMG/devil2B.png");
-  if (mClass === '繝吶Ν繧ｼ繝舌ヶ' || eName === '繝吶Ν繧ｼ繝舌ヶ') return getImg("IMG/devil3B.png");
-  if (mClass === '繝槭Φ繝峨Λ繧ｴ繝ｩ' || eName === '繝槭Φ繝峨Λ繧ｴ繝ｩ') return getImg("IMG/natu1B.png");
-  if (mClass === '繧｢繝ｫ繝ｩ繧ｦ繝�' || eName === '繧｢繝ｫ繝ｩ繧ｦ繝�') return getImg("IMG/natu2B.png");
-  if (mClass === '荳也阜讓ｹ縺ｮ逵ｷ螻�' || eName === '荳也阜讓ｹ縺ｮ逵ｷ螻�') return getImg("IMG/natu3B.png");
-  if (mClass === '繧｢繧､繧｢繝ｳ繧ｮ繧ｬ' || eName === '繧｢繧､繧｢繝ｳ繧ｮ繧ｬ') return getImg("IMG/metar1B.png");
-  if (mClass === '繝｡繧ｿ繝ｫ繝薙ャ繝�' || eName === '繝｡繧ｿ繝ｫ繝薙ャ繝�') return getImg("IMG/metar2B.png");
-  if (mClass === '繧ｸ繧ｧ繝弱し繧､繝繝ｼ' || eName === '繧ｸ繧ｧ繝弱し繧､繝繝ｼ') return getImg("IMG/metar3B.png");
+  // 3. 繝励Ξ繧､繝､繝ｼ蛻ｩ逕ｨ蜿ｯ閭ｽ蜈ｨ27遞ｮ譌上謨ｵ逕ｨ繧ｰ繝ｩ繝輔ぅ繝け逕ｻ蜒 (B.png 繧ｷ繝ｪ繝ｼ繧ｺ)
+  const getImg = (src) => '<img src="' + src + '" class="' + imgClass + '">';
+  if (mClass === 'アルファドラゴン' || eName === 'アルファドラゴン') return getImg("IMG/dragon1B.png");
+  if (mClass === 'インフェルノス' || eName === 'インフェルノス') return getImg("IMG/dragon2B.png");
+  if (mClass === 'オメガカイザー' || eName === 'オメガカイザー') return getImg("IMG/dragon3B.png");
+  if (mClass === 'ストーンコング' || eName === 'ストーンコング') return getImg("IMG/go-remu1B.png");
+  if (mClass === 'ジェイドガーディアン' || eName === 'ジェイドガーディアン') return getImg("IMG/go-remu2B.png");
+  if (mClass === 'ギガストーン' || eName === 'ギガストーン') return getImg("IMG/go-remu3B.png");
+  if (mClass === 'ハーピークイーン' || eName === 'ハーピークイーン') return getImg("IMG/tori1B.png");
+  if (mClass === 'ガルーダ' || eName === 'ガルーダ') return getImg("IMG/tori2B.png");
+  if (mClass === 'グリフォニクス' || eName === 'グリフォニクス') return getImg("IMG/tori3B.png");
+  if (mClass === 'サーベルタイガー' || eName === 'サーベルタイガー') return getImg("IMG/kemono1B.png");
+  if (mClass === 'キマイラロード' || eName === 'キマイラロード') return getImg("IMG/kemono2B.png");
+  if (mClass === 'フェンリル' || eName === 'フェンリル') return getImg("IMG/kemono3B.png");
+  if (mClass === 'マミースミス' || eName === 'マミースミス') return getImg("IMG/anded1B.png");
+  if (mClass === 'ファントムナイト' || eName === 'ファントムナイト') return getImg("IMG/anded2B.png");
+  if (mClass === 'デスサイズ' || eName === 'デスサイズ') return getImg("IMG/anded3B.png");
+  if (mClass === 'スライム' || eName === 'スライム') return getImg("IMG/suraim1B.png");
+  if (mClass === 'キングスライム' || eName === 'キングスライム') return getImg("IMG/suraim2B.png");
+  if (mClass === 'ゴッドゼリー' || eName === 'ゴッドゼリー') return getImg("IMG/suraim3B.png");
+  if (mClass === 'プチデビル' || eName === 'プチデビル') return getImg("IMG/devil1B.png");
+  if (mClass === 'サキュバス' || eName === 'サキュバス') return getImg("IMG/devil2B.png");
+  if (mClass === 'ベルゼバブ' || eName === 'ベルゼバブ') return getImg("IMG/devil3B.png");
+  if (mClass === 'マンドラゴラ' || eName === 'マンドラゴラ') return getImg("IMG/natu1B.png");
+  if (mClass === 'アルラウネ' || eName === 'アルラウネ') return getImg("IMG/natu2B.png");
+  if (mClass === '世界樹の眷属' || eName === '世界樹の眷属') return getImg("IMG/natu3B.png");
+  if (mClass === 'アイアンギガ' || eName === 'アイアンギガ') return getImg("IMG/metar1B.png");
+  if (mClass === 'メタルビッツ' || eName === 'メタルビッツ') return getImg("IMG/metar2B.png");
+  if (mClass === 'ジェノサイダー' || eName === 'ジェノサイダー') return getImg("IMG/metar3B.png");
 
-  // 3.5 霑ｽ蜉�繝｢繝ｳ繧ｹ繧ｿ繝ｼ (IMG3) 縺ｮ繝輔か繝ｼ繝ｫ繝舌ャ繧ｯ逕ｻ蜒�
+  // 3.5 霑ｽ蜉繝｢繝ｳ繧ｹ繧ｿ繝ｼ (IMG3) 縺ｮ繝輔か繝ｼ繝ｫ繝舌ャ繧ｯ逕ｻ蜒
   if (typeof ADDITIONAL_MONSTER_IMAGES !== 'undefined') {
     const addImg = ADDITIONAL_MONSTER_IMAGES[mClass] || ADDITIONAL_MONSTER_IMAGES[eName];
-    if (addImg) return `<img src="${addImg}" class="${imgClass} img3-enemy">`;
+    if (addImg) return '<img src="' + addImg + '" class="' + imgClass + ' img3-enemy">';
   }
 
-  // 4. 邉ｻ邨ｱ蜷阪↓繧医ｋ繝輔か繝ｼ繝ｫ繝舌ャ繧ｯ逕ｻ蜒剰ｨｭ螳�
-  if (sysType.includes('繝峨Λ繧ｴ繝ｳ')) return getImg("IMG/dragon�腺.png");
-  if (sysType.includes('蟯ｩ遏ｳ') || sysType.includes('繧ｴ繝ｼ繝ｬ繝�')) return getImg("IMG/go-remu1B.png");
-  if (sysType.includes('魑･')) return getImg("IMG/tori1B.png");
-  if (sysType.includes('迯｣')) return getImg("IMG/kemono1B.png");
-  if (sysType.includes('繧｢繝ｳ繝�ャ繝�') || sysType.includes('荳肴ｭｻ')) return getImg("IMG/anded1B.png");
-  if (sysType.includes('繧ｹ繝ｩ繧､繝�')) return getImg("IMG/suraim1B.png");
-  if (sysType.includes('謔ｪ鬲�') || sysType.includes('繝�ン繝ｫ')) return getImg("IMG/devil1B.png");
-  if (sysType.includes('讀咲黄') || sysType.includes('閾ｪ辟ｶ')) return getImg("IMG/natu1B.png");
-  if (sysType.includes('繝｡繧ｿ繝ｫ') || sysType.includes('讖滓｢ｰ')) return getImg("IMG/metar1B.png");
+  // 4. 邉ｻ邨ｱ蜷阪↓繧医ｋ繝輔か繝ｼ繝ｫ繝舌ャ繧ｯ逕ｻ蜒剰ｨｭ螳
+  if (sysType.includes('ドラゴン')) return getImg("IMG/dragon1B.png");
+  if (sysType.includes('岩石') || sysType.includes('ゴーレム')) return getImg("IMG/go-remu1B.png");
+  if (sysType.includes('鳥')) return getImg("IMG/tori1B.png");
+  if (sysType.includes('獣')) return getImg("IMG/kemono1B.png");
+  if (sysType.includes('アンデッド') || sysType.includes('不死')) return getImg("IMG/anded1B.png");
+  if (sysType.includes('スライム')) return getImg("IMG/suraim1B.png");
+  if (sysType.includes('悪魔') || sysType.includes('デビル')) return getImg("IMG/devil1B.png");
+  if (sysType.includes('植物') || sysType.includes('自然')) return getImg("IMG/natu1B.png");
+  if (sysType.includes('メタル') || sysType.includes('機械')) return getImg("IMG/metar1B.png");
 
-  return `<span style="font-size: 65px; display: inline-block;">�栖</span>`;
+  return '<span style="font-size: 65px; display: inline-block;">👾</span>';
 }
 
 function renderEnemyInfo() {
@@ -3329,62 +3324,39 @@ function renderEnemyInfo() {
   
   let badgeLabel;
   if (currentGameMode === 'boss-revenge') {
-    badgeLabel = '�荘 隕�視繝ｪ繝吶Φ繧ｸ繝槭ャ繝�';
+    badgeLabel = '👑 覇王リベンジマッチ';
   } else if (currentGameMode === 'league') {
-    badgeLabel = `笞��� STAGE ${stageIndex + 1}`;
+    badgeLabel = '🏆 STAGE ' + (stageIndex + 1);
   } else {
-    badgeLabel = `�両 隧ｦ邱ｴ縺ｮ蝪�: ${survivalWins + 1}髫餐;
+    badgeLabel = '🔥 試練の塔: ' + (survivalWins + 1) + '階';
   }
   
-  // 繝√Η繝ｼ繝医Μ繧｢繝ｫ譎ゅ�繧ｹ繝��繧ｿ繧ｹ繧帝國阡ｽ
-  const dispHP = isTutorialBoss ? '�滂ｼ滂ｼ�' : e.hp;
-  const dispATK = isTutorialBoss ? '�滂ｼ滂ｼ�' : e.attack;
-  const dispDEF = isTutorialBoss ? '�滂ｼ滂ｼ�' : e.defense;
-  const dispSPD = isTutorialBoss ? '�滂ｼ滂ｼ�' : e.speed;
-  const dispLUK = isTutorialBoss ? '�滂ｼ滂ｼ�' : e.luck;
+  const dispHP = isTutorialBoss ? '???' : e.hp;
+  const dispATK = isTutorialBoss ? '???' : e.attack;
+  const dispDEF = isTutorialBoss ? '???' : e.defense;
+  const dispSPD = isTutorialBoss ? '???' : e.speed;
+  const dispLUK = isTutorialBoss ? '???' : e.luck;
   const gaugeHP = isTutorialBoss ? 0 : Math.min(100, (e.hp / 110) * 100);
   const gaugeATK = isTutorialBoss ? 0 : Math.min(100, (e.attack / 110) * 100);
   const gaugeDEF = isTutorialBoss ? 0 : Math.min(100, (e.defense / 110) * 100);
   const gaugeSPD = isTutorialBoss ? 0 : Math.min(100, (e.speed / 110) * 100);
   const gaugeLUK = isTutorialBoss ? 0 : Math.min(100, (e.luck / 110) * 100);
-  
-  panel.innerHTML = `
-    <div class="enemy-rank-badge" style="margin-top:0px;">${badgeLabel}</div>
-    <div class="enemy-icon" style="height: 70px; display: flex; align-items: center; justify-content: center; margin: 2px 0;">${getEnemyImageHTML(e)}</div>
-    <div class="enemy-name-display" style="color:var(--accent-red); font-weight:bold; font-size:16px;">${e.name}</div>
-    <div class="enemy-title-display" style="font-size:11px; margin-bottom:4px;">${e.title || '隰弱�蟇ｾ謌ｦ逶ｸ謇�'}</div>
-    
-    <div class="rumor-box">
-      <div class="rumor-label">�討 蝎ゅ�諠��ｱ</div>
-      <div class="rumor-text" style="font-size:12px; line-height:1.3;">${isTutorialBoss ? '譛ｪ遏･縺ｮ蠑ｷ謨ｵ縲ゅせ繝��繧ｿ繧ｹ縺ｯ荳蛻�ｸ肴�窶ｦ窶ｦ' : (e.rumor || '謨ｵ縺ｫ髢｢縺吶ｋ諠��ｱ縺ｯ蜊∝�縺ｫ謗ｴ繧√※縺�↑縺��')}</div>
-    </div>
-    
-    <div class="enemy-stats-preview" style="margin-top:6px; display:grid; grid-template-columns:repeat(2, 1fr); gap:4px 10px; background:transparent !important; border:2px solid rgba(255,255,255,0.6) !important; border-radius:8px; padding:6px; font-size:12px; text-align:left;">
-      <div>
-        HP: <strong style="color:var(--text-primary);">${dispHP}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-hp" style="width: ${gaugeHP}%;"></div></div>
-      </div>
-      <div>
-        謾ｻ謦�: <strong style="color:var(--text-primary);">${dispATK}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-atk" style="width: ${gaugeATK}%;"></div></div>
-      </div>
-      <div>
-        髦ｲ蠕｡: <strong style="color:var(--text-primary);">${dispDEF}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-def" style="width: ${gaugeDEF}%;"></div></div>
-      </div>
-      <div>
-        邏�譌ｩ: <strong style="color:var(--text-primary);">${dispSPD}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-spd" style="width: ${gaugeSPD}%;"></div></div>
-      </div>
-      <div style="grid-column: span 2;">
-        驕�: <strong style="color:var(--text-primary);">${dispLUK}</strong>
-        <div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-lck" style="width: ${gaugeLUK}%;"></div></div>
-      </div>
-      <div style="grid-column: span 2; border-top:1px solid rgba(255,255,255,0.2); padding-top:4px; margin-top:2px;">
-        笞｡ 繧ｹ繧ｭ繝ｫ: <strong style="color:var(--text-secondary);">笶� 譛ｪ遏･縺ｮ謚 (逋ｺ蜍墓凾縺ｫ髢狗､ｺ)</strong>
-      </div>
-    </div>
-  `;
+  panel.innerHTML = 
+    '<div class="enemy-rank-badge" style="margin-top:0px;">' + badgeLabel + '</div>' +
+    '<div class="enemy-icon" style="height: 70px; display: flex; align-items: center; justify-content: center; margin: 2px 0;">' + getEnemyImageHTML(e) + '</div>' +
+    '<div class="enemy-name-display" style="color:var(--accent-red); font-weight:bold; font-size:16px;">' + e.name + '</div>' +
+    '<div class="enemy-title-display" style="font-size:11px; margin-bottom:4px;">' + (e.title || '謎の対戦相手') + '</div>' +
+    '<div class="rumor-box">' +
+      '<div class="rumor-label">🗣 噂の情報</div>' +
+      '<div class="rumor-text" style="font-size:12px; line-height:1.3;">' + (isTutorialBoss ? '未知の強敵。ステータスは一切不明……' : (e.rumor || '敵に関する情報は十分に掴めていない…')) + '</div>' +
+    '</div>' +
+    '<div class="enemy-stats-preview" style="margin-top:6px; display:grid; grid-template-columns:repeat(2, 1fr); gap:4px 10px; background:transparent !important; border:2px solid rgba(255,255,255,0.6) !important; border-radius:8px; padding:6px; font-size:12px; text-align:left;">' +
+      '<div>HP: <strong style="color:var(--text-primary);">' + dispHP + '</strong><div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-hp" style="width: ' + gaugeHP + '%;"></div></div></div>' +
+      '<div>攻撃: <strong style="color:var(--text-primary);">' + dispATK + '</strong><div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-atk" style="width: ' + gaugeATK + '%;"></div></div></div>' +
+      '<div>防御: <strong style="color:var(--text-primary);">' + dispDEF + '</strong><div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-def" style="width: ' + gaugeDEF + '%;"></div></div></div>' +
+      '<div>素早さ: <strong style="color:var(--text-primary);">' + dispSPD + '</strong><div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-spd" style="width: ' + gaugeSPD + '%;"></div></div></div>' +
+      '<div style="grid-column: span 2;">運: <strong style="color:var(--text-primary);">' + dispLUK + '</strong><div class="mini-gauge-container" style="margin-bottom:0; height:4px; background:rgba(255,255,255,0.1);"><div class="mini-gauge-fill fill-luk" style="width: ' + gaugeLUK + '%;"></div></div></div>' +
+    '</div>';
 }
 
 function initBattle() {
@@ -3407,10 +3379,10 @@ function initBattle() {
   // 2. Fetch monster and enemy parameters (pre-requisites)
   const activeLab = getActiveLab();
   
-  // 笘� 繝代�繝�ぅ縺檎ｩｺ縺ｮ蝣ｴ蜷医�蜃ｺ謦�お繝ｩ繝ｼ隴ｦ蜻�
+  // 笘 繝代繝ぅ縺檎ｩｺ縺ｮ蝣ｴ蜷医蜃ｺ謦お繝ｩ繝ｼ隴ｦ蜻
   if (activeLab.length === 0) {
-    const modeLabel = currentGameMode === 'free' ? '繝輔Μ繝ｼ繝舌ヨ繝ｫ逕ｨ' : '繧ｹ繝医�繝ｪ繝ｼ逕ｨ';
-    alert(`${modeLabel}縺ｮ邱ｨ謌舌↓繝｢繝ｳ繧ｹ繧ｿ繝ｼ縺檎匳骭ｲ縺輔ｌ縺ｦ縺�∪縺帙ｓ縲�n繝ｩ繝懊〒${modeLabel}邱ｨ謌舌↓繝｢繝ｳ繧ｹ繧ｿ繝ｼ繧堤匳骭ｲ縺励※縺上□縺輔＞縲Ａ);
+    const modeLabel = currentGameMode === 'free' ? 'フリーバトル用' : 'ストーリー用';
+    alert(modeLabel + 'の編成にモンスターが登録されていません。\nラボで' + modeLabel + '編成にモンスターを登録してください。');
     goScreen('lab');
     return;
   }
@@ -3629,67 +3601,68 @@ function initBattle() {
     // Set player visual (check monsterClass or custom name)
     const playerIconEl = document.getElementById('fi-player');
     const pNameForImage = pm.monsterClass || pState.name;
-    if (pNameForImage === '繧｢繝ｫ繝輔ぃ繝峨Λ繧ｴ繝ｳ') {
-      playerIconEl.innerHTML = `<img src="IMG/dragon�羨.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧､繝ｳ繝輔ぉ繝ｫ繝弱せ') {
-      playerIconEl.innerHTML = `<img src="IMG/dragon�但.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｪ繝｡繧ｬ繧ｫ繧､繧ｶ繝ｼ') {
-      playerIconEl.innerHTML = `<img src="IMG/dragon�鄭.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｹ繝医�繝ｳ繧ｳ繝ｳ繧ｰ') {
-      playerIconEl.innerHTML = `<img src="IMG/go-remu1A_.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｸ繧ｧ繧､繝峨ぎ繝ｼ繝�ぅ繧｢繝ｳ') {
-      playerIconEl.innerHTML = `<img src="IMG/go-remu2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｮ繧ｬ繧ｹ繝医�繝ｳ') {
-      playerIconEl.innerHTML = `<img src="IMG/go-remu3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繝上�繝斐ぅ繧ｯ繧､繝ｼ繝ｳ') {
-      playerIconEl.innerHTML = `<img src="IMG/tori1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｬ繝ｫ繝ｼ繝') {
-      playerIconEl.innerHTML = `<img src="IMG/tori2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｰ繝ｪ繝輔か繝九け繧ｹ') {
-      playerIconEl.innerHTML = `<img src="IMG/tori3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｵ繝ｼ繝吶Ν繧ｿ繧､繧ｬ繝ｼ') {
-      playerIconEl.innerHTML = `<img src="IMG/kemono1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｭ繝槭う繝ｩ繝ｭ繝ｼ繝�') {
-      playerIconEl.innerHTML = `<img src="IMG/kemono2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繝輔ぉ繝ｳ繝ｪ繝ｫ') {
-      playerIconEl.innerHTML = `<img src="IMG/kemono3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繝槭Α繝ｼ繧ｹ繝溘せ') {
-      playerIconEl.innerHTML = `<img src="IMG/anded1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繝輔ぃ繝ｳ繝医Β繝翫う繝�') {
-      playerIconEl.innerHTML = `<img src="IMG/anded2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繝�せ繧ｵ繧､繧ｺ') {
-      playerIconEl.innerHTML = `<img src="IMG/anded3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｹ繝ｩ繧､繝�') {
-      playerIconEl.innerHTML = `<img src="IMG/suraim1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｭ繝ｳ繧ｰ繧ｹ繝ｩ繧､繝�') {
-      playerIconEl.innerHTML = `<img src="IMG/suraim2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｴ繝�ラ繧ｼ繝ｪ繝ｼ') {
-      playerIconEl.innerHTML = `<img src="IMG/suraim3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繝励メ繝�ン繝ｫ') {
-      playerIconEl.innerHTML = `<img src="IMG/devil1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｵ繧ｭ繝･繝舌せ') {
-      playerIconEl.innerHTML = `<img src="IMG/devil2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繝吶Ν繧ｼ繝舌ヶ') {
-      playerIconEl.innerHTML = `<img src="IMG/devil3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繝槭Φ繝峨Λ繧ｴ繝ｩ') {
-      playerIconEl.innerHTML = `<img src="IMG/natu1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧｢繝ｫ繝ｩ繧ｦ繝�') {
-      playerIconEl.innerHTML = `<img src="IMG/natu2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '荳也阜讓ｹ縺ｮ逵ｷ螻�') {
-      playerIconEl.innerHTML = `<img src="IMG/natu3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧｢繧､繧｢繝ｳ繧ｮ繧ｬ') {
-      playerIconEl.innerHTML = `<img src="IMG/metar1A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繝｡繧ｿ繝ｫ繝薙ャ繝�') {
-      playerIconEl.innerHTML = `<img src="IMG/metar2A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
-    } else if (pNameForImage === '繧ｸ繧ｧ繝弱し繧､繝繝ｼ') {
-      playerIconEl.innerHTML = `<img src="IMG/metar3A.png" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+    const makePlayerImg = (path) => '<img src="' + path + '" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">';
+    if (pNameForImage === 'アルファドラゴン') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/dragon1A.png");
+    } else if (pNameForImage === 'インフェルノス') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/dragon2A.png");
+    } else if (pNameForImage === 'オメガカイザー') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/dragon3A.png");
+    } else if (pNameForImage === 'ストーンコング') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/go-remu1A_.png");
+    } else if (pNameForImage === 'ジェイドガーディアン') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/go-remu2A.png");
+    } else if (pNameForImage === 'ギガストーン') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/go-remu3A.png");
+    } else if (pNameForImage === 'ハーピークイーン') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/tori1A.png");
+    } else if (pNameForImage === 'ガルーダ') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/tori2A.png");
+    } else if (pNameForImage === 'グリフォニクス') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/tori3A.png");
+    } else if (pNameForImage === 'サーベルタイガー') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/kemono1A.png");
+    } else if (pNameForImage === 'キマイラロード') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/kemono2A.png");
+    } else if (pNameForImage === 'フェンリル') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/kemono3A.png");
+    } else if (pNameForImage === 'マミースミス') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/anded1A.png");
+    } else if (pNameForImage === 'ファントムナイト') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/anded2A.png");
+    } else if (pNameForImage === 'デスサイズ') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/anded3A.png");
+    } else if (pNameForImage === 'スライム') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/suraim1A.png");
+    } else if (pNameForImage === 'キングスライム') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/suraim2A.png");
+    } else if (pNameForImage === 'ゴッドゼリー') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/suraim3A.png");
+    } else if (pNameForImage === 'プチデビル') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/devil1A.png");
+    } else if (pNameForImage === 'サキュバス') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/devil2A.png");
+    } else if (pNameForImage === 'ベルゼバブ') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/devil3A.png");
+    } else if (pNameForImage === 'マンドラゴラ') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/natu1A.png");
+    } else if (pNameForImage === 'アルラウネ') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/natu2A.png");
+    } else if (pNameForImage === '世界樹の眷属') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/natu3A.png");
+    } else if (pNameForImage === 'アイアンギガ') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/metar1A.png");
+    } else if (pNameForImage === 'メタルビッツ') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/metar2A.png");
+    } else if (pNameForImage === 'ジェノサイダー') {
+      playerIconEl.innerHTML = makePlayerImg("IMG/metar3A.png");
     } else if (typeof ADDITIONAL_MONSTER_IMAGES !== 'undefined' && ADDITIONAL_MONSTER_IMAGES[pNameForImage]) {
-      playerIconEl.innerHTML = `<img src="${ADDITIONAL_MONSTER_IMAGES[pNameForImage]}" style="max-height: 95px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 0 15px rgba(0,212,255,0.35)); vertical-align: middle;">`;
+      playerIconEl.innerHTML = makePlayerImg(ADDITIONAL_MONSTER_IMAGES[pNameForImage]);
     } else {
-      playerIconEl.innerHTML = MONSTER_TYPES[sysKey] ? MONSTER_TYPES[sysKey].icon : '�栖';
+      playerIconEl.innerHTML = MONSTER_TYPES[sysKey] ? MONSTER_TYPES[sysKey].icon : '👾';
     }
 
-        // Set enemy visual using unified getEnemyImageHTML
+    // Set enemy visual using unified getEnemyImageHTML
     const enemyIconEl = document.getElementById('fi-enemy');
     enemyIconEl.innerHTML = getEnemyImageHTML(em);
     setHp('p', pState); setHp('e', eState);
@@ -3724,18 +3697,19 @@ function initBattle() {
     const escapeBtn = document.getElementById('escape-btn');
     if (escapeBtn) {
       const isBossFight = (eState && (eState.name === '隕�視繝ｴ繧｣繧ｯ繧ｿ繝ｼ' || eState.isBoss));
+      const isBossFight = (eState && (eState.name === '隕視繝ｴ繧｣繧ｯ繧ｿ繝ｼ' || eState.isBoss));
       escapeBtn.disabled = isBossFight;
       escapeBtn.style.opacity = isBossFight ? '0.4' : '1.0';
       escapeBtn.style.cursor = isBossFight ? 'not-allowed' : 'pointer';
     }
 
     currentTurn = 0;
-    addLog(`笞費ｸ� 繝舌ヨ繝ｫ髢句ｧ具ｼ� 縲�${pState.name}縲� vs 縲�${eState.name}縲疏, 'log-info');
+    addLog('⚔️ バトル開始！ 「' + pState.name + '」 vs 「' + eState.name + '」', 'log-info');
     
     const ptInfo = MONSTER_TYPES[pState.type] || MONSTER_TYPES.other;
     const etInfo = MONSTER_TYPES[eState.type] || MONSTER_TYPES.other;
-    addLog(ptInfo.icon+' '+pState.name+'�壹�'+ptInfo.label+'縲�', 'log-info');
-    addLog(etInfo.icon+' '+eState.name+'�壹�'+etInfo.label+'縲�', 'log-info');
+    addLog(ptInfo.icon+' '+pState.name+'壹€'+ptInfo.label+'縲', 'log-info');
+    addLog(etInfo.icon+' '+eState.name+'壹€'+etInfo.label+'縲', 'log-info');
 
     // TRIGGER BATTLE START PASSIVES
     [pState, eState].forEach((actor, idx) => {
@@ -3743,46 +3717,46 @@ function initBattle() {
       const sk = actor.skill;
       const passives = (actor.skillsList && Array.isArray(actor.skillsList.passive)) ? actor.skillsList.passive : [];
       
-      // 繝輔か繝ｼ繝√Η繝ｳ繝繧､繧ｹ
+      // フォーチュンダイス
       if (sk === 'fdice' || passives.includes('fdice')) {
         const roll = Math.floor(Math.random() * 41) - 10;
         actor.luck = Math.max(0, actor.luck + roll);
-        addLog(`�軸 ${actor.name} 縺ｮ縲後ヵ繧ｩ繝ｼ繝√Η繝ｳ繝繧､繧ｹ縲搾ｼ� 驕九′ ${roll >= 0 ? '+' + roll : roll} 螟牙虚縺励�°:${actor.luck} 縺ｫ縺ｪ縺｣縺滂ｼ～, 'log-skill');
+        addLog('🎲 ' + actor.name + ' の「フォーチュンダイス」！ 運が ' + (roll >= 0 ? '+' + roll : roll) + ' 変動し、運:' + actor.luck + ' になった！', 'log-skill');
       }
       
-      // 繝励Ξ繝�す繝｣繝ｼ
+      // プレッシャー
       if (sk === 'pressure' || passives.includes('pressure')) {
         if (actor.luck > opp.luck) {
           opp.scared = true;
-          addLog(`�早�� ${actor.name} 縺ｮ縲後�繝ｬ繝�す繝｣繝ｼ縲搾ｼ� ${opp.name} 縺ｯ諤ｯ縺医※蜍輔￠縺ｪ縺�ｼ～, 'log-skill');
+          addLog('⚡ ' + actor.name + ' の「プレッシャー」！ ' + opp.name + ' は怯えて動けない！', 'log-skill');
         }
       }
       
-      // 繧ｹ繝��繧ｿ繧ｹ繝ｻ繧ｷ繝｣繝�ヵ繝ｫ
+      // ステータス・シャッフル
       if (sk === 'shuffle' || passives.includes('shuffle')) {
         const tmpSpd = actor.speed;
         actor.speed = opp.speed;
         opp.speed = tmpSpd;
-        addLog(`�楳 ${actor.name} 縺ｮ縲後せ繝��繧ｿ繧ｹ繝ｻ繧ｷ繝｣繝�ヵ繝ｫ縲搾ｼ� 縺贋ｺ偵＞縺ｮ邏�譌ｩ縺�(${actor.speed} 竍� ${opp.speed})縺悟�繧梧崛繧上▲縺滂ｼ～, 'log-skill');
+        addLog('🔀 ' + actor.name + ' の「ステータス・シャッフル」！ お互いの素早さ(' + actor.speed + ' ⇄ ' + opp.speed + ')が入れ替わった！', 'log-skill');
       }
 
-      // 螟ｧ謖ｯ繧�
+      // 大振り
       if (sk === 'heavyatk' || passives.includes('heavyatk')) {
         actor.attack = Math.floor(actor.attack * 1.15);
         actor.speed = Math.floor(actor.speed * 0.7);
-        addLog(`�潮 ${actor.name} 縺ｮ縲悟､ｧ謖ｯ繧翫搾ｼ� 謾ｻ謦�鴨+15%縲∫ｴ�譌ｩ縺�-30%縺ｫ螟牙虚縺励◆�� (謾ｻ謦�:${actor.attack} / 邏�譌ｩ縺�:${actor.speed})`, 'log-skill');
+        addLog('🪓 ' + actor.name + ' の「大振り」！ 攻撃力+15%、素早さ-30%に変動した！ (攻撃:' + actor.attack + ' / 素早さ:' + actor.speed + ')', 'log-skill');
       }
 
-      // 螽∝嚊縺ｮ繝昴�繧ｺ
+      // 威嚇のポーズ
       if (sk === 'intimidate' || passives.includes('intimidate')) {
         opp.attack = Math.max(1, opp.attack - 1);
-        addLog(`�ｦ� ${actor.name} 縺ｮ縲悟ｨ∝嚊縺ｮ繝昴�繧ｺ縲搾ｼ� ${opp.name} 縺ｮ謾ｻ謦�鴨繧� 1 貂帛ｰ代＆縺帙◆�� (謾ｻ謦�:${opp.attack})`, 'log-skill');
+        addLog('🦁 ' + actor.name + ' の「威嚇のポーズ」！ ' + opp.name + ' の攻撃力を 1 減少させた！ (攻撃:' + opp.attack + ')', 'log-skill');
       }
 
-      // 繧ｬ繝ｩ繧ｹ縺ｮ逶ｾ
+      // ガラスの盾
       if (sk === 'glassshield' || passives.includes('glassshield')) {
         actor.glassShieldActive = true;
-        addLog(`�孱�� ${actor.name} 縺ｯ縲後ぎ繝ｩ繧ｹ縺ｮ逶ｾ縲阪ｒ讒九∴縺滂ｼ� 蛻晄茶縺ｮ髦ｲ蠕｡蜉�1.2蛟阪∽ｻ･髯�10%菴惹ｸ具ｼ～, 'log-skill');
+        addLog('🛡️ ' + actor.name + ' は「ガラスの盾」を構えた！ 初撃の防御力1.2倍、以降10%低下！', 'log-skill');
       }
     });
 
@@ -3799,7 +3773,7 @@ function initBattle() {
 
 function nextTurn() {
   currentTurn++;
-  addLog(`<span class="log-turn">笳� 繧ｿ繝ｼ繝ｳ ${currentTurn} 笳�</span>`, 'log-turn');
+  addLog('<span class="log-turn">❖ ターン ' + currentTurn + ' ❖</span>', 'log-turn');
 
   // MP auto-recovery per turn (+1)
   [pState, eState].forEach((actor, i) => {
@@ -3816,9 +3790,9 @@ function nextTurn() {
       const healAmt = Math.min(actor.max - actor.cur, Math.max(1, Math.floor(actor.max * 0.08)));
       actor.cur = Math.min(actor.max, actor.cur + healAmt);
       setHp(i === 0 ? 'p' : 'e', actor);
-      addLog(`�挑 ${actor.name} 縺ｮ繝ｪ繧ｸ繧ｧ繝阪Ξ繝ｼ繝医〒譛螟ｧHP縺ｮ8%(${healAmt})蝗槫ｾｩ�� (谿稀P: ${actor.cur})`, 'log-info');
+      addLog('💖 ' + actor.name + ' のリジェネレートで最大HPの8%(' + healAmt + ')回復！ (残HP: ' + actor.cur + ')', 'log-info');
       actor.regenTurns--;
-      if (actor.regenTurns === 0) addLog(`�挑 ${actor.name} 縺ｮ繝ｪ繧ｸ繧ｧ繝阪Ξ繝ｼ繝医′蛻�ｌ縺溘Ａ, 'log-info');
+      if (actor.regenTurns === 0) addLog('💖 ' + actor.name + ' のリジェネレートが切れた。', 'log-info');
     }
 
     // Buff turn countdowns
@@ -3826,61 +3800,61 @@ function nextTurn() {
       actor.daibogyoTurns--;
       if (actor.daibogyoTurns === 0) {
         actor.daibogyoActive = false;
-        addLog(`�孱�� ${actor.name} 縺ｮ螟ｧ髦ｲ蠕｡縺ｮ蜉ｹ譫懊′蛻�ｌ縺溘Ａ, 'log-info');
+        addLog('🛡️ ' + actor.name + ' の大防御の効果が切れた。', 'log-info');
       }
     }
     if (actor.teppekiTurns > 0) {
       actor.teppekiTurns--;
-      if (actor.teppekiTurns === 0) addLog(`�ｧｱ ${actor.name} 縺ｮ驩�｣√�讒九∴縺悟�繧後◆縲Ａ, 'log-info');
+      if (actor.teppekiTurns === 0) addLog('🏰 ' + actor.name + ' の鉄壁の構えが切れた。', 'log-info');
     }
     if (actor.strengthenTurns > 0) {
       actor.strengthenTurns--;
-      if (actor.strengthenTurns === 0) addLog(`�潮 ${actor.name} 縺ｮ遲句鴨蠑ｷ蛹悶′蛻�ｌ縺溘Ａ, 'log-info');
+      if (actor.strengthenTurns === 0) addLog('💪 ' + actor.name + ' の筋力強化が切れた。', 'log-info');
     }
     if (actor.paperarmorTurns > 0) {
       actor.paperarmorTurns--;
-      if (actor.paperarmorTurns === 0) addLog(`�糖 ${actor.name} 縺ｮ邏呵｣�抜縺ｮ蜻ｪ縺�′蛻�ｌ縺溘Ａ, 'log-info');
+      if (actor.paperarmorTurns === 0) addLog('📜 ' + actor.name + ' の紙装束の呪いが切れた。', 'log-info');
     }
     if (actor.slownurseTurns > 0) {
       actor.slownurseTurns--;
-      if (actor.slownurseTurns === 0) addLog(`竢ｳ ${actor.name} 縺ｮ驤崎ｶｳ縺ｮ蜻ｪ縺�′蛻�ｌ縺溘Ａ, 'log-info');
+      if (actor.slownurseTurns === 0) addLog('🐢 ' + actor.name + ' の鈍足の呪いが切れた。', 'log-info');
     }
     if (actor.overclockTurns > 0) {
       actor.overclockTurns--;
       if (actor.overclockTurns === 0) {
         actor.cur = Math.max(1, actor.cur - 5);
-        addLog(`笞呻ｸ� ${actor.name} 縺ｮ繧ｪ繝ｼ繝舌�繧ｯ繝ｭ繝�け邨ゆｺ�ｼ� 蜿榊虚縺ｧHP縺� 5 貂帛ｰ代＠縺滂ｼ～, 'log-info');
+        addLog('⚡ ' + actor.name + ' のオーバークロック終了！ 反動でHPが 5 減少した！', 'log-info');
         setHp(i === 0 ? 'p' : 'e', actor);
       }
     }
     if (actor.shadowstepTurns > 0) {
       actor.shadowstepTurns--;
-      if (actor.shadowstepTurns === 0) addLog(`�促 ${actor.name} 縺ｮ繧ｷ繝｣繝峨�繧ｹ繝�ャ繝励′蛻�ｌ縺溘Ａ, 'log-info');
+      if (actor.shadowstepTurns === 0) addLog('👤 ' + actor.name + ' のシャドーステップが切れた。', 'log-info');
     }
     if (actor.reverseTurns > 0) {
       actor.reverseTurns--;
-      if (actor.reverseTurns === 0) addLog(`�劇 ${actor.name} 縺ｮ繝ｪ繝舌�繧ｹ繝ｫ繝ｼ繝�遨ｺ髢薙′蜿取據縺励◆縲Ａ, 'log-info');
+      if (actor.reverseTurns === 0) addLog('🔄 ' + actor.name + ' のリバースルーム空間が消滅した。', 'log-info');
     }
     if (actor.fortressTurns > 0) {
       actor.fortressTurns--;
-      if (actor.fortressTurns === 0) addLog(`�床 ${actor.name} 縺ｮ譛蠕後�遐ｦ�育┌謨ｵ蜉ｹ譫懶ｼ峨′蛻�ｌ縺溘Ａ, 'log-info');
+      if (actor.fortressTurns === 0) addLog('🏰 ' + actor.name + ' の最後の砦（無敵効果）が切れた。', 'log-info');
     }
     if (actor.drawingTurns > 0) {
       actor.drawingTurns--;
-      if (actor.drawingTurns === 0) addLog(`�耳 ${actor.name} 縺ｮ繝峨Ο繝ｼ繧､繝ｳ繧ｰ蜉ｹ譫懊′蛻�ｌ縺溘Ａ, 'log-info');
+      if (actor.drawingTurns === 0) addLog('🎨 ' + actor.name + ' のドローイング効果が切れた。', 'log-info');
     }
 
-    // 隕丞ｮ壹ち繝ｼ繝ｳ邨碁℃縺ｮ繝舌ヵ隗｣髯､��せ繝��繧ｿ繧ｹ蠕ｩ蜈�峩譁ｰ
+    // 隕丞ｮ壹ち繝ｼ繝ｳ邨碁℃縺ｮ繝舌ヵ隗｣髯､せ繝繧ｿ繧ｹ蠕ｩ蜈峩譁ｰ
     updateMonsterBuffs(actor, i === 0 ? 'p' : 'e');
   });
 
   updateBuffsUI('p', pState);
   updateBuffsUI('e', eState);
 
-  // 諤ｯ縺�(pressure) 縺ｮ蜃ｦ逅�
+  // 恐れ(pressure) の処理
   if (pState.scared) {
     pState.scared = false;
-    addLog(`�早�� ${pState.name} 縺ｯ諤ｯ縺医※縺薙�繧ｿ繝ｼ繝ｳ蜍輔￠縺ｪ縺�ｼ～, 'log-miss');
+    addLog('😨 ' + pState.name + ' は怯えてこのターン動けない！', 'log-miss');
     isPlayerTurn = false;
     enableCommandButtons(false);
     const t = setTimeout(() => {
@@ -3892,7 +3866,7 @@ function nextTurn() {
   }
   if (eState.scared) {
     eState.scared = false;
-    addLog(`�早�� ${eState.name} 縺ｯ諤ｯ縺医※縺薙�繧ｿ繝ｼ繝ｳ蜍輔￠縺ｪ縺�ｼ～, 'log-miss');
+    addLog('😨 ' + eState.name + ' は怯えてこのターン動けない！', 'log-miss');
     if (battleMode === 'manual') {
       isPlayerTurn = true;
       enableCommandButtons(true);
@@ -3925,7 +3899,7 @@ function enableCommandButtons(enable) {
   
   buttons.forEach(btn => {
     if (btn.id === 'btn-command-skill') {
-      const isSkillAvailable = enable && pMp >= 8 && pState.skill !== 'none' && userSk.type !== '繝代ャ繧ｷ繝�';
+      const isSkillAvailable = enable && pMp >= 8 && pState.skill !== 'none' && userSk.type !== 'パッシブ';
       btn.disabled = !isSkillAvailable;
       btn.style.opacity = isSkillAvailable ? '1.0' : '0.5';
       const usageInfo = document.getElementById('skill-btn-usage-info');
@@ -3974,7 +3948,7 @@ function getGlassShieldDefense(state) {
     if (state.glassShieldActive) {
       def = Math.floor(def * 1.2);
       state.glassShieldActive = false;
-      addLog(`�孱�� ${state.name} 縺ｮ縲後ぎ繝ｩ繧ｹ縺ｮ逶ｾ縲咲匱蜍包ｼ� 蛻晄茶繧定舌∴繧九◆繧�亟蠕｡蜉�1.2蛟搾ｼ～, 'log-skill');
+      addLog('💎 ' + state.name + ' の「ガラスの盾」発動！ 初撃を耐えるため防御力1.2倍！', 'log-skill');
     } else {
       def = Math.max(0, Math.floor(def * 0.9));
     }
@@ -3986,9 +3960,9 @@ function selectCommand(playerCmd) {
   if (!isPlayerTurn) return;
 
   if (playerCmd === 'surrender' || playerCmd === 'escape') {
-    showConfirmModal('謌ｦ髣倥°繧画彫騾縺励∪縺吶°��').then(result => {
+    showConfirmModal('戦闘から撤退しますか？').then(result => {
       if (result) {
-        addLog(`�純 ${pState.name} 縺ｯ謌ｦ髣倥°繧画彫騾縺励◆�～, 'log-miss');
+        addLog('🏃 ' + pState.name + ' は戦闘から撤退した！', 'log-miss');
         if (window.soundManager) window.soundManager.playSE('escape');
         pState.cur = 0;
         setTimeout(() => {
@@ -4188,7 +4162,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
 
   if (actor.scared) {
     actor.scared = false;
-    addLog(`�彫 ${actor.name} 縺ｯ蜍輔￠縺ｪ縺�憾諷九↓縺ｪ縺｣縺ｦ縺�ｋ�～, 'log-miss');
+    addLog('😨 ' + actor.name + ' は動けない状態になっている！', 'log-miss');
     onComplete();
     return;
   }
@@ -4216,12 +4190,12 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
   }
 
   if (cmd === 'attack') {
-    addLog(`笞費ｸ� ${actor.name} 縺ｮ謾ｻ謦�ｼ～, 'log-normal');
+    addLog('⚔️ ' + actor.name + ' の攻撃！', 'log-normal');
     
     // Parry activation check
     if (parried) {
       const t = setTimeout(() => {
-        addLog(`笞費ｸ� ${target.name} 縺ｯ繝代ャ繧ｷ繝悶後ヱ繝ｪ繧｣縲阪ｒ逋ｺ蜍包ｼ� 蛻晏屓謾ｻ謦�ｒ螳悟�蝗樣∩�～, 'log-skill');
+        addLog('⚔️ ' + target.name + ' はパッシブ「パリィ」を発動！ 初回攻撃を完全回避！', 'log-skill');
         actor.charged = false;
         actor.chargeMultiplier = null;
         updateBuffsUI(actorSide, actor);
@@ -4231,13 +4205,13 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       return;
     }
 
-    // 蝗樣∩邇�ｨ育ｮ暦ｼ域眠譁ｹ蠑擾ｼ�
+    // 回避率計算
     let evasion = calculateEvasionRate(actor, target);
 
     if (Math.random() * 100 < evasion) {
       const t = setTimeout(() => {
         target.evasionStreak = (target.evasionStreak || 0) + 1;
-        addLog(`�牒 ${target.name} 縺ｯ謾ｻ謦�ｒ縺九ｏ縺励◆�� (蝗樣∩邇�:${Math.round(evasion)}%)`, 'log-miss');
+        addLog('💨 ' + target.name + ' は攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
         actor.charged = false;
         actor.chargeMultiplier = null;
         updateBuffsUI(actorSide, actor);
@@ -4248,15 +4222,16 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     }
 
     target.evasionStreak = 0; // 蜻ｽ荳ｭ縺励◆縺ｮ縺ｧ繧ｹ繝医Μ繝ｼ繧ｯ繝ｪ繧ｻ繝�ヨ
+    target.evasionStreak = 0; // 蜻ｽ荳ｭ縺励◆縺ｮ縺ｧ繧ｹ繝医Μ繝ｼ繧ｯ繝ｪ繧ｻ繝ヨ
     // Critical check
     let critChance = actor.luck;
     if (actor.enmakuTurns > 0) critChance *= 0.5; // enmaku halves crit
     let isCrit = Math.random() * 100 < critChance;
     
-    // Fortress (辟｡謨ｵ) check
+    // Fortress (無敵) check
     if (target.fortressTurns > 0) {
       const t = setTimeout(() => {
-        addLog(`�床 ${target.name} 縺ｯ辟｡謨ｵ迥ｶ諷具ｼ� 繝繝｡繝ｼ繧ｸ繧貞�縺丞女縺代↑縺�ｼ～, 'log-miss');
+        addLog('🏰 ' + target.name + ' は無敵状態！ ダメージを全く受けない！', 'log-miss');
         actor.charged = false;
         actor.chargeMultiplier = null;
         updateBuffsUI(actorSide, actor);
@@ -4302,7 +4277,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     }
     actor.mp = Math.min(actor.maxMp || 10, (actor.mp || 0) + 2);
     setMp(actorSide, actor);
-    addLog(`�萩 ${actor.name} 縺ｯ蜉帙ｒ縺溘ａ縺ｦ縺�ｋ��ｼ�P +2 蝗槫ｾｩ / MP:${actor.mp}�荏, 'log-info');
+    addLog('⚡ ' + actor.name + ' は力をためている！（MP +2 回復 / MP:' + actor.mp + '）', 'log-info');
     checkAutoPassiveTrigger(actorSide, actor, targetSide, target);
     updateBuffsUI(actorSide, actor);
     const t = setTimeout(() => onComplete(), delay(400));
@@ -4312,7 +4287,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     actor.defending = true;
     actor.mp = Math.min(actor.maxMp || 10, (actor.mp || 0) + 1);
     setMp(actorSide, actor);
-    addLog(`�孱�� ${actor.name} 縺ｯ霄ｫ繧貞ｮ医▲縺ｦ縺�ｋ��ｼ�P +1 蝗槫ｾｩ / MP:${actor.mp}�荏, 'log-info');
+    addLog('🛡️ ' + actor.name + ' は身を守っている！（MP +1 回復 / MP:' + actor.mp + '）', 'log-info');
     checkAutoPassiveTrigger(actorSide, actor, targetSide, target);
     updateBuffsUI(actorSide, actor);
     const t = setTimeout(() => onComplete(), delay(400));
@@ -4331,19 +4306,19 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         enemySkillEl.classList.remove('glitch-text');
         enemySkillEl.removeAttribute('data-text');
       }
-      addLog(`笶� ${actor.name} 縺ｮ髫�縺輔ｌ縺滓橿縺悟愛譏趣ｼ� 竊� ${SKILLS[sk].icon} 縲�${SKILLS[sk].name}縲疏, 'log-crit');
+      addLog('💡 ' + actor.name + ' の隠された技が判明！ ➔ ' + SKILLS[sk].icon + ' 『' + SKILLS[sk].name + '』', 'log-crit');
     }
 
     oppLastActiveSkill(target, sk); // Store last skill for copycat
-    addLog(`笞｡ ${actor.name} 縺ｮ縲�${(SKILLS[sk]||SKILLS.none).name}縲搾ｼ�ｼ�P -8 / MP:${actor.mp}�荏, 'log-skill');
+    addLog('✨ ' + actor.name + ' の『' + ((SKILLS[sk]||SKILLS.none).name) + '』！（MP -8 / MP:' + actor.mp + '）', 'log-skill');
 
-    // 謾ｻ謦�せ繧ｭ繝ｫ縺ｮ蜻ｽ荳ｭ邇��蝗樣∩蛻､螳夲ｼ磯壼ｸｸ謾ｻ謦�→蜷檎ｭ峨�蝗樣∩邇��繝代Μ繧｣繝ｻ辟｡謨ｵ蛻､螳夲ｼ�
-    const attackSkills = ['gigabreak', 'moroha', 'sutemi', 'shuriken', 'midare', 'ichigeki', 'weakmaker', 'haisui', '蜷ｸ陦', 'jackpot'];
+    // 攻撃スキルの命中率・回避判定（通常攻撃と同等の回避率・パリィ・無敵判定）
+    const attackSkills = ['gigabreak', 'moroha', 'sutemi', 'shuriken', 'midare', 'ichigeki', 'weakmaker', 'haisui', 'vampire', 'jackpot'];
     if (attackSkills.includes(sk)) {
-      // 1. 繝代Μ繧｣蛻､螳�
+      // 1. パリィ判定
       if (parried) {
         const t = setTimeout(() => {
-          addLog(`笞費ｸ� ${target.name} 縺ｯ繝代ャ繧ｷ繝悶後ヱ繝ｪ繧｣縲阪ｒ逋ｺ蜍包ｼ� 繧ｹ繧ｭ繝ｫ繧貞ｮ悟�蝗樣∩�～, 'log-skill');
+          addLog('⚔️ ' + target.name + ' はパッシブ「パリィ」を発動！ スキルを完全回避！', 'log-skill');
           actor.charged = false;
           actor.chargeMultiplier = null;
           updateBuffsUI(actorSide, actor);
@@ -4353,13 +4328,12 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         return;
       }
 
-      // 2. 蝗樣∩邇�愛螳� (逶ｸ謇九�SPD, LUK, 谿句ワ, 辣吝ｹ慕ｭ�)
-    // 蝗樣∩邇�ｨ育ｮ暦ｼ域眠譁ｹ蠑擾ｼ�
-    let evasion = calculateEvasionRate(actor, target);
+      // 2. 回避率判定
+      let evasion = calculateEvasionRate(actor, target);
 
       if (Math.random() * 100 < evasion) {
         const t = setTimeout(() => {
-          addLog(`�牒 ${target.name} 縺ｯ繧ｹ繧ｭ繝ｫ縺ｮ謾ｻ謦�ｒ縺九ｏ縺励◆�� (蝗樣∩邇�:${Math.round(evasion)}%)`, 'log-miss');
+          addLog('💨 ' + target.name + ' はスキルの攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
           actor.charged = false;
           actor.chargeMultiplier = null;
           updateBuffsUI(actorSide, actor);
@@ -4369,11 +4343,11 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         return;
       }
 
-      target.evasionStreak = 0; // 蜻ｽ荳ｭ縺励◆縺ｮ縺ｧ繧ｹ繝医Μ繝ｼ繧ｯ繝ｪ繧ｻ繝�ヨ
-      // 3. 辟｡謨ｵ蛻､螳� (譛蠕後�遐ｦ)
+      target.evasionStreak = 0; // 命中したのでストリークリセット
+      // 3. 無敵判定 (最後の砦)
       if (target.fortressTurns > 0) {
         const t = setTimeout(() => {
-          addLog(`�床 ${target.name} 縺ｯ辟｡謨ｵ迥ｶ諷具ｼ� 繧ｹ繧ｭ繝ｫ繝繝｡繝ｼ繧ｸ繧貞女縺代↑縺�ｼ～, 'log-miss');
+          addLog('🏰 ' + target.name + ' は無敵状態！ スキルダメージを全く受けない！', 'log-miss');
           actor.charged = false;
           actor.chargeMultiplier = null;
           updateBuffsUI(actorSide, actor);
@@ -4399,7 +4373,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       actor.cur = Math.max(1, actor.cur - recoil); // Recoil won't directly kill actor (leaves 1 HP)
 
       processDamage(actorSide, actor, targetSide, target, dmg, false, false, () => {
-        addLog(`�ｩｸ 隲ｸ蛻��蜿榊虚�� ${actor.name} 縺ｯ ${recoil} 縺ｮ蜿榊虚繝繝｡繝ｼ繧ｸ繧貞女縺代◆�～, 'log-miss');
+        addLog('💥 反動！ ' + actor.name + ' は ' + recoil + ' の反動ダメージを受けた！', 'log-miss');
         setHp(actorSide, actor);
         onComplete();
       });
@@ -4417,28 +4391,28 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       processDamage(actorSide, actor, targetSide, target, dmg, true, false, onComplete);
 
     } else if (sk === 'counter') {
-      addLog(`�煤 ${actor.name} 縺ｯ繧ｫ繧ｦ繝ｳ繧ｿ繝ｼ縺ｮ讒九∴繧偵→縺｣縺滂ｼ～, 'log-info');
+      addLog('🛡️ ' + actor.name + ' はカウンターの構えをとった！', 'log-info');
       // Wait for next hits
       onComplete();
 
     } else if (sk === 'midare') {
       if (Math.random() * 100 < actor.luck) {
-        addLog(`�昌 驕区ｰ嶺ｸ頑���2蝗槭∩縺�繧後≧縺｡謾ｻ謦�ｼ～, 'log-skill');
+        addLog('🎲 運気上昇！ 2回みだれうち攻撃！', 'log-skill');
         let dmg1 = Math.max(1, actor.attack - getGlassShieldDefense(target));
         let dmg2 = Math.max(1, actor.attack - getGlassShieldDefense(target));
         target.cur = Math.max(0, target.cur - dmg1);
         setHp(targetSide, target);
-        addLog(`�昌 1蝗樒岼��${target.name} 縺ｫ ${dmg1} 縺ｮ繝繝｡繝ｼ繧ｸ�～, targetSide === 'p' ? 'log-dmg-p' : 'log-dmg-e');
+        addLog('🎲 1回目：' + target.name + ' に ' + dmg1 + ' のダメージ！', targetSide === 'p' ? 'log-dmg-p' : 'log-dmg-e');
         
         const t = setTimeout(() => {
           target.cur = Math.max(0, target.cur - dmg2);
           setHp(targetSide, target);
-          addLog(`�昌 2蝗樒岼��${target.name} 縺ｫ ${dmg2} 縺ｮ繝繝｡繝ｼ繧ｸ�～, targetSide === 'p' ? 'log-dmg-p' : 'log-dmg-e');
+          addLog('🎲 2回目：' + target.name + ' に ' + dmg2 + ' のダメージ！', targetSide === 'p' ? 'log-dmg-p' : 'log-dmg-e');
           onComplete();
         }, delay(400));
         activeTimers.push(t);
       } else {
-        addLog(`�昌 縺ｿ縺�繧後≧縺｡縺ｯ荳咲匱縺ｫ邨ゅｏ縺｣縺溪ｦ騾壼ｸｸ縺ｮ謾ｻ謦�ｼ～, 'log-miss');
+        addLog('🎲 みだれうちは不発に終わった…通常の攻撃！', 'log-miss');
         executeSingleAction(actorSide, 'attack', targetSide, targetCmd, onComplete);
       }
 
@@ -4449,11 +4423,11 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         target.cur = 1;
         flashHit(targetSide);
         showDmgFloat(targetSide, dmg, '#ef4444');
-        addLog(`�識 繧ｯ繝ｪ繝ｼ繝ｳ繝偵ャ繝茨ｼ�ｼ�ｼ� ${target.name} 縺ｮHP繧�1縺ｫ縺励◆�～, 'log-crit');
+        addLog('⚡ クリーンヒット！！！ ' + target.name + ' のHPを1にした！', 'log-crit');
         setHp(targetSide, target);
         onComplete();
       } else {
-        addLog(`�識 荳謦�ｿ�ｮｺ縺ｯ螟悶ｌ縺滂ｼ～, 'log-miss');
+        addLog('⚡ 一撃必殺は外れた！', 'log-miss');
         actor.charged = false;
         actor.chargeMultiplier = null;
         updateBuffsUI(actorSide, actor);
@@ -4463,7 +4437,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     } else if (sk === 'charge') {
       actor.charged = true;
       actor.chargeMultiplier = 3; // 3x next turn
-      addLog(`�萩 髯千阜繝√Ε繝ｼ繧ｸ�� 谺｡縺ｮ繧ｿ繝ｼ繝ｳ縺ｮ螽∝鴨縺�3蛟阪↓縺ｪ繧具ｼ～, 'log-info');
+      addLog('⚡ 限界チャージ！ 次のターンの威力が3倍になる！', 'log-info');
       updateBuffsUI(actorSide, actor);
       onComplete();
 
@@ -4475,8 +4449,8 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       if (target.speed > highestVal) { highestStat = 'speed'; highestVal = target.speed; }
       if (target.luck > highestVal) { highestStat = 'luck'; highestVal = target.luck; }
       
-      applyBuff(target, { id: 'weakmaker_' + highestStat, name: '繧ｦ繧｣繝ｼ繧ｯ繝｡繝ｼ繧ｫ繝ｼ', type: highestStat, val: -20, duration: 3 });
-      addLog(`�悼 繧ｦ繧｣繝ｼ繧ｯ繝｡繝ｼ繧ｫ繝ｼ�� ${target.name} 縺ｮ譛螟ｧ閭ｽ蜉帙�${highestStat.toUpperCase()}縲代ｒ 20 貂帛ｰ代＆縺帙◆�～, 'log-skill');
+      applyBuff(target, { id: 'weakmaker_' + highestStat, name: 'ウィークメーカー', type: highestStat, val: -20, duration: 3 });
+      addLog('📉 ウィークメーカー！ ' + target.name + ' の最大能力【' + highestStat.toUpperCase() + '】を 20 減少させた！', 'log-skill');
       
       let dmg = Math.max(1, actor.attack - getGlassShieldDefense(target));
       processDamage(actorSide, actor, targetSide, target, dmg, false, false, onComplete);
@@ -4488,7 +4462,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         // Guaranteed Critical
         processDamage(actorSide, actor, targetSide, target, dmg, true, false, onComplete);
       } else {
-        addLog(`笞��� 逋ｺ蜍墓擅莉ｶ��P蜊雁�莉･荳具ｼ峨ｒ貅縺溘＠縺ｦ縺�↑縺�ｼ�壼ｸｸ謾ｻ謦�ｼ～, 'log-miss');
+        addLog('⚠️ 発動条件（HP半分以下）を満たしていない！通常の攻撃！', 'log-miss');
         executeSingleAction(actorSide, 'attack', targetSide, targetCmd, onComplete);
       }
 
@@ -4496,48 +4470,48 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       actor.defending = true;
       actor.daibogyoActive = true;
       actor.daibogyoTurns = 2;
-      addLog(`�孱�� ${actor.name} 縺ｯ螟ｧ髦ｲ蠕｡縺ｮ讒九∴�� 2繧ｿ繝ｼ繝ｳ縺ｮ髢薙∝女縺代ｋ繝繝｡繝ｼ繧ｸ縺ｮ80%繧偵き繝�ヨ�～, 'log-info');
+      addLog('🛡️ ' + actor.name + ' は大防御の構え！ 2ターンの間、受けるダメージの80%をカット！', 'log-info');
       onComplete();
     } else if (sk === 'teppeki') {
       actor.teppekiTurns = 3;
-      addLog(`�ｧｱ 驩�｣√�讒九∴�� 3繧ｿ繝ｼ繝ｳ縺ｮ髢薙∬�霄ｫ縺ｮ髦ｲ蠕｡蜉帙′2蛟阪↓縺ｪ繧具ｼ～, 'log-info');
+      addLog('🧱 鉄壁の構え！ 3ターンの間、自身の防御力が2倍になる！', 'log-info');
       onComplete();
 
     } else if (sk === 'fudo') {
       actor.fudoActive = true;
-      addLog(`�諸�� 荳榊虚縺ｮ讒九∴�� 縺薙ｌ莉･髯阪け繝ｪ繝�ぅ繧ｫ繝ｫ繧貞女縺代↑縺�ｼ～, 'log-info');
+      addLog('🧘 不動の構え！ これ以降クリティカルを受けない！', 'log-info');
       onComplete();
 
     } else if (sk === 'enmaku') {
       target.enmakuTurns = 2;
-      addLog(`�賢�� 辣吝ｹ輔ｒ謦偵＞縺滂ｼ� 2繧ｿ繝ｼ繝ｳ縺ｮ髢薙�${target.name} 縺ｮ蜻ｽ荳ｭ邇�′蜊頑ｸ帙☆繧具ｼ～, 'log-info');
+      addLog('💨 煙幕を撒いた！ 2ターンの間、' + target.name + ' の命中率が半減する！', 'log-info');
       onComplete();
 
     } else if (sk === 'shield') {
       actor.barrier = actor.luck;
-      addLog(`�醗 繧ｨ繝阪Ν繧ｮ繝ｼ繧ｷ繝ｼ繝ｫ繝会ｼ� 驕区焚蛟､(${actor.luck})蛻��繝舌Μ繧｢繧貞ｱ暮幕�～, 'log-info');
+      addLog('🛡️ エネルギーシールド！ 運数値(' + actor.luck + ')分のバリアを展開！', 'log-info');
       updateBuffsUI(actorSide, actor);
       onComplete();
 
     } else if (sk === 'heal') {
       const healAmt = Math.min(actor.max - actor.cur, Math.max(1, Math.floor(actor.max * 0.3)));
       actor.cur += healAmt;
-      addLog(`�猪 繝偵�繝ｫ�� 譛螟ｧHP縺ｮ30%(${healAmt})蝗槫ｾｩ縺励◆�～, 'log-skill');
+      addLog('💖 ヒール！ 最大HPの30%(' + healAmt + ')回復した！', 'log-skill');
       setHp(actorSide, actor);
       onComplete();
 
     } else if (sk === 'regen') {
       actor.regenTurns = 3;
-      addLog(`�挑 繝ｪ繧ｸ繧ｧ繝阪Ξ繝ｼ繝茨ｼ� 3繧ｿ繝ｼ繝ｳ縺ｮ髢薙∵戟邯壼屓蠕ｩ迥ｶ諷九↓蜈･繧具ｼ～, 'log-info');
+      addLog('💖 リジェネレート！ 3ターンの間、継続回復状態に入る！', 'log-info');
       onComplete();
 
-    } else if (sk === '蜷ｸ陦') {
+    } else if (sk === 'vampire' || sk === '吸血') {
       let dmg = Math.max(1, actor.attack - getGlassShieldDefense(target));
       processDamage(actorSide, actor, targetSide, target, dmg, false, false, () => {
         const healAmt = Math.floor(dmg * 0.5);
         if (healAmt > 0) {
           actor.cur = Math.min(actor.max, actor.cur + healAmt);
-          addLog(`�ｦ� 蜷ｸ陦縺ｮ迚呻ｼ� 荳弱∴縺溘ム繝｡繝ｼ繧ｸ縺ｮ蜊雁�(${healAmt})縲∬�霄ｫ縺ｮHP繧貞屓蠕ｩ縺励◆�～, 'log-skill');
+          addLog('🦇 吸血の牙！ 与えたダメージの半分(' + healAmt + ')、自身のHPを回復した！', 'log-skill');
           setHp(actorSide, actor);
         }
         onComplete();
@@ -4546,7 +4520,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     } else if (sk === 'pray') {
       const restore = Math.min(actor.max - actor.cur, actor.luck);
       actor.cur += restore;
-      addLog(`�検 驕句多縺ｮ逾医ｊ�� 驕九�謨ｰ蛟､蛻� HP縺� ${restore} 蝗槫ｾｩ縺励◆�～, 'log-skill');
+      addLog('🙏 幸運の祈り！ 運の数値分 HPが ' + restore + ' 回復した！', 'log-skill');
       setHp(actorSide, actor);
       onComplete();
 
@@ -4554,28 +4528,28 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       if (target.cur > actor.cur) {
         target.cur = Math.max(1, target.cur - 10);
         actor.cur = Math.min(actor.max, actor.cur + 10);
-        addLog(`�ｧｪ 繧ｽ繧ｦ繝ｫ繧ｷ繧ｧ繧｢�� ${target.name} 縺ｮHP繧� 10 螂ｪ縺�叙縺｣縺滂ｼ～, 'log-skill');
+        addLog('👻 ソウルシェア！ ' + target.name + ' のHPを 10 奪い取った！', 'log-skill');
         setHp(actorSide, actor);
         setHp(targetSide, target);
       } else {
-        addLog(`�ｧｪ 逶ｸ謇九�譁ｹ縺粂P縺御ｽ弱＞縺溘ａ縲∽ｸ咲匱縺ｫ邨ゅｏ縺｣縺溪ｦ`, 'log-miss');
+        addLog('👻 相手の方がHPが低いため、不発に終わった…', 'log-miss');
       }
       onComplete();
 
     } else if (sk === 'luckstrike') {
       let baseDmg = Math.max(1, actor.attack - getGlassShieldDefense(target));
       let dmg = baseDmg + actor.luck;
-      addLog(`�軸 ${actor.name} 縺ｮ縲碁°鬆ｼ縺ｿ縺ｮ縺ｲ縺ｨ遯√″縲搾ｼ� 驕九�謨ｰ蛟､(${actor.luck})繧定ｿｽ蜉�繝繝｡繝ｼ繧ｸ縺ｨ縺励※荳弱∴繧具ｼ～, 'log-skill');
+      addLog('🎯 ' + actor.name + ' の「頼みの一突き」！ 運の数値(' + actor.luck + ')を追加ダメージとして与える！', 'log-skill');
       processDamage(actorSide, actor, targetSide, target, dmg, false, false, onComplete);
 
     } else if (sk === 'blankshot') {
       if (currentTurn === 1) {
         const defReduction = Math.floor(target.defense * 0.05);
-        applyBuff(target, { id: 'blankshot', name: '遨ｺ遐ｲ', type: 'defense', val: -defReduction, duration: 3 });
-        addLog(`�暢 ${actor.name} 縺ｮ縲檎ｩｺ遐ｲ縲搾ｼ� ${target.name} 縺ｮ髦ｲ蠕｡蜉帙ｒ5%菴惹ｸ九＆縺帙◆�� (髦ｲ蠕｡:${target.defense})`, 'log-skill');
+        applyBuff(target, { id: 'blankshot', name: '空砲', type: 'defense', val: -defReduction, duration: 3 });
+        addLog('🎯 ' + actor.name + ' の「空砲」！ ' + target.name + ' の防御力を5%低下させた！（防御:' + target.defense + '）', 'log-skill');
         processDamage(actorSide, actor, targetSide, target, 0, false, false, onComplete);
       } else {
-        addLog(`�暢 遨ｺ遐ｲ縺ｯ1繧ｿ繝ｼ繝ｳ逶ｮ縺ｮ縺ｿ譛牙柑��壼ｸｸ謾ｻ謦�ｼ～, 'log-miss');
+        addLog('🎯 空砲は1ターン目のみ有効…通常の攻撃！', 'log-miss');
         executeSingleAction(actorSide, 'attack', targetSide, targetCmd, onComplete);
       }
 
@@ -4585,42 +4559,42 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         actor.cur = Math.min(actor.max, actor.cur + healAmt);
         actor.strengthenTurns = 2;
         actor.attackMultiplier = 0.5; // Next turn attack halved (handled in processDamage)
-        addLog(`�ｦ� 荳榊ｱ医�髣伜ｿ暦ｼ� 譛螟ｧHP縺ｮ80%(${healAmt})蝗槫ｾｩ縺励◆縺後∵ｬ｡繧ｿ繝ｼ繝ｳ謾ｻ謦�鴨蜊頑ｸ幢ｼ～, 'log-skill');
+        addLog('🔥 不屈の闘志！ 最大HPの80%(' + healAmt + ')回復したが、次ターン攻撃力半減！', 'log-skill');
         setHp(actorSide, actor);
       } else {
-        addLog(`�ｦ� 谿九ｊHP縺� 1 縺ｮ迥ｶ諷九〒縺ｮ縺ｿ菴ｿ逕ｨ蜿ｯ閭ｽ��壼ｸｸ謾ｻ謦�ｼ～, 'log-miss');
+        addLog('🔥 残りHPが 1 の状態でのみ使用可能…通常の攻撃！', 'log-miss');
         executeSingleAction(actorSide, 'attack', targetSide, targetCmd, onComplete);
       }
 
     } else if (sk === 'paperarmor') {
       target.paperarmorTurns = 3;
-      addLog(`�糖 邏呵｣�抜縺ｮ蜻ｪ縺�ｼ� 3繧ｿ繝ｼ繝ｳ縺ｮ髢薙�${target.name} 縺ｮ髦ｲ蠕｡蜉帙ｒ蜊雁�縺ｫ縺吶ｋ�～, 'log-info');
+      addLog('📜 紙装束の呪い！ 3ターンの間、' + target.name + ' の防御力を半分にする！', 'log-info');
       onComplete();
 
     } else if (sk === 'strengthen') {
       actor.strengthenTurns = 2;
-      addLog(`�潮 遲句鴨蠑ｷ蛹厄ｼ� 2繧ｿ繝ｼ繝ｳ縺ｮ髢薙∬�霄ｫ縺ｮ謾ｻ謦�鴨縺�1.5蛟阪↓縺ｪ繧具ｼ～, 'log-info');
+      addLog('💪 筋力強化！ 2ターンの間、自身の攻撃力が1.5倍になる！', 'log-info');
       onComplete();
 
     } else if (sk === 'slownurse') {
       target.slownurseTurns = 3;
-      addLog(`竢ｳ 驤崎ｶｳ縺ｮ蜻ｪ縺�ｼ� 3繧ｿ繝ｼ繝ｳ縺ｮ髢薙�${target.name} 縺ｮ邏�譌ｩ縺輔ｒ -20 縺吶ｋ�～, 'log-info');
+      addLog('🐢 鈍足の呪い！ 3ターンの間、' + target.name + ' の素早さを -20 する！', 'log-info');
       onComplete();
 
     } else if (sk === 'weightdown') {
       const reduction = target.defense;
-      applyBuff(target, { id: 'weightdown', name: '繧ｦ繧ｧ繧､繝医ム繧ｦ繝ｳ', type: 'speed', val: -reduction, duration: 3 });
-      addLog(`笞� 繧ｦ繧ｧ繧､繝医ム繧ｦ繝ｳ�� ${target.name} 縺ｮ邏�譌ｩ縺輔ｒ髦ｲ蠕｡蜉帛�(-${reduction})蠑輔″荳九￡縺滂ｼ～, 'log-info');
+      applyBuff(target, { id: 'weightdown', name: 'ウェイトダウン', type: 'speed', val: -reduction, duration: 3 });
+      addLog('⚖️ ウェイトダウン！ ' + target.name + ' の素早さを防御力分(-' + reduction + ')引き下げた！', 'log-info');
       onComplete();
 
     } else if (sk === 'overclock') {
       actor.overclockTurns = 2;
-      addLog(`笞呻ｸ� 繧ｪ繝ｼ繝舌�繧ｯ繝ｭ繝�け�� 2繧ｿ繝ｼ繝ｳ縺ｮ髢薙∫ｴ�譌ｩ縺輔′2蛟阪↓縺ｪ繧九′縲∫ｵゆｺ�凾縺ｫHP5貂帛ｰ托ｼ～, 'log-info');
+      addLog('⚡ オーバークロック！ 2ターンの間、素早さが2倍になるが、終了時にHP5減少！', 'log-info');
       onComplete();
 
     } else if (sk === 'shadowstep') {
       actor.shadowstepTurns = 3;
-      addLog(`�促 繧ｷ繝｣繝峨�繧ｹ繝�ャ繝暦ｼ� 3繧ｿ繝ｼ繝ｳ縺ｮ髢薙∬�霄ｫ縺ｮ蝗樣∩邇�′20%蠅怜刈�～, 'log-info');
+      addLog('👤 シャドーステップ！ 3ターンの間、自身の回避率が20%増加！', 'log-info');
       onComplete();
 
     } else if (sk === 'swap') {
@@ -4636,14 +4610,14 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         
         const adv = document.getElementById('battle-advice-box');
         if (adv) {
-          adv.textContent = '笞��� WARNING: Quantum swap detected. Relocating life parameters...';
+          adv.textContent = '⚠️ WARNING: Quantum swap detected. Relocating life parameters...';
           adv.style.color = '#ef4444';
         }
         
         setTimeout(() => {
           actor.cur = eHP;
           target.cur = pHP;
-          addLog(`笞厄ｸ� 遲我ｾ｡莠､謠幢ｼ� 縺贋ｺ偵＞縺ｮ迴ｾ蝨ｨHP繧貞�繧梧崛縺医◆�～, 'log-skill');
+          addLog('🔄 等価交換！ お互いの現在HPを入れ替えた！', 'log-skill');
           setHp(actorSide, actor);
           setHp(targetSide, target);
           elP.classList.remove('viewn-right-to-left');
@@ -4657,7 +4631,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       } else {
         actor.cur = eHP;
         target.cur = pHP;
-        addLog(`笞厄ｸ� 遲我ｾ｡莠､謠幢ｼ� 縺贋ｺ偵＞縺ｮ迴ｾ蝨ｨHP繧貞�繧梧崛縺医◆�～, 'log-skill');
+        addLog('🔄 等価交換！ お互いの現在HPを入れ替えた！', 'log-skill');
         setHp(actorSide, actor);
         setHp(targetSide, target);
         onComplete();
@@ -4666,32 +4640,32 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     } else if (sk === 'draw') {
       actor.drawingTurns = 1;
       target.drawingTurns = 1;
-      addLog(`�耳 繝峨Ο繝ｼ繧､繝ｳ繧ｰ�� 縺薙�繧ｿ繝ｼ繝ｳ縺ｮ繝繝｡繝ｼ繧ｸ縺ｯ辟｡蜉ｹ蛹悶＆繧後ｋ�～, 'log-info');
+      addLog('🎨 ドローイング！ このターンのダメージは無効化される！', 'log-info');
       onComplete();
 
     } else if (sk === 'jackpot') {
       if (actor.luck > target.luck) {
         actor.jackpotActive = true;
-        addLog(`�鴫 繧ｸ繝｣繝�け繝昴ャ繝茨ｼ� 驕九′逶ｸ謇九ｈ繧企ｫ倥＞縺溘ａ縲√％縺ｮ繧ｿ繝ｼ繝ｳ遒ｺ螳壹け繝ｪ繝�ぅ繧ｫ繝ｫ�～, 'log-skill');
+        addLog('🎰 ジャックポット！ 運が相手より高いため、このターン確定クリティカル！', 'log-skill');
         let dmg = actor.attack;
         dmg = Math.floor(dmg);
         processDamage(actorSide, actor, targetSide, target, dmg, true, false, onComplete);
       } else {
-        addLog(`�鴫 驕九′逶ｸ謇倶ｻ･荳九〒縺ゅｋ縺溘ａ縲∽ｸ咲匱窶ｦ騾壼ｸｸ縺ｮ謾ｻ謦�ｼ～, 'log-miss');
+        addLog('🎰 運が相手以下であるため、不発…通常の攻撃！', 'log-miss');
         executeSingleAction(actorSide, 'attack', targetSide, targetCmd, onComplete);
       }
 
     } else if (sk === 'copy') {
       const copied = target.lastOpponentSkill;
       if (copied && copied !== 'none' && copied !== 'copy') {
-        addLog(`�棲 繧ｳ繝斐�繧ｭ繝｣繝�ヨ�� 逶ｸ謇九�譛蠕後↓菴ｿ縺｣縺溘せ繧ｭ繝ｫ縲�${(SKILLS[copied]||SKILLS.none).name}縲阪ｒ繧ｳ繝斐��～, 'log-skill');
+        addLog('🐱 コピーキャット！ 相手が最後に使ったスキル『' + ((SKILLS[copied]||SKILLS.none).name) + '』をコピー！', 'log-skill');
         actor.skill = copied;
         executeSingleAction(actorSide, 'skill', targetSide, targetCmd, () => {
           actor.skill = 'copy'; // Restore copycat
           onComplete();
         });
       } else {
-        addLog(`�棲 繧ｳ繝斐�縺ｧ縺阪ｋ繧ｹ繧ｭ繝ｫ縺後≠繧翫∪縺帙ｓ��壼ｸｸ謾ｻ謦�ｼ～, 'log-miss');
+        addLog('🐱 コピーできるスキルがありません…通常の攻撃！', 'log-miss');
         executeSingleAction(actorSide, 'attack', targetSide, targetCmd, onComplete);
       }
 
@@ -4704,7 +4678,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     } else if (sk === 'reverse') {
       actor.reverseTurns = 3;
       target.reverseTurns = 3;
-      addLog(`�劇 繝ｪ繝舌�繧ｹ繝ｫ繝ｼ繝��� 3繧ｿ繝ｼ繝ｳ縺ｮ髢薙∫ｴ�譌ｩ縺輔′驕�＞譁ｹ縺悟�謇九ｒ蜿悶ｋ遨ｺ髢薙ｒ螻暮幕�～, 'log-info');
+      addLog('🔄 リバースルーム！ 3ターンの間、素早さが遅い方が先手を取る空間を展開！', 'log-info');
       onComplete();
     } else {
       executeSingleAction(actorSide, 'attack', targetSide, targetCmd, onComplete);
@@ -4719,7 +4693,7 @@ function oppLastActiveSkill(opp, sk) {
 function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isScrap, onComplete) {
   // Check Drawing
   if (actor.drawingTurns > 0 || target.drawingTurns > 0) {
-    addLog(`�耳 繝峨Ο繝ｼ繧､繝ｳ繧ｰ縺ｮ蜉ｹ譫懊↓繧医ｊ縲√ム繝｡繝ｼ繧ｸ縺檎┌蜉ｹ蛹悶＆繧後◆�～, 'log-miss');
+    addLog('🎨 ドローイングの効果により、ダメージが無効化された！', 'log-miss');
     actor.charged = false;
     actor.chargeMultiplier = null;
     updateBuffsUI(actorSide, actor);
@@ -4727,24 +4701,24 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     return;
   }
 
-  // Check Daibogyo (螟ｧ髦ｲ蠕｡)
+  // Check Daibogyo (大防御)
   if (target.daibogyoActive) {
-    // 螟ｧ髦ｲ蠕｡: 80%繧ｫ繝�ヨ (20%雋ｫ騾�)
+    // 大防御: 80%カット (20%貫通)
     const rawDmg = Math.max(1, actor.attack - getGlassShieldDefense(target));
     const penDmg = Math.max(1, Math.floor(rawDmg * 0.2));
     target.cur = Math.max(0, target.cur - penDmg);
     setHp(target === pState ? 'p' : 'e', target);
     flashHit(target === pState ? 'p' : 'e');
     showDmgFloat(target === pState ? 'p' : 'e', penDmg, '#f59e0b');
-    addLog(`�孱�� ${target.name} 縺ｯ螟ｧ髦ｲ蠕｡縺ｮ讒九∴�� 螟ｧ蜊翫ｒ髦ｲ縺�□縺� ${penDmg} 繝繝｡繝ｼ繧ｸ雋ｫ騾夲ｼ～, 'log-miss');
+    addLog('🛡️ ' + target.name + ' は大防御の構え！ 大半を防いだが ' + penDmg + ' ダメージ貫通！', 'log-miss');
     if (actor.charged) actor.charged = false;
     // target.daibogyoActive persists for daibogyoTurns duration
     if (target.cur <= 0) {
-      // 閾ｪ蟾ｱ貅雜ｳ (謦��ｴ譎ょ屓蠕ｩ)
+      // 自己満足 (撃破時回復)
       const actorPassives = (actor.skillsList && Array.isArray(actor.skillsList.passive)) ? actor.skillsList.passive : [];
       if (actor.skill === 'selfsatisfaction' || actorPassives.includes('selfsatisfaction')) {
         actor.cur = Math.min(actor.max, actor.cur + 1);
-        addLog(`笨ｨ ${actor.name} 縺ｮ縲瑚�蟾ｱ貅雜ｳ縲搾ｼ� 謨ｵ繧呈茶遐ｴ縺励◆縺溘ａHP縺� 1 蝗槫ｾｩ縺励◆�～, 'log-skill');
+        addLog('✨ ' + actor.name + ' の「自己満足」！ 敵を撃破したためHPが 1 回復した！', 'log-skill');
         setHp(actorSide, actor);
       }
       checkBattleEnd();
@@ -4761,13 +4735,13 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     actor.chargeMultiplier = null; // Consume
   }
 
-  // Handle fukutsu debuff (謾ｻ謫雁鴨蜊頑ｸ�)
+  // Handle fukutsu debuff (攻撃力半減)
   if (actor.attackMultiplier) {
     finalDmg = Math.floor(finalDmg * actor.attackMultiplier);
     actor.attackMultiplier = null; // Consume
   }
 
-  // 辟｡鬧�↑縺薙□繧上ｊ (蛛ｶ謨ｰ繧ｹ繝��繧ｿ繧ｹ譎ゆｸ弱ム繝｡繝ｼ繧ｸ+5%)
+  // 無駄なこだわり (偶数ステータス時与ダメージ+5%)
   const actorPassives = (actor.skillsList && Array.isArray(actor.skillsList.passive)) ? actor.skillsList.passive : [];
   if (actor.skill === 'particularity' || actorPassives.includes('particularity')) {
     if ([actor.attack, actor.defense, actor.speed, actor.luck].some(v => v % 2 === 0)) {
@@ -4775,22 +4749,22 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     }
   }
 
-  // Energy shield (繝舌Μ繧｢) absorption
+  // Energy shield (バリア) absorption
   if (target.barrier > 0) {
     const absorb = Math.min(target.barrier, finalDmg);
     target.barrier -= absorb;
     finalDmg -= absorb;
-    addLog(`�醗 繧ｨ繝阪Ν繧ｮ繝ｼ繧ｷ繝ｼ繝ｫ繝峨′ ${absorb} 繝繝｡繝ｼ繧ｸ繧貞精蜿趣ｼ� 繝舌Μ繧｢谿九ｊ:${target.barrier}`, 'log-info');
+    addLog('🛡️ エネルギーシールドが ' + absorb + ' ダメージを吸収！ バリア残り:' + target.barrier, 'log-info');
   }
 
   // Apply final damage to HP
   target.cur = Math.max(0, target.cur - finalDmg);
 
-  // 閾ｪ蟾ｱ貅雜ｳ (謦��ｴ譎ょ屓蠕ｩ)
+  // 自己満足 (撃破時回復)
   if (target.cur <= 0) {
     if (actor.skill === 'selfsatisfaction' || actorPassives.includes('selfsatisfaction')) {
       actor.cur = Math.min(actor.max, actor.cur + 1);
-      addLog(`笨ｨ ${actor.name} 縺ｮ縲瑚�蟾ｱ貅雜ｳ縲搾ｼ� 謨ｵ繧呈茶遐ｴ縺励◆縺溘ａHP縺� 1 蝗槫ｾｩ縺励◆�～, 'log-skill');
+      addLog('✨ ' + actor.name + ' の「自己満足」！ 敵を撃破したためHPが 1 回復した！', 'log-skill');
       setHp(actorSide, actor);
     }
   }
@@ -4808,11 +4782,11 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     }
 
     if (isCrit) {
-      addLog(`�徴 莨壼ｿ��荳謦�ｼ� ${target.name} 縺ｫ ${finalDmg} 縺ｮ螟ｧ繝繝｡繝ｼ繧ｸ�～, 'log-crit');
+      addLog('💥 会心の一撃！ ' + target.name + ' に ' + finalDmg + ' の大ダメージ！', 'log-crit');
     } else if (isScrap) {
-      addLog(`笞費ｸ� 縺九☆繧雁す�� ${target.name} 縺ｫ 1 縺ｮ繝繝｡繝ｼ繧ｸ�～, isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
+      addLog('⚔️ かすり傷！ ' + target.name + ' に 1 のダメージ！', isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
     } else {
-      addLog(`笞費ｸ� ${target.name} 縺ｫ ${finalDmg} 縺ｮ繝繝｡繝ｼ繧ｸ�～, isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
+      addLog('⚔️ ' + target.name + ' に ' + finalDmg + ' のダメージ！', isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
     }
 
     setHp(targetSide, target);
@@ -4826,17 +4800,17 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     // POST-DAMAGE PASSIVES TRIGGER
     // ==========================================
     triggerPostDamagePassives(actorSide, actor, targetSide, target, finalDmg, () => {
-      // Check Counter blow (繧ｫ繧ｦ繝ｳ繧ｿ繝ｼ繝悶Ο繝ｼ)
+      // Check Counter blow (カウンターブロー)
       if (hasPassive(target, 'counter') && !target.skillUsed && target.cur > 0 && finalDmg > 0) {
         target.skillUsed = true;
         const counterDmg = Math.floor(finalDmg * 1.5);
-        addLog(`�煤 ${target.name} 縺ｮ縲後き繧ｦ繝ｳ繧ｿ繝ｼ繝悶Ο繝ｼ縲咲匱蜍包ｼ� 繝繝｡繝ｼ繧ｸ縺ｮ1.5蛟阪ｒ謦�■霑斐☆�～, 'log-skill');
+        addLog('🛡️ ' + target.name + ' の「カウンターブロー」発動！ ダメージの1.5倍を打ち返す！', 'log-skill');
         
         actor.cur = Math.max(0, actor.cur - counterDmg);
         setHp(actorSide, actor);
         flashHit(actorSide);
         showDmgFloat(actorSide, counterDmg, '#ef4444');
-        addLog(`�煤 繧ｫ繧ｦ繝ｳ繧ｿ繝ｼ逶ｴ謦�ｼ� ${actor.name} 縺ｫ ${counterDmg} 縺ｮ繝繝｡繝ｼ繧ｸ�～, actorSide === 'p' ? 'log-dmg-p' : 'log-dmg-e');
+        addLog('🛡️ カウンター直撃！ ' + actor.name + ' に ' + counterDmg + ' のダメージ！', actorSide === 'p' ? 'log-dmg-p' : 'log-dmg-e');
       }
 
       onComplete();
@@ -4850,81 +4824,81 @@ function triggerPostDamagePassives(actorSide, actor, targetSide, target, dmg, cb
   const hpPct = target.cur / target.max;
   const targetPassives = (target.skillsList && Array.isArray(target.skillsList.passive)) ? target.skillsList.passive : [];
 
-  // 譛ｪ辭溘↑繧ｫ繧ｦ繝ｳ繧ｿ繝ｼ (陲ｫ蠑ｾ譎�5%縺ｮ遒ｺ邇�〒繝繝｡繝ｼ繧ｸ縺ｮ10%繧貞渚蟆�)
+  // 未熟なカウンター (被弾時5%の確率でダメージの10%を反射)
   if ((target.skill === 'poorcounter' || targetPassives.includes('poorcounter')) && target.cur > 0 && dmg > 0) {
     if (Math.random() < 0.05) {
       const reflectDmg = Math.max(1, Math.floor(dmg * 0.1));
       actor.cur = Math.max(0, actor.cur - reflectDmg);
-      addLog(`�煤 ${target.name} 縺ｮ縲梧悴辭溘↑繧ｫ繧ｦ繝ｳ繧ｿ繝ｼ縲搾ｼ� 繝繝｡繝ｼ繧ｸ縺ｮ10%��${reflectDmg}�峨ｒ蜿榊ｰ�＠縺滂ｼ～, 'log-skill');
+      addLog('🛡️ ' + target.name + ' の「未熟なカウンター」！ ダメージの10%(' + reflectDmg + ')を反射した！', 'log-skill');
       setHp(actorSide, actor);
       flashHit(actorSide);
       showDmgFloat(actorSide, reflectDmg, '#ef4444');
     }
   }
 
-  // 豁ｻ繧薙□縺ｵ繧� (HP10%莉･荳九〒1繧ｿ繝ｼ繝ｳ荳｡閠�｡悟虚荳崎�)
+  // 死んだふり (HP10%以下で1ターン両者行動不能)
   if ((hasPassive(target, 'playdead') || targetPassives.includes('playdead')) && hpPct <= 0.10 && target.cur > 0 && !target.playdeadTriggered) {
     target.playdeadTriggered = true;
     pState.scared = true;
     eState.scared = true;
-    addLog(`�彫 ${target.name} 縺ｮ縲梧ｭｻ繧薙□縺ｵ繧翫搾ｼ� 谺｡縺ｮ1繧ｿ繝ｼ繝ｳ縺贋ｺ偵＞陦悟虚荳崎�縺ｫ縺ｪ繧具ｼ～, 'log-skill');
+    addLog('😨 ' + target.name + ' の「死んだふり」！ 次の1ターンお互い行動不能になる！', 'log-skill');
   }
 
-  // 1. Toge (繝医ご繝医ご縺ｮ逕ｲ鄒�)
+  // 1. Toge (トゲトゲの甲羅)
   if (hasPassive(target, 'toge') && !target.togeTriggered && target.cur > 0) {
     target.togeTriggered = true;
     actor.speed = Math.max(0, actor.speed - 10);
-    addLog(`�厳 ${target.name} 縺ｮ縲後ヨ繧ｲ繝医ご縺ｮ逕ｲ鄒�搾ｼ� ${actor.name} 縺ｮ邏�譌ｩ縺輔ｒ 10 貂帛ｰ代＆縺帙◆�～, 'log-skill');
+    addLog('🌵 ' + target.name + ' の「トゲトゲの甲羅」！ ' + actor.name + ' の素早さを 10 減少させた！', 'log-skill');
   }
 
-  // 2. Second wind (繧ｻ繧ｫ繝ｳ繝蛾｢ｨ - HP25%莉･荳九〒10蝗槫ｾｩ)
+  // 2. Second wind (セカンド風 - HP25%以下で10回復)
   if (hasPassive(target, 'secondwind') && hpPct <= 0.25 && target.cur > 0 && !target.secondwindTriggered) {
     target.secondwindTriggered = true;
     const restore = Math.min(target.max - target.cur, 10);
     target.cur += restore;
-    addLog(`�軒�� ${target.name} 縺ｮ縲後そ繧ｫ繝ｳ繝蛾｢ｨ縲搾ｼ� HP縺� ${restore} 閾ｪ蜍募屓蠕ｩ縺励◆�～, 'log-skill');
+    addLog('🍃 ' + target.name + ' の「セカンド風」！ HPが ' + restore + ' 自動回復した！', 'log-skill');
     setHp(targetSide, target);
   }
 
-  // 3. Recycle (繝ｪ繧ｵ繧､繧ｯ繝ｫ - 逶ｸ謇九�繧｢繧ｯ繝�ぅ繝紋ｽｿ逕ｨ縺ｫ陲ｫ繝繝｡蜊雁�蝗槫ｾｩ)
+  // 3. Recycle (リサイクル - 相手のアクティブ使用に被ダメ半分回復)
   if (hasPassive(target, 'recycle') && actor.skillUsed && target.recycleHeal > 0 && target.cur > 0) {
     const restore = Math.min(target.max - target.cur, target.recycleHeal);
     target.cur += restore;
-    addLog(`笙ｻ�� ${target.name} 縺ｮ縲後Μ繧ｵ繧､繧ｯ繝ｫ縲搾ｼ� 逶ｸ謇九�繧｢繧ｯ繝�ぅ繝悶せ繧ｭ繝ｫ繝繝｡繝ｼ繧ｸ縺ｮ蜊雁�(${restore})繧貞屓蠕ｩ縺励◆�～, 'log-skill');
+    addLog('♻️ ' + target.name + ' の「リサイクル」！ 相手のアクティブスキルダメージの半分(' + restore + ')を回復した！', 'log-skill');
     target.recycleHeal = 0; // consume
     setHp(targetSide, target);
   }
 
-  // 4. Fortress (譛蠕後�遐ｦ - HP20%莉･荳九〒辟｡謨ｵ1繧ｿ繝ｼ繝ｳ)
+  // 4. Fortress (最後の砦 - HP20%以下で無敵1ターン)
   if (hasPassive(target, 'fortress') && hpPct <= 0.20 && target.cur > 0 && !target.fortressTriggered) {
     target.fortressTriggered = true;
     target.fortressTurns = 1;
-    addLog(`�床 ${target.name} 縺ｮ縲梧怙蠕後�遐ｦ縲咲匱蜍包ｼ� 1繧ｿ繝ｼ繝ｳ縺ｮ髢鍋┌謨ｵ縺ｫ縺ｪ繧具ｼ～, 'log-skill');
+    addLog('🏰 ' + target.name + ' の「最後の砦」発動！ 1ターンの間無敵になる！', 'log-skill');
   }
 
-  // 5. Migawari (霄ｫ莉｣繧上ｊ莠ｺ蠖｢ - 閾ｴ豁ｻ蝗樣∩)
+  // 5. Migawari (身代わり人形 - 致死回避)
   if (target.cur === 0 && hasPassive(target, 'migawari') && !target.migawariTriggered) {
     target.migawariTriggered = true;
     target.cur = 1;
-    addLog(`�ｧｸ ${target.name} 縺ｮ縲瑚ｺｫ莉｣繧上ｊ莠ｺ蠖｢縲咲匱蜍包ｼ� HP 1 縺ｧ雕上∩縺ｨ縺ｩ縺ｾ縺｣縺滂ｼ～, 'log-skill');
+    addLog('🪆 ' + target.name + ' の「身代わり人形」発動！ HP 1 で踏みとどまった！', 'log-skill');
     setHp(targetSide, target);
   }
 
   cb();
 }
 
-// 繝舌ヵ/繝�ヰ繝慕ｮ｡逅�ｼ夐㍾隍�亟豁｢�亥柑譫懊ｒ蜉�邂励○縺壹√ち繝ｼ繝ｳ謨ｰ縺ｮ縺ｿ繝ｪ繧ｻ繝�ヨ�峨♀繧医�譁ｰ隕丈ｻ倅ｸ�
+// バフ/デバフ管理：重複防止（効果を加算せず、ターン数のみリセット）および新規付与
 function applyBuff(monster, newBuff) {
   if (!monster) return;
   if (!monster.activeBuffs) monster.activeBuffs = [];
 
   const existingBuff = monster.activeBuffs.find(b => b.id === newBuff.id);
   if (existingBuff) {
-    // 譌｢蟄倥ヰ繝輔′縺ゅｋ蝣ｴ蜷医�繧ｿ繝ｼ繝ｳ謨ｰ縺ｮ縺ｿ譖ｴ譁ｰ�医せ繝��繧ｿ繧ｹ驥崎､�刈邂励ｒ髦ｲ豁｢��
+    // 既存バフがある場合はターン数のみ更新（ステータス重複加算を防止）
     existingBuff.duration = newBuff.duration;
-    addLog(`笨ｨ ${monster.name} 縺ｮ縲�${newBuff.name}縲上�蜉ｹ譫懈凾髢薙′繝ｪ繧ｻ繝�ヨ縺輔ｌ縺滂ｼ�ｼ域ｮ九ｊ ${newBuff.duration} 繧ｿ繝ｼ繝ｳ�荏, 'log-skill');
+    addLog('✨ ' + monster.name + ' の『' + newBuff.name + '』の効果時間がリセットされた！（残り ' + newBuff.duration + ' ターン）', 'log-skill');
   } else {
-    // 譁ｰ隕丈ｻ倅ｸ趣ｼ壹せ繝��繧ｿ繧ｹ螟牙喧繧帝←逕ｨ縺励※驟榊�縺ｫ菫晄戟
+    // 新規付与：ステータス変化を適用して配列に保持
     if (newBuff.val && newBuff.type) {
       monster[newBuff.type] = (monster[newBuff.type] || 0) + newBuff.val;
       if (monster[newBuff.type] < 0) monster[newBuff.type] = 0;
@@ -4932,31 +4906,31 @@ function applyBuff(monster, newBuff) {
     monster.activeBuffs.push(newBuff);
     const sign = newBuff.val >= 0 ? '+' : '';
     if (newBuff.val && newBuff.type) {
-      addLog(`笨ｨ ${monster.name} 縺ｮ ${newBuff.type.toUpperCase()} 縺� ${sign}${newBuff.val}�� (${newBuff.duration}繧ｿ繝ｼ繝ｳ)`, 'log-skill');
+      addLog('✨ ' + monster.name + ' の ' + newBuff.type.toUpperCase() + ' が ' + sign + newBuff.val + '！（' + newBuff.duration + 'ターン）', 'log-skill');
     }
   }
 }
 
-// 繧ｿ繝ｼ繝ｳ邨碁℃譎ゅ�繝舌ヵ譖ｴ譁ｰ繝ｻ蜉ｹ譫懆ｧ｣髯､繝ｭ繧ｸ繝�け
+// ターン経過時のバフ更新・効果解除ロジック
 function updateMonsterBuffs(monster, side) {
   if (!monster || !monster.activeBuffs || monster.activeBuffs.length === 0) return;
 
   for (let i = monster.activeBuffs.length - 1; i >= 0; i--) {
     let buff = monster.activeBuffs[i];
-    buff.duration -= 1; // 1繧ｿ繝ｼ繝ｳ豸郁ｲｻ
+    buff.duration -= 1; // 1ターン消費
 
-    // 隕丞ｮ壹ち繝ｼ繝ｳ邨ゆｺ�ｼ域ｮ九ｊ0繧ｿ繝ｼ繝ｳ�峨�蛻､螳�
+    // 規定ターン終了（残り0ターン）の判定
     if (buff.duration <= 0) {
-      // 1. 荳頑�繝ｻ菴惹ｸ九＆縺帙◆繧ｹ繝��繧ｿ繧ｹ繧貞�縺ｫ謌ｻ縺�
+      // 1. 上昇・低下させたステータスを元に戻す
       if (buff.val && buff.type) {
         monster[buff.type] -= buff.val;
         if (monster[buff.type] < 0) monster[buff.type] = 0;
       }
 
-      // 2. 繝ｭ繧ｰ陦ｨ遉ｺ
-      addLog(`竢ｳ ${monster.name} 縺ｮ繧ｹ繧ｭ繝ｫ蜉ｹ譫懊�${buff.name}縲上′蛻�ｌ縺滂ｼ～, 'log-info');
+      // 2. ログ表示
+      addLog('🐢 ' + monster.name + ' のスキル効果『' + buff.name + '』が切れた。', 'log-info');
 
-      // 3. 驟榊�縺九ｉ蜑企勁
+      // 3. 配列から削除
       monster.activeBuffs.splice(i, 1);
     }
   }
@@ -4968,19 +4942,19 @@ function updateBuffsUI(side, state) {
   container.innerHTML = '';
   
   const buffs = [];
-  if (state.charged) buffs.push(`<span style="background:rgba(245,158,11,0.15); color:var(--accent-gold); border:1px solid rgba(245,158,11,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">�萩 縺溘ａ</span>`);
-  if (state.defending) buffs.push(`<span style="background:rgba(61,155,233,0.15); color:var(--accent-blue); border:1px solid rgba(61,155,233,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">�孱�� 髦ｲ蠕｡</span>`);
-  if (state.barrier > 0) buffs.push(`<span style="background:rgba(168,85,247,0.15); color:var(--accent-purple); border:1px solid rgba(168,85,247,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">�醗 繝舌Μ繧｢(${state.barrier})</span>`);
-  if (state.regenTurns > 0) buffs.push(`<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); border:1px solid rgba(16,185,129,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">�挑 繝ｪ繧ｸ繧ｧ繝�(${state.regenTurns})</span>`);
-  if (state.teppekiTurns > 0) buffs.push(`<span style="background:rgba(61,155,233,0.15); color:var(--accent-blue); border:1px solid rgba(61,155,233,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">�ｧｱ 髦ｲ蠕｡x2(${state.teppekiTurns})</span>`);
-  if (state.strengthenTurns > 0) buffs.push(`<span style="background:rgba(239,68,68,0.15); color:var(--accent-red); border:1px solid rgba(239,68,68,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">�潮 謾ｻ謦�1.5蛟�</span>`);
-  if (state.shadowstepTurns > 0) buffs.push(`<span style="background:rgba(245,158,11,0.15); color:var(--accent-gold); border:1px solid rgba(245,158,11,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">�促 蝗樣∩邇�+20%</span>`);
-  if (state.reverseTurns > 0) buffs.push(`<span style="background:rgba(168,85,247,0.15); color:var(--accent-purple); border:1px solid rgba(168,85,247,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">�劇 繝ｪ繝舌�繧ｹ</span>`);
-  if (state.fortressTurns > 0) buffs.push(`<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); border:1px solid rgba(16,185,129,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">�床 辟｡謨ｵ</span>`);
+  if (state.charged) buffs.push('<span style="background:rgba(245,158,11,0.15); color:var(--accent-gold); border:1px solid rgba(245,158,11,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">⚡ ため</span>');
+  if (state.defending) buffs.push('<span style="background:rgba(61,155,233,0.15); color:var(--accent-blue); border:1px solid rgba(61,155,233,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🛡️ 防御</span>');
+  if (state.barrier > 0) buffs.push('<span style="background:rgba(168,85,247,0.15); color:var(--accent-purple); border:1px solid rgba(168,85,247,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🛡️ バリア(' + state.barrier + ')</span>');
+  if (state.regenTurns > 0) buffs.push('<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); border:1px solid rgba(16,185,129,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">💖 リジェネ(' + state.regenTurns + ')</span>');
+  if (state.teppekiTurns > 0) buffs.push('<span style="background:rgba(61,155,233,0.15); color:var(--accent-blue); border:1px solid rgba(61,155,233,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🧱 防御x2(' + state.teppekiTurns + ')</span>');
+  if (state.strengthenTurns > 0) buffs.push('<span style="background:rgba(239,68,68,0.15); color:var(--accent-red); border:1px solid rgba(239,68,68,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">💪 攻撃1.5倍</span>');
+  if (state.shadowstepTurns > 0) buffs.push('<span style="background:rgba(245,158,11,0.15); color:var(--accent-gold); border:1px solid rgba(245,158,11,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">👤 回避率+20%</span>');
+  if (state.reverseTurns > 0) buffs.push('<span style="background:rgba(168,85,247,0.15); color:var(--accent-purple); border:1px solid rgba(168,85,247,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🔄 リバース</span>');
+  if (state.fortressTurns > 0) buffs.push('<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); border:1px solid rgba(16,185,129,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🏰 無敵</span>');
 
   if (state.activeBuffs && state.activeBuffs.length > 0) {
     state.activeBuffs.forEach(b => {
-      buffs.push(`<span style="background:rgba(0,212,255,0.15); color:var(--accent-cyan); border:1px solid rgba(0,212,255,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">笨ｨ ${b.name}(${b.duration})</span>`);
+      buffs.push('<span style="background:rgba(0,212,255,0.15); color:var(--accent-cyan); border:1px solid rgba(0,212,255,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">✨ ' + b.name + '(' + b.duration + ')</span>');
     });
   }
 
@@ -5003,25 +4977,7 @@ function addLog(msg, cls) {
     if (battleScreen) {
       log = document.createElement('div');
       log.id = 'battle-top-log';
-      log.style.cssText = `
-        position: absolute !important;
-        top: 45px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: 44% !important;
-        height: 200px !important; /* 200px縺ｫ諡｡蠑ｵ */
-        background: rgba(0, 0, 0, 0.75) !important;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
-        border-radius: 6px !important;
-        z-index: 999 !important;
-        padding: 8px 12px !important;
-        box-sizing: border-box !important;
-        overflow-y: auto !important;
-        color: #ffffff !important;
-        font-family: inherit !important;
-        display: block !important;
-        pointer-events: auto !important;
-      `;
+      log.style.cssText = 'position: absolute !important; top: 45px !important; left: 50% !important; transform: translateX(-50%) !important; width: 44% !important; height: 200px !important; background: rgba(0, 0, 0, 0.75) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important; border-radius: 6px !important; z-index: 999 !important; padding: 8px 12px !important; box-sizing: border-box !important; overflow-y: auto !important; color: #ffffff !important; font-family: inherit !important; display: block !important; pointer-events: auto !important;';
       battleScreen.appendChild(log);
     }
   }
@@ -5114,24 +5070,24 @@ function checkAutoPassiveTrigger(actorSide, actor, targetSide, target) {
   const curMp = (actor.mp !== undefined) ? actor.mp : 10;
   if (curMp < 8) return;
 
-  // MP 8 繧呈ｶ郁ｲｻ
+  // MP 8 を消費
   actor.mp = Math.max(0, curMp - 8);
   setMp(actorSide, actor);
 
-  addLog(`笨ｨ ${actor.name} 縺ｮ繝代ャ繧ｷ繝悶せ繧ｭ繝ｫ縲�${skInfo.name}縲上′閾ｪ蜍慕匱蜍包ｼ�ｼ�P 8豸郁ｲｻ / 谿貴P:${actor.mp}�荏, 'log-crit');
+  addLog('✨ ' + actor.name + ' のパッシブスキル『' + skInfo.name + '』が自動発動！（MP 8消費 / 残MP:' + actor.mp + '）', 'log-crit');
 
-  // 繧ｹ繧ｭ繝ｫ縺斐→縺ｮ繝代ャ繧ｷ繝門柑譫懊ｒ逋ｺ蜍�
+  // スキルごとのパッシブ効果を発動
   if (psk === 'secondwind') {
     const heal = Math.min(actor.max - actor.cur, Math.floor(actor.max * 0.4) || 25);
     actor.cur += heal;
     setHp(actorSide, actor);
-    addLog(`�軒�� 縲�${skInfo.name}縲� 豢ｻ蜉帙′縺ｿ縺ｪ縺弱ｊ縲∫函蜻ｽ蜉帙′ ${heal} 蝗槫ｾｩ縺励◆�～, actorSide === 'p' ? 'log-dmg-p' : 'log-dmg-e');
+    addLog('🍃 『' + skInfo.name + '』 活力がみなぎり、生命力が ' + heal + ' 回復した！', actorSide === 'p' ? 'log-dmg-p' : 'log-dmg-e');
   } else if (psk === 'fortress') {
     actor.fortressTurns = 1;
-    addLog(`�床 縲�${skInfo.name}縲� 驩�｣√�邨千阜繧貞ｱ暮幕�� 1繧ｿ繝ｼ繝ｳ縺ｮ髢鍋┌謨ｵ迥ｶ諷九→縺ｪ縺｣縺滂ｼ～, 'log-skill');
+    addLog('🏰 『' + skInfo.name + '』 鉄壁の結界を展開！ 1ターンの間無敵状態となった！', 'log-skill');
   } else if (psk === 'heavyatk') {
     actor.strengthenTurns = 2;
-    addLog(`�潮 縲�${skInfo.name}縲� 蜑帛鴨隗｣謾ｾ�� 2繧ｿ繝ｼ繝ｳ縺ｮ髢薙∵判謦�ｨ∝鴨縺�1.5蛟阪↓荳頑��～, 'log-skill');
+    addLog('💪 『' + skInfo.name + '』 剛力解放！ 2ターンの間、攻撃威力が1.5倍に上昇！', 'log-skill');
   } else if (psk === 'firstwind') {
     applyBuff(actor, { id: 'psk_spd_boost', name: skInfo.name, type: 'speed', val: 100, duration: 2 });
   } else if (psk === 'shuffle') {
@@ -5145,21 +5101,21 @@ function checkAutoPassiveTrigger(actorSide, actor, targetSide, target) {
     }
   } else if (psk === 'glassshield' || psk === 'parry' || psk === 'poorcounter') {
     actor.teppekiTurns = 2;
-    addLog(`�孱�� 縲�${skInfo.name}縲� 螳郁ｭｷ縺ｮ繧ｪ繝ｼ繝ｩ�� 2繧ｿ繝ｼ繝ｳ縺ｮ髢薙�亟蠕｡蜉帙′2蛟阪↓荳頑��～, 'log-skill');
+    addLog('🛡️ 『' + skInfo.name + '』 守護のオーラ！ 2ターンの間、防御力が2倍に上昇！', 'log-skill');
   } else if (psk === 'recycle' || psk === 'selfsatisfaction') {
     actor.regenTurns = 3;
-    addLog(`�挑 縲�${skInfo.name}縲� 逕溷多縺ｮ蠕ｪ迺ｰ�� 3繧ｿ繝ｼ繝ｳ縺ｮ髢薙Μ繧ｸ繧ｧ繝阪Ξ繝ｼ繝�(豈弱ち繝ｼ繝ｳ謖∫ｶ壼屓蠕ｩ)縺御ｻ倅ｸ弱＆繧後◆�～, 'log-skill');
+    addLog('💖 『' + skInfo.name + '』 生命の循環！ 3ターンの間リジェネレート(毎ターン継続回復)が付与された！', 'log-skill');
   } else if (psk === 'fdice' || psk === 'pressure') {
     applyBuff(actor, { id: 'psk_luck_boost', name: skInfo.name, type: 'luck', val: 15, duration: 2 });
     if (target) target.scared = true;
   } else if (psk === 'migawari' || psk === 'playdead') {
     actor.barrier = (actor.barrier || 0) + 20;
-    addLog(`�ｧｸ 縲�${skInfo.name}縲� 霄ｫ莉｣繧上ｊ縺ｮ髦ｲ隴ｷ螢�ｼ� 繝繝｡繝ｼ繧ｸ繧�20閧ｩ莉｣繧上ｊ縺吶ｋ繝舌Μ繧｢繧貞ｱ暮幕縺励◆�～, 'log-skill');
+    addLog('🪆 『' + skInfo.name + '』 身代わりの防護壁！ ダメージを20肩代わりするバリアを展開した！', 'log-skill');
   } else {
-    // 豎守畑繝代ャ繧ｷ繝厄ｼ�articularity縺ｪ縺ｩ�会ｼ壽判髦ｲ繝悶�繧ｹ繝�
+    // 汎用パッシブ（particularityなど）：攻防ブースト
     actor.strengthenTurns = 2;
     actor.teppekiTurns = 2;
-    addLog(`笨ｨ 縲�${skInfo.name}縲� 貎懷惠閭ｽ蜉帙′讌ｵ髯占ｦ夐��� 2繧ｿ繝ｼ繝ｳ縺ｮ髢薙∵判謦�1.5蛟搾ｼ�亟蠕｡2蛟搾ｼ～, 'log-skill');
+    addLog('✨ 『' + skInfo.name + '』 潜在能力が極限覚醒！ 2ターンの間、攻撃1.5倍＆防御2倍！', 'log-skill');
   }
 
   updateBuffsUI(actorSide, actor);
@@ -5212,19 +5168,20 @@ function flashHit(side) {
   if (icon._hitAnim) { try { icon._hitAnim.cancel(); } catch(e){} icon._hitAnim = null; }
 
   // 繝吶�繧ｹtransform繧剃ｿ晄戟�域雰:scaleX(-1) / 蜻ｳ譁ｹ:縺ｪ縺暦ｼ�
+  // 繝吶繧ｹtransform繧剃ｿ晄戟域雰:scaleX(-1) / 蜻ｳ譁ｹ:縺ｪ縺暦ｼ
   const base = isEnemy ? 'scaleX(-1) scale(1.5)' : 'scale(1.5)';
   const baseFilter = isEnemy
     ? 'drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(239,68,68,0.3))'
     : 'drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(0,212,255,0.3))';
 
-  // Web Animations API縺ｧ繝槭う繝ｫ繝峨↑陲ｫ蠑ｾ貍泌��郁ｻｽ縺�ｷｳ縺ｭ�九⊇繧薙�繧顔區逋ｺ蜈会ｼ�
+  // Web Animations APIでマイルドな被弾演出
   icon._hitAnim = icon.animate([
-    { transform: `${base} translate(0, 0)`, filter: 'brightness(1)', offset: 0 },
-    { transform: `${base} translate(-4px, -3px)`, filter: 'brightness(1.6) drop-shadow(0 0 10px rgba(255,255,255,0.4))', offset: 0.15 },
-    { transform: `${base} translate(4px, 1px)`, filter: 'brightness(1.3)', offset: 0.3 },
-    { transform: `${base} translate(-2px, 0)`, filter: 'brightness(1)', offset: 0.5 },
-    { transform: `${base} translate(2px, 0)`, filter: 'brightness(1)', offset: 0.7 },
-    { transform: `${base} translate(0, 0)`, filter: baseFilter, offset: 1 }
+    { transform: base + ' translate(0, 0)', filter: 'brightness(1)', offset: 0 },
+    { transform: base + ' translate(-4px, -3px)', filter: 'brightness(1.6) drop-shadow(0 0 10px rgba(255,255,255,0.4))', offset: 0.15 },
+    { transform: base + ' translate(4px, 1px)', filter: 'brightness(1.3)', offset: 0.3 },
+    { transform: base + ' translate(-2px, 0)', filter: 'brightness(1)', offset: 0.5 },
+    { transform: base + ' translate(2px, 0)', filter: 'brightness(1)', offset: 0.7 },
+    { transform: base + ' translate(0, 0)', filter: baseFilter, offset: 1 }
   ], {
     duration: 350,
     easing: 'ease-out',
@@ -5261,7 +5218,7 @@ function connectHologramLine(actionType) {
   
   // Create beautiful bezier curve path
   const controlY = startY - 60;
-  const d = `M ${startX} ${startY} Q ${(startX + endX) / 2} ${controlY} ${endX} ${endY}`;
+  const d = 'M ' + startX + ' ' + startY + ' Q ' + ((startX + endX) / 2) + ' ' + controlY + ' ' + endX + ' ' + endY;
   
   path.setAttribute('d', d);
   path.style.display = 'block';
@@ -5291,18 +5248,18 @@ function renderAdvice() {
   const box = document.getElementById('battle-advice-box');
   if (!box || !pState || !eState) return;
   
-  let advice = '[ADVICE] 謌ｦ陦灘�譫蝉ｸｭ...';
+  let advice = '[ADVICE] 戦術分析中...';
   
   if (eState.cur === 1) {
-    advice = '�識 [TARGET ELIMINATION]: 逶ｸ謇九�谿九ｊHP縺ｯ1縺ｧ縺呻ｼ∫｢ｺ螳溘↓蜈亥宛縺ｧ縺阪ｋ繧ｹ繧ｭ繝ｫ縲√∪縺溘�騾壼ｸｸ謾ｻ謦�〒莉慕蕗繧√∪縺励ｇ縺��';
+    advice = '⚡ [TARGET ELIMINATION]: 相手の残りHPは1です！確実に先制できるスキル、または通常攻撃で仕留めましょう。';
   } else if (pState.cur < pState.max * 0.3) {
-    advice = '笞��� [CRITICAL HEALTH]: 閾ｪ霄ｫ縺ｮHP縺悟､ｧ蟷�↓菴惹ｸ九＠縺ｦ縺�∪縺呻ｼ�亟蠕｡繧貞崋繧√ｋ縺九∝屓蠕ｩ繧ｹ繧ｭ繝ｫ縺ｧ蜃後＞縺ｧ縺上□縺輔＞縲�';
+    advice = '⚠️ [CRITICAL HEALTH]: 自身のHPが大幅に低下しています！防御を固めるか、回復スキルで凌いでください。';
   } else if (eState.speed > pState.speed) {
-    advice = `笞｡ [SPEED DISADVANTAGE]: 逶ｸ謇九�SPD(${eState.speed})縺ｯ縺薙■繧峨�SPD(${pState.speed})繧剃ｸ雁屓縺｣縺ｦ縺�∪縺吶ょ�蛻ｶ謾ｻ謦�↓蛯吶∴縺ｦ縺上□縺輔＞縲Ａ;
+    advice = '🏃 [SPEED DISADVANTAGE]: 相手のSPD(' + eState.speed + ')はこちらのSPD(' + pState.speed + ')を上回っています。先制攻撃に備えてください。';
   } else if (pState.speed > eState.speed) {
-    advice = `笞費ｸ� [INITIATIVE ADVANTAGE]: 縺薙■繧峨�SPD(${pState.speed})縺悟享縺｣縺ｦ縺�∪縺吶ら嶌謇九ｈ繧頑掠縺剰｡悟虚蜿ｯ閭ｽ縺ｧ縺吶よ判蜍｢縺ｫ蜃ｺ縺ｾ縺励ｇ縺�Ａ;
+    advice = '⚔️ [INITIATIVE ADVANTAGE]: こちらのSPD(' + pState.speed + ')が勝っています。相手より早く行動可能です。攻勢に出ましょう！';
   } else {
-    advice = '�町 [TACTICAL INFO]: 縺贋ｺ偵＞縺ｮ螳溷鴨縺ｯ諡ｮ謚励＠縺ｦ縺�∪縺吶よ雰縺ｮ蜃ｺ譁ｹ繧定ｦ区･ｵ繧√※繧ｳ繝槭Φ繝峨ｒ豎ｺ螳壹＠縺ｦ縺上□縺輔＞縲�';
+    advice = '🎯 [TACTICAL INFO]: お互いの実力は拮抗しています。敵の出方を見極めてコマンドを決定してください。';
   }
   
   box.textContent = advice;
@@ -5418,24 +5375,24 @@ function showResult() {
       banner.style.color = 'var(--text-primary)';
       banner.style.textShadow = 'none';
       if (panel) panel.style.borderColor = 'var(--border)';
-      sub.textContent = '豎ｺ逹縺後▽縺九↑縺九▲縺溪ｦ 蜀肴姶縺励∪縺吶�';
-      nextBtn.textContent = '�売 蜀肴姶縺吶ｋ';
+      sub.textContent = '決着がつかなかった… 再戦します。';
+      nextBtn.textContent = '🔄 再戦する';
     } else if (playerWon) {
       banner.textContent = 'VICTORY!';
       banner.style.color = 'var(--accent-gold)';
       banner.style.textShadow = '0 0 10px rgba(245,158,11,0.5)';
       if (panel) panel.style.borderColor = 'var(--accent-gold)';
-      sub.textContent = `${pState.name} 縺� ${eState.name} 繧呈茶遐ｴ縺励◆�～;
+      sub.textContent = pState.name + ' が ' + eState.name + ' を撃破した！';
       record.win++;
-      nextBtn.textContent = '�亮�� 谺｡縺ｸ';
+      nextBtn.textContent = '👉 次へ';
     } else {
       banner.textContent = 'DEFEAT...';
       banner.style.color = 'var(--accent-red)';
       banner.style.textShadow = '0 0 10px rgba(239,68,68,0.5)';
       if (panel) panel.style.borderColor = 'var(--accent-red)';
-      sub.textContent = `${pState.name} 縺ｯ ${eState.name} 縺ｫ謨励ｌ縺溪ｦ`;
+      sub.textContent = pState.name + ' は ' + eState.name + ' に敗れた…';
       record.lose++;
-      nextBtn.textContent = '�亮�� 谺｡縺ｸ';
+      nextBtn.textContent = '👉 次へ';
     }
 
     save();
@@ -5450,13 +5407,13 @@ function showResult() {
     banner.style.color = 'var(--accent-gold)';
     banner.style.textShadow = '0 0 10px rgba(245,158,11,0.5)';
     if (panel) panel.style.borderColor = 'var(--accent-gold)';
-    sub.textContent = `${pState.name} 縺� ${eState.name} 繧呈茶遐ｴ縺励◆�～;
+    sub.textContent = pState.name + ' が ' + eState.name + ' を撃破した！';
     record.win++;
 
-    // 繝ｩ繧ｹ繝懊せ隕�視謌ｦ蜍晏茜譎�: 縲後Λ繝懊∈縲阪�繧ｿ繝ｳ繧帝國縺励√�繧ｿ繝ｳ驕ｸ謚櫁い繧偵交泓ｺ�乗ｬ｡縺ｸ縲阪�1縺､縺ｫ縺吶ｋ
+    // 繝ｩ繧ｹ繝懊せ隕視謌ｦ蜍晏茜譎: 縲後Λ繝懊∈縲阪繧ｿ繝ｳ繧帝國縺励€√繧ｿ繝ｳ驕ｸ謚櫁い繧偵€交泓ｺ乗ｬ｡縺ｸ縲阪1縺､縺ｫ縺吶ｋ
     if (currentGameMode === 'boss-revenge') {
       if (labBtn) labBtn.style.display = 'none';
-      nextBtn.textContent = '�亮�� 谺｡縺ｸ';
+      nextBtn.textContent = '👉 次へ';
       save();
       updateRecord();
       const modal = document.getElementById('battle-result-modal');
@@ -5467,22 +5424,22 @@ function showResult() {
     if (currentGameMode === 'league') {
       stageIndex++;
       if (stageIndex >= STAGE_ENEMIES.length) {
-        sub.textContent = `${pState.name} 縺� ${eState.name} 繧呈茶遐ｴ縺励◆�� �脂 繝ｪ繝ｼ繧ｰ蜈ｨ繧ｹ繝��繧ｸ繧ｯ繝ｪ繧｢�� 縺翫ａ縺ｧ縺ｨ縺�ｼ～;
-        nextBtn.textContent = '�売 譛蛻昴°繧画倦謌ｦ';
+        sub.textContent = pState.name + ' が ' + eState.name + ' を撃破した！ 🎉 リーグ全ステージクリア！ おめでとう！';
+        nextBtn.textContent = '🔄 最初から挑戦';
         // Win reward trigger
         setTimeout(() => showScrollReward(), 1500);
       } else {
-        nextBtn.textContent = '�亮�� 谺｡縺ｮ繧ｹ繝��繧ｸ縺ｸ';
+        nextBtn.textContent = '👉 次のステージへ';
       }
     } else if (currentGameMode === 'survival') {
       survivalWins++;
       if (survivalWins > survivalBestRecord) {
         survivalBestRecord = survivalWins;
       }
-      sub.textContent += ` �脂 ${survivalWins}騾｣蜍晞＃謌撰ｼ� (BEST: ${survivalBestRecord})`;
-      nextBtn.textContent = `�櫨 谺｡縺ｮ蟇ｾ謌ｦ縺ｸ (${survivalWins}騾｣蜍昜ｸｭ)`;
+      sub.textContent += ' 🎉 ' + survivalWins + '連勝達成！ (BEST: ' + survivalBestRecord + ')';
+      nextBtn.textContent = '⚔️ 次の対戦へ (' + survivalWins + '連勝中)';
     } else {
-      nextBtn.textContent = '�亮�� 繧ゅ≧荳蠎ｦ蟇ｾ謌ｦ';
+      nextBtn.textContent = '👉 もう一度対戦';
     }
 
   } else if (eState.cur > 0 && pState.cur <= 0) {
@@ -5490,11 +5447,11 @@ function showResult() {
     banner.style.color = 'var(--accent-red)';
     banner.style.textShadow = '0 0 10px rgba(239,68,68,0.5)';
     if (panel) panel.style.borderColor = 'var(--accent-red)';
-    sub.textContent = `${pState.name} 縺ｯ ${eState.name} 縺ｫ謨励ｌ縺溪ｦ`;
+    sub.textContent = pState.name + ' は ' + eState.name + ' に敗れた…';
     record.lose++;
 
     // Tutorial boss defeat event
-    if (gameProgress.tutorialStep === 2 && currentEnemy && (currentEnemy.name.includes('隕�視'))) {
+    if (gameProgress.tutorialStep === 2 && currentEnemy && (currentEnemy.name.includes('視察'))) {
       record.lose--; // Don't count tutorial defeat in stats
       save();
       updateRecord();
@@ -5505,7 +5462,7 @@ function showResult() {
       if (labBtn) labBtn.style.display = 'none';
       if (nextBtn) {
         nextBtn.style.display = 'inline-block';
-        nextBtn.textContent = '�亮�� 谺｡縺ｸ';
+        nextBtn.textContent = '👉 次へ';
         const defaultOnClick = nextBtn.onclick;
         nextBtn.onclick = () => {
           if (modal) modal.style.display = 'none';
@@ -5519,7 +5476,7 @@ function showResult() {
       return;
     }
 
-    // 繝ｩ繧ｹ繝懊せ隕�視謌ｦ謨怜圏譎�: 縲梧ｬ｡縺ｸ縲阪�繧ｿ繝ｳ繧帝國縺励√�繧ｿ繝ｳ驕ｸ謚櫁い繧偵交沐ｬ 繝ｩ繝懊∈縲阪�1縺､縺ｫ縺吶ｋ
+    // ラストボス視察戦敗北時: 「次へ」ボタンを隠し、ボタン選択肢を「🔬 ラボへ」の1つにする
     if (currentGameMode === 'boss-revenge') {
       if (nextBtn) nextBtn.style.display = 'none';
       save();
@@ -5530,11 +5487,11 @@ function showResult() {
     }
 
     if (currentGameMode === 'survival') {
-      sub.textContent += ` �逐 騾｣蜍晁ｨ倬鹸縺ｯ ${survivalWins} 縺ｧ繧ｹ繝医ャ繝励＠縺ｾ縺励◆縲�(BEST: ${survivalBestRecord})`;
+      sub.textContent += ' 💔 連勝記録は ' + survivalWins + ' でストップしました。(BEST: ' + survivalBestRecord + ')';
       survivalWins = 0;
-      nextBtn.textContent = '�売 譛蛻昴°繧画倦謌ｦ';
+      nextBtn.textContent = '🔄 最初から挑戦';
     } else {
-      nextBtn.textContent = '�売 繧ゅ≧荳蠎ｦ謖第姶';
+      nextBtn.textContent = '🔄 もう一度挑戦';
     }
 
   } else {
@@ -5542,9 +5499,9 @@ function showResult() {
     banner.style.color = 'var(--text-primary)';
     banner.style.textShadow = 'none';
     if (panel) panel.style.borderColor = 'var(--border)';
-    sub.textContent = '豎ｺ逹縺後▽縺九↑縺九▲縺溪ｦ';
+    sub.textContent = '決着がつかなかった…';
     record.draw++;
-    nextBtn.textContent = '�売 蜀肴姶縺吶ｋ';
+    nextBtn.textContent = '🔄 再戦する';
   }
 
   save();
@@ -5689,40 +5646,40 @@ function renderSaveSlots() {
       const wins = (data.record && data.record.win) || 0;
       const loses = (data.record && data.record.lose) || 0;
 
-      card.innerHTML = `
-        <div class="slot-card-header">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span style="font-weight:bold; font-size:16px; color:var(--accent-gold);">SLOT ${i}</span>
-            ${isActive ? '<span style="font-size:11px; background:var(--accent-gold); color:#000; font-weight:bold; padding:1px 6px; border-radius:3px;">驕ｸ謚樔ｸｭ</span>' : ''}
-          </div>
-          <span class="slot-badge in-use">繝励Ξ繧､荳ｭ</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:2px;">
-          <div style="font-size:18px; font-weight:bold; color:var(--text-primary);">${data.playerName}</div>
-          <div style="font-size:12px; color:var(--text-dim);">譛邨ゆｿ晏ｭ�: ${data.updatedAt || '荳肴�'}</div>
-        </div>
-        <div style="font-size:13px; color:var(--text-secondary); display:flex; gap:12px; flex-wrap:wrap; margin-top:2px;">
-          <span>笞費ｸ� STAGE ${stageStr}</span>
-          <span>�糖 繧ｹ繧ｭ繝ｫ隗｣譏�: ${unlockedCount}/30 (${pct}%)</span>
-          <span>�醇 謌ｦ邵ｾ: ${wins}蜍� ${loses}謨�</span>
-        </div>
-        <div class="slot-actions">
-          <button class="btn-secondary" style="padding:4px 12px; font-size:13px; border-color:var(--accent-cyan); color:var(--accent-cyan);" onclick="loadGameFromSlot(${i})">笆ｶ 縺､縺･縺阪°繧�</button>
-          <button class="btn-secondary" style="padding:4px 12px; font-size:13px; border-color:rgba(245,158,11,0.4); color:var(--accent-gold);" onclick="manualSaveToSlot(${i})">�沈 荳頑嶌縺堺ｿ晏ｭ�</button>
-          <button class="btn-secondary" style="padding:4px 10px; font-size:13px; border-color:rgba(239,68,68,0.4); color:var(--accent-red);" onclick="deleteSlotConfirm(${i})">�卵�� 蜑企勁</button>
-        </div>
-      `;
+      let html = '<div class="slot-card-header">';
+      html += '<div style="display:flex; align-items:center; gap:8px;">';
+      html += '<span style="font-weight:bold; font-size:16px; color:var(--accent-gold);">SLOT ' + i + '</span>';
+      if (isActive) html += '<span style="font-size:11px; background:var(--accent-gold); color:#000; font-weight:bold; padding:1px 6px; border-radius:3px;">選択中</span>';
+      html += '</div>';
+      html += '<span class="slot-badge in-use">プレイ中</span>';
+      html += '</div>';
+      html += '<div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:2px;">';
+      html += '<div style="font-size:18px; font-weight:bold; color:var(--text-primary);">' + data.playerName + '</div>';
+      html += '<div style="font-size:12px; color:var(--text-dim);">最終保存: ' + (data.updatedAt || '不明') + '</div>';
+      html += '</div>';
+      html += '<div style="font-size:13px; color:var(--text-secondary); display:flex; gap:12px; flex-wrap:wrap; margin-top:2px;">';
+      html += '<span>⚔️ STAGE ' + stageStr + '</span>';
+      html += '<span>📜 スキル解明: ' + unlockedCount + '/30 (' + pct + '%)</span>';
+      html += '<span>🏆 戦績: ' + wins + '勝 ' + loses + '敗</span>';
+      html += '</div>';
+      html += '<div class="slot-actions">';
+      html += '<button class="btn-secondary" style="padding:4px 12px; font-size:13px; border-color:var(--accent-cyan); color:var(--accent-cyan);" onclick="loadGameFromSlot(' + i + ')">▶ つづきから</button>';
+      html += '<button class="btn-secondary" style="padding:4px 12px; font-size:13px; border-color:rgba(245,158,11,0.4); color:var(--accent-gold);" onclick="manualSaveToSlot(' + i + ')">💾 上書き保存</button>';
+      html += '<button class="btn-secondary" style="padding:4px 10px; font-size:13px; border-color:rgba(239,68,68,0.4); color:var(--accent-red);" onclick="deleteSlotConfirm(' + i + ')">🗑️ 削除</button>';
+      html += '</div>';
+
+      card.innerHTML = html;
     } else {
-      card.innerHTML = `
-        <div class="slot-card-header">
-          <span style="font-weight:bold; font-size:16px; color:var(--text-dim);">SLOT ${i}</span>
-          <span class="slot-badge empty">譁ｰ隕上ョ繝ｼ繧ｿ (Empty)</span>
-        </div>
-        <div style="font-size:14px; color:var(--text-dim); padding:8px 0;">繧ｻ繝ｼ繝悶ョ繝ｼ繧ｿ縺後≠繧翫∪縺帙ｓ</div>
-        <div class="slot-actions">
-          <button class="title-btn" style="padding:4px 16px; font-size:14px;" onclick="startNewGameInSlot(${i})">�� 縺ｯ縺倥ａ縺九ｉ</button>
-        </div>
-      `;
+      let html = '<div class="slot-card-header">';
+      html += '<span style="font-weight:bold; font-size:16px; color:var(--text-dim);">SLOT ' + i + '</span>';
+      html += '<span class="slot-badge empty">新規データ (Empty)</span>';
+      html += '</div>';
+      html += '<div style="font-size:14px; color:var(--text-dim); padding:8px 0;">セーブデータがありません</div>';
+      html += '<div class="slot-actions">';
+      html += '<button class="title-btn" style="padding:4px 16px; font-size:14px;" onclick="startNewGameInSlot(' + i + ')">✨ はじめから</button>';
+      html += '</div>';
+
+      card.innerHTML = html;
     }
     container.appendChild(card);
   }
@@ -5742,7 +5699,7 @@ function manualSaveToSlot(slotId) {
   activeSlotId = slotId;
   save();
   renderSaveSlots();
-  alert(`SLOT ${slotId} 縺ｫ菫晏ｭ倥＠縺ｾ縺励◆�～);
+  alert('SLOT ' + slotId + ' に保存しました！');
 }
 
 function startNewGameInSlot(slotId) {
@@ -5754,7 +5711,7 @@ function startNewGameInSlot(slotId) {
 }
 
 async function deleteSlotConfirm(slotId) {
-  const result = await showConfirmModal(`SLOT ${slotId} 縺ｮ繧ｻ繝ｼ繝悶ョ繝ｼ繧ｿ繧呈悽蠖薙↓蜑企勁縺励∪縺吶°�歃n(蜑企勁縺輔ｌ縺溘ョ繝ｼ繧ｿ縺ｯ莠悟ｺｦ縺ｨ蠕ｩ蜈�〒縺阪∪縺帙ｓ)`);
+  const result = await showConfirmModal('SLOT ' + slotId + ' のセーブデータを本当に削除しますか？\n(削除されたデータは二度と復元できません)');
   if (result) {
     deleteSlotData(slotId);
     renderSaveSlots();
@@ -5975,21 +5932,18 @@ function showSeriesPreview(seriesId) {
   
   if (!modal || !gridEl) return;
   
-  titleEl.textContent = item.name + ' - 蜿朱鹸繝｢繝ｳ繧ｹ繧ｿ繝ｼ荳隕ｧ';
-  subEl.textContent = '縲�' + item.sub + '縲� 隗｣謾ｾ蠕後↓菴懈�蜿ｯ閭ｽ縺ｨ縺ｪ繧九Δ繝ｳ繧ｹ繧ｿ繝ｼ繝薙ず繝･繧｢繝ｫ';
+  titleEl.textContent = item.name + ' - 収録モンスター一覧';
+  subEl.textContent = '『' + item.sub + '』 解放後に作成可能となるモンスタービジュアル';
   
   gridEl.innerHTML = '';
   monsters.forEach(m => {
     const card = document.createElement('div');
     card.style = 'background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:14px 10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;';
     
-    const imgHtml = `<img src="${m.image}" style="height:90px; width:auto; object-fit:contain; filter:drop-shadow(0 0 10px rgba(0,212,255,0.4));">`;
-    
-    card.innerHTML = `
-      ${imgHtml}
-      <div style="font-weight:bold; font-size:14px; color:var(--text-primary); margin-top:4px;">${m.name}</div>
-      <div style="font-size:11px; color:var(--accent-cyan);">遞ｮ譌�: ${m.category}</div>
-    `;
+    let html = '<img src="' + m.image + '" style="height:90px; width:auto; object-fit:contain; filter:drop-shadow(0 0 10px rgba(0,212,255,0.4));">';
+    html += '<div style="font-weight:bold; font-size:14px; color:var(--text-primary); margin-top:4px;">' + m.name + '</div>';
+    html += '<div style="font-size:11px; color:var(--accent-cyan);">種族: ' + m.category + '</div>';
+    card.innerHTML = html;
     gridEl.appendChild(card);
   });
   
@@ -6004,7 +5958,7 @@ function closeSeriesPreview() {
 function renderRewardShop() {
   const shopBp = document.getElementById('shop-bp-display');
   const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
-  if (shopBp) shopBp.textContent = `${activeBp} BP`;
+  if (shopBp) shopBp.textContent = activeBp + ' BP';
   
   const container = document.getElementById('shop-items-list');
   if (!container) return;
@@ -6017,27 +5971,27 @@ function renderRewardShop() {
     
     let buttonHtml = '';
     if (isUnlocked) {
-      buttonHtml = `<button class="btn-secondary" style="border-color:var(--accent-green); color:var(--accent-green); cursor:default; font-weight:bold;" disabled>笨� 隗｣謾ｾ貂医∩</button>`;
+      buttonHtml = '<button class="btn-secondary" style="border-color:var(--accent-green); color:var(--accent-green); cursor:default; font-weight:bold;" disabled>✓ 解放済み</button>';
     } else {
       const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
       const price = item.price || 500;
       const canBuy = activeBp >= price;
-      buttonHtml = `<button class="title-btn" style="padding:8px 16px; font-size:13px; ${!canBuy ? 'opacity:0.5; cursor:not-allowed; background:#475569; color:#cbd5e1; box-shadow:none;' : ''}" ${!canBuy ? 'disabled' : ''} onclick="buyShopItem('${item.id}')">${price} BP縺ｧ雉ｼ蜈･</button>`;
+      buttonHtml = '<button class="title-btn" style="padding:8px 16px; font-size:13px; ' + (!canBuy ? 'opacity:0.5; cursor:not-allowed; background:#475569; color:#cbd5e1; box-shadow:none;' : '') + '" ' + (!canBuy ? 'disabled' : '') + ' onclick="buyShopItem(\'' + item.id + '\')">' + price + ' BPで購入</button>';
     }
     
-    const previewBtnHtml = !item.isItem ? `<button class="btn-secondary" style="padding:6px 12px; font-size:12px; margin-right:8px; color:var(--accent-cyan); border-color:rgba(0,212,255,0.4);" onclick="showSeriesPreview('${item.id}')">�剥 繝励Ξ繝薙Η繝ｼ</button>` : '';
+    const previewBtnHtml = !item.isItem ? '<button class="btn-secondary" style="padding:6px 12px; font-size:12px; margin-right:8px; color:var(--accent-cyan); border-color:rgba(0,212,255,0.4);" onclick="showSeriesPreview(\'' + item.id + '\')">👁️ プレビュー</button>' : '';
 
-    card.innerHTML = `
-      <div style="text-align:left;">
-        <div style="font-weight:bold; font-size:16px; color:var(--text-primary);">${item.name}</div>
-        <div style="font-size:12px; color:var(--accent-gold); margin-top:2px;">縲�${item.sub}縲�</div>
-        <div style="font-size:13px; color:var(--text-dim); margin-top:4px;">${item.desc}</div>
-      </div>
-      <div style="display:flex; align-items:center;">
-        ${previewBtnHtml}
-        ${buttonHtml}
-      </div>
-    `;
+    let cardHtml = '<div style="text-align:left;">';
+    cardHtml += '<div style="font-weight:bold; font-size:16px; color:var(--text-primary);">' + item.name + '</div>';
+    cardHtml += '<div style="font-size:12px; color:var(--accent-gold); margin-top:2px;">『' + item.sub + '』</div>';
+    cardHtml += '<div style="font-size:13px; color:var(--text-dim); margin-top:4px;">' + item.desc + '</div>';
+    cardHtml += '</div>';
+    cardHtml += '<div style="display:flex; align-items:center;">';
+    cardHtml += previewBtnHtml;
+    cardHtml += buttonHtml;
+    cardHtml += '</div>';
+
+    card.innerHTML = cardHtml;
     container.appendChild(card);
   });
 }
@@ -6050,17 +6004,17 @@ function buyShopItem(itemId) {
   const activeBp = (typeof debugMode !== 'undefined' && debugMode) ? 9999 : bp;
   
   if (activeBp < price) {
-    alert('豁ｦ闊槫床繝昴う繝ｳ繝�(BP)縺御ｸ崎ｶｳ縺励※縺�∪縺呻ｼ�');
+    alert('武舞台ポイント(BP)が不足しています！');
     return;
   }
   
   if (!item.isItem && isSeriesUnlocked(itemId) && !(typeof debugMode !== 'undefined' && debugMode)) {
-    alert('縺吶〒縺ｫ隗｣謾ｾ縺輔ｌ縺ｦ縺�∪縺呻ｼ�');
+    alert('すでに解放されています！');
     return;
   }
   
   if (typeof debugMode !== 'undefined' && debugMode) {
-    alert('繝�ヰ繝�げ繝｢繝ｼ繝我ｸｭ縺ｯ雉ｼ蜈･縺ｧ縺阪∪縺帙ｓ縲る壼ｸｸ繝｢繝ｼ繝峨〒縺頑･ｽ縺励∩縺上□縺輔＞縲�');
+    alert('デバッグモード中は購入できません。通常モードでお楽しみください。');
     return;
   }
   
@@ -6069,17 +6023,17 @@ function buyShopItem(itemId) {
   if (item.isItem) {
     if (itemId === 'item_expand_slot_2') {
       ownedItems.expandSlot2 = (ownedItems.expandSlot2 || 0) + 1;
-      alert('縲後Δ繝ｳ繧ｹ繧ｿ繝ｼ譫�諡｡蠑ｵ (+2)縲阪ｒ雉ｼ蜈･縺励∪縺励◆�√Λ繝懊�繧｢繧､繝�Β逕ｻ髱｢縺九ｉ菴ｿ逕ｨ縺ｧ縺阪∪縺吶�');
+      alert('「モンスター枠拡張 (+2)」を購入しました！ラボのアイテム画面から使用できます。');
     } else if (itemId === 'item_reset_stats') {
       ownedItems.resetStats = (ownedItems.resetStats || 0) + 1;
-      alert('縲後せ繝��繧ｿ繧ｹ繝ｪ繧ｻ繝�ヨ阮ｬ縲阪ｒ雉ｼ蜈･縺励∪縺励◆�√Λ繝懊�繧｢繧､繝�Β逕ｻ髱｢縺九ｉ菴ｿ逕ｨ縺ｧ縺阪∪縺吶�');
+      alert('「ステータスリセット薬」を購入しました！ラボのアイテム画面から使用できます。');
     } else if (itemId === 'item_change_skill') {
       ownedItems.changeSkill = (ownedItems.changeSkill || 0) + 1;
-      alert('縲後せ繧ｭ繝ｫ蜀肴ｧ区�阮ｬ縲阪ｒ雉ｼ蜈･縺励∪縺励◆�√Λ繝懊�繧｢繧､繝�Β逕ｻ髱｢縺九ｉ菴ｿ逕ｨ縺ｧ縺阪∪縺吶�');
+      alert('「スキル再構成薬」を購入しました！ラボのアイテム画面から使用できます。');
     }
   } else {
     unlockedSeries.push(itemId);
-    alert('繧ｷ繝ｪ繝ｼ繧ｺ繧定ｧ｣謾ｾ縺励∪縺励◆�√Λ繝懆ｪｿ蜷医〒菴ｿ逕ｨ蜿ｯ閭ｽ縺ｫ縺ｪ繧翫∪縺吶�');
+    alert('シリーズを解放しました！ラボ調合で使用可能になります。');
   }
   
   save();
@@ -6132,11 +6086,11 @@ function updateMenuFacilities() {
     if (sp.pct >= 50) {
       mapTeam.classList.remove('locked');
       if (lockEl) lockEl.style.display = 'none';
-      if (tooltipEl) tooltipEl.innerHTML = `�孱�� 豁ｦ闊槫床�亥屮菴捺姶��<br><span style="font-size:10px; color:#aaa;">3vs3繝医�繝翫Γ繝ｳ繝� (謇謖。P: ${bp} BP)</span>`;
+      if (tooltipEl) tooltipEl.innerHTML = '🛡️ 武舞台（団体戦）<br><span style="font-size:10px; color:#aaa;">3vs3トーナメント (所持BP: ' + bp + ' BP)</span>';
     } else {
       mapTeam.classList.add('locked');
       if (lockEl) lockEl.style.display = 'block';
-      if (tooltipEl) tooltipEl.innerHTML = `�孱�� 豁ｦ闊槫床�亥屮菴捺姶��<br><span style="font-size:10px; color:#ef4444; font-weight:bold;">�白 繧ｹ繧ｭ繝ｫ隗｣譏主ｺｦ50%縺ｧ隗｣謾ｾ</span>`;
+      if (tooltipEl) tooltipEl.innerHTML = '🛡️ 武舞台（団体戦）<br><span style="font-size:10px; color:#ef4444; font-weight:bold;">🔒 スキル解明度50%で解放</span>';
     }
   }
   if (mapTower) {
@@ -6145,28 +6099,28 @@ function updateMenuFacilities() {
     if (sp.pct >= 50) {
       mapTower.classList.remove('locked');
       if (lockEl) lockEl.style.display = 'none';
-      if (tooltipEl) tooltipEl.innerHTML = `�両 隧ｦ邱ｴ縺ｮ繧ｿ繝ｯ繝ｼ<br><span style="font-size:10px; color:#aaa;">繧ｵ繝舌う繝舌Ν蜍昴■謚懊″謌ｦ</span>`;
+      if (tooltipEl) tooltipEl.innerHTML = '🗼 試練のタワー<br><span style="font-size:10px; color:#aaa;">サバイバル勝ち抜き戦</span>';
     } else {
       mapTower.classList.add('locked');
       if (lockEl) lockEl.style.display = 'block';
-      if (tooltipEl) tooltipEl.innerHTML = `�両 隧ｦ邱ｴ縺ｮ繧ｿ繝ｯ繝ｼ<br><span style="font-size:10px; color:#ef4444; font-weight:bold;">�白 繧ｹ繧ｭ繝ｫ隗｣譏主ｺｦ50%縺ｧ隗｣謾ｾ</span>`;
+      if (tooltipEl) tooltipEl.innerHTML = '🗼 試練のタワー<br><span style="font-size:10px; color:#ef4444; font-weight:bold;">🔒 スキル解明度50%で解放</span>';
     }
   }
   if (mapRevenge) {
     const lockEl = document.getElementById('map-lock-boss-revenge');
     const tooltipEl = document.getElementById('boss-revenge-tooltip');
     
-    // 蟶ｸ譎� flex 陦ｨ遉ｺ
+    // 蟶ｸ譎 flex 陦ｨ遉ｺ
     mapRevenge.style.display = 'flex';
     
     if (gameProgress.bossRevengeUnlocked) {
       mapRevenge.classList.remove('locked');
       if (lockEl) lockEl.style.display = 'none';
-      if (tooltipEl) tooltipEl.innerHTML = `�荘 隕�視繝ｪ繝吶Φ繧ｸ繝槭ャ繝�<br><span style="font-size:10px; color:#fff;">髣俶橿蝣ｴ縺ｮ隕�視縺ｸ繝ｪ繝吶Φ繧ｸ</span>`;
+      if (tooltipEl) tooltipEl.innerHTML = '👑 視察リベンジマッチ<br><span style="font-size:10px; color:#fff;">闘技場の視察へリベンジ</span>';
     } else {
       mapRevenge.classList.add('locked');
       if (lockEl) lockEl.style.display = 'block';
-      if (tooltipEl) tooltipEl.innerHTML = `�荘 隕�視繝ｪ繝吶Φ繧ｸ繝槭ャ繝�<br><span style="font-size:10px; color:#ef4444; font-weight:bold;">�白 繧ｹ繧ｭ繝ｫ30蛟句�隗｣謾ｾ縺ｧ繧｢繝ｳ繝ｭ繝�け</span>`;
+      if (tooltipEl) tooltipEl.innerHTML = '👑 視察リベンジマッチ<br><span style="font-size:10px; color:#ef4444; font-weight:bold;">🔒 スキル30個全解放でアンロック</span>';
     }
   }
   
@@ -6359,7 +6313,7 @@ function startEndingCredits() {
 
 function openTeamArenaMenu() {
   const bpDisplay = document.getElementById('team-arena-bp-display');
-  if (bpDisplay) bpDisplay.textContent = `${bp} BP`;
+  if (bpDisplay) bpDisplay.textContent = bp + ' BP';
   goScreen('team-arena-menu');
   triggerFirstTimeHelp('team-arena');
 }
@@ -6901,17 +6855,66 @@ function startP2PTeamBout(boutIdx) {
   }
   currentGameMode = 'free';
   goScreen('battle');
-}v style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="color:var(--accent-gold); font-weight:bold;">${TA_SLOT_LABELS[i]}</span>
-          <span style="color:#fff; font-weight: bold;">${mIcon} ${m.name}</span>
-        </div>
-        <div style="font-size:11px; color:var(--text-dim); margin-top: 4px;">
-          HP:${m.stats.hp} A:${m.stats.attack} D:${m.stats.defense} S:${m.stats.speed} L:${m.stats.luck}
-        </div>
-        <div style="font-size:11px; color:var(--accent-cyan); margin-top: 2px; font-weight: bold;">
-          笞｡ 繧ｹ繧ｭ繝ｫ: ${mySkillStr}
-        </div>
-      `;
+}
+
+// Render party selection UI and enemy preview
+function taRenderPartySelect() {
+  const round = taState ? taState.round : 0;
+  const results = taState ? taState.boutResults : [null, null, null];
+  
+  // My team preview
+  const myPreview = document.getElementById('ta-my-team-preview');
+  const activeLab = getActiveLab();
+  if (myPreview) {
+    myPreview.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+      const idx = taState.myTeam[i];
+      const m = idx !== null ? activeLab[idx] : null;
+      
+      const div = document.createElement('div');
+      div.className = 'ta-slot-box' + (taState.activeSlotIdx === i ? ' active' : '');
+      div.onclick = () => { taState.activeSlotIdx = i; taRenderPartySelect(); };
+      
+      if (!m) {
+        div.innerHTML = '<div style="color:var(--text-dim); text-align:center; padding:12px;">' + TA_SLOT_LABELS[i] + ': モンスター未選択</div>';
+        myPreview.appendChild(div);
+        continue;
+      }
+      
+      const mType = MONSTER_TYPES[m.systemType] || MONSTER_TYPES[m.type] || { icon: '👾' };
+      const mIcon = mType.icon || '👾';
+      
+      const mySkillsText = [];
+      if (m.skills && m.skills.active && m.skills.active[0] && m.skills.active[0] !== 'none') {
+        const sk = SKILLS[m.skills.active[0]];
+        if (sk) mySkillsText.push(sk.icon + sk.name);
+      }
+      if (m.skills && m.skills.passive && m.skills.passive[0] && m.skills.passive[0] !== 'none') {
+        const sk = SKILLS[m.skills.passive[0]];
+        if (sk) mySkillsText.push(sk.icon + sk.name);
+      }
+      const mySkillStr = mySkillsText.length > 0 ? mySkillsText.join(' / ') : 'なし';
+      
+      let overlayMarkHtml = '';
+      if (results[i] === 'win') {
+        overlayMarkHtml = '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(34,197,94,0.15); border-radius:8px; pointer-events:none; z-index:5;"><span style="font-size:42px; font-weight:900; color:#22c55e; text-shadow:0 0 12px rgba(34,197,94,0.9), 0 0 4px #000; line-height:1;">⭕</span></div>';
+      } else if (results[i] === 'lose') {
+        overlayMarkHtml = '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(239,68,68,0.15); border-radius:8px; pointer-events:none; z-index:5;"><span style="font-size:42px; font-weight:900; color:#ef4444; text-shadow:0 0 12px rgba(239,68,68,0.9), 0 0 4px #000; line-height:1;">❌</span></div>';
+      }
+
+      let divHtml = overlayMarkHtml;
+      divHtml += '<div style="display: flex; justify-content: space-between; align-items: center;">';
+      divHtml += '<span style="color:var(--accent-gold); font-weight:bold;">' + TA_SLOT_LABELS[i] + '</span>';
+      divHtml += '<span style="color:#fff; font-weight: bold;">' + mIcon + ' ' + m.name + '</span>';
+      divHtml += '</div>';
+      divHtml += '<div style="font-size:11px; color:var(--text-dim); margin-top: 4px;">';
+      divHtml += 'HP:' + m.stats.hp + ' A:' + m.stats.attack + ' D:' + m.stats.defense + ' S:' + m.stats.speed + ' L:' + m.stats.luck;
+      divHtml += '</div>';
+      divHtml += '<div style="font-size:11px; color:var(--accent-cyan); margin-top: 2px; font-weight: bold;">';
+      divHtml += '✨ スキル: ' + mySkillStr;
+      divHtml += '</div>';
+
+      div.innerHTML = divHtml;
       myPreview.appendChild(div);
     }
   }
@@ -6933,30 +6936,31 @@ function startP2PTeamBout(boutIdx) {
         const sk = SKILLS[e.skills.passive[0]];
         if (sk) skillsText.push(sk.icon + sk.name);
       }
-      const skillStr = skillsText.length > 0 ? skillsText.join(' / ') : '縺ｪ縺�';
+      const skillStr = skillsText.length > 0 ? skillsText.join(' / ') : 'なし';
 
       let enemyOverlayMarkHtml = '';
       if (results[i] === 'lose') {
-        enemyOverlayMarkHtml = '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(34,197,94,0.15); border-radius:8px; pointer-events:none; z-index:5;"><span style="font-size:42px; font-weight:900; color:#22c55e; text-shadow:0 0 12px rgba(34,197,94,0.9), 0 0 4px #000; line-height:1;">箝�</span></div>';
+        enemyOverlayMarkHtml = '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(34,197,94,0.15); border-radius:8px; pointer-events:none; z-index:5;"><span style="font-size:42px; font-weight:900; color:#22c55e; text-shadow:0 0 12px rgba(34,197,94,0.9), 0 0 4px #000; line-height:1;">⭕</span></div>';
       } else if (results[i] === 'win') {
-        enemyOverlayMarkHtml = '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(239,68,68,0.15); border-radius:8px; pointer-events:none; z-index:5;"><span style="font-size:42px; font-weight:900; color:#ef4444; text-shadow:0 0 12px rgba(239,68,68,0.9), 0 0 4px #000; line-height:1;">笶�</span></div>';
+        enemyOverlayMarkHtml = '<div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(239,68,68,0.15); border-radius:8px; pointer-events:none; z-index:5;"><span style="font-size:42px; font-weight:900; color:#ef4444; text-shadow:0 0 12px rgba(239,68,68,0.9), 0 0 4px #000; line-height:1;">❌</span></div>';
       }
 
       const div = document.createElement('div');
       div.style = 'padding:8px 12px; border-radius:8px; background:rgba(255,0,0,0.08); border: 1px solid rgba(255,0,0,0.2); margin-bottom: 8px; line-height: 1.4; text-align: left; position:relative; overflow:hidden;';
-      div.innerHTML = `
-        ${enemyOverlayMarkHtml}
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="color:#fff; font-weight: bold;">${e.icon} ${e.name}</span>
-          <span style="color:var(--accent-gold); font-weight:bold;">${TA_SLOT_LABELS[i]}</span>
-        </div>
-        <div style="font-size:11px; color:var(--text-dim); margin-top: 4px;">
-          HP:${e.stats.hp} A:${e.stats.attack} D:${e.stats.defense} S:${e.stats.speed} L:${e.stats.luck}
-        </div>
-        <div style="font-size:11px; color:var(--accent-cyan); margin-top: 2px; font-weight: bold;">
-          笞｡ 繧ｹ繧ｭ繝ｫ: ${skillStr}
-        </div>
-      `;
+      
+      let enemyHtml = enemyOverlayMarkHtml;
+      enemyHtml += '<div style="display: flex; justify-content: space-between; align-items: center;">';
+      enemyHtml += '<span style="color:#fff; font-weight: bold;">' + e.icon + ' ' + e.name + '</span>';
+      enemyHtml += '<span style="color:var(--accent-gold); font-weight:bold;">' + TA_SLOT_LABELS[i] + '</span>';
+      enemyHtml += '</div>';
+      enemyHtml += '<div style="font-size:11px; color:var(--text-dim); margin-top: 4px;">';
+      enemyHtml += 'HP:' + e.stats.hp + ' A:' + e.stats.attack + ' D:' + e.stats.defense + ' S:' + e.stats.speed + ' L:' + e.stats.luck;
+      enemyHtml += '</div>';
+      enemyHtml += '<div style="font-size:11px; color:var(--accent-cyan); margin-top: 2px; font-weight: bold;">';
+      enemyHtml += '✨ スキル: ' + skillStr;
+      enemyHtml += '</div>';
+
+      div.innerHTML = enemyHtml;
       enemyPreview.appendChild(div);
     }
   }
@@ -6992,9 +6996,9 @@ function taStartNextBout() {
 
   currentEnemy = {
     name: enemyData.name,
-    title: `${TA_ROUND_NAMES[round]} - ${TA_BOUT_NAMES[bout]}`,
+    title: TA_ROUND_NAMES[round] + ' - ' + TA_BOUT_NAMES[bout],
     icon: enemyData.icon,
-    rumor: `豁ｦ闊槫床${TA_ROUND_NAMES[round]}縺ｮ${TA_BOUT_NAMES[bout]}�� 陬�ｙ繧ｹ繧ｭ繝ｫ��${skObj.icon}${skObj.name}`,
+    rumor: '武舞台' + TA_ROUND_NAMES[round] + 'の' + TA_BOUT_NAMES[bout] + '。装備スキル：' + skObj.icon + skObj.name,
     hp: enemyData.stats.hp,
     attack: enemyData.stats.attack,
     defense: enemyData.stats.defense,
@@ -7005,7 +7009,7 @@ function taStartNextBout() {
   };
   
   const badge = document.getElementById('stage-display');
-  if (badge) badge.textContent = `豁ｦ闊槫床 ${TA_ROUND_NAMES[round]} - ${TA_BOUT_NAMES[bout]}`;
+  if (badge) badge.textContent = '武舞台 ' + TA_ROUND_NAMES[round] + ' - ' + TA_BOUT_NAMES[bout];
   
   goScreen('battle');
 }
@@ -7033,7 +7037,7 @@ function taHandleBoutResult(playerWon) {
       taEndTournament(true);
       return 'tournament-won';
     } else {
-      // 谺｡縺ｮ繝ｩ繧ｦ繝ｳ繝峨↓騾ｲ繧縺ｮ縺ｧ繝ｪ繧ｻ繝�ヨ
+      // 次のラウンドに進むのでリセット
       taState.boutIndex = 0;
       taState.boutMyWins = 0;
       taState.boutEnemyWins = 0;
@@ -7064,23 +7068,23 @@ function taEndTournament(isChampion) {
   bp += totalEarned;
   save();
   
-  // 謌千ｸｾ繝�く繧ｹ繝医�邨�∩遶九※
+  // 成績テキストの組み立て
   let rankText = '';
   if (isChampion) {
-    rankText = '蜆ｪ蜍晢ｼ�5蜍�0謨暦ｼ�';
+    rankText = '優勝！（5勝0敗）';
   } else {
     const wins = taState.roundWins;
     if (wins === 4) {
-      rankText = '貅門━蜍晢ｼ�4蜍�1謨暦ｼ�';
+      rankText = '準優勝！（4勝1敗）';
     } else if (wins === 3) {
-      rankText = '3菴搾ｼ�3蜍�1謨暦ｼ�';
+      rankText = '3位！（3勝1敗）';
     } else {
-      const matchName = TA_ROUND_NAMES[taState.round] || `${taState.round + 1}蝗樊姶`;
-      rankText = `${matchName}謨鈴��${wins}蜍�1謨暦ｼ荏;
+      const matchName = TA_ROUND_NAMES[taState.round] || ((taState.round + 1) + '回戦');
+      rankText = matchName + '敗退（' + wins + '勝1敗）';
     }
   }
 
-  // 繝｢繝ｼ繝繝ｫ縺ｮDOM繧呈峩譁ｰ
+  // モーダルのDOMを更新
   const rankTextEl = document.getElementById('ta-res-rank-text');
   const rankBpEl = document.getElementById('ta-res-rank-bp');
   const partBpEl = document.getElementById('ta-res-part-bp');
@@ -7088,12 +7092,12 @@ function taEndTournament(isChampion) {
   const currentBpEl = document.getElementById('ta-res-current-bp');
   
   if (rankTextEl) rankTextEl.textContent = rankText;
-  if (rankBpEl) rankBpEl.textContent = `${rankBp} BP`;
-  if (partBpEl) partBpEl.textContent = `${partBp} BP`;
-  if (totalBpEl) totalBpEl.textContent = `${totalEarned} BP`;
+  if (rankBpEl) rankBpEl.textContent = rankBp + ' BP';
+  if (partBpEl) partBpEl.textContent = partBp + ' BP';
+  if (totalBpEl) totalBpEl.textContent = totalEarned + ' BP';
   if (currentBpEl) currentBpEl.textContent = String(bp);
   
-  // 譌｢蟄倥�邨先棡繝｢繝ｼ繝繝ｫ��1vs1縺ｮ譛蠕後�繝舌ヨ繝ｫ縺ｮ繧�▽�峨′髢九＞縺ｦ縺�ｋ蝣ｴ蜷医�髱櫁｡ｨ遉ｺ縺ｫ縺吶ｋ
+  // 試合結果モーダルの非表示
   const battleResultModal = document.getElementById('battle-result-modal');
   if (battleResultModal) battleResultModal.style.display = 'none';
   
@@ -7182,10 +7186,10 @@ function updateGameScale() {
   const winW = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   const winH = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
   
-  // 繧｢繧ｹ繝壹け繝域ｯ斐ｒ邯ｭ謖√＠縺ｦ逕ｻ髱｢蜀�↓蜿弱ａ繧九せ繧ｱ繝ｼ繝ｫ蛟､繧定ｨ育ｮ�
+  // 繧｢繧ｹ繝壹け繝域ｯ斐ｒ邯ｭ謖√＠縺ｦ逕ｻ髱｢蜀↓蜿弱ａ繧九せ繧ｱ繝ｼ繝ｫ蛟､繧定ｨ育ｮ
   const scale = Math.min(winW / baseW, winH / baseH);
   vp.style.transformOrigin = 'center center';
-  vp.style.transform = `scale(${scale})`;
+  vp.style.transform = 'scale(' + scale + ')';
 }
 
 window.addEventListener('resize', updateGameScale);
@@ -7198,14 +7202,14 @@ window.addEventListener('load', updateGameScale);
 // ============================================================
 const FACILITY_HELP_DATA = {
   lab: {
-    title: '�溌 繝｢繝ｳ繧ｹ繧ｿ繝ｼ遐皮ｩｶ謇�医Λ繝懶ｼ�',
-    icon: '�溌',
-    text: '縲舌Δ繝ｳ繧ｹ繧ｿ繝ｼ遐皮ｩｶ謇縺ｮ蠖ｹ蜑ｲ縲曾n繝ｻ謇謖√せ繧ｭ繝ｫ縺ｨ100繝昴う繝ｳ繝医�蜑ｲ繧頑険繧翫ｒ陦後＞縲∫峡閾ｪ縺ｮ繝｢繝ｳ繧ｹ繧ｿ繝ｼ繧定ｪｿ蜷医�菴懈�縺ｧ縺阪∪縺吶�n繝ｻ縲後せ繝医�繝ｪ繝ｼ逕ｨ縲阪→縲後ヵ繝ｪ繝ｼ蟇ｾ謌ｦ逕ｨ縲阪�繝｢繝ｳ繧ｹ繧ｿ繝ｼ縺ｯ蛻･縲�↓菫晏ｭ倥＆繧後∪縺吶�'
+    title: '🔬 モンスター研究所（ラボ）',
+    icon: '🔬',
+    text: '【モンスター研究所の役割】\n・所持スキルと100ポイントの割り振りを行い、独自のモンスターを調合・作成できます。\n・「ストーリー用」と「フリー対戦用」のモンスターは別に保存されます。'
   },
   league: {
-    title: '�醇 繧ｳ繝ｭ繧ｷ繧｢繝��医Μ繝ｼ繧ｰ謌ｦ��',
-    icon: '�醇',
-    text: '縲舌さ繝ｭ繧ｷ繧｢繝��医Μ繝ｼ繧ｰ謌ｦ�峨�蠖ｹ蜑ｲ縲曾n繝ｻ譛蠑ｷ縺ｮ遐皮ｩｶ閠�ｒ逶ｮ謖�☆繝｡繧､繝ｳ繧ｹ繝医�繝ｪ繝ｼ繝｢繝ｼ繝峨〒縺吶�n繝ｻCPU繝医Ξ繝ｼ繝翫�驕斐→1vs1縺ｮ繝舌ヨ繝ｫ繧定｡後＞縲∝享蛻ｩ縺吶ｋ縺薙→縺ｧ繝ｪ繝ｼ繧ｰ蛻ｶ隕�ｒ逶ｮ謖�＠縺ｾ縺吶�n繝ｻ蜍晏茜譎ゅ�蝣ｱ驟ｬ縲檎ｧ倅ｼ昴�譖ｸ縲阪°繧画眠縺溘↑繧ｹ繧ｭ繝ｫ繧堤佐蠕励＠縲∬ｧ｣謾ｾ縺ｧ縺阪∪縺吶�'
+    title: '🏆 コロシアム（リーグ戦）',
+    icon: '🏆',
+    text: '【コロシアム（リーグ戦）の役割】\n・最強の研究者を目指すメインストーリーモードです。\n・CPUトレーナー達と1vs1的バトルを行い、勝利することでリーグ制覇を目指します。\n・勝利時の報酬「秘伝の書」から新たなスキルを獲得し、解放できます。'
   },
   tower: {
     title: '�両 隧ｦ邱ｴ縺ｮ繧ｿ繝ｯ繝ｼ',
@@ -7339,29 +7343,29 @@ function renderTitleSaveSlots() {
       const loses = (data.record && data.record.lose) || 0;
       const stageStr = typeof data.stageIndex === 'number' ? (data.stageIndex + 1) : 1;
 
-      card.innerHTML = `
-        <div style="flex:1; min-width:0;">
-          <div class="slot-label">SLOT ${i}</div>
-          <div class="slot-player-name">${data.playerName}</div>
-          <div class="slot-detail">笞費ｸ� STAGE ${stageStr}縲�糖 繧ｹ繧ｭ繝ｫ: ${unlockedCount}/30 (${pct}%)縲�醇 ${wins}蜍� ${loses}謨�</div>
-          <div class="slot-detail">譛邨ゆｿ晏ｭ�: ${data.updatedAt || '荳肴�'}</div>
-        </div>
-        <div class="slot-right">
-          <div class="slot-badge-continue">笆ｶ 縺､縺･縺阪°繧�</div>
-          <button class="slot-delete-btn" onclick="event.stopPropagation(); deleteTitleSlot(${i})">�卵�� 蜑企勁</button>
-        </div>
-      `;
+      let html = '<div style="flex:1; min-width:0;">';
+      html += '<div class="slot-label">SLOT ' + i + '</div>';
+      html += '<div class="slot-player-name">' + data.playerName + '</div>';
+      html += '<div class="slot-detail">⚔️ STAGE ' + stageStr + '　📜 スキル: ' + unlockedCount + '/30 (' + pct + '%)　🏆 ' + wins + '勝 ' + loses + '敗</div>';
+      html += '<div class="slot-detail">最終保存: ' + (data.updatedAt || '不明') + '</div>';
+      html += '</div>';
+      html += '<div class="slot-right">';
+      html += '<div class="slot-badge-continue">▶ つづきから</div>';
+      html += '<button class="slot-delete-btn" onclick="event.stopPropagation(); deleteTitleSlot(' + i + ')">🗑️ 削除</button>';
+      html += '</div>';
+
+      card.innerHTML = html;
       card.onclick = (e) => { e.stopPropagation(); selectTitleSlot(i, false); };
     } else {
-      card.innerHTML = `
-        <div style="flex:1;">
-          <div class="slot-label">SLOT ${i}</div>
-          <div style="font-size:14px; color:var(--text-dim);">窶� 遨ｺ縺阪せ繝ｭ繝�ヨ 窶�</div>
-        </div>
-        <div class="slot-right">
-          <div class="slot-badge-new">�� 縺ｯ縺倥ａ縺九ｉ</div>
-        </div>
-      `;
+      let html = '<div style="flex:1;">';
+      html += '<div class="slot-label">SLOT ' + i + '</div>';
+      html += '<div style="font-size:14px; color:var(--text-dim);">― 空きスロット ―</div>';
+      html += '</div>';
+      html += '<div class="slot-right">';
+      html += '<div class="slot-badge-new">✨ はじめから</div>';
+      html += '</div>';
+
+      card.innerHTML = html;
       card.onclick = (e) => { e.stopPropagation(); selectTitleSlot(i, true); };
     }
     container.appendChild(card);
@@ -7382,9 +7386,9 @@ function selectTitleSlot(slotId, isNew) {
   }
 }
 
-// 繧ｿ繧､繝医Ν逕ｻ髱｢縺九ｉ繧ｹ繝ｭ繝�ヨ蜑企勁
+// タイトル画面からスロット削除
 async function deleteTitleSlot(slotId) {
-  const result = await showConfirmModal(`SLOT ${slotId} 縺ｮ繧ｻ繝ｼ繝悶ョ繝ｼ繧ｿ繧呈悽蠖薙↓蜑企勁縺励∪縺吶°�歃n(蜑企勁縺輔ｌ縺溘ョ繝ｼ繧ｿ縺ｯ莠悟ｺｦ縺ｨ蠕ｩ蜈�〒縺阪∪縺帙ｓ)`);
+  const result = await showConfirmModal('SLOT ' + slotId + ' のセーブデータを本当に削除しますか？\n(削除されたデータは二度と復元できません)');
   if (result) {
     deleteSlotData(slotId);
     renderTitleSaveSlots();
@@ -7478,12 +7482,12 @@ function triggerP2PBotMatch() {
   setTimeout(() => {
     if (!p2pIsBotActive) return;
     
-    // Bot繝励Ο繝輔ぅ繝ｼ繝ｫ菴懈�
+    // Bot繝励Ο繝輔ぅ繝ｼ繝ｫ菴懈
     p2pBotName = BOT_NAMES[Math.floor(Math.random() * BOT_NAMES.length)];
     const title = BOT_TITLES[Math.floor(Math.random() * BOT_TITLES.length)];
     const win = 10 + Math.floor(Math.random() * 150);
     const lose = Math.max(10, win - 20 + Math.floor(Math.random() * 40));
-    p2pBotRecord = `${title} (謌ｦ邵ｾ: ${win}蜍� ${lose}謨�)`;
+    p2pBotRecord = title + ' (戦績: ' + win + '勝 ' + lose + '敗)';
     
     if (p2pFormat === 'team') {
       p2pOppMonsters = [generateBotMonster(), generateBotMonster(), generateBotMonster()];
@@ -7493,8 +7497,8 @@ function triggerP2PBotMatch() {
       p2pOppMonsters = [p2pOppMonster];
     }
     
-    // UI繧呈磁邯夂｢ｺ遶狗憾諷九∈遘ｻ陦�
-    setP2PStatus('謗･邯夂｢ｺ遶具ｼ�', '繝｢繝ｳ繧ｹ繧ｿ繝ｼ諠��ｱ繧貞酔譛滉ｸｭ...');
+    // UIを接続確立状態へ移行
+    setP2PStatus('接続確立！', 'モンスター情報を同期中...');
     setTimeout(() => {
       if (!p2pIsBotActive) return;
       showP2PStep(5);
@@ -7512,7 +7516,7 @@ function triggerP2PBotMatch() {
       } else {
         const myMonsterIdx = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : 0;
         const myMonster = activeLab[myMonsterIdx] || activeLab[0];
-        if (myMonster && nameEl) nameEl.textContent = myMonster.name || '繝｢繝ｳ繧ｹ繧ｿ繝ｼ';
+        if (myMonster && nameEl) nameEl.textContent = myMonster.name || 'モンスター';
         if (myMonster && myIcon) myIcon.innerHTML = getMonsterVisualHTML(myMonster.monsterClass, myMonster.systemType, '70px');
       }
       
@@ -7531,7 +7535,7 @@ function triggerP2PBotMatch() {
         }
       }
       
-      // Bot縺ｯ1縲�2.5遘貞ｾ後↓貅門ｙ螳御ｺ�↓縺吶ｋ
+      // Botは1〜2.5秒後に準備完了にする
       setTimeout(() => {
         if (p2pIsBotActive) {
           p2pOppReady = true;
@@ -7593,7 +7597,7 @@ function showP2PStep(step) {
 
 function selectP2PFormat(fmt) {
   p2pFormat = fmt;
-  const label = fmt === 'single' ? '繧ｷ繝ｳ繧ｰ繝ｫ繧ｹ (1vs1)' : '繝√�繝�繧ｹ (3vs3)';
+  const label = fmt === 'single' ? 'シングルス (1vs1)' : 'チームス (3vs3)';
   const el = document.getElementById('p2p-selected-format-text');
   if (el) el.textContent = label;
   const mLabel = document.getElementById('p2p-monster-format-text');
@@ -7623,28 +7627,21 @@ function renderP2PMonsterSelection() {
   const list = labMonstersFree;
   
   if (list.length === 0) {
-    container.innerHTML = `<div style="grid-column: span 2; font-size:13px; color:var(--accent-gold); padding:20px 0; text-align:center;">
-      繝輔Μ繝ｼ蟇ｾ謌ｦ逕ｨ縺ｮ繝｢繝ｳ繧ｹ繧ｿ繝ｼ縺檎匳骭ｲ縺輔ｌ縺ｦ縺�∪縺帙ｓ縲�<br>
-      繝ｩ繝懊�縲後ヵ繝ｪ繝ｼ繝舌ヨ繝ｫ逕ｨ繝ｩ繝懊阪〒菴懈�縺励※縺上□縺輔＞縲�
-    </div>`;
+    container.innerHTML = '<div style="grid-column: span 2; font-size:13px; color:var(--accent-gold); padding:20px 0; text-align:center;">フリー対戦用のモンスターが登録されていません。<br>ラボの「フリーバトル用ラボ」で作成してください。</div>';
     if (nextBtn) nextBtn.disabled = true;
     return;
   }
   
   if (p2pFormat === 'team' && list.length < 3) {
-    container.innerHTML = `<div style="grid-column: span 2; font-size:13px; color:var(--accent-gold); padding:20px 0; text-align:center;">
-      繝√�繝�謌ｦ��3vs3�峨↓縺ｯ繝｢繝ｳ繧ｹ繧ｿ繝ｼ縺梧怙菴�3菴灘ｿ�ｦ√〒縺吶�<br>
-      繝輔Μ繝ｼ繝舌ヨ繝ｫ逕ｨ繝ｩ繝懊〒霑ｽ蜉�菴懈�縺励※縺上□縺輔＞縲�<br>
-      (迴ｾ蝨ｨ: ${list.length}菴�)
-    </div>`;
+    container.innerHTML = '<div style="grid-column: span 2; font-size:13px; color:var(--accent-gold); padding:20px 0; text-align:center;">チーム戦（3vs3）にはモンスターが最低3体必要です。<br>フリーバトル用ラボで追加作成してください。<br>(現在: ' + list.length + '体)</div>';
     if (nextBtn) nextBtn.disabled = true;
     return;
   }
 
   if (p2pFormat === 'single') {
-    if (hintEl) hintEl.textContent = '蟇ｾ謌ｦ縺ｫ蜃ｺ縺吩ｻ｣陦ｨ繝｢繝ｳ繧ｹ繧ｿ繝ｼ繧� 1菴� 驕ｸ謚槭＠縺ｦ縺上□縺輔＞縲�';
+    if (hintEl) hintEl.textContent = '対戦に出す代表モンスターを 1体 選択してください。';
   } else {
-    if (hintEl) hintEl.textContent = '蟇ｾ謌ｦ縺ｫ蜃ｺ縺吶Γ繝ｳ繝舌�繧� 3菴� 驕ｸ謚槭＠縺ｦ縺上□縺輔＞縲�';
+    if (hintEl) hintEl.textContent = '対戦に出すメンバーを 3体 選択してください。';
   }
 
   list.forEach((m, idx) => {
@@ -7659,11 +7656,11 @@ function renderP2PMonsterSelection() {
     
     const activeSk = (m.skills && m.skills.active && m.skills.active[0]) || 'none';
     const passiveSk = (m.skills && m.skills.passive && m.skills.passive[0]) || 'none';
-    const activeName = SKILLS[activeSk] ? SKILLS[activeSk].name : '縺ｪ縺�';
-    const passiveName = SKILLS[passiveSk] ? SKILLS[passiveSk].name : '縺ｪ縺�';
+    const activeName = SKILLS[activeSk] ? SKILLS[activeSk].name : 'なし';
+    const passiveName = SKILLS[passiveSk] ? SKILLS[passiveSk].name : 'なし';
 
     // Show selection badge (with number if team mode)
-    let badgeText = '驕ｸ謚樔ｸｭ';
+    let badgeText = '選択中';
     if (p2pFormat === 'team') {
       const orderIdx = p2pSelectedMonsters.indexOf(idx);
       if (orderIdx !== -1) {
@@ -7671,13 +7668,13 @@ function renderP2PMonsterSelection() {
       }
     }
 
-    card.innerHTML = `
-      <div class="select-badge">${badgeText}</div>
-      <div style="height:55px; display:flex; align-items:center; justify-content:center; margin-bottom:4px;">${visualHTML}</div>
-      <div style="font-weight:bold; font-size:13px; color:#fff; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${m.name}</div>
-      <div style="font-size:10px; color:var(--text-dim); margin-top:2px;">${m.monsterClass}</div>
-      <div style="font-size:10px; color:var(--accent-gold); margin-top:4px;">${activeName} / ${passiveName}</div>
-    `;
+    let cardHtml = '<div class="select-badge">' + badgeText + '</div>';
+    cardHtml += '<div style="height:55px; display:flex; align-items:center; justify-content:center; margin-bottom:4px;">' + visualHTML + '</div>';
+    cardHtml += '<div style="font-weight:bold; font-size:13px; color:#fff; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">' + m.name + '</div>';
+    cardHtml += '<div style="font-size:10px; color:var(--text-dim); margin-top:2px;">' + m.monsterClass + '</div>';
+    cardHtml += '<div style="font-size:10px; color:var(--accent-gold); margin-top:4px;">' + activeName + ' / ' + passiveName + '</div>';
+
+    card.innerHTML = cardHtml;
     
     card.onclick = () => {
       if (p2pFormat === 'single') {
@@ -7690,7 +7687,7 @@ function renderP2PMonsterSelection() {
           if (p2pSelectedMonsters.length < 3) {
             p2pSelectedMonsters.push(idx);
           } else {
-            alert('繝√�繝�繝｡繝ｳ繝舌�縺ｯ譛螟ｧ3菴薙∪縺ｧ驕ｸ謚槫庄閭ｽ縺ｧ縺吶�');
+            alert('チームメンバーは最大3体まで選択可能です。');
             return;
           }
         }
@@ -7718,7 +7715,7 @@ function updateP2PMonsterNextBtn() {
 function validateP2PMonsterSelection() {
   const req = p2pFormat === 'single' ? 1 : 3;
   if (!p2pSelectedMonsters || p2pSelectedMonsters.length !== req) {
-    alert(`蜃ｺ謦�Δ繝ｳ繧ｹ繧ｿ繝ｼ縺梧ｭ｣縺励￥驕ｸ謚槭＆繧後※縺�∪縺帙ｓ縲�n${p2pFormat === 'single' ? '1菴�' : '3菴�'}驕ｸ謚槭＠縺ｦ縺上□縺輔＞縲Ａ);
+    alert('出撃モンスターが正しく選択されていません。\n' + (p2pFormat === 'single' ? '1体' : '3体') + '選択してください。');
     goP2PStep2Monster();
     return false;
   }
