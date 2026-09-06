@@ -11023,11 +11023,6 @@ function taGenerateAllEnemyTeams() {
   // 全名前プール
   const enemyNamePool = [...new Set([...leagueNames, ...creatorNames])];
 
-  // スキルプールの定義
-  // 1. 初期解放スキル（アクティブとパッシブ）
-  const initialActive = ['shuriken', 'midare', 'weakmaker', 'heal', 'regen', 'soulshare', 'teppeki', 'enmaku', 'paperarmor', 'strengthen', 'slownurse', 'draw'];
-  const initialPassive = ['toge', 'secondwind', 'firstwind', 'shuffle'];
-  
   // 2. 解放済みスキル（プレイヤーが解放したもの unlockedSkills）
   const unlockedActive = unlockedSkills.filter(id => SKILLS[id] && SKILLS[id].type === 'アクティブ');
   const unlockedPassive = unlockedSkills.filter(id => SKILLS[id] && SKILLS[id].type === 'パッシブ');
@@ -11206,24 +11201,6 @@ function taRenderPartySelect() {
         // Assign to active slot
         // If slot already has a monster, replace it
         taState.myTeam[taState.activeSlotIdx] = idx;
-        // Auto advance to next empty slot
-        for (let s = 0; s < 3; s++) {
-          if (taState.myTeam[s] === null) {
-            taState.activeSlotIdx = s;
-            break;
-          }
-        }
-      }
-      taRenderPartySelect();
-    };
-    
-    roster.appendChild(item);
-  });
-  
-  // Update start button
-  const startBtn = document.getElementById('ta-start-btn');
-  const allFilled = taState.myTeam.every(v => v !== null);
-  if (startBtn) startBtn.disabled = !allFilled;
 }
 
 function taSelectSlot(slotIdx) {
@@ -12388,6 +12365,7 @@ function setupP2PConnection() {
     if (p2pConn && payload) {
       try {
         p2pConn.send(payload);
+        p2pConn.send({ type: 'request-monster' });
       } catch(e) {}
     }
   };
@@ -12396,11 +12374,9 @@ function setupP2PConnection() {
   sendPayload();
 
   // Handle open event if connection wasn't fully open yet
-  if (!p2pConn.open) {
-    p2pConn.on('open', () => {
-      sendPayload();
-    });
-  }
+  p2pConn.on('open', () => {
+    sendPayload();
+  });
 
   // Periodic fallback retry (stops when opp monster received or p2p destroyed)
   const syncTimer = setInterval(() => {
@@ -12409,13 +12385,25 @@ function setupP2PConnection() {
       return;
     }
     sendPayload();
-  }, 600);
+  }, 350);
 }
 
 function handleP2PMessage(msg) {
   if (!msg || !msg.type) return;
 
   switch (msg.type) {
+    case 'request-monster':
+      const activeLab = labMonstersFree;
+      if (p2pFormat === 'team') {
+        const myTeamData = p2pSelectedMonsters.map(idx => activeLab[idx]).filter(Boolean);
+        if (p2pConn && p2pConn.open) p2pConn.send({ type: 'team-monsters', data: myTeamData });
+      } else {
+        const myMonsterIdx = p2pSelectedMonsters[0] !== undefined ? p2pSelectedMonsters[0] : 0;
+        const myMonster = activeLab[myMonsterIdx] || activeLab[0];
+        if (p2pConn && p2pConn.open) p2pConn.send({ type: 'monster', data: myMonster });
+      }
+      break;
+
     case 'monster':
       p2pOppMonster = msg.data;
       p2pOppMonsters = [msg.data];
