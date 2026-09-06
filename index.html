@@ -11199,8 +11199,25 @@ function taRenderPartySelect() {
         if (slotIdx !== -1) taState.myTeam[slotIdx] = null;
       } else {
         // Assign to active slot
-        // If slot already has a monster, replace it
         taState.myTeam[taState.activeSlotIdx] = idx;
+        // Auto advance to next empty slot
+        for (let s = 0; s < 3; s++) {
+          if (taState.myTeam[s] === null) {
+            taState.activeSlotIdx = s;
+            break;
+          }
+        }
+      }
+      taRenderPartySelect();
+    };
+    
+    roster.appendChild(item);
+  });
+  
+  // Update start button
+  const startBtn = document.getElementById('ta-start-btn');
+  const allFilled = taState.myTeam.every(v => v !== null);
+  if (startBtn) startBtn.disabled = !allFilled;
 }
 
 function taSelectSlot(slotIdx) {
