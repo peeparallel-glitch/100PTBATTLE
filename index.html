@@ -12222,7 +12222,13 @@ function createP2PPrivateRoom() {
   });
   p2pPeer.on('connection', (conn) => {
     p2pConn = conn;
-    setupP2PConnection();
+    if (conn.open) {
+      setupP2PConnection();
+    } else {
+      conn.on('open', () => {
+        setupP2PConnection();
+      });
+    }
   });
   p2pPeer.on('error', (err) => {
     setP2PStatus('接続エラー', err.type + ': ' + err.message);
@@ -12250,8 +12256,14 @@ function joinP2PPrivateRoom() {
   p2pPeer = new Peer();
   p2pPeer.on('open', () => {
     setP2PStatus('接続試行中...', 'Peer接続を確立中...');
-    p2pConn = p2pPeer.connect(targetPeerId);
-    setupP2PConnection();
+    const conn = p2pPeer.connect(targetPeerId);
+    p2pConn = conn;
+    conn.on('open', () => {
+      setupP2PConnection();
+    });
+    conn.on('error', (err) => {
+      setP2PStatus('接続失敗', '部屋が見つかりません。あいことばを確認してください。');
+    });
   });
   p2pPeer.on('error', (err) => {
     if (err.type === 'peer-unavailable') {
