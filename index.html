@@ -3376,7 +3376,7 @@
     <div style="font-size:24px; margin-bottom:10px;" id="help-icon">ℹ️</div>
     <h3 id="help-title" style="margin:0 0 12px 0; color:var(--accent-gold); font-size:18px;">施設ヘルプ</h3>
     <div id="help-text" style="font-size:14px; color:var(--text-secondary); text-align:left; line-height:1.6; margin-bottom:20px; white-space:pre-wrap;"></div>
-    <button class="title-btn" style="padding:8px 24px; font-size:14px; width:100%;" onclick="closeHelp()">閉じる</button>
+    <button class="title-btn" style="padding:8px 24px; font-size:14px; width:100%;" onclick="closeHelp()">閉じる◆</button>
   </div>
 </div>
 
@@ -4574,7 +4574,7 @@ const SKILLS = {
   shuffle: { name: 'ステータス・シャッフル', icon: '🎲', desc: '（自動発動）互いの素早さの値を入れ替える。', type: 'パッシブ', cat: 'その他', badge: 'special', isInitial: true },
 
   // 景品・解明スキル
-  gigabreak: { name: 'ギガブレイク', icon: '⚡', desc: '自身の攻撃力に雷の強さを上乗せした絶対破壊の一撃。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
+  gigabreak: { name: 'ギガブレイク', icon: '⚡', desc: '自分の物理攻撃力に、さらに「運」の数値を上乗せしてダメージを与える。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
   moroha: { name: '諸刃の剣', icon: '🗡️', desc: '攻撃力を2倍にして放つ一撃。反動として最大HPの3割を失う。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
   sutemi: { name: '捨て身の突撃', icon: '💥', desc: '先制で防御無視の一撃を放つが、自身も無防備（防御0）となる。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
   ichigeki: { name: '一撃必殺', icon: '🎯', desc: '命中率は低いが、命中すれば相手を一撃で倒すか瀕死にする。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
@@ -5782,7 +5782,7 @@ function goScreen(name) {
 
   if (name === 'lab') {
     document.getElementById('tab-lab').classList.add('active');
-    switchLabMode('story');
+    switchLabMode(currentLabMode || 'story');
     triggerFirstTimeHelp('lab');
 
     // Tutorial Phase 2: Auto-create first monster
@@ -5829,12 +5829,7 @@ function goScreen(name) {
       ], null);
     }
     
-    // 笘� 繧ｲ繝ｼ繝�繝｢繝ｼ繝峨↓蠢懊§縺ｦ繝代�繝�ぅ邱ｨ謌舌ョ繝ｼ繧ｿ繧貞ｼｷ蛻ｶ蛻�崛�医Λ繝懊�繧ｿ繝也憾諷九↓萓晏ｭ倥＠なしｼ�
-    if (currentGameMode === 'free') {
-      currentLabMode = 'free';  // 繝輔Μ繝ｼバトル 竊� 繝輔Μ繝ｼ逕ｨ邱ｨ謌�
-    } else {
-      currentLabMode = 'story'; // 隧ｦ邱ｴ縺ｮ蝪斐�リーグ戦繝ｻ武器屋繝ｻ隕�視繝ｪ繝吶Φ繧ｸ 竊� 繧ｹ繝医�繝ｪ繝ｼ逕ｨ邱ｨ謌�
-    }
+    // currentLabMode はユーザーが選択したタブに従う（強制上書きしない）
     
     // 繧ｲ繝ｼ繝�繝｢繝ｼ繝峨↓蠢懊§縺ｦバトル蜑咲｢ｺ隱咲判髱｢縺ｮ閭梧勹繧貞虚逧😈繧頑崛縺�
     const scoutScreen = document.getElementById('scouting-screen');
@@ -7009,7 +7004,7 @@ function selectLabMonster(idx, autoOpen = true) {
   modalContent.innerHTML = `
     <div style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
       <div>
-        <div style="font-size: 16px; font-weight: bold; color: var(--accent-cyan); text-align: center; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">�📊 モンスター詳細</div>
+        <div style="font-size: 16px; font-weight: bold; color: var(--accent-cyan); text-align: center; margin-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">◆📊 モンスター詳細</div>
         
         <!-- Preview Header -->
         <div style="text-align: center; margin-bottom: 6px;">
@@ -7059,7 +7054,7 @@ function selectLabMonster(idx, autoOpen = true) {
       </div>
       
       <!-- Modal Close Trigger (Bottom) -->
-      <button class="title-btn" onclick="closeLabDetailModal()" style="margin-top: 10px; padding: 5px 0; font-size: 16px; width: 100%;">閉じる�</button>
+      <button class="title-btn" onclick="closeLabDetailModal()" style="margin-top: 10px; padding: 5px 0; font-size: 16px; width: 100%;">閉じる</button>
     </div>
   `;
 
@@ -7092,6 +7087,7 @@ function startManualCreate() {
   // Initialize temporary state
   creatorStep = 1;
   creatorTemp = {
+    targetLabMode: currentLabMode, // 現在開いているタブ（story/free）を記録
     systemType: '',
     monsterClass: '',
     name: '',
@@ -7293,11 +7289,11 @@ function creatorNext() {
       return;
     }
     
-    const activeLab = getActiveLab();
-    // 譁ｰ隕丈ｽ懈�繝｢繝ｼ繝�
-    // Save to lab
-    if (activeLab.length >= maxMonsterSlots) {
-    alert('ラボの登録枠がいっぱいです！');
+    const targetMode = creatorTemp.targetLabMode || currentLabMode || 'story';
+    const targetLab = (targetMode === 'free') ? labMonstersFree : labMonstersSolo;
+    
+    if (targetLab.length >= maxMonsterSlots) {
+      alert('ラボの登録枠がいっぱいです！');
       return;
     }
     
@@ -7310,7 +7306,8 @@ function creatorNext() {
       skills: { ...creatorTemp.skills }
     };
     
-    activeLab.push(finalMonster);
+    targetLab.push(finalMonster);
+    currentLabMode = targetMode; // モードを確実に作成時のタブに合わせる
     save();
     
     // Tutorial Phase 3 completion: Messages 3 & 4
@@ -7321,7 +7318,7 @@ function creatorNext() {
       ], () => {
         onFirstBuildCompleteStoryEnd();
       });
-      return; // 繝√Η繝ｼ繝医Μ繧｢繝ｫ荳ｭ縺ｯ繝繧､繧｢繝ｭ繧ｰ螳御ｺ�ｾ後↓驕ｷ遘ｻ
+      return; // 繝√Η繝ｼ繝医Μ繧｢繝ｫ荳ｭ縺ｯ繝€繧､繧｢繝ｭ繧ｰ螳御ｺｾ後↓驕ｷ遘ｻ
     }
     if (creatorReturnToScouting) {
       creatorReturnToScouting = false;
@@ -8044,11 +8041,7 @@ function initBattle() {
   clearLog();
 
   // 笘� 繧ｲ繝ｼ繝�繝｢繝ｼ繝峨↓蠢懊§縺ｦ繝代�繝�ぅ邱ｨ謌舌ョ繝ｼ繧ｿ繧貞ｼｷ蛻ｶ蛻�崛�井ｺ碁㍾螳牙�遲厄ｼ�
-  if (currentGameMode === 'free') {
-    currentLabMode = 'free';
-  } else {
-    currentLabMode = 'story';
-  }
+  // currentLabMode preserved
 
   // 2. Fetch monster and enemy parameters (pre-requisites)
   const activeLab = getActiveLab();
@@ -8161,7 +8154,7 @@ function initBattle() {
     mp: 10,
     maxMp: 10,
     skill: em.skill || 'none',
-    skillsList: { active: [em.skill || 'none'], passive: [em.skill || 'none'] },
+    skillsList: em.skillsList || { active: [em.skill || 'none'], passive: [] },
     cur: eHp, 
     max: eHp, 
     skillUsed: false,
@@ -8325,15 +8318,18 @@ function initBattle() {
     addLog(ptInfo.icon + ' ' + pState.name + ' 【' + ptInfo.label + '】', 'log-info');
     addLog(etInfo.icon + ' ' + eState.name + ' 【' + etInfo.label + '】', 'log-info');
 
-    // TRIGGER BATTLE START PASSIVES
-    [pState, eState].forEach((actor, idx) => {
-      const opp = idx === 0 ? eState : pState;
+    // TRIGGER BATTLE START PASSIVES (Evaluated in fixed Host -> Guest order for P2P sync)
+    const passiveActors = (currentGameMode === 'free' && (p2pConn || p2pIsBotActive))
+      ? (p2pIsHost ? [ { actor: pState, opp: eState }, { actor: eState, opp: pState } ] : [ { actor: eState, opp: pState }, { actor: pState, opp: eState } ])
+      : [ { actor: pState, opp: eState }, { actor: eState, opp: pState } ];
+
+    passiveActors.forEach(({ actor, opp }) => {
       const sk = actor.skill;
       const passives = (actor.skillsList && Array.isArray(actor.skillsList.passive)) ? actor.skillsList.passive : [];
       
       // フォーチュンダイス
       if (sk === 'fdice' || passives.includes('fdice')) {
-        const roll = Math.floor(Math.random() * 41) - 10;
+        const roll = Math.floor(getBattleRandom() * 41) - 10;
         actor.luck = Math.max(0, actor.luck + roll);
         addLog('🎲 ' + actor.name + ' の「フォーチュンダイス」！ 運が ' + (roll >= 0 ? '+' + roll : roll) + ' 変動し、運:' + actor.luck + ' になった！', 'log-skill');
       }
@@ -8689,7 +8685,7 @@ function decidePlayerAutoCommand() {
     }
     // Strategic buff priority
     if (['strengthen', 'teppeki', 'daibogyo', 'shadowstep', 'reverse'].includes(sk)) {
-      if (Math.random() < 0.5) return 'skill';
+      if (getBattleRandom() < 0.5) return 'skill';
     }
     // Special turn-1 limit skill: blankshot
     if (sk === 'blankshot') {
@@ -8697,20 +8693,20 @@ function decidePlayerAutoCommand() {
     }
     // High offensive skills
     if (['gigabreak', 'moroha', 'sutemi', 'shuriken', 'midare', 'ichigeki', 'weakmaker', 'luckstrike'].includes(sk)) {
-      if (Math.random() < 0.7) return 'skill';
+      if (getBattleRandom() < 0.7) return 'skill';
     }
   }
 
   if (autoStrategy === 'gangan') {
-    if (!pState.charged && Math.random() < 0.15) return 'charge';
+    if (!pState.charged && getBattleRandom() < 0.15) return 'charge';
     return 'attack';
   } 
   if (autoStrategy === 'inochi') {
-    if (hpPct <= 0.4 && Math.random() < 0.4) return 'defend';
+    if (hpPct <= 0.4 && getBattleRandom() < 0.4) return 'defend';
     return 'attack';
   } 
   if (autoStrategy === 'batchiri') {
-    if (hpPct <= 0.25 && Math.random() < 0.3) return 'defend';
+    if (hpPct <= 0.25 && getBattleRandom() < 0.3) return 'defend';
     return 'attack';
   }
   return 'attack';
@@ -8729,16 +8725,16 @@ function decideEnemyCommand() {
       if (hpPct <= 0.4) return 'skill';
     }
     if (sk === 'blankshot' && currentTurn === 1) return 'skill';
-    if (Math.random() < 0.6) return 'skill';
+    if (getBattleRandom() < 0.6) return 'skill';
   }
 
   // MP縺御ｸ崎ｶｳ縺励※縺�ｋ髫帙√メ繝｣繝ｼ繧ｸ繧�ぎ繝ｼ繝峨〒蜉ｹ邇�ｈ縺舟P繧定ｲｯ繧√ｋ
   if (eMp < 8) {
-    if (!eState.charged && Math.random() < 0.3) return 'charge';
-    if (hpPct <= 0.3 && Math.random() < 0.25) return 'defend';
+    if (!eState.charged && getBattleRandom() < 0.3) return 'charge';
+    if (hpPct <= 0.3 && getBattleRandom() < 0.25) return 'defend';
   }
 
-  if (hpPct <= 0.25 && Math.random() < 0.2) return 'defend';
+  if (hpPct <= 0.25 && getBattleRandom() < 0.2) return 'defend';
   return 'attack';
 }
 
@@ -8822,7 +8818,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     // 回避率計算
     let evasion = calculateEvasionRate(actor, target);
 
-    if (Math.random() * 100 < evasion) {
+    if (getBattleRandom() * 100 < evasion) {
       const t = setTimeout(() => {
         target.evasionStreak = (target.evasionStreak || 0) + 1;
         addLog('💨 ' + target.name + ' は攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
@@ -8840,7 +8836,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     // Critical check
     let critChance = actor.luck;
     if (actor.enmakuTurns > 0) critChance *= 0.5; // enmaku halves crit
-    let isCrit = Math.random() * 100 < critChance;
+    let isCrit = getBattleRandom() * 100 < critChance;
     
     // Fortress (無敵) check
     if (target.fortressTurns > 0) {
@@ -8876,7 +8872,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
 
       // Scrap damage 30% chance
       let isScrap = false;
-      if (dmg === 0 && Math.random() < 0.3) {
+      if (dmg === 0 && getBattleRandom() < 0.3) {
         dmg = 1;
         isScrap = true;
       }
@@ -8945,7 +8941,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       // 2. 回避率判定
       let evasion = calculateEvasionRate(actor, target);
 
-      if (Math.random() * 100 < evasion) {
+      if (getBattleRandom() * 100 < evasion) {
         const t = setTimeout(() => {
           addLog('💨 ' + target.name + ' はスキルの攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
           actor.charged = false;
@@ -9010,7 +9006,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       onComplete();
 
     } else if (sk === 'midare') {
-      if (Math.random() * 100 < actor.luck) {
+      if (getBattleRandom() * 100 < actor.luck) {
         addLog('🎲 運気上昇！ 2回みだれうち攻撃！', 'log-skill');
         let dmg1 = Math.max(1, actor.attack - getGlassShieldDefense(target));
         let dmg2 = Math.max(1, actor.attack - getGlassShieldDefense(target));
@@ -9031,7 +9027,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
       }
 
     } else if (sk === 'ichigeki') {
-      if (Math.random() < 0.2) {
+      if (getBattleRandom() < 0.2) {
         let dmg = target.cur - 1; // Reduces target HP to 1
         if (dmg <= 0) dmg = 1;
         target.cur = 1;
@@ -9440,7 +9436,7 @@ function triggerPostDamagePassives(actorSide, actor, targetSide, target, dmg, cb
 
   // 未熟なカウンター (被弾時5%の確率でダメージの10%を反射)
   if ((target.skill === 'poorcounter' || targetPassives.includes('poorcounter')) && target.cur > 0 && dmg > 0) {
-    if (Math.random() < 0.05) {
+    if (getBattleRandom() < 0.05) {
       const reflectDmg = Math.max(1, Math.floor(dmg * 0.1));
       actor.cur = Math.max(0, actor.cur - reflectDmg);
       addLog('🛡️ ' + target.name + ' の「未熟なカウンター」！ ダメージの10%(' + reflectDmg + ')を反射した！', 'log-skill');
@@ -11082,55 +11078,6 @@ function setP2PStatus(title, desc) {
   if (d) d.textContent = desc;
 }
 
-// --- Create Private Room ---
-function createP2PPrivateRoom() {
-  if (!validateP2PMonsterSelection()) return;
-  destroyP2P();
-  p2pIsHost = true;
-  p2pRoomCode = generateRoomCode();
-  const peerId = P2P_PREFIX + p2pRoomCode;
-
-  showP2PStep(4);
-  setP2PStatus('部屋を作成中...', 'PeerID初期化中...');
-
-  p2pPeer = new Peer(peerId);
-  p2pPeer.on('open', (id) => {
-    setP2PStatus('対戦相手の接続を待っています...', 'あいことばを相手に伝えてください');
-    const box = document.getElementById('p2p-room-display-box');
-    if (box) box.style.display = 'block';
-    const idEl = document.getElementById('p2p-display-room-id');
-    if (idEl) idEl.textContent = p2pRoomCode;
-  });
-  p2pPeer.on('connection', (conn) => {
-    p2pConn = conn;
-    setupP2PConnection();
-  });
-  p2pPeer.on('error', (err) => {
-    setP2PStatus('接続エラー', err.type + ': ' + err.message);
-  });
-}
-
-// --- Join Private Room ---
-function joinP2PPrivateRoom() {
-  const input = document.getElementById('p2p-room-code-input');
-  const code = (input ? input.value : '').trim();
-  if (!code || code.length < 4) {
-    alert('あいことば（4桁）を入力してください。');
-    return;
-  }
-  
-  setP2PStatus('部屋に接続中...', 'あいことば: ' + code);
-  p2pRoomCode = code;
-  
-  if (p2pPeer && !p2pPeer.destroyed) {
-    connectToP2PPeer('100pt-rpg-room-' + code);
-  } else {
-    initP2PNetwork(() => {
-      connectToP2PPeer('100pt-rpg-room-' + code);
-    });
-  }
-}
-
 // --- Random Match ---
 function startP2PRandomMatch() {
   if (!validateP2PMonsterSelection()) return;
@@ -11276,7 +11223,15 @@ function setupP2PConnection() {
   p2pOppReady = false;
   updateP2PReadyUI();
 
-  // Send my monster data
+  // Send my monster data (Send immediately, and retry after 500ms in case receiver hasn't set listener)
+  sendMyP2PMonsterData();
+  setTimeout(() => {
+    sendMyP2PMonsterData();
+  }, 500);
+}
+
+function sendMyP2PMonsterData() {
+  if (!p2pConn || !p2pConn.open) return;
   const activeLab = labMonstersFree;
   const nameEl = document.getElementById('p2p-my-monster-name');
   const myIcon = document.getElementById('p2p-my-monster-preview');
@@ -11335,7 +11290,7 @@ function handleP2PMessage(msg) {
       break;
 
     case 'battle-seed':
-      p2pBattleSeed = msg.seed;
+      setP2PSeed(msg.seed);
       break;
 
     case 'rematch':
@@ -11413,10 +11368,12 @@ function startP2PBattle() {
       speed: Number(oppStats.speed) || 22,
       luck: Number(oppStats.luck) || 22,
       skill: oppSkill,
+      skillsList: opp.skills || { active: [oppSkill], passive: [] },
     };
     if (p2pIsHost) {
-      p2pBattleSeed = Date.now();
-      if (p2pConn) p2pConn.send({ type: 'battle-seed', seed: p2pBattleSeed });
+      const seed = Math.floor(Math.random() * 1000000) + 1;
+      setP2PSeed(seed);
+      if (p2pConn) p2pConn.send({ type: 'battle-seed', seed: seed });
     }
     currentGameMode = 'free';
     goScreen('battle');
@@ -11443,6 +11400,7 @@ function startP2PTeamBout(boutIdx) {
     speed: Number(oppStats.speed) || 22,
     luck: Number(oppStats.luck) || 22,
     skill: oppSkill,
+    skillsList: opp.skills || { active: [oppSkill], passive: [] },
   };
   const badge = document.getElementById('stage-display');
   if (badge) badge.textContent = 'フリー団体戦 - ' + boutNames[boutIdx];
@@ -12432,7 +12390,25 @@ let p2pMyReady = false;
 let p2pOppReady = false;
 let p2pOppMonster = null;
 let p2pRoomCode = '';
+
+// --- Seeded Random Generator for P2P Synchronized Battles ---
 let p2pBattleSeed = 0;
+
+function setP2PSeed(seed) {
+  p2pBattleSeed = seed || 12345;
+}
+
+function getBattleRandom() {
+  if (currentGameMode === 'free' && (p2pConn || p2pIsBotActive)) {
+    // Mulberry32 PRNG
+    let t = p2pBattleSeed += 0x6D2B79F5;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+  return Math.random();
+}
+
 let p2pWaitingForCommand = false;
 let p2pMyCommand = null;
 let p2pOppCommand = null;
@@ -12691,10 +12667,10 @@ function joinP2PPrivateRoom() {
   setP2PStatus('部屋に接続中...', 'あいことば: ' + code);
   p2pRoomCode = code;
   if (p2pPeer && !p2pPeer.destroyed) {
-    connectToP2PPeer('100pt-rpg-room-' + code);
+    connectToP2PPeer(P2P_PREFIX + code);
   } else {
     initP2PNetwork(() => {
-      connectToP2PPeer('100pt-rpg-room-' + code);
+      connectToP2PPeer(P2P_PREFIX + code);
     });
   }
 }
@@ -12737,7 +12713,14 @@ function executeP2PBattleTurn() {
   // Use the existing battle engine with both commands
   const pSpd = getEffectiveSpeed(pState);
   const eSpd = getEffectiveSpeed(eState);
-  let playerFirst = pSpd > eSpd || (pSpd === eSpd && pState.luck > eState.luck);
+  let playerFirst;
+  if (pSpd !== eSpd) {
+    playerFirst = pSpd > eSpd;
+  } else if (pState.luck !== eState.luck) {
+    playerFirst = pState.luck > eState.luck;
+  } else {
+    playerFirst = p2pIsHost; // Deterministic tie breaker: host acts first on exact tie
+  }
 
   executeTurnActions(myCmd, oppCmd, playerFirst);
 }
