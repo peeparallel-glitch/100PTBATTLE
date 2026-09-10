@@ -5158,24 +5158,27 @@ class BGMManager {
     if (savedBgm !== null) this.bgmVolume = parseFloat(savedBgm);
     if (savedSe !== null) this.seVolume = parseFloat(savedSe);
     
-    // BGMファイルパス定義�育嶌蟇ｾ繝代せ謖�ｮ壹�BGM1繝輔か繝ｫ繝蜀😈螳溘ヵ繧｡繧､繝ｫ縺ｫ蟇ｾ蠢懶ｼ�
+    // BGMファイルパス定義
     this.bgmList = {
-      title: './BGM1/OP BGM1.mp3',        // タイトル・マップ画面
-      map: './BGM1/OP BGM1.mp3',          // マップ画面
-      lab: './BGM1/raboBGM1.mp3',         // ラボ画面・作成画面
-      normalBattle: './BGM1/battleBGM1.mp3', // 通常バトル（リーグ・フリー・勝ち抜き・武器屋）
-      bossBattle: './BGM1/BOSSbattleBGM1.mp3', // 覇王ボス戦・チュートリアル・再戦ボス
-      victory: './BGM1/Victory.mp3',      // 蜍晏茜譎�
-      lose: './BGM1/lose.mp3',             // 謨怜圏譎�
-      
-      towerSelect: './BGM1/Tower.mp3',       // 試練の塔 モンスター選出・準備画面
-      colosseumSelect: './BGM1/Colosseum.mp3',// コロシアム モンスター選出・準備画面
-
-      bubutai: './BGM1/bubutai.mp3',         // 武器屋
-      p2pShrine: './BGM1/P2PBGM.mp3',        // 逡ｰ谺｡蜈😈神
-
-      haouPrep: './BGM1/haou.mp3',           // 覇王バトル準備画面
-      shop: './BGM1/syouten.mp3'             // 蝠�ｺ礼判髱｢
+      opening: './BGM1/OP BGM1.mp3',         // オープニング用BGM
+      title: './BGM1/OP BGM1.mp3',           // タイトル画面
+      map: './BGM1/OP BGM1.mp3',             // マップ画面
+      lab: './BGM1/raboBGM1.mp3',            // ラボ用BGM
+      tower: './BGM1/Tower.mp3',             // 試練の塔用BGM
+      towerSelect: './BGM1/Tower.mp3',       // 試練の塔 準備画面
+      colosseum: './BGM1/Colosseum.mp3',     // コロシアム用BGM
+      colosseumSelect: './BGM1/Colosseum.mp3',// コロシアム 準備画面
+      shop: './BGM1/syouten.mp3',            // 商店（ショップ）用BGM
+      shrine: './BGM1/P2PBGM.mp3',           // 異次元の祠用BGM
+      p2pShrine: './BGM1/P2PBGM.mp3',        // P2Pフリー対戦
+      arena: './BGM1/bubutai.mp3',           // 武舞台用BGM
+      bubutai: './BGM1/bubutai.mp3',         // 武舞台（団体戦）
+      normalBattle: './BGM1/battle１.mp3',    // 通常バトル用BGM (全角１)
+      bossBattle: './BGM1/BOSSbattle１.mp3',  // ボスbattle用BGM (全角１)
+      bossPreBattle: './BGM1/haou.mp3',       // ボス戦準備画面（前画面）用BGM
+      haouPrep: './BGM1/haou.mp3',           // 覇王リベンジ準備画面
+      victory: './BGM1/Victory.mp3',         // バトル勝利時BGM
+      lose: './BGM1/lose.mp3'                // バトル敗北時BGM
     };
   }
 
@@ -5255,6 +5258,14 @@ class BGMManager {
 
 // グローバルインスタンス化
 window.bgmManager = new BGMManager();
+
+// グローバルplayBGMヘルパー関数
+function playBGM(key, isLoop = true) {
+  if (window.bgmManager) {
+    window.bgmManager.play(key, isLoop);
+  }
+}
+
 
 // 初回クリック/タップ時にブラウザの音声閾ｪ蜍募�逕溘ヶロック繧定ｧ｣髯､
 document.addEventListener('click', () => {
@@ -5639,21 +5650,8 @@ function goScreen(name) {
   battleTimers = [];
   if (typeof clearLog === 'function') clearLog();
 
-  // BGM再生蛻ｶ蠕｡
-  if (window.bgmManager) {
-    if (name === 'lab' || name === 'creator') {
-      window.bgmManager.play('lab', true);
-    } else if (name === 'scouting') {
-      if (currentGameMode === 'survival') {
-        window.bgmManager.play('towerSelect', true);     // Tower.mp3
-      } else if (currentGameMode === 'boss-revenge') {
-        window.bgmManager.play('haouPrep', true);        // haou.mp3 (覇王バトル準備画面)
-      } else {
-        window.bgmManager.play('colosseumSelect', true); // Colosseum.mp3
-      }
-    } else if (name === 'reward-shop') {
-      window.bgmManager.play('shop', true);              // syouten.mp3 (蝠�ｺ礼判髱｢)
-    } else if (name === 'ta-party') {
+  // 特殊画面用UI/背景の更新処理
+  if (name === 'ta-party') {
     renderTaPartySlots();
     renderTaMonsterSelectionList();
   }
@@ -5665,8 +5663,8 @@ function goScreen(name) {
       lobbyBgEl.style.backgroundPosition = "center center";
       lobbyBgEl.style.backgroundRepeat = "no-repeat";
     }
-      window.bgmManager.play('p2pShrine', true);          // P2PBGM.mp3 (逡ｰ谺｡蜈😈神)
-      if (name === 'reward-shop') {
+  }
+  if (name === 'reward-shop') {
     const shopBgEl = document.getElementById('reward-shop-screen');
     if (shopBgEl) {
       shopBgEl.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('IMGTITLE/shop.jpg')";
@@ -5674,7 +5672,8 @@ function goScreen(name) {
       shopBgEl.style.backgroundPosition = "center center";
       shopBgEl.style.backgroundRepeat = "no-repeat";
     }
-  } else if (name === 'team-arena-menu' || name === 'ta-party' || name === 'ta-progress') {
+  }
+  if (name === 'team-arena-menu' || name === 'ta-party' || name === 'ta-progress') {
     const taBgEl = document.getElementById(name + '-screen');
     if (taBgEl) {
       taBgEl.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('IMGTITLE/to-namennt.jpg')";
@@ -5683,22 +5682,38 @@ function goScreen(name) {
       taBgEl.style.backgroundRepeat = "no-repeat";
     }
   }
-  } else if (name === 'team-arena-menu' || name === 'ta-party' || name === 'ta-progress') {
-      window.bgmManager.play('bubutai', true);            // bubutai.mp3 (武器屋)
-    } else if (name === 'battle') {
-    // Close any open story dialog when entering battle
-    const storyOverlay = document.getElementById('story-dialog-overlay');
-    if (storyOverlay) storyOverlay.style.display = 'none';
-    storyDialogQueue = [];
-    storyDialogCallback = null;
-      const isBoss = (currentEnemy && (currentEnemy.name === '覇王ヴィクター' || currentEnemy.name === '覇王ヴィクター(蜀肴姶)')) || currentGameMode === 'boss-revenge';
-      if (isBoss) {
-        window.bgmManager.play('bossBattle', true);
+
+  // BGM再生制御（シーン・状態別再生）
+  if (window.bgmManager) {
+    if (name === 'lab' || name === 'creator') {
+      window.bgmManager.play('lab', true);              // ラボ用: raboBGM1.mp3
+    } else if (name === 'scouting') {
+      if (currentGameMode === 'survival') {
+        window.bgmManager.play('tower', true);            // 試練の塔用: Tower.mp3
+      } else if (currentGameMode === 'boss-revenge') {
+        window.bgmManager.play('bossPreBattle', true);   // ボス戦準備画面用: haou.mp3
       } else {
-        window.bgmManager.play('normalBattle', true);
+        window.bgmManager.play('colosseum', true);        // コロシアム用: Colosseum.mp3
+      }
+    } else if (name === 'reward-shop') {
+      window.bgmManager.play('shop', true);              // 商店（ショップ）用: syouten.mp3
+    } else if (name === 'free-battle-lobby') {
+      window.bgmManager.play('shrine', true);            // 異次元の祠用: P2PBGM.mp3
+    } else if (name === 'team-arena-menu' || name === 'ta-party' || name === 'ta-progress') {
+      window.bgmManager.play('arena', true);             // 武舞台用: bubutai.mp3
+    } else if (name === 'battle') {
+      const storyOverlay = document.getElementById('story-dialog-overlay');
+      if (storyOverlay) storyOverlay.style.display = 'none';
+      storyDialogQueue = [];
+      storyDialogCallback = null;
+      const isBoss = (currentEnemy && (currentEnemy.name === '覇王ヴィクター' || currentEnemy.name === '覇王ヴィクター(復讐戦)')) || currentGameMode === 'boss-revenge';
+      if (isBoss) {
+        window.bgmManager.play('bossBattle', true);       // ボスbattle用: BOSSbattle１.mp3
+      } else {
+        window.bgmManager.play('normalBattle', true);     // 通常バトル用: battle１.mp3
       }
     } else {
-      window.bgmManager.play('title', true);
+      window.bgmManager.play('opening', true);           // オープニング用: OP BGM1.mp3
     }
   }
 
