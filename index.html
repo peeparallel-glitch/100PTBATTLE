@@ -660,6 +660,12 @@
       position: relative;
     }
 
+    .stage-preview-enemy-img, .boss-preview-sprite, #scout-enemy-panel img {
+      max-height: 120px !important;
+      transform: scale(1.2) !important;
+      transform-origin: bottom center !important;
+      max-width: 100%;
+    }
     .enemy-icon {
       font-size: 44px;
       margin-bottom: 6px;
@@ -1810,206 +1816,20 @@
       background: transparent;
     }
 
-    /* Marquee Battle Log Header */
-    .battle-marquee-header {
-      background: transparent;
-      border-bottom: 2px solid rgba(0, 212, 255, 0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0px 16px;
-      font-size: 20px;
-      flex-shrink: 0;
-      margin-top: 0;
+    /* Scouting Prep Screen Enemy Image Scale-up */
+    #scout-enemy-panel img,
+    #scout-enemy-panel .enemy-monster-img,
+    .stage-preview-enemy-img,
+    .boss-preview-sprite {
+      height: 140px !important;
+      max-height: 140px !important;
+      transform: scale(1.2) !important;
+      transform-origin: bottom center !important;
+      object-fit: contain !important;
     }
-    
-    #battle-marquee-log {
-      color: #00d4ff;
-      font-family: monospace;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      flex: 1;
-      padding-right: 20px;
-    }
-    
-    #battle-timer {
-      font-weight: bold;
-      color: var(--accent-red);
-      font-family: 'Orbitron', monospace;
-      animation: pulse-red 1s infinite alternate;
-    }
-
-    @keyframes pulse-red {
-      0% { opacity: 0.6; text-shadow: 0 0 2px rgba(239,68,68,0.5); }
-      100% { opacity: 1; text-shadow: 0 0 10px rgba(239,68,68,0.8); }
-    }
-
-    /* Override inline font-size for status board items */
-    .cyber-status-board div {
-      font-size: 16px !important;
-    }
-
-    /* Cyber Status Grids */
-    .cyber-status-board {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 3px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 6px;
-      padding: 4px 8px;
-    }
-    
-    .cyber-status-board div {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-      padding-bottom: 2px;
-    }
-
-    /* Interactive lines layer container */
-    .hologram-svg-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 100;
-    }
-
-    /* Shaking & Glitch effects */
-    .camera-shake {
-      animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
-    }
-    @keyframes shake {
-      10%, 90% { transform: translate3d(-2px, 0, 0); }
-      20%, 80% { transform: translate3d(4px, 0, 0); }
-      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
-      40%, 60% { transform: translate3d(6px, 0, 0); }
-    }
-
-    /* Digital Glitch Text */
-    .glitch-text {
-      position: relative;
-      color: #94a3b8;
-      font-weight: bold;
-      animation: glitch-skew 1s infinite linear alternate-reverse;
-      letter-spacing: 2px;
-    }
-    .glitch-text::before, .glitch-text::after {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #0d1117;
-    }
-    .glitch-text::before {
-      left: 2px;
-      text-shadow: -2px 0 var(--accent-red);
-      clip: rect(44px, 450px, 56px, 0);
-      animation: glitch-anim 5s infinite linear alternate-reverse;
-    }
-    .glitch-text::after {
-      left: -2px;
-      text-shadow: -2px 0 #00d4ff, 0 2px var(--accent-green);
-      clip: rect(85px, 450px, 140px, 0);
-      animation: glitch-anim2 5s infinite linear alternate-reverse;
-    }
-
-    @keyframes glitch-anim {
-      0% { clip: rect(15px, 9999px, 66px, 0); }
-      100% { clip: rect(34px, 9999px, 55px, 0); }
-    }
-    @keyframes glitch-anim2 {
-      0% { clip: rect(70px, 9999px, 105px, 0); }
-      100% { clip: rect(12px, 9999px, 85px, 0); }
-    }
-    @keyframes glitch-skew {
-      0% { transform: skew(1deg); }
-      100% { transform: skew(-1deg); }
-    }
-
-    /* Cyber HP Bars */
-    .cyber-hp-bg {
-      width: 100%;
-      height: 12px;
-      background: rgba(0, 0, 0, 0.6) !important;
-      border: 2px solid #000000 !important;
-      border-radius: 4px;
-      overflow: hidden;
-      position: relative;
-      box-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
-    }
-    .cyber-hp-fill-enemy {
-      height: 100%;
-      background: linear-gradient(90deg, #ef4444, #f97316);
-      transition: width 0.4s ease-out;
-      box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
-    }
-    .cyber-hp-fill-player {
-      height: 100%;
-      background: linear-gradient(90deg, #00d4ff, #10b981);
-      transition: width 0.4s ease-out;
-      box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
-    }
-    
-    /* Apply text shadow outline on battle screen text elements */
-    #battle-screen .cyber-card,
-    #battle-screen .battle-marquee-header,
-    #battle-screen .battle-log,
-    #battle-screen .battle-bottom-controls span,
-    #battle-screen .battle-bottom-controls div {
-      text-shadow: 
-        2px  2px 0 #000,
-       -2px  2px 0 #000,
-        2px -2px 0 #000,
-       -2px -2px 0 #000,
-        0px  2px 0 #000,
-        0px -2px 0 #000,
-        2px  0px 0 #000,
-       -2px  0px 0 #000;
-    }
-
-    /* Swap HP Swap Animation classes */
-    .viewn-left-to-right {
-      animation: viewn-lr 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    }
-    .viewn-right-to-left {
-      animation: viewn-rl 0.8s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    }
-    @keyframes viewn-lr {
-      0% { transform: translateX(0) scale(1); opacity: 1; }
-      50% { transform: translateX(250px) scale(1.3); filter: hue-rotate(180deg) blur(2px); opacity: 0.8; }
-      100% { transform: translateX(0) scale(1); opacity: 1; }
-    }
-    @keyframes viewn-rl {
-      0% { transform: translateX(0) scale(1); opacity: 1; }
-      50% { transform: translateX(-250px) scale(1.3); filter: hue-rotate(-180deg) blur(2px); opacity: 0.8; }
-      100% { transform: translateX(0) scale(1); opacity: 1; }
-    }
-
-    #battle-log::-webkit-scrollbar {
-      width: 6px;
-    }
-    #battle-log::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    #battle-log::-webkit-scrollbar-thumb {
-      background: rgba(0, 212, 255, 0.3);
-      border-radius: 3px;
-    }
-    #battle-log::-webkit-scrollbar-thumb:hover {
-      background: rgba(0, 212, 255, 0.6);
-    }
-
-    /* Force enemy images to face RIGHT (→) in both Scouting and Battle screens */
-    #scout-enemy-panel img {
-      max-height: 80px !important;
-      transform: scaleX(-1) scale(1.0) !important;
+    #scout-enemy-panel img.img3-enemy {
+      transform: scaleX(-1.2) scaleY(1.2) !important;
+      transform-origin: bottom center !important;
     }
     .enemy-cyber-card img {
       transform: scaleX(-1) scale(1.15) !important;
@@ -2018,7 +1838,7 @@
 
         /* UNIFIED ENEMY MONSTER IMAGE CSS */
     .enemy-monster-img {
-      max-height: 120px !important;
+      max-height: 150px !important;
       max-width: 100% !important;
       object-fit: contain !important;
       vertical-align: middle !important;
@@ -2042,14 +1862,10 @@
     #ta-enemy-team-preview img, .enemy-card-preview img {
       transform: scaleX(-1);
     }
-    #scout-enemy-panel img {
-      transform: none !important;
-    }
+    /* scout-enemy-panel transform handled above */
     #ta-my-team-preview img {
       transform: scaleX(1);
     }
-
-    /* Story Dialog */
     .story-dialog-overlay {
       display: none;
       position: absolute;
@@ -2060,6 +1876,7 @@
       justify-content: center;
       padding-bottom: 40px;
       cursor: pointer;
+      pointer-events: none;
     }
     .story-dialog-box {
       background: linear-gradient(180deg, rgba(10,10,30,0.95), rgba(5,5,20,0.98));
@@ -2799,14 +2616,14 @@
 
     /* 敵キャラクター: 左側の地面上 */
     .battle-grid-3col .enemy-cyber-card div[style*="min-height: 110px"] {
-      bottom: 25% !important;
+      bottom: 27% !important;
       left: 15% !important;
       top: auto !important;
       right: auto !important;
     }
     /* 味方キャラクター: 右側の地面上 */
     .battle-grid-3col .player-cyber-card div[style*="min-height: 110px"] {
-      bottom: 25% !important;
+      bottom: 27% !important;
       right: 15% !important;
       top: auto !important;
       left: auto !important;
@@ -2819,28 +2636,32 @@
        - 15 New monsters (IMG3/ img3-enemy) are natively LEFT-FACING -> transform: scaleX(-1) (flip right)
        - All player monsters are natively LEFT-FACING -> transform: none
     */
-    #fi-enemy, #fi-player {
-      font-size: 100px !important;
-      transform: scale(1.3) !important;
+    .battle-monster-sprite, .enemy-sprite, .player-sprite, #fi-enemy, #fi-player {
+      font-size: 130px !important;
+      transform: scale(1.95) !important; /* 1.3 x 1.5 = 1.95 */
+      transform-origin: bottom center !important;
       filter: drop-shadow(0 20px 8px rgba(0,0,0,0.55));
     }
 
     /* Enemy side (Left) base images: B-images are natively right-facing */
     #fi-enemy img {
-      max-height: 140px !important;
+      max-height: 210px !important; /* 140px x 1.5 = 210px */
       transform: none !important;
+      transform-origin: bottom center !important;
       filter: drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(239,68,68,0.4));
     }
 
     /* Enemy side (Left) 15 new monsters: IMG3 images are natively left-facing, so flip to face right */
-    #fi-enemy img.img3-enemy {
+    #fi-enemy img.img3-enemy, .enemy-sprite.flipped {
       transform: scaleX(-1) !important;
+      transform-origin: bottom center !important;
     }
 
     /* Player side (Right): All A-images & IMG3 are natively left-facing towards enemy */
     #fi-player img {
-      max-height: 140px !important;
+      max-height: 210px !important; /* 140px x 1.5 = 210px */
       transform: none !important;
+      transform-origin: bottom center !important;
       filter: drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(0,212,255,0.4));
     }
 
@@ -2858,14 +2679,14 @@
     
     /* 敵の足元HP/MP (キャラクター真下中央に配置) */
     .battle-grid-3col .enemy-cyber-card .monster-bars-under {
-      bottom: 17% !important;
+      bottom: 14% !important;
       left: 15% !important;
       right: auto !important;
       transform: translateX(-20%) !important;
     }
     /* 味方の足元HP/MP (キャラクター真下中央に配置) */
     .battle-grid-3col .player-cyber-card .monster-bars-under {
-      bottom: 17% !important;
+      bottom: 14% !important;
       right: 15% !important;
       left: auto !important;
       transform: translateX(20%) !important;
@@ -3318,17 +3139,18 @@
       color: #ffffff !important;
       box-sizing: border-box !important;
       z-index: 15001 !important;
-/* START文字のゆっくり点滅アニメーション */
-@keyframes opTextBlink {
-  0% { opacity: 0.1; }
-  50% { opacity: 1; }
-  100% { opacity: 0.1; }
-}
+    }
 
-.blink-start-text {
-  animation: opTextBlink 1.5s infinite ease-in-out !important;
-  -webkit-animation: opTextBlink 1.5s infinite ease-in-out !important;
-}
+    @keyframes opTextBlink {
+      0% { opacity: 0.1; }
+      50% { opacity: 1; }
+      100% { opacity: 0.1; }
+    }
+
+    .blink-start-text {
+      animation: opTextBlink 1.5s infinite ease-in-out !important;
+      -webkit-animation: opTextBlink 1.5s infinite ease-in-out !important;
+    }
 
     /* Team Arena Preparation Screens Background (to-namennt.jpg) */
     #team-arena-menu-screen, #ta-party-screen, #ta-progress-screen {
@@ -5645,6 +5467,7 @@ function updateCreatorPreview() {
 }
 
 function goScreen(name) {
+  closeStoryDialog();
   // Clear battle timers and logs if transitioning screens
   battleTimers.forEach(t => clearTimeout(t));
   battleTimers = [];
@@ -8029,7 +7852,7 @@ function renderEnemyInfo() {
   const gaugeLUK = isTutorialBoss ? 0 : Math.min(100, (e.luck / 110) * 100);
   panel.innerHTML = 
     '<div class="enemy-rank-badge" style="margin-top:0px;">' + badgeLabel + '</div>' +
-    '<div class="enemy-icon" style="height: 70px; display: flex; align-items: center; justify-content: center; margin: 2px 0;">' + getEnemyImageHTML(e) + '</div>' +
+    '<div class="enemy-icon" style="height: 150px; display: flex; align-items: flex-end; justify-content: center; margin: 4px 0; overflow: hidden;">' + getEnemyImageHTML(e) + '</div>' +
     '<div class="enemy-name-display" style="color:var(--accent-red); font-weight:bold; font-size:16px;">' + e.name + '</div>' +
     '<div class="enemy-title-display" style="font-size:11px; margin-bottom:4px;">' + (e.title || '謎の対戦相手') + '</div>' +
     '<div class="rumor-box">' +
@@ -10494,7 +10317,22 @@ function onPochiCreatedStoryEnd() {
     btnArena.style.borderColor = 'var(--accent-gold)';
   }
 }
+function closeStoryDialog() {
+  const overlay = document.getElementById('story-dialog-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    overlay.style.pointerEvents = 'none';
+  }
+  storyDialogQueue = [];
+  storyDialogCallback = null;
+}
+
 function showStoryDialog(dialogList, onComplete) {
+  if (!dialogList || dialogList.length === 0) {
+    closeStoryDialog();
+    if (onComplete) onComplete();
+    return;
+  }
   storyDialogQueue = [...dialogList];
   storyDialogCallback = onComplete || null;
   advanceStoryDialog();
@@ -10502,23 +10340,31 @@ function showStoryDialog(dialogList, onComplete) {
 
 function advanceStoryDialog() {
   const overlay = document.getElementById('story-dialog-overlay');
-  if (storyDialogQueue.length === 0) {
+  if (!overlay) return;
+
+  if (!storyDialogQueue || storyDialogQueue.length === 0) {
     overlay.style.display = 'none';
+    overlay.style.pointerEvents = 'none';
     if (storyDialogCallback) {
       const cb = storyDialogCallback;
       storyDialogCallback = null;
-      cb();
+      try { cb(); } catch(e) { console.error('Story callback error:', e); }
     }
     return;
   }
   const item = storyDialogQueue.shift();
   const speakerEl = document.getElementById('story-speaker');
   const textEl = document.getElementById('story-text');
-  speakerEl.textContent = item.speaker || 'ナレーション';
-  speakerEl.style.background = item.color || 'var(--accent-gold)';
-  speakerEl.style.color = item.speakerTextColor || '#000';
-  textEl.textContent = item.text;
+  if (speakerEl) {
+    speakerEl.textContent = item.speaker || 'ナレーション';
+    speakerEl.style.background = item.color || 'var(--accent-gold)';
+    speakerEl.style.color = item.speakerTextColor || '#000';
+  }
+  if (textEl) {
+    textEl.textContent = item.text || '';
+  }
   overlay.style.display = 'flex';
+  overlay.style.pointerEvents = 'auto';
 }
 
 // ============================================================
