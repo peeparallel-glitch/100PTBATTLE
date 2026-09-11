@@ -1823,13 +1823,14 @@
     .boss-preview-sprite {
       height: 140px !important;
       max-height: 140px !important;
-      transform: scale(1.2) !important;
-      transform-origin: bottom center !important;
+      transform: scale(1.1) !important;
+      transform-origin: center center !important;
       object-fit: contain !important;
+      margin-top: 15px !important;
     }
     #scout-enemy-panel img.img3-enemy {
-      transform: scaleX(-1.2) scaleY(1.2) !important;
-      transform-origin: bottom center !important;
+      transform: scaleX(-1.1) scaleY(1.1) !important;
+      transform-origin: center center !important;
     }
     .enemy-cyber-card img {
       transform: scaleX(-1) scale(1.15) !important;
@@ -3877,8 +3878,8 @@
 </div>
 
 <!-- ============ IMAGE ZOOM MODAL ============ -->
-<div id="image-zoom-modal" onclick="closeImageZoomModal()" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 3000; align-items: center; justify-content: center; backdrop-filter: blur(8px); cursor: pointer;">
-  <div style="position: relative; max-width: 90%; max-height: 85%; display: flex; flex-direction: column; align-items: center;">
+<div id="image-zoom-modal" onclick="closeImageZoomModal()" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 99999 !important; align-items: center; justify-content: center; backdrop-filter: blur(8px); cursor: pointer;">
+  <div style="position: relative; max-width: 90%; max-height: 85%; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 100000 !important;">
     <div id="image-zoom-content" style="display: flex; align-items: center; justify-content: center; transition: transform 0.2s;"></div>
     <div style="margin-top: 20px; font-size: 16px; color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.6); padding: 6px 16px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2);">画面のどこかをクリックで閉じる</div>
   </div>
@@ -3887,7 +3888,6 @@
 <!-- ============ STEPS CREATOR ============ -->
 <div id="creator-screen" class="screen fade-in" style="display:none; align-items: flex-start; justify-content: center; padding: 10px 24px 10px;">
   <div style="display: flex; gap: 18px; justify-content: center; align-items: stretch; max-width: 1050px; width: 100%; padding: 0; box-sizing: border-box; height: 100%;">
-    
     <!-- LEFT: Creator Form Container -->
     <div class="creator-container" style="flex: 1.2; max-width: 550px; margin: 0; display: flex; flex-direction: column; overflow: hidden;">
       <div style="font-size:14px; font-weight:bold; color:var(--accent-gold); text-align:center; margin-bottom:8px;">🧪 新規モンスター調合</div>
@@ -4983,8 +4983,8 @@ class BGMManager {
     // BGMファイルパス定義
     this.bgmList = {
       opening: './BGM1/OP BGM1.mp3',         // オープニング用BGM
-      title: './BGM1/OP BGM1.mp3',           // タイトル画面
-      map: './BGM1/OP BGM1.mp3',             // マップ画面
+      title: './BGM1/Epic Fanfare.mp3',      // タイトル画面用BGM
+      map: './BGM1/MAP.mp3',                 // マップ画面 (メインメニュー/拠点用BGM)
       lab: './BGM1/raboBGM1.mp3',            // ラボ用BGM
       tower: './BGM1/Tower.mp3',             // 試練の塔用BGM
       towerSelect: './BGM1/Tower.mp3',       // 試練の塔 準備画面
@@ -5535,8 +5535,14 @@ function goScreen(name) {
       } else {
         window.bgmManager.play('normalBattle', true);     // 通常バトル用: battle１.mp3
       }
-    } else {
+    } else if (name === 'main-menu') {
+      window.bgmManager.play('map', true);               // マップ画面用: MAP.mp3
+    } else if (name === 'title' || name === 'name-dialog') {
+      window.bgmManager.play('title', true);             // タイトル画面用: Epic Fanfare.mp3
+    } else if (name === 'op') {
       window.bgmManager.play('opening', true);           // オープニング用: OP BGM1.mp3
+    } else {
+      window.bgmManager.play('map', true);               // その他マップ系デフォルト: MAP.mp3
     }
   }
 
@@ -6851,7 +6857,7 @@ function selectLabMonster(idx, autoOpen = true) {
         </div>
         
         <!-- Visual Display -->
-        <div onclick="zoomMonsterVisual('${m.monsterClass}', '${m.systemType}')" style="height: 90px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 8px; position: relative; overflow: hidden; cursor: pointer;" title="クリックで拡大表示">
+        <div onclick="event.stopPropagation(); zoomMonsterVisual('${m.monsterClass}', '${m.systemType}')" style="height: 90px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 8px; position: relative; overflow: hidden; cursor: pointer;" title="クリックで拡大表示">
           ${getMonsterVisualHTML(m.monsterClass, m.systemType, '70px')}
         </div>
         
@@ -7852,8 +7858,8 @@ function renderEnemyInfo() {
   const gaugeLUK = isTutorialBoss ? 0 : Math.min(100, (e.luck / 110) * 100);
   panel.innerHTML = 
     '<div class="enemy-rank-badge" style="margin-top:0px;">' + badgeLabel + '</div>' +
-    '<div class="enemy-icon" style="height: 150px; display: flex; align-items: flex-end; justify-content: center; margin: 4px 0; overflow: hidden;">' + getEnemyImageHTML(e) + '</div>' +
-    '<div class="enemy-name-display" style="color:var(--accent-red); font-weight:bold; font-size:16px;">' + e.name + '</div>' +
+    '<div class="enemy-icon" style="height: 140px; display: flex; align-items: center; justify-content: center; margin: 0; overflow: visible; position: relative; z-index: 2;">' + getEnemyImageHTML(e) + '</div>' +
+    '<div class="enemy-name-display" style="color:var(--accent-red); font-weight:bold; font-size:16px; position: relative; z-index: 1; margin-top: -10px;">' + e.name + '</div>' +
     '<div class="enemy-title-display" style="font-size:11px; margin-bottom:4px;">' + (e.title || '謎の対戦相手') + '</div>' +
     '<div class="rumor-box">' +
       '<div class="rumor-label">🗣 噂の情報</div>' +
