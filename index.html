@@ -6028,7 +6028,7 @@ const LAB_ITEMS_DEF = {
   },
   changeSkill: {
     name: '🎲 スキル再抽選券',
-    desc: '対象モンスターのアクティブスキルをランダムに変更します。',
+    desc: '対象モンスターのアクティブスキルを再選択できます。',
     icon: '🎲'
   },
   expandSlot2: {
@@ -6360,17 +6360,29 @@ function showSkillSelectPopup(monster, labIndex) {
 function confirmSkillSelect(skillId) {
   if (!_skillSelectTarget) return;
   const m = _skillSelectTarget.monster;
-  const oldSkillId = (m.skills && m.skills.active && m.skills.active[0]) || 'none';
+  const oldActiveId = (m.skills && m.skills.active && m.skills.active[0]) || 'none';
+  const oldPassiveId = (m.skills && m.skills.passive && m.skills.passive[0]) || 'none';
+  const oldSkillId = (oldActiveId !== 'none' ? oldActiveId : oldPassiveId);
   const oldSkillName = (SKILLS[oldSkillId] || SKILLS.none).name;
 
+  const newSk = SKILLS[skillId] || SKILLS.none;
   if (!m.skills) m.skills = { active: ['none'], passive: [] };
-  m.skills.active[0] = skillId;
+
+  if (newSk.type === 'パッシブ') {
+    m.skills.active = ['none'];
+    m.skills.passive = [skillId];
+  } else {
+    m.skills.active = [skillId];
+    m.skills.passive = [];
+  }
+  m.skill = skillId; // 後方互換・単一スキルプロパティの同期
+
   ownedItems.changeSkill--;
   save();
 
   closeSkillSelectPopup();
   renderLabGrid();
-  showSystemModal(`「${m.name}」のスキルを変更しました！\n「${oldSkillName}」 → 「${(SKILLS[skillId] || SKILLS.none).name}」`);
+  showSystemModal(`「${m.name}」のスキルを変更しました！\n「${oldSkillName}」 → 「${newSk.name}」`);
 }
 
 function closeSkillSelectPopup() {
@@ -8090,9 +8102,11 @@ function initBattle() {
     document.getElementById('stat-bar-e-luck').style.width = isTutorialMode ? '0%' : Math.min(100, (eLck / maxVal) * 100) + '%';
 
     // Render Skills board
-    const mySkill = pm.skills.active[0] || 'none';
-    document.getElementById('player-skill-name').textContent = (SKILLS[mySkill] || SKILLS.none).name;
-    document.getElementById('player-skill-desc').textContent = (SKILLS[mySkill] || SKILLS.none).desc;
+    const myActSkill = (pm.skills && pm.skills.active && pm.skills.active[0] && pm.skills.active[0] !== 'none') ? pm.skills.active[0] : null;
+    const myPasSkill = (pm.skills && pm.skills.passive && pm.skills.passive[0] && pm.skills.passive[0] !== 'none') ? pm.skills.passive[0] : null;
+    const displaySkillId = myActSkill || myPasSkill || pm.skill || 'none';
+    document.getElementById('player-skill-name').textContent = (SKILLS[displaySkillId] || SKILLS.none).name;
+    document.getElementById('player-skill-desc').textContent = (SKILLS[displaySkillId] || SKILLS.none).desc;
 
     // Secret Enemy skill setup
     const enemySkillNameEl = document.getElementById('enemy-skill-name');
@@ -8121,8 +8135,8 @@ function initBattle() {
     updateBuffsUI('p', pState); updateBuffsUI('e', eState);
     clearLog();
 
-    const active1 = (pm.skills && pm.skills.active && pm.skills.active[0]) || 'none';
-    pState.skill = active1;
+    pState.skill = myActSkill || (SKILLS[pm.skill] && SKILLS[pm.skill].type === 'アクティブ' ? pm.skill : 'none');
+    pState.passiveSkill = myPasSkill || (SKILLS[pm.skill] && SKILLS[pm.skill].type === 'パッシブ' ? pm.skill : 'none');
     
     const userSk = SKILLS[pState.skill] || SKILLS.none;
     if (pState.skill === 'none' || userSk.type === 'パッシブ') {
@@ -10387,7 +10401,7 @@ const REWARD_SHOP_ITEMS = [
   // 育成拡張アイテム
   { id: 'item_expand_slot_2', name: '🏠 モンスター枠拡張 (+2)', sub: 'ラボケージ拡張', desc: 'モンスター保管枠を最大+2枠拡張します（即時反映）。', isItem: true, price: 500 },
   { id: 'item_reset_stats', name: '🔄 ステータスリセット券', sub: '育成リセット', desc: 'モンスター1体の能力振り分けを初期化し100ptを再分配できます。', isItem: true, price: 300 },
-  { id: 'item_change_skill', name: '🎲 スキル再抽選券', sub: 'スキル再抽選', desc: 'モンスター1体のアクティブスキルをランダムに変更します。', isItem: true, price: 300 }
+  { id: 'item_change_skill', name: '🎲 スキル再抽選券', sub: 'スキル再抽選', desc: 'モンスター1体のアクティブスキルを再選択できます。', isItem: true, price: 300 }
 ];
 
 
