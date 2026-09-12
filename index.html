@@ -128,25 +128,62 @@
     .record-draw { color: var(--text-dim); font-weight: 700; }
 
     .stage-display {
-      font-size: 16px;
+      font-size: 13px;
       color: var(--accent-gold);
       background: rgba(245,158,11,0.1);
       border: 1px solid rgba(245,158,11,0.3);
       padding: 4px 10px;
       border-radius: 6px;
       font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.2;
+      text-align: center;
+    }
+    .stage-display span:first-child {
+      font-size: 11px;
+      letter-spacing: 1px;
+      opacity: 0.9;
+    }
+    .stage-display span:last-child {
+      font-size: 14px;
+      font-weight: 900;
     }
 
-    .nav-tab {
-      padding: 7px 18px;
+    .nav-button, .nav-tab {
+      padding: 4px 10px !important;
       border: 1px solid var(--border);
       border-radius: 6px;
       background: transparent;
       color: var(--text-secondary);
       font-family: 'Noto Sans JP', sans-serif;
-      font-size: 18px;
+      font-size: 12px;
+      font-weight: 700;
       cursor: pointer;
       transition: all 0.2s;
+      display: inline-flex !important;
+      flex-direction: column !important; /* アイコンとテキストを縦並びに配置 */
+      align-items: center !important;    /* 左右の中央揃え */
+      justify-content: center !important;/* 上下の中央揃え */
+      gap: 2px !important;              /* アイコンとテキストの間隔 */
+      line-height: 1.2 !important;
+      min-width: 54px;
+    }
+    .nav-button span, .nav-tab span {
+      display: block !important;
+      text-align: center;
+    }
+    .nav-button .icon, .nav-tab .nav-tab-icon {
+      font-size: 16px !important;
+      line-height: 1 !important;
+      margin-bottom: 2px;
+    }
+    .nav-button .text, .nav-tab .nav-tab-text {
+      font-size: 11px !important;
+      line-height: 1.1 !important;
+      white-space: nowrap;
     }
 
     .nav-tab.active {
@@ -3210,7 +3247,7 @@
     <input type="text" id="rename-modal-input" class="rename-modal-input" maxlength="12" placeholder="名前を入力してください" />
     <div class="rename-modal-buttons">
       <button class="rename-btn-confirm" id="rename-btn-confirm">決定</button>
-      <button class="rename-btn-cancel" onclick="closeRenameModal()">キャンセル</button>
+      <button class="rename-btn-cancel" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => closeRenameModal(), 1000)">キャンセル</button>
     </div>
   </div>
 </div>
@@ -3263,7 +3300,7 @@
 <!-- ============ LAB ITEM MODAL ============ -->
 <div id="lab-item-modal" style="display:none;">
   <div class="cyber-card" style="width:90%; max-width:500px; padding:24px; background:var(--bg-panel); border:2px solid var(--accent-cyan); border-radius:14px; box-shadow:0 0 25px rgba(0,210,255,0.25); position:relative; max-height:80vh; overflow-y:auto;">
-    <button onclick="closeLabItemModal()" style="position:absolute; top:8px; right:14px; background:transparent; border:none; color:#fff; font-size:28px; cursor:pointer; opacity:0.7; z-index:10;" title="閉じる">&times;</button>
+    <button onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => closeLabItemModal(), 1000)" style="position:absolute; top:8px; right:14px; background:transparent; border:none; color:#fff; font-size:28px; cursor:pointer; opacity:0.7; z-index:10;" title="閉じる">&times;</button>
     <div style="font-size:20px; font-weight:bold; color:var(--accent-cyan); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:16px;">
       🧪 所持アイテム一覧
     </div>
@@ -3305,7 +3342,7 @@
   <div style="background:var(--bg-card); border:2px solid var(--border); border-radius:12px; width:95%; max-width:550px; height:80%; display:flex; flex-direction:column; padding:20px; box-shadow:var(--glow-gold);">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
       <div style="font-size:16px; font-weight:bold; color:var(--accent-gold);">📜 獲得スキル図鑑</div>
-      <button class="btn-secondary" style="padding:4px 12px; font-size:16px; border-color:var(--border);" onclick="closeSkillsLibrary()">✕ 閉じる</button>
+      <button class="btn-secondary" style="padding:4px 12px; font-size:16px; border-color:var(--border);" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => closeSkillsLibrary(), 1000)">✕ 閉じる</button>
     </div>
     
     <div id="skills-library-content" style="flex:1; overflow-y:auto; padding-right:5px; font-size:16px; display:flex; flex-direction:column; gap:10px;">
@@ -3462,7 +3499,7 @@
     </div>
 
     <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:20px;">
-      <button class="title-btn" style="padding:14px; font-size:18px; width:100%;" onclick="startTeamArenaBattle()">⚔️ 団体戦バトル開始 (リーグ挑戦)</button>
+      <button class="title-btn" style="padding:14px; font-size:18px; width:100%;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/battle_STRT.mp3');}catch(e){}} setTimeout(() => startTeamArenaBattle(), 1000)">⚔️ 団体戦バトル開始 (リーグ挑戦)</button>
       <button class="btn-secondary" style="padding:12px; font-size:16px; border-color:var(--accent-cyan); color:var(--accent-cyan);" onclick="openRewardShop()">🛍️ 報酬交換ショップを開く</button>
     </div>
 
@@ -3595,7 +3632,7 @@
       次の対戦：【先鋒戦】
     </div>
 
-    <button class="title-btn" style="width:100%; padding:14px; font-size:16px;" id="ta-next-battle-btn" onclick="taStartNextBout()">⚔️ バトル開始！</button>
+    <button class="title-btn" style="width:100%; padding:14px; font-size:16px;" id="ta-next-battle-btn" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/battle_STRT.mp3');}catch(e){}} setTimeout(() => taStartNextBout(), 1000)">⚔️ バトル開始！</button>
   </div>
 </div>
 
@@ -3808,19 +3845,18 @@
 <header id="header" style="display: none;">
   <div class="logo" id="header-logo-text">100pt BUILD BATTLE</div>
   <div class="header-center">
-    <button class="nav-tab" id="tab-settings" onclick="openSettingsModal()">⚙️ 設定</button>
-    <button class="nav-tab" id="tab-menu" onclick="goScreen('main-menu')">🏠 メニュー</button>
-    <button class="nav-tab active" id="tab-lab" onclick="goScreen('lab')">🔬 ラボ</button>
+    <button class="nav-button nav-tab" id="tab-settings" onclick="openSettingsModal()"><span class="icon nav-tab-icon">⚙️</span><span class="text nav-tab-text">設定</span></button>
+    <button class="nav-button nav-tab" id="tab-title" onclick="returnToTitle()"><span class="icon nav-tab-icon">🏰</span><span class="text nav-tab-text">タイトル</span></button>
+    <button class="nav-button nav-tab" id="tab-menu" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/OP_STRT.mp3');}catch(e){}} setTimeout(() => goScreen('main-menu'), 1000)"><span class="icon nav-tab-icon">🗺️</span><span class="text nav-tab-text">マップ</span></button>
+    <button class="nav-button nav-tab active" id="tab-lab" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/OP_STRT.mp3');}catch(e){}} setTimeout(() => goScreen('lab'), 1000)"><span class="icon nav-tab-icon">🧪</span><span class="text nav-tab-text">ラボ</span></button>
   </div>
   <div class="header-right" style="display:flex; align-items:center; gap:8px;">
-    <button id="debug-toggle-btn" style="padding:2px 10px; font-size:13px; font-weight:bold; border:2px solid rgba(255,255,255,0.15); border-radius:6px; background:rgba(0,0,0,0.3); color:#94a3b8; cursor:pointer; transition:all 0.3s;" onclick="toggleDebugMode()">🛠️ デバッグ: OFF</button>
-    <button class="nav-tab" style="padding:2px 8px; font-size:16px; border-color:rgba(245,158,11,0.4); color:var(--accent-gold);" onclick="openSaveSlotModal()">💾 セーブデータ</button>
-    <button class="nav-tab" style="padding:2px 8px; font-size:18px; border-color:rgba(255,255,255,0.15);" onclick="toggleFullscreen()">🖥️ 画面全表示</button>
-    <div class="stage-display" id="stage-display">STAGE 1 / 25</div>
+    <button class="nav-button nav-tab" style="border-color:rgba(245,158,11,0.4); color:var(--accent-gold);" onclick="openSaveSlotModal()"><span class="icon nav-tab-icon">💾</span><span class="text nav-tab-text">セーブデータ</span></button>
+    <button class="nav-button nav-tab" style="border-color:rgba(255,255,255,0.15);" onclick="toggleFullscreen()"><span class="icon nav-tab-icon">🖥️</span><span class="text nav-tab-text">画面全表示</span></button>
+    <div class="stage-display" id="stage-display"><span>STAGE</span><span>1 / 25</span></div>
     <div class="record-display">
       <span class="record-win" id="rec-win">🏆 0</span>
       <span class="record-lose" id="rec-lose">💀 0</span>
-      <span class="record-draw" id="rec-draw">🤝 0</span>
     </div>
   </div>
 </header>
@@ -3831,16 +3867,19 @@
     
     <div class="lab-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--border);">
       <div style="display:flex; align-items:baseline; gap:10px;">
-        <span class="lab-title" style="font-size:20px; font-weight:bold; color:var(--text-main); display:inline-flex; align-items:center; gap:8px;">🔬 モンスター研究所 <button class="help-btn" onclick="showHelp('lab')">?</button></span>
+        <span class="lab-title" style="font-size:20px; font-weight:bold; color:var(--text-main); display:inline-flex; align-items:center; gap:8px;">🔬 モンスター研究所 <button class="help-btn" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => showHelp('lab'), 1000)">?</button></span>
         <span style="font-size:13px; color:var(--accent-gold);" id="lab-player-welcome"></span>
       </div>
       
+      <!-- Debug Toggle Button relocated to Lab Header Center -->
+      <button id="debug-toggle-btn" style="padding:4px 12px; font-size:13px; font-weight:bold; border:2px solid rgba(255,255,255,0.15); border-radius:6px; background:rgba(0,0,0,0.3); color:#94a3b8; cursor:pointer; transition:all 0.3s;" onclick="toggleDebugMode()">🛠️ デバッグ: OFF</button>
+      
       <!-- Lab Mode Switcher Tabs (Inline) -->
       <div style="display:flex; gap:8px; align-items:center; margin-left:auto; margin-right:20px;">
-        <button id="lab-mode-tab-story" onclick="switchLabMode('story')" style="padding:6px 12px; font-size:13px; font-weight:bold; border-radius:6px; border:1px solid var(--accent-gold); background:#0d1117; color:var(--accent-gold); cursor:pointer; transition:all 0.3s ease; font-family:'Inter', sans-serif; box-shadow:0 2px 8px rgba(0,0,0,0.8);">
+        <button id="lab-mode-tab-story" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => switchLabMode('story'), 1000)" style="padding:6px 12px; font-size:13px; font-weight:bold; border-radius:6px; border:1px solid var(--accent-gold); background:#0d1117; color:var(--accent-gold); cursor:pointer; transition:all 0.3s ease; font-family:'Inter', sans-serif; box-shadow:0 2px 8px rgba(0,0,0,0.8);">
           📖 ストーリー
         </button>
-        <button id="lab-mode-tab-free" onclick="switchLabMode('free')" style="padding:6px 12px; font-size:13px; font-weight:bold; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(10,12,24,0.92); color:var(--text-dim); cursor:pointer; transition:all 0.3s ease; font-family:'Inter', sans-serif; box-shadow:0 2px 8px rgba(0,0,0,0.8);">
+        <button id="lab-mode-tab-free" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => switchLabMode('free'), 1000)" style="padding:6px 12px; font-size:13px; font-weight:bold; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(10,12,24,0.92); color:var(--text-dim); cursor:pointer; transition:all 0.3s ease; font-family:'Inter', sans-serif; box-shadow:0 2px 8px rgba(0,0,0,0.8);">
           ⚔️ フリーバトル
         </button>
       </div>
@@ -3850,9 +3889,9 @@
     
     <div class="lab-actions" style="margin-bottom:10px; justify-content: flex-end; gap:10px; align-items: center;">
       <span id="lab-unlocked-count" style="font-size:14px; color:var(--accent-gold); margin-right: auto;">🔓 解放済みスキル: 0 / 30</span>
-      <button class="lab-use-item-btn" onclick="openLabItemModal()">🧪 アイテム使用</button>
-      <button class="btn-secondary" style="border-color:rgba(245,158,11,0.4); color:var(--accent-gold); padding:6px 12px;" onclick="openSkillsLibrary()">📜 所持スキル確認</button>
-      <button class="btn-secondary" id="btn-random-create" style="padding:6px 12px;" onclick="executeRandomCreate()">🎲 ランダム作成</button>
+      <button class="lab-use-item-btn" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => openLabItemModal(), 1000)">🧪 アイテム使用</button>
+      <button class="btn-secondary" style="border-color:rgba(245,158,11,0.4); color:var(--accent-gold); padding:6px 12px;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => openSkillsLibrary(), 1000)">📜 所持スキル確認</button>
+      <button class="btn-secondary" id="btn-random-create" style="padding:6px 12px;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => executeRandomCreate(), 1000)">🎲 ランダム作成</button>
     </div>
 
     <div class="lab-grid-6" id="lab-grid-6">
@@ -3872,7 +3911,7 @@
 <!-- ============ LAB DETAIL MODAL ============ -->
 <div id="lab-detail-modal" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
   <div class="cyber-card" style="width: 90%; max-width: 440px; height: auto; max-height: 90%; overflow: hidden; background: var(--bg-card); border: 2px solid var(--accent-cyan); border-radius: 12px; padding: 16px 20px; box-shadow: 0 0 20px rgba(0,212,255,0.2); position: relative;">
-    <button onclick="closeLabDetailModal()" style="position: absolute; top: 8px; right: 14px; background: transparent; border: none; color: #fff; font-size: 28px; cursor: pointer; opacity: 0.7; z-index: 10;">&times;</button>
+    <button onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => closeLabDetailModal(), 1000)" style="position: absolute; top: 8px; right: 14px; background: transparent; border: none; color: #fff; font-size: 28px; cursor: pointer; opacity: 0.7; z-index: 10;">&times;</button>
     <div id="lab-modal-content-area"></div>
   </div>
 </div>
@@ -3911,8 +3950,8 @@
           <div class="section-title">📛 モンスターの名前</div>
           <input type="text" class="dialog-input" id="creator-name-input" placeholder="モンスター名" maxlength="12" style="text-align:left; margin-bottom:10px;" oninput="creatorTemp.name = this.value; updateCreatorPreview();">
           <div id="lab-nav-buttons-1" style="display: flex; gap: 12px; margin-top: 24px;">
-            <button class="btn btn-secondary lab-nav-prev" style="flex: 1; padding: 12px;" onclick="creatorPrev()">キャンセル</button>
-            <button class="btn btn-primary lab-nav-next" style="flex: 2; padding: 12px; background-color: #ff9800; color: #fff; font-weight: bold; font-size: 1rem;" onclick="creatorNext()">次へ (ステ振りへ) ➔</button>
+            <button class="btn btn-secondary lab-nav-prev" style="flex: 1; padding: 12px;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => creatorPrev(), 1000)">キャンセル</button>
+            <button class="btn btn-primary lab-nav-next" style="flex: 2; padding: 12px; background-color: #ff9800; color: #fff; font-weight: bold; font-size: 1rem;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => creatorNext(), 1000)">次へ (ステ振りへ) ➔</button>
           </div>
         </div>
 
@@ -3927,8 +3966,8 @@
             <!-- HP, ATK, DEF, SPD, LCK sliders will be drawn here -->
           </div>
           <div id="lab-nav-buttons-2" style="display: flex; gap: 12px; margin-top: 24px;">
-            <button class="btn btn-secondary lab-nav-prev" style="flex: 1; padding: 12px;" onclick="creatorPrev()">◀ 戻る (系統選択)</button>
-            <button class="btn btn-primary lab-nav-next" style="flex: 2; padding: 12px; background-color: #ff9800; color: #fff; font-weight: bold; font-size: 1rem;" onclick="creatorNext()">次へ (スキル選択) ➔</button>
+            <button class="btn btn-secondary lab-nav-prev" style="flex: 1; padding: 12px;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => creatorPrev(), 1000)">◀ 戻る (系統選択)</button>
+            <button class="btn btn-primary lab-nav-next" style="flex: 2; padding: 12px; background-color: #ff9800; color: #fff; font-weight: bold; font-size: 1rem;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => creatorNext(), 1000)">次へ (スキル選択) ➔</button>
           </div>
         </div>
 
@@ -3939,8 +3978,8 @@
             <!-- Single skill radio options -->
           </div>
           <div id="lab-nav-buttons-3" style="display: flex; gap: 12px; margin-top: 24px;">
-            <button class="btn btn-secondary lab-nav-prev" style="flex: 1; padding: 12px;" onclick="creatorPrev()">◀ 戻る (ステ振り)</button>
-            <button class="btn btn-primary lab-nav-next" style="flex: 2; padding: 12px; background-color: #ff9800; color: #fff; font-weight: bold; font-size: 1rem;" onclick="creatorNext()">決定 ✔</button>
+            <button class="btn btn-secondary lab-nav-prev" style="flex: 1; padding: 12px;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => creatorPrev(), 1000)">◀ 戻る (ステ振り)</button>
+            <button class="btn btn-primary lab-nav-next" style="flex: 2; padding: 12px; background-color: #ff9800; color: #fff; font-weight: bold; font-size: 1rem;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => creatorNext(), 1000)">決定 ✔</button>
           </div>
         </div>
       </div>
@@ -4021,7 +4060,7 @@
     </div>
   </div>
   <div class="battle-start-area">
-    <button class="battle-start-btn" id="btn-battle" onclick="goScreen('battle')">⚔️ バトル開始！</button>
+    <button class="battle-start-btn" id="btn-battle" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/battle_STRT.mp3');}catch(e){}} setTimeout(() => goScreen('battle'), 1000)">⚔️ バトル開始！</button>
     <br>
     <span class="back-link" onclick="goScreen('main-menu')" style="cursor:pointer; font-size:16px; color:var(--text-dim); text-decoration:underline;">← メニューへ戻る</span>
   </div>
@@ -4958,10 +4997,8 @@ function load() {
 function updateRecord() {
   const winEl = document.getElementById('rec-win');
   const loseEl = document.getElementById('rec-lose');
-  const drawEl = document.getElementById('rec-draw');
   if (winEl) winEl.textContent = `🏆 ${record.win || 0}`;
   if (loseEl) loseEl.textContent = `💀 ${record.lose || 0}`;
-  if (drawEl) drawEl.textContent = `🤝 ${record.draw || 0}`;
 }
 
 // ============================================================
@@ -4985,7 +5022,7 @@ class BGMManager {
       opening: './BGM1/OP BGM1.mp3',         // オープニング用BGM
       title: './BGM1/Epic Fanfare.mp3',      // タイトル画面用BGM
       map: './BGM1/MAP.mp3',                 // マップ画面 (メインメニュー/拠点用BGM)
-      lab: './BGM1/raboBGM1.mp3',            // ラボ用BGM
+      lab: './BGM1/rabo2.mp3',               // ラボ用BGM
       tower: './BGM1/Tower.mp3',             // 試練の塔用BGM
       towerSelect: './BGM1/Tower.mp3',       // 試練の塔 準備画面
       colosseum: './BGM1/Colosseum.mp3',     // コロシアム用BGM
@@ -5080,11 +5117,18 @@ class BGMManager {
 
 // グローバルインスタンス化
 window.bgmManager = new BGMManager();
+window.soundManager = window.bgmManager;
 
 // グローバルplayBGMヘルパー関数
 function playBGM(key, isLoop = true) {
   if (window.bgmManager) {
     window.bgmManager.play(key, isLoop);
+  }
+}
+
+function playSE(filePath) {
+  if (window.bgmManager) {
+    window.bgmManager.playSE(filePath);
   }
 }
 
@@ -5130,25 +5174,29 @@ document.addEventListener('visibilitychange', () => {
 //  SETTINGS MODAL (髻ｳ驥剰ｨｭ螳�)
 // ============================================================
 function openSettingsModal() {
-  const modal = document.getElementById('settings-modal');
-  if (!modal) return;
-
-  // 繧ｹ繝ｩ繧､繝繝ｼ縺ｮ蛟､繧堤樟蝨ｨ縺ｮ髻ｳ驥上↓同期
-  const bgmSlider = document.getElementById('bgm-volume-slider');
-  const seSlider = document.getElementById('se-volume-slider');
-  const bgmLabel = document.getElementById('bgm-vol-label');
-  const seLabel = document.getElementById('se-vol-label');
-
-  if (bgmSlider && window.bgmManager) {
-    bgmSlider.value = Math.round(window.bgmManager.bgmVolume * 100);
-    if (bgmLabel) bgmLabel.textContent = bgmSlider.value + '%';
+  if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+    try { playSE('./SE1/OP_STRT.mp3'); } catch(e) {}
   }
-  if (seSlider && window.bgmManager) {
-    seSlider.value = Math.round(window.bgmManager.seVolume * 100);
-    if (seLabel) seLabel.textContent = seSlider.value + '%';
-  }
+  setTimeout(() => {
+    const modal = document.getElementById('settings-modal');
+    if (!modal) return;
 
-  modal.style.display = 'flex';
+    const bgmSlider = document.getElementById('bgm-volume-slider');
+    const seSlider = document.getElementById('se-volume-slider');
+    const bgmLabel = document.getElementById('bgm-vol-label');
+    const seLabel = document.getElementById('se-vol-label');
+
+    if (bgmSlider && window.bgmManager) {
+      bgmSlider.value = Math.round(window.bgmManager.bgmVolume * 100);
+      if (bgmLabel) bgmLabel.textContent = bgmSlider.value + '%';
+    }
+    if (seSlider && window.bgmManager) {
+      seSlider.value = Math.round(window.bgmManager.seVolume * 100);
+      if (seLabel) seLabel.textContent = seSlider.value + '%';
+    }
+
+    modal.style.display = 'flex';
+  }, 1000);
 }
 
 function closeSettingsModal() {
@@ -5638,7 +5686,7 @@ function goScreen(name) {
       ], () => {
         // モンスター生成演出 & ポチ自動生成
         if (window.soundManager && typeof window.soundManager.playSE === 'function') {
-          try { window.soundManager.playSE('create'); } catch(e) {}
+          try { playSE('./SE1/OP_STRT.mp3'); } catch(e) {}
         }
         
         const starterMonster = {
@@ -5726,6 +5774,18 @@ function goScreen(name) {
         }, 100);
       }
     }
+
+    // 覇王リベンジ（戦闘準備画面）での会話イベント
+    if (currentGameMode === 'boss-revenge' && name === 'scouting' && !window._bossRevengeDialogShown) {
+      window._bossRevengeDialogShown = true;
+      setTimeout(() => {
+        showStoryDialog([
+          { speaker: '覇王ヴィクター', text: 'ほう、あのときの田舎者か。すべてのスキルを解明して舞い戻ってくるとはな。', color: '#ef4444', speakerTextColor: '#fff' },
+          { speaker: playerName || '研究員', text: 'あの日の借りを返しに来た！ これが僕たちの集大成のパーティだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+          { speaker: '覇王ヴィクター', text: 'ハハハッ！ 良い面構えだ！ ならば全力で相手をしてやろう！ 行くぞ！', color: '#ef4444', speakerTextColor: '#fff' }
+        ], null);
+      }, 100);
+    }
   }
 
   // Header UI elements display logic depending on active screen
@@ -5749,7 +5809,7 @@ function goScreen(name) {
     } else {
       stageDisplay.style.display = 'block';
       if (currentGameMode === 'survival') {
-        stageDisplay.textContent = `試練の塔: ${survivalWins}階`;
+        stageDisplay.innerHTML = `<span>試練の塔</span><span>${survivalWins}階</span>`;
       }
     }
   }
@@ -5835,16 +5895,21 @@ function exitDeviceFullscreen() {
 }
 
 function toggleFullscreen() {
-  const isFS = document.fullscreenElement || 
-               document.webkitFullscreenElement || 
-               document.mozFullScreenElement || 
-               document.msFullscreenElement;
-
-  if (!isFS && !document.body.classList.contains('virtual-fullscreen')) {
-    requestDeviceFullscreen();
-  } else {
-    exitDeviceFullscreen();
+  if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+    try { playSE('./SE1/OP_STRT.mp3'); } catch(e) {}
   }
+  setTimeout(() => {
+    const isFS = document.fullscreenElement || 
+                 document.webkitFullscreenElement || 
+                 document.mozFullScreenElement || 
+                 document.msFullscreenElement;
+
+    if (!isFS && !document.body.classList.contains('virtual-fullscreen')) {
+      requestDeviceFullscreen();
+    } else {
+      exitDeviceFullscreen();
+    }
+  }, 1000);
 }
 
 function autoFullscreen() {
@@ -5959,23 +6024,23 @@ function renderLabGrid() {
       }
       
       card.innerHTML = `
-        <div onclick="selectLabMonster(${globalIndex}, false)" style="width: 100%; text-align: center; cursor: pointer;" title="クリックで選択">
+        <div onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => selectLabMonster(${globalIndex}, false), 1000)" style="width: 100%; text-align: center; cursor: pointer;" title="クリックで選択">
           <div style="font-weight:bold; font-size:18px; color:var(--accent-gold); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.name}</div>
           <div style="font-size:12px; color:var(--text-dim); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.monsterClass}</div>
         </div>
         
-        <div onclick="selectLabMonster(${globalIndex}, true)" style="height: 75px; display:flex; align-items:center; justify-content:center; cursor:pointer; width:100%; background:transparent; border-radius:6px; border: 1px dashed rgba(255,255,255,0.12);" title="画像クリックで詳細表示">
+        <div onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => selectLabMonster(${globalIndex}, true), 1000)" style="height: 75px; display:flex; align-items:center; justify-content:center; cursor:pointer; width:100%; background:transparent; border-radius:6px; border: 1px dashed rgba(255,255,255,0.12);" title="画像クリックで詳細表示">
           ${getMonsterVisualHTML(m.monsterClass, m.systemType, '60px')}
         </div>
         
         <div style="width: 100%;">
           <div style="display:flex; gap:4px; margin-bottom:4px; width:100%;">
-            <button class="btn-secondary" style="padding:2px 4px; font-size:13px; flex:1;" onclick="moveMonster(${globalIndex}, -1)" ${globalIndex === 0 ? 'disabled' : ''}>◀</button>
-            <button class="btn-secondary" style="padding:2px 4px; font-size:13px; flex:1;" onclick="moveMonster(${globalIndex}, 1)" ${globalIndex === activeLab.length - 1 ? 'disabled' : ''}>▶</button>
+            <button class="btn-secondary" style="padding:2px 4px; font-size:13px; flex:1;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => moveMonster(${globalIndex}, -1), 1000)" ${globalIndex === 0 ? 'disabled' : ''}>◀</button>
+            <button class="btn-secondary" style="padding:2px 4px; font-size:13px; flex:1;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => moveMonster(${globalIndex}, 1), 1000)" ${globalIndex === activeLab.length - 1 ? 'disabled' : ''}>▶</button>
           </div>
           <div style="display:flex; gap:4px; width:100%;">
-            <button class="btn-secondary" style="border-color:rgba(245,158,11,0.3); color:var(--accent-gold); padding:2px 4px; font-size:13px; flex:1.2; display:flex; align-items:center; justify-content:center; gap:2px;" onclick="renameMonster(${globalIndex})">✏️ 改名</button>
-            <button class="btn-secondary" style="border-color:rgba(239,68,68,0.4); color:var(--accent-red); padding:2px 4px; font-size:13px; flex:1;" onclick="deleteMonster(${globalIndex})">🗑️ お別れ</button>
+            <button class="btn-secondary" style="border-color:rgba(245,158,11,0.3); color:var(--accent-gold); padding:2px 4px; font-size:13px; flex:1.2; display:flex; align-items:center; justify-content:center; gap:2px;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => renameMonster(${globalIndex}), 1000)">✏️ 改名</button>
+            <button class="btn-secondary" style="border-color:rgba(239,68,68,0.4); color:var(--accent-red); padding:2px 4px; font-size:13px; flex:1;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => deleteMonster(${globalIndex}), 1000)">🗑️ お別れ</button>
           </div>
         </div>
       `;
@@ -5984,7 +6049,7 @@ function renderLabGrid() {
       card.style.height = '230px';
       card.style.minHeight = '230px';
       card.innerHTML = `
-        <button class="empty-create-btn" onclick="startManualCreate()">🧪 調合</button>
+        <button class="empty-create-btn" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => startManualCreate(), 1000)">🧪 調合</button>
       `;
     } else {
       card.className = 'monster-card-6 empty locked';
@@ -6010,6 +6075,7 @@ function renderLabGrid() {
 }
 
 function changeLabPage(delta) {
+  if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}}
   const activeLab = getActiveLab();
   const maxPage = Math.max(1, Math.ceil(maxMonsterSlots / ITEMS_PER_PAGE));
   currentLabPage += delta;
@@ -6076,7 +6142,7 @@ function renderOwnedItemList() {
       </div>
       <div style="margin-left:12px;">
         <button class="title-btn" style="padding:8px 16px; font-size:13px; ${!canUse ? 'opacity:0.4; cursor:not-allowed; background:#475569; color:#cbd5e1; box-shadow:none;' : ''}" 
-          ${!canUse ? 'disabled' : ''} onclick="useLabItem('${itemId}')">使用</button>
+          ${!canUse ? 'disabled' : ''} onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => useLabItem('${itemId}'), 1000)">使用</button>
       </div>
     `;
     container.appendChild(card);
@@ -6106,15 +6172,14 @@ function showMonsterSelectModal(title, monsterList, formatFn) {
       const label = formatFn ? formatFn(m, i) : `${m.name}`;
       btn.innerHTML = label;
       btn.onclick = () => {
-        // 蜈医↓resolve繧貞叙蠕励�螳溯｡後＠縺ｦ縺九ｉ繝｢繝ｼ繝繝ｫ繧帝哩縺倥ｋ
-        // (closeMonsterSelectModal蜀�〒-1縺ｫresolve縺輔ｌ繧九�繧帝亟縺�)
-        const r = _monsterSelectResolve;
-        _monsterSelectResolve = null;
-        // 繝｢繝ｼ繝繝ｫ繧定ｦ冶ｦ夂噪縺ｫ髢峨§繧�
-        const md = document.getElementById('monster-select-modal');
-        if (md) { md.classList.remove('active'); md.style.display = 'none'; }
-        // 驕ｸ謚槭＆繧後◆繧､繝ｳ繝�ャ繧ｯ繧ｹ縺ｧresolve
-        if (r) r(i);
+        if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}}
+        setTimeout(() => {
+          const r = _monsterSelectResolve;
+          _monsterSelectResolve = null;
+          const md = document.getElementById('monster-select-modal');
+          if (md) { md.classList.remove('active'); md.style.display = 'none'; }
+          if (r) r(i);
+        }, 1000);
       };
       listEl.appendChild(btn);
     });
@@ -6588,30 +6653,29 @@ function renameMonster(idx) {
   const confirmBtn = document.getElementById('rename-btn-confirm');
   if (!overlay || !input || !confirmBtn) return;
   
-  // 現在縺ｮモンスター蜷阪ｒ蛻晄悄蛟､縺ｨ縺励※險ｭ螳�
   input.value = m.name;
-  overlay.classList.add('active'); // 繧ｯ繝ｩ繧ｹ繝吶�繧ｹ縺ｧ縺ｮ陦ｨ遉ｺ蛻ｶ蠕｡
+  overlay.classList.add('active');
   
-  // 繝輔か繝ｼ繧ｫ繧ｹ繧貞粋繧上○繧�
   setTimeout(() => input.focus(), 50);
   
-  // 蜿､縺�う繝吶Φ繝医Μ繧ｹ繝翫�縺ｮ闢�ｩ阪ｒ髦ｲ縺舌◆繧∵ｱｺ螳壹�繧ｿ繝ｳ繧定､�｣ｽ繝ｻ鄂ｮ謠�
   const newConfirmBtn = confirmBtn.cloneNode(true);
   confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
   
   newConfirmBtn.addEventListener('click', () => {
-    const trimmed = input.value.trim();
-    if (trimmed === '') {
-      alert('名前を空欄にすることはできません」�');
-      return;
-    }
-    m.name = trimmed;
-    save();
-    renderLabGrid();
-    closeRenameModal();
+    if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}}
+    setTimeout(() => {
+      const trimmed = input.value.trim();
+      if (trimmed === '') {
+        alert('名前を空欄にすることはできません');
+        return;
+      }
+      m.name = trimmed;
+      save();
+      renderLabGrid();
+      closeRenameModal();
+    }, 1000);
   });
-
-  // Enter繧ｭ繝ｼ縺ｧ縺ｮ豎ｺ螳壹ｂ繧ｵ繝昴�繝�
+  
   input.onkeydown = (e) => {
     if (e.key === 'Enter') {
       newConfirmBtn.click();
@@ -6798,20 +6862,20 @@ function closeLabDetailModal() {
 }
 
 function zoomMonsterVisual(monsterClass, systemType) {
-  const content = document.getElementById('image-zoom-content');
-  const modal = document.getElementById('image-zoom-modal');
-  if (!content || !modal) return;
-  
-  // Get original visual HTML with 425px height (5.0x of 85px)
-  let visualHTML = getMonsterVisualHTML(monsterClass, systemType, '425px');
-  
-  // If it's an emoji span, replace font size with 250px (5.0x of 50px)
-  if (visualHTML.includes('font-size: 50px')) {
-    visualHTML = visualHTML.replace('font-size: 50px', 'font-size: 250px');
-  }
-  
-  content.innerHTML = visualHTML;
-  modal.style.display = 'flex';
+  if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}}
+  setTimeout(() => {
+    const content = document.getElementById('image-zoom-content');
+    const modal = document.getElementById('image-zoom-modal');
+    if (!content || !modal) return;
+    
+    let visualHTML = getMonsterVisualHTML(monsterClass, systemType, '425px');
+    if (visualHTML.includes('font-size: 50px')) {
+      visualHTML = visualHTML.replace('font-size: 50px', 'font-size: 250px');
+    }
+    
+    content.innerHTML = visualHTML;
+    modal.style.display = 'flex';
+  }, 1000);
 }
 
 function zoomCreatorPreviewVisual() {
@@ -6910,7 +6974,7 @@ function selectLabMonster(idx, autoOpen = true) {
       </div>
       
       <!-- Modal Close Trigger (Bottom) -->
-      <button class="title-btn" onclick="closeLabDetailModal()" style="margin-top: 10px; padding: 5px 0; font-size: 16px; width: 100%;">閉じる</button>
+      <button class="title-btn" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => closeLabDetailModal(), 1000)" style="margin-top: 10px; padding: 5px 0; font-size: 16px; width: 100%;">閉じる</button>
     </div>
   `;
 
@@ -7665,7 +7729,7 @@ function prepareStage() {
       stageIndex = 0; // reset if overflow
     }
     currentEnemy = STAGE_ENEMIES[stageIndex];
-    badge.textContent = `STAGE ${stageIndex + 1} / ${STAGE_ENEMIES.length}`;
+    badge.innerHTML = `<span>STAGE</span><span>${stageIndex + 1} / ${STAGE_ENEMIES.length}</span>`;
   } else if (currentGameMode === 'survival') {
     // Survival mode: Pick a random base from STAGE_ENEMIES and scale stats slightly based on wins
     const baseEnemy = STAGE_ENEMIES[Math.floor(Math.random() * STAGE_ENEMIES.length)];
@@ -8431,7 +8495,7 @@ function selectCommand(playerCmd) {
     showConfirmModal('戦闘から撤退しますか？').then(result => {
       if (result) {
         addLog('🏃 ' + pState.name + ' は戦闘から撤退した！', 'log-miss');
-        if (window.soundManager) window.soundManager.playSE('escape');
+        if (window.soundManager) playSE('./SE1/OP_STRT.mp3');
         pState.cur = 0;
         setTimeout(() => {
           showResult();
@@ -8658,7 +8722,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
   }
 
   if (cmd === 'attack') {
-    addLog('⚔️ ' + actor.name + ' の攻撃！', 'log-normal');
+    if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/kougeki_tujyouu.mp3');}catch(e){}} addLog('⚔️ ' + actor.name + ' の攻撃！', 'log-normal');
     
     // Parry activation check
     if (parried) {
@@ -8679,7 +8743,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
     if (getBattleRandom() * 100 < evasion) {
       const t = setTimeout(() => {
         target.evasionStreak = (target.evasionStreak || 0) + 1;
-        addLog('💨 ' + target.name + ' は攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
+        if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/MISS.mp3');}catch(e){}} addLog('💨 ' + target.name + ' は攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
         actor.charged = false;
         actor.chargeMultiplier = null;
         updateBuffsUI(actorSide, actor);
@@ -8801,7 +8865,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
 
       if (getBattleRandom() * 100 < evasion) {
         const t = setTimeout(() => {
-          addLog('💨 ' + target.name + ' はスキルの攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
+          if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/MISS.mp3');}catch(e){}} addLog('💨 ' + target.name + ' はスキルの攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
           actor.charged = false;
           actor.chargeMultiplier = null;
           updateBuffsUI(actorSide, actor);
@@ -8895,7 +8959,7 @@ function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) 
         setHp(targetSide, target);
         onComplete();
       } else {
-        addLog('⚡ 一撃必殺は外れた！', 'log-miss');
+        if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/MISS.mp3');}catch(e){}} addLog('⚡ 一撃必殺は外れた！', 'log-miss');
         actor.charged = false;
         actor.chargeMultiplier = null;
         updateBuffsUI(actorSide, actor);
@@ -9250,7 +9314,7 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     }
 
     if (isCrit) {
-      addLog('💥 会心の一撃！ ' + target.name + ' に ' + finalDmg + ' の大ダメージ！', 'log-crit');
+      if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/kaisin.mp3');}catch(e){}} addLog('💥 会心の一撃！ ' + target.name + ' に ' + finalDmg + ' の大ダメージ！', 'log-crit');
     } else if (isScrap) {
       addLog('⚔️ かすり傷！ ' + target.name + ' に 1 のダメージ！', isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
     } else {
@@ -10086,9 +10150,14 @@ function handleTitleStart() {
 }
 
 function openSaveSlotModal() {
-  renderSaveSlots();
-  const overlay = document.getElementById('save-slot-overlay');
-  if (overlay) overlay.style.display = 'flex';
+  if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+    try { playSE('./SE1/OP_STRT.mp3'); } catch(e) {}
+  }
+  setTimeout(() => {
+    renderSaveSlots();
+    const overlay = document.getElementById('save-slot-overlay');
+    if (overlay) overlay.style.display = 'flex';
+  }, 1000);
 }
 
 function closeSaveSlotModal() {
@@ -10155,13 +10224,18 @@ function renderSaveSlots() {
 }
 
 function loadGameFromSlot(slotId) {
-  loadSlot(slotId);
-  closeSaveSlotModal();
-  if (playerName) {
-    goScreen('main-menu');
-  } else {
-    showNameDialog();
+  if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+    try { playSE('./SE1/OP_STRT.mp3'); } catch(e) {}
   }
+  setTimeout(() => {
+    loadSlot(slotId);
+    closeSaveSlotModal();
+    if (playerName) {
+      goScreen('main-menu');
+    } else {
+      showNameDialog();
+    }
+  }, 1000);
 }
 
 function manualSaveToSlot(slotId) {
@@ -10172,11 +10246,16 @@ function manualSaveToSlot(slotId) {
 }
 
 function startNewGameInSlot(slotId) {
-  activeSlotId = slotId;
-  deleteSlotData(slotId);
-  resetMemoryState();
-  closeSaveSlotModal();
-  showNameDialog();
+  if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+    try { playSE('./SE1/OP_STRT.mp3'); } catch(e) {}
+  }
+  setTimeout(() => {
+    activeSlotId = slotId;
+    deleteSlotData(slotId);
+    resetMemoryState();
+    closeSaveSlotModal();
+    showNameDialog();
+  }, 1000);
 }
 
 async function deleteSlotConfirm(slotId) {
@@ -10215,15 +10294,20 @@ function showSystemModal(message, callback) {
 }
 
 function closeSystemModal() {
-  const backdrop = document.getElementById('system-modal-backdrop');
-  const dialog = document.getElementById('system-modal-dialog');
-  if (backdrop) backdrop.style.display = 'none';
-  if (dialog) dialog.style.display = 'none';
-  if (_sysModalCallback) {
-    const cb = _sysModalCallback;
-    _sysModalCallback = null;
-    cb();
+  if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+    try { playSE('./SE1/senntaku_kettei.mp3'); } catch(e) {}
   }
+  setTimeout(() => {
+    const backdrop = document.getElementById('system-modal-backdrop');
+    const dialog = document.getElementById('system-modal-dialog');
+    if (backdrop) backdrop.style.display = 'none';
+    if (dialog) dialog.style.display = 'none';
+    if (_sysModalCallback) {
+      const cb = _sysModalCallback;
+      _sysModalCallback = null;
+      cb();
+    }
+  }, 1000);
 }
 
 // Override window.alert to use custom modal
@@ -10256,15 +10340,20 @@ function showConfirmModal(message) {
 }
 
 function resolveConfirmModal(result) {
-  const backdrop = document.getElementById('confirm-modal-backdrop');
-  const dialog = document.getElementById('confirm-modal-dialog');
-  if (backdrop) backdrop.style.display = 'none';
-  if (dialog) dialog.style.display = 'none';
-  if (_confirmResolve) {
-    const r = _confirmResolve;
-    _confirmResolve = null;
-    r(result);
+  if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+    try { playSE('./SE1/senntaku_kettei.mp3'); } catch(e) {}
   }
+  setTimeout(() => {
+    const backdrop = document.getElementById('confirm-modal-backdrop');
+    const dialog = document.getElementById('confirm-modal-dialog');
+    if (backdrop) backdrop.style.display = 'none';
+    if (dialog) dialog.style.display = 'none';
+    if (_confirmResolve) {
+      const r = _confirmResolve;
+      _confirmResolve = null;
+      r(result);
+    }
+  }, 1000);
 }
 
 // ============================================================
@@ -10717,26 +10806,19 @@ function startBossRevenge() {
     return;
   }
   if (!gameProgress.bossRevengeUnlocked) {
-  alert('【ロック中】スキルを全解放（21/21）すると覇王リベンジマッチに挑戦できます！');
+    alert('【ロック中】スキルを全解放（21/21）すると覇王リベンジマッチに挑戦できます！');
     return;
   }
   
   const activeLab = getActiveLab();
   if (activeLab.length === 0) {
-  alert('モンスターが必要です。ラボで作成してください。');
+    alert('モンスターが必要です。ラボで作成してください。');
     return;
   }
 
-  // 謌ｦ髣伜燕莨夊ｩｱ繧ｹ繝医�繝ｪ繝ｼ
-    showStoryDialog([
-    { speaker: '覇王ヴィクター', text: 'ほう、あのときの田舎者か。すべてのスキルを解明して舞い戻ってくるとはな。', color: '#ef4444', speakerTextColor: '#fff' },
-    { speaker: playerName, text: 'あの日の借りを返しに来た！ これが僕たちの集大成のパーティだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
-    { speaker: '覇王ヴィクター', text: 'ハハハッ！ 良い面構えだ！ ならば全力で相手をしてやろう！ 行くぞ！', color: '#ef4444', speakerTextColor: '#fff' }
-  ], () => {
-    currentGameMode = 'boss-revenge';
-    currentEnemy = { ...HAOU_REVENGE_BOSS };
-    goScreen('scouting');
-  });
+  currentGameMode = 'boss-revenge';
+  currentEnemy = { ...HAOU_REVENGE_BOSS };
+  goScreen('scouting');
 }
 
 function handleBossRevengeVictory() {
@@ -11284,7 +11366,7 @@ function startP2PTeamBout(boutIdx) {
     skillsList: opp.skills || { active: [oppSkill], passive: [] },
   };
   const badge = document.getElementById('stage-display');
-  if (badge) badge.textContent = 'フリー団体戦 - ' + boutNames[boutIdx];
+  if (badge) badge.innerHTML = '<span>フリー団体戦</span><span>' + boutNames[boutIdx] + '</span>';
   if (p2pIsHost && p2pConn) {
     p2pBattleSeed = Date.now();
     p2pConn.send({ type: 'battle-seed', seed: p2pBattleSeed });
@@ -11580,7 +11662,7 @@ function taStartNextBout() {
   };
   
   const badge = document.getElementById('stage-display');
-  if (badge) badge.textContent = '武舞台 ' + TA_ROUND_NAMES[round] + ' - ' + TA_BOUT_NAMES[bout];
+  if (badge) badge.innerHTML = '<span>武舞台 ' + TA_ROUND_NAMES[round] + '</span><span>' + TA_BOUT_NAMES[bout] + '</span>';
   
   goScreen('battle');
 }
@@ -11856,13 +11938,16 @@ document.addEventListener('DOMContentLoaded', () => {
   if (opScreen) {
     opScreen.addEventListener('click', () => {
       if (blinkTimer) clearInterval(blinkTimer);
+      if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+        try { playSE('./SE1/OP_STRT.mp3'); } catch(e) {}
+      }
       // 1. ブラウザの音声閾ｪ蜍募�逕溷宛髯舌ｒ隗｣髯､縺吶ｋ縺溘ａ縺ｫBGM再生
       if (window.bgmManager) {
         window.bgmManager.play('title', true); // OP BGM1.mp3 再生
       }
 
       // 2. OP画面繧偵ヵ繧ｧ繝ｼ繝峨い繧ｦ繝医＠縺ｦ髱櫁｡ｨ遉ｺ蛹�
-      opScreen.style.transition = 'opacity 0.6s ease';
+      opScreen.style.transition = 'opacity 1.0s ease';
       opScreen.style.opacity = '0';
       
       setTimeout(() => {
@@ -11877,7 +11962,7 @@ document.addEventListener('DOMContentLoaded', () => {
           goScreen('title');
           renderTitleSaveSlots();
         }
-      }, 600);
+      }, 1000);
     }, { once: true }); // 1蝗槭ち繝😈縺ｧ遒ｺ螳�
   }
 });
@@ -12091,8 +12176,22 @@ function renderTitleSaveSlots() {
 }
 
 // 繧ｿ繧､繝医Ν画面縺九ｉ繧ｹロボヨ繧帝∈謚槭＠縺ｦ髢句ｧ�
+function returnToTitle() {
+  if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+    try { playSE('./SE1/OP_STRT.mp3'); } catch(e) {}
+  }
+  setTimeout(() => {
+    goScreen('title');
+    renderTitleSaveSlots();
+  }, 1000);
+}
+
 function selectTitleSlot(slotId, isNew) {
-  if (isNew) {
+  if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+    try { playSE('./SE1/OP_STRT.mp3'); } catch(e) {}
+  }
+  setTimeout(() => {
+    if (isNew) {
     // 譁ｰ隕上ご繝ｼ繝�髢句ｧ�
     startNewGameInSlot(slotId);
   } else {
@@ -12102,6 +12201,7 @@ function selectTitleSlot(slotId, isNew) {
     updateRecord();
     goScreen('main-menu');
   }
+  }, 1000);
 }
 
 // タイトル画面からスロット削除
