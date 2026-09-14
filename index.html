@@ -2921,6 +2921,28 @@
       z-index: 200 !important;             /* モンスター画像の手前 */
       animation: slash-animation 0.25s ease-out forwards !important;
     }
+    /* 逆向き斬撃アニメーション（敵被弾時：右上→左下） */
+    @keyframes slash-animation-reverse {
+      0% {
+        width: 0%;
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(35deg) scaleX(0.2);
+      }
+      30% {
+        width: 120%;
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(35deg) scaleX(1);
+        filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 20px #ff3333);
+      }
+      100% {
+        width: 140%;
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(35deg) scaleX(1.2);
+      }
+    }
+    .slash-effect.reverse {
+      animation: slash-animation-reverse 0.25s ease-out forwards !important;
+    }
 
     /* ============================================================
        RENAME MONSTER MODAL CSS
@@ -3212,6 +3234,9 @@
       background-repeat: no-repeat !important;
     }
 
+.roll-animation {
+  animation: creditRoll 12s linear forwards;
+}
     /* Defeated monster sprite animation (fade out & shrink) */
     .monster-defeated {
       opacity: 0 !important;
@@ -3220,181 +3245,136 @@
       transition: all 0.8s ease-out !important;
       pointer-events: none !important;
     }
-
-
-    /* Cut-in Overlay & Animations - Masked inside diagonal band */
+    
+    /* ============================================================ */
+    /* SKILL CUT-IN SYSTEM OVERLAY & ANIMATIONS                     */
+    /* ============================================================ */
     .cutin-overlay {
       position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
+      inset: 0;
+      pointer-events: none;
       z-index: 10000;
       overflow: hidden;
-      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    
-    /* Diagonal Band Mask Container */
+    .cutin-overlay.hidden {
+      display: none !important;
+    }
     .cutin-band {
       position: absolute;
-      width: 160%;
-      height: 36%;
-      background: linear-gradient(90deg, rgba(0,0,0,0.95), rgba(15,23,42,0.98), rgba(0,0,0,0.95));
+      top: 14%;
+      left: -10%;
+      width: 120%;
+      height: 400px;
+      transform: rotate(-12deg);
+      background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(15,15,30,0.95) 15%, rgba(245,158,11,0.85) 50%, rgba(15,15,30,0.95) 85%, rgba(0,0,0,0) 100%);
       border-top: 3px solid var(--accent-gold);
       border-bottom: 3px solid var(--accent-gold);
-      box-shadow: 0 0 35px rgba(245,158,11,0.6);
-      transform: rotate(-12deg);
-      opacity: 0;
-      overflow: hidden; /* STRICT CLIPPING: Monster image will ONLY be visible inside this band! */
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      box-shadow: 0 0 35px rgba(245,158,11,0.7), inset 0 0 20px rgba(0,0,0,0.8);
+      overflow: hidden;
+      animation: bg-in-out 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    .cutin-overlay.active .cutin-band {
-      animation: bg-in-out 1.0s ease-out forwards;
+    .enemy-cutin .cutin-band {
+      transform: rotate(12deg);
+      background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(30,15,15,0.95) 15%, rgba(239,68,68,0.85) 50%, rgba(30,15,15,0.95) 85%, rgba(0,0,0,0) 100%);
+      border-top: 3px solid #ef4444;
+      border-bottom: 3px solid #ef4444;
+      box-shadow: 0 0 35px rgba(239,68,68,0.7), inset 0 0 20px rgba(0,0,0,0.8);
+      animation: bg-in-out-reverse 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-
-    /* Monster image sliding inside the band */
-    .cutin-image-wrap {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-    }
-    .cutin-overlay.active .cutin-image-wrap {
-      animation: inner-image-slide 0.35s 0.05s ease-out forwards;
-    }
-
-    #cutin-image-container {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #cutin-image-container img {
-      max-height: 240px !important;
-      height: 240px !important;
-      object-fit: contain !important;
-      transform: scale(1.6) translateY(5%) !important;
-      transform-origin: center center !important;
-      filter: drop-shadow(0 0 25px rgba(245,158,11,0.9)) contrast(1.25) !important;
-    }
-    #cutin-image-container div {
-      transform: scale(1.6) translateY(5%) !important;
-      transform-origin: center center !important;
-    }
-
-    @keyframes inner-image-slide {
-      0% { transform: translateX(-80%); opacity: 0; }
-      100% { transform: translateX(0%); opacity: 1; }
-    }
-    @keyframes inner-image-slide-reverse {
-      0% { transform: translateX(80%); opacity: 0; }
-      100% { transform: translateX(0%); opacity: 1; }
+    @keyframes bg-in-out {
+      0% { transform: rotate(-12deg) translateX(-100%); opacity: 0; }
+      20% { transform: rotate(-12deg) translateX(0%); opacity: 1; }
+      80% { transform: rotate(-12deg) translateX(0%); opacity: 1; }
+      100% { transform: rotate(-12deg) translateX(100%); opacity: 0; }
     }
     @keyframes bg-in-out-reverse {
-      0% { opacity: 0; transform: rotate(12deg) scaleY(0.1); }
-      10% { opacity: 0.95; transform: rotate(12deg) scaleY(1); }
-      85% { opacity: 0.95; transform: rotate(12deg) scaleY(1); }
-      100% { opacity: 0; transform: rotate(12deg) scaleY(0); }
+      0% { transform: rotate(12deg) translateX(100%); opacity: 0; }
+      20% { transform: rotate(12deg) translateX(0%); opacity: 1; }
+      80% { transform: rotate(12deg) translateX(0%); opacity: 1; }
+      100% { transform: rotate(12deg) translateX(-100%); opacity: 0; }
     }
-    .cutin-overlay.active.enemy-cutin .cutin-band {
-      animation: bg-in-out-reverse 1.0s ease-out forwards;
+    .cutin-image-wrap {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #cutin-image-container {
       transform: rotate(12deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
     }
-    .cutin-overlay.active.enemy-cutin .cutin-image-wrap {
-      animation: inner-image-slide-reverse 0.35s 0.05s ease-out forwards;
-    }
-    .cutin-image {
-      max-height: 180px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 15px rgba(245,158,11,0.8)) contrast(1.2);
+    .enemy-cutin #cutin-image-container {
+      transform: rotate(-12deg);
     }
     .cutin-text {
       position: absolute;
       bottom: 22%;
-      font-size: 32px;
+      right: 12%;
+      font-size: 34px;
       font-weight: 900;
-      color: #fff;
-      text-shadow: 0 0 15px rgba(245,158,11,0.9), 2px 2px 4px #000;
-      letter-spacing: 3px;
-      background: linear-gradient(90deg, rgba(245,158,11,0.2), rgba(0,0,0,0.8), rgba(245,158,11,0.2));
-      padding: 6px 28px;
-      border-radius: 20px;
-      border: 1px solid var(--accent-gold);
-      opacity: 0;
+      color: #ffffff;
+      text-shadow: 0 0 20px var(--accent-gold), 0 0 10px #000, 2px 2px 6px #000;
+      letter-spacing: 4px;
+      z-index: 10001;
+      animation: cutin-text-pop 1.0s ease-out forwards;
     }
-    .cutin-overlay.active .cutin-text {
-      animation: text-fade-in 0.4s 0.15s ease-out forwards;
+    .enemy-cutin .cutin-text {
+      right: auto;
+      left: 12%;
+      text-shadow: 0 0 20px #ef4444, 0 0 10px #000, 2px 2px 6px #000;
     }
-
-    @keyframes bg-in-out {
-      0% { opacity: 0; transform: rotate(-12deg) scaleY(0.1); }
-      10% { opacity: 0.95; transform: rotate(-12deg) scaleY(1); }
-      85% { opacity: 0.95; transform: rotate(-12deg) scaleY(1); }
-      100% { opacity: 0; transform: rotate(-12deg) scaleY(0); }
-    }
-    @keyframes image-slide-in {
-      0% { transform: translateX(-100%) rotate(-12deg); opacity: 0; }
-      100% { transform: translateX(0%) rotate(-12deg); opacity: 1; }
-    }
-    @keyframes text-fade-in {
-      0% { opacity: 0; transform: translateY(20px) scale(0.9); }
-      100% { opacity: 1; transform: translateY(0px) scale(1); }
+    @keyframes cutin-text-pop {
+      0% { opacity: 0; transform: scale(0.6) translateY(20px); }
+      20% { opacity: 1; transform: scale(1.05) translateY(0); }
+      30% { transform: scale(1.0) translateY(0); }
+      80% { opacity: 1; transform: scale(1.0) translateY(0); }
+      100% { opacity: 0; transform: scale(0.9) translateY(-10px); }
     }
 
-
-    /* Defeated monster sprite animation (fade out & shrink) */
-    .monster-defeated {
-      opacity: 0 !important;
-      transform: scale(0.3) translateY(40px) !important;
-      filter: grayscale(100%) blur(4px) !important;
-      transition: all 0.8s ease-out !important;
-      pointer-events: none !important;
+    #cutin-image-container img {
+      max-height: 320px !important;
+      height: 320px !important;
+      object-fit: contain !important;
+      transform: scale(1.1) translateY(0%) !important;
+      transform-origin: center center !important;
+      filter: drop-shadow(0 0 25px rgba(245,158,11,0.9)) contrast(1.25) !important;
     }
-
+    #cutin-image-container div {
+      transform: scale(1.1) translateY(0%) !important;
+      transform-origin: center center !important;
+    }
+    /* Specific flip rule ONLY for Torikeraton (08torikeran) inside skill cutin */
+        /* 14 New Monster Cutin Image Right-Facing Flip Rule (Excluding 08torikeran) */
+    /* 敵側のカットインのみ14体を右向き反転 (プレイヤー側は元の左向き) */
+    .enemy-cutin #cutin-image-container img[src*="01seiva"],
+    .enemy-cutin #cutin-image-container img[src*="02aian"],
+    .enemy-cutin #cutin-image-container img[src*="03a-ku"],
+    .enemy-cutin #cutin-image-container img[src*="04atena"],
+    .enemy-cutin #cutin-image-container img[src*="05zeus"],
+    .enemy-cutin #cutin-image-container img[src*="06erumes"],
+    .enemy-cutin #cutin-image-container img[src*="07thirano"],
+    .enemy-cutin #cutin-image-container img[src*="09putera"],
+    .enemy-cutin #cutin-image-container img[src*="10kumapape"],
+    .enemy-cutin #cutin-image-container img[src*="11usagi"],
+    .enemy-cutin #cutin-image-container img[src*="12neko"],
+    .enemy-cutin #cutin-image-container img[src*="13kyuubi"],
+    .enemy-cutin #cutin-image-container img[src*="14syutenn"],
+    .enemy-cutin #cutin-image-container img[src*="15nurai"] {
+      transform: scaleX(-1) scale(1.1) translateY(0%) !important;
+    }
 </style>
 </head>
 <body>
 <div id="game-viewport">
-
-<!-- OP（オープニング）画面（フルスクリーン表示） -->
-<div id="op-screen" style="position: absolute; inset: 0; width: 100%; height: 100%; background: #000; z-index: 20000; overflow: hidden; cursor: pointer; user-select: none;">
-  <!-- OP背景フルスクリーン画像 -->
-  <img id="op-image" src="./IMGTITLE/OP IMG.jpg" alt="OP Image" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;">
-
-  <!-- ゆっくり点滅するスタートテキスト（画面下部オーバーレイ・上寄り配置） -->
-  <div id="op-start-text" class="blink-start-text" style="position: absolute; bottom: 18%; left: 50%; transform: translateX(-50%); color: #ffffff; font-size: 26px; font-weight: bold; letter-spacing: 3px; text-shadow: 0 0 12px #00d2ff, 0 0 20px #000, 2px 2px 4px #000; white-space: nowrap; z-index: 10;">
-    - PRESS TAP TO START -
-  </div>
-</div>
-
-
-
-
-<!-- ============ FACILITY HELP MODAL ============ -->
-<div id="facility-help-overlay" class="info-modal-overlay" onclick="closeHelp()">
-  <div class="info-modal-box" onclick="event.stopPropagation()">
-    <div style="font-size:24px; margin-bottom:10px;" id="help-icon">ℹ️</div>
-    <h3 id="help-title" style="margin:0 0 12px 0; color:var(--accent-gold); font-size:18px;">施設ヘルプ</h3>
-    <div id="help-text" style="font-size:14px; color:var(--text-secondary); text-align:left; line-height:1.6; margin-bottom:20px; white-space:pre-wrap;"></div>
-    <button class="title-btn" style="padding:8px 24px; font-size:14px; width:100%;" onclick="closeHelp()">閉じる◆</button>
-  </div>
-</div>
-
-<!-- ============ RENAME MONSTER MODAL ============ -->
-<div id="rename-modal-overlay" class="rename-modal-overlay" style="display:none;" onclick="closeRenameModal()">
-  <div class="rename-modal-content" onclick="event.stopPropagation()">
-    <div class="rename-modal-title">📝 モンスターの名前変更</div>
-    <input type="text" id="rename-modal-input" class="rename-modal-input" maxlength="12" placeholder="名前を入力してください" />
-    <div class="rename-modal-buttons">
-      <button class="rename-btn-confirm" id="rename-btn-confirm">決定</button>
-      <button class="rename-btn-cancel" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => closeRenameModal(), 500)">キャンセル</button>
-    </div>
-  </div>
-</div>
-
 <!-- ============ MONSTER SELECT MODAL (replaces prompt) ============ -->
 <div id="monster-select-modal" style="display:none;">
   <div class="monster-select-window">
@@ -3928,11 +3908,18 @@
   0% { transform: translateY(100vh); }
   100% { transform: translateY(-10%); }
 }
-
-.roll-animation {
-  animation: creditRoll 12s linear forwards;
-}
 </style>
+
+
+<!-- OP（オープニング）画面（フルスクリーン表示） -->
+<div id="op-screen" style="position: absolute; inset: 0; width: 100%; height: 100%; background: #000; z-index: 20000; overflow: hidden; cursor: pointer; user-select: none;">
+  <!-- OP背景フルスクリーン画像 -->
+  <img id="op-image" src="./IMGTITLE/OP IMG.jpg" alt="OP Image" style="width: 100%; height: 100%; object-fit: cover; object-position: center; display: block;">
+  <!-- ゆっくり点滅するスタートテキスト -->
+  <div id="op-start-text" class="blink-start-text" style="position: absolute; bottom: 18%; left: 50%; transform: translateX(-50%); color: #ffffff; font-size: 26px; font-weight: bold; letter-spacing: 3px; text-shadow: 0 0 12px #00d2ff, 0 0 20px #000, 2px 2px 4px #000; white-space: nowrap; z-index: 10;">
+    - PRESS TAP TO START -
+  </div>
+</div>
 
 <!-- ============ SCROLL REWARD OVERLAY ============ -->
 <div id="scroll-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; align-items:center; justify-content:center;">
@@ -5894,11 +5881,13 @@ function goScreen(name) {
     }
     if (gameProgress.tutorialStep === 2) {
       currentEnemy = { ...TUTORIAL_BOSS };
-    } else if (currentGameMode === 'boss-revenge') {
+    } else if (currentGameMode === "boss-revenge") {
       currentEnemy = { ...HAOU_REVENGE_BOSS };
     } else {
       prepareStage();
     }
+
+
     renderSelList();
     renderEnemyInfo();
     // 繝√Η繝ｼ繝医Μ繧｢繝ｫ�郁ｦ�視謌ｦ蜑搾ｼ我ｼ夊ｩｱ繧､繝吶Φ繝�
@@ -7908,6 +7897,7 @@ function prepareStage() {
     // Scale stats slightly: +2% per win
     const scale = 1.0 + (survivalWins * 0.02);
     currentEnemy = {
+
       name: baseEnemy.name,
       title: '試練の塔 (階数: ' + (survivalWins + 1) + '階)',
       icon: baseEnemy.icon,
@@ -7924,6 +7914,7 @@ function prepareStage() {
     // Free Battle: Pick a random enemy from list
     const baseEnemy = STAGE_ENEMIES[Math.floor(Math.random() * STAGE_ENEMIES.length)];
     currentEnemy = { ...baseEnemy };
+
     badge.textContent = 'フリー対戦';
   }
 
@@ -8848,29 +8839,69 @@ function executeTurnActions(pCmd, eCmd, playerFirst) {
     ? [ { side: 'p', cmd: pCmd, otherCmd: eCmd }, { side: 'e', cmd: eCmd, otherCmd: pCmd } ]
     : [ { side: 'e', cmd: eCmd, otherCmd: pCmd }, { side: 'p', cmd: pCmd, otherCmd: eCmd } ];
 
-  executeSingleAction(actions[0].side, actions[0].cmd, actions[1].side, actions[1].cmd, () => {
-    if (pState.cur > 0 && eState.cur > 0) {
-      executeSingleAction(actions[1].side, actions[1].cmd, actions[0].side, actions[0].cmd, () => {
-        if (pState.cur > 0 && eState.cur > 0) {
-          const t = setTimeout(() => nextTurn(), delay(400));
-          activeTimers.push(t);
-        } else {
-          const t = setTimeout(() => checkBattleEnd(), delay(400));
-          activeTimers.push(t);
-        }
+  const startTurnActions = () => {
+    executeSingleAction(actions[0].side, actions[0].cmd, actions[1].side, actions[1].cmd, () => {
+      if (pState.cur > 0 && eState.cur > 0) {
+        executeSingleAction(actions[1].side, actions[1].cmd, actions[0].side, actions[0].cmd, () => {
+          if (pState.cur > 0 && eState.cur > 0) {
+            const t = setTimeout(() => nextTurn(), delay(400));
+            activeTimers.push(t);
+          } else {
+            const t = setTimeout(() => checkBattleEnd(), delay(400));
+            activeTimers.push(t);
+          }
+        });
+      } else {
+        const t = setTimeout(() => checkBattleEnd(), delay(400));
+        activeTimers.push(t);
+      }
+    });
+  };
+
+  // Turn 1 Passives: evaluated ONCE at turn start in order of speed before any attack/action starts
+  if (currentTurn === 1 && !pState._turn1PassiveChecked && !eState._turn1PassiveChecked) {
+    pState._turn1PassiveChecked = true;
+    eState._turn1PassiveChecked = true;
+    const pSpd = getEffectiveSpeed(pState);
+    const eSpd = getEffectiveSpeed(eState);
+    const pFirst = pSpd > eSpd || (pSpd === eSpd && pState.luck >= eState.luck);
+    const firstActor = pFirst ? { side: "p", state: pState, oppSide: "e", oppState: eState } : { side: "e", state: eState, oppSide: "p", oppState: pState };
+    const secondActor = pFirst ? { side: "e", state: eState, oppSide: "p", oppState: pState } : { side: "p", state: pState, oppSide: "e", oppState: eState };
+    
+    checkAutoPassiveTrigger(firstActor.side, firstActor.state, firstActor.oppSide, firstActor.oppState, () => {
+      checkAutoPassiveTrigger(secondActor.side, secondActor.state, secondActor.oppSide, secondActor.oppState, () => {
+        startTurnActions();
       });
-    } else {
-      const t = setTimeout(() => checkBattleEnd(), delay(400));
-      activeTimers.push(t);
-    }
-  });
+    });
+  } else {
+    startTurnActions();
+  }
 }
 
+let cutinQueue = [];
+let isCutinPlaying = false;
+
 function playSkillCutin(actorSide, skillId, callback) {
+  cutinQueue.push({ actorSide, skillId, callback });
+  processCutinQueue();
+}
+
+function processCutinQueue() {
+  if (isCutinPlaying || cutinQueue.length === 0) return;
+  
+  isCutinPlaying = true;
+  const item = cutinQueue.shift();
+  const { actorSide, skillId, callback } = item;
+
   const overlay = document.getElementById("cutin-overlay");
   const imgContainer = document.getElementById("cutin-image-container");
   const textEl = document.getElementById("cutin-skill-text");
-  if (!overlay || !imgContainer || !textEl) { callback(); return; }
+  if (!overlay || !imgContainer || !textEl) {
+    isCutinPlaying = false;
+    if (typeof callback === "function") callback();
+    processCutinQueue();
+    return;
+  }
   
   const actorState = (actorSide === "p" ? pState : eState);
   const activeLab = typeof getActiveLab === 'function' ? getActiveLab() : [];
@@ -8891,9 +8922,9 @@ function playSkillCutin(actorSide, skillId, callback) {
   
   textEl.textContent = sk.icon + " 【" + sk.name + "】";
   
-  // Play slash SE
+  // Play skill activation SE
   if (window.soundManager && typeof window.soundManager.playSE === "function") {
-    try { playSE("./SE1/kaisin.mp3"); } catch(e) {}
+    try { playSE("./SE1/sukill.mp3"); } catch(e) {}
   }
   
   // Trigger animation (reverse direction for enemy)
@@ -8910,7 +8941,14 @@ function playSkillCutin(actorSide, skillId, callback) {
     overlay.classList.remove("active");
     overlay.classList.remove("enemy-cutin");
     overlay.classList.add("hidden");
-    callback();
+    
+    if (typeof callback === "function") callback();
+    
+    // Add 150ms buffer gap between consecutive cutins to guarantee smooth reset
+    setTimeout(() => {
+      isCutinPlaying = false;
+      processCutinQueue();
+    }, 150);
   }, 1000);
 }
 function executeSingleAction(actorSide, cmd, targetSide, targetCmd, onComplete) {
@@ -8941,14 +8979,19 @@ function _execSingleActionInner(actorSide, cmd, targetSide, targetCmd, onComplet
   }
 
   // Clear defend unless they defended this turn
-  // Turn 1 passive trigger: runs when 1st turn action begins after command selection
-  if (currentTurn === 1 && !actor._turn1PassiveTriggered) {
-    actor._turn1PassiveTriggered = true;
-    const psk = actor.passiveSkill || (actor.skillsList && actor.skillsList.passive && actor.skillsList.passive[0]) || 'none';
-    const curMp = (actor.mp !== undefined) ? actor.mp : 10;
-    if (psk !== 'none' && SKILLS[psk] && SKILLS[psk].type === 'パッシブ' && curMp >= 8) {
-      checkAutoPassiveTrigger(actorSide, actor, targetSide, target);
-    }
+  // Turn 1 passive trigger: evaluated in order of speed (faster first, then slower) without duplication
+  if (currentTurn === 1 && !pState._turn1PassiveChecked && !eState._turn1PassiveChecked) {
+    pState._turn1PassiveChecked = true;
+    eState._turn1PassiveChecked = true;
+    const pSpd = getEffectiveSpeed(pState);
+    const eSpd = getEffectiveSpeed(eState);
+    const pFirst = pSpd > eSpd || (pSpd === eSpd && pState.luck >= eState.luck);
+    const firstActor = pFirst ? { side: "p", state: pState, oppSide: "e", oppState: eState } : { side: "e", state: eState, oppSide: "p", oppState: pState };
+    const secondActor = pFirst ? { side: "e", state: eState, oppSide: "p", oppState: pState } : { side: "p", state: pState, oppSide: "e", oppState: eState };
+    
+    checkAutoPassiveTrigger(firstActor.side, firstActor.state, firstActor.oppSide, firstActor.oppState, () => {
+      checkAutoPassiveTrigger(secondActor.side, secondActor.state, secondActor.oppSide, secondActor.oppState);
+    });
   }
   if (cmd !== 'defend') actor.defending = false;
 
@@ -8971,8 +9014,7 @@ function _execSingleActionInner(actorSide, cmd, targetSide, targetCmd, onComplet
     return;
   }
 
-  if (cmd === 'attack') {
-    if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/kougeki_tujyouu.mp3');}catch(e){}} addLog('⚔️ ' + actor.name + ' の攻撃！', 'log-normal');
+  if (cmd === 'attack') { addLog('⚔️ ' + actor.name + ' の攻撃！', 'log-normal');
     
     // Parry activation check
     if (parried) {
@@ -9060,7 +9102,6 @@ function _execSingleActionInner(actorSide, cmd, targetSide, targetCmd, onComplet
     actor.mp = Math.min(actor.maxMp || 10, (actor.mp || 0) + 2);
     setMp(actorSide, actor);
     addLog('⚡ ' + actor.name + ' は力をためている！（MP +2 回復 / MP:' + actor.mp + '）', 'log-info');
-    checkAutoPassiveTrigger(actorSide, actor, targetSide, target);
     updateBuffsUI(actorSide, actor);
     const t = setTimeout(() => onComplete(), delay(400));
     activeTimers.push(t);
@@ -9070,7 +9111,6 @@ function _execSingleActionInner(actorSide, cmd, targetSide, targetCmd, onComplet
     actor.mp = Math.min(actor.maxMp || 10, (actor.mp || 0) + 1);
     setMp(actorSide, actor);
     addLog('🛡️ ' + actor.name + ' は身を守っている！（MP +1 回復 / MP:' + actor.mp + '）', 'log-info');
-    checkAutoPassiveTrigger(actorSide, actor, targetSide, target);
     updateBuffsUI(actorSide, actor);
     const t = setTimeout(() => onComplete(), delay(400));
     activeTimers.push(t);
@@ -9095,7 +9135,7 @@ function _execSingleActionInner(actorSide, cmd, targetSide, targetCmd, onComplet
     addLog('✨ ' + actor.name + ' の『' + ((SKILLS[sk]||SKILLS.none).name) + '』！（MP -8 / MP:' + actor.mp + '）', 'log-skill');
 
     // 攻撃スキルの命中率・回避判定（通常攻撃と同等の回避率・パリィ・無敵判定）
-    const attackSkills = ['gigabreak', 'moroha', 'sutemi', 'shuriken', 'midare', 'ichigeki', 'weakmaker', 'haisui', 'vampire', 'jackpot'];
+    const attackSkills = ['gigabreak', 'moroha', 'sutemi', 'shuriken', 'midare', 'ichigeki', 'weakmaker', 'haisui', 'vampire', 'jackpot', 'amanajaku'];
     if (attackSkills.includes(sk)) {
       // 1. パリィ判定
       if (parried) {
@@ -9566,9 +9606,10 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     if (isCrit) {
       if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/kaisin.mp3');}catch(e){}} addLog('💥 会心の一撃！ ' + target.name + ' に ' + finalDmg + ' の大ダメージ！', 'log-crit');
     } else if (isScrap) {
+      if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/kougeki_tujyouu.mp3');}catch(e){}}
       addLog('⚔️ かすり傷！ ' + target.name + ' に 1 のダメージ！', isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
     } else {
-      addLog('⚔️ ' + target.name + ' に ' + finalDmg + ' のダメージ！', isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
+      if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/kougeki_tujyouu.mp3');}catch(e){}} addLog('⚔️ ' + target.name + ' に ' + finalDmg + ' のダメージ！', isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
     }
 
     setHp(targetSide, target);
@@ -9852,9 +9893,9 @@ function hasPassive(actor, skillId) {
 
 // 繝代ャ繧ｷ繝悶せ繧ｭ繝ｫ縺ｮ閾ｪ蜍筆P豸郁ｲｻ逋ｺ蜍輔す繧ｹ繝�Β (MP 8対･荳翫〒閾ｪ蜍慕匱蜍輔＠」｀P 8繧呈ｶ郁ｲｻ縺励※蠑ｷ蜉帙↑蜉ｹ譫懊ｒ驕ｩ逕ｨ)
 function checkAutoPassiveTrigger(actorSide, actor, targetSide, target, onComplete) {
-  if (!actor || actor.cur <= 0) return;
+  if (!actor || actor.cur <= 0) { if (typeof onComplete === "function") onComplete(); return; }
   const psk = actor.passiveSkill || (actor.skillsList && actor.skillsList.passive && actor.skillsList.passive[0]) || 'none';
-  if (psk === 'none') return;
+  if (psk === 'none') { if (typeof onComplete === "function") onComplete(); return; }
   
   const skInfo = SKILLS[psk];
   if (!skInfo || skInfo.type !== 'パッシブ') { if (typeof onComplete === "function") onComplete(); return; }
@@ -9952,7 +9993,7 @@ function flashHit(side) {
 
   // 陲ｫ蠑ｾモンスター縺ｮ逕ｻ蜒丈ｸ翫↓」悟�繧区万繧∵脈謦�お繝輔ぉ繧ｯ繝医阪ｒ蜍慕噪逕滓�縺励※荳髢�＆縺帙ｋ
   const slash = document.createElement('div');
-  slash.className = 'slash-effect';
+  slash.className = 'slash-effect' + (isEnemy ? ' reverse' : '');
   if (icon.parentNode) {
     icon.parentNode.appendChild(slash);
     // 繧｢繝九Γ繝ｼ繧ｷ繝ｧ繝ｳ螳御ｺ�ｾ後↓隕∫ｴ�繧定�蜍輔け繝ｪ繝ｼ繝ｳ繧｢繝😈
@@ -9972,16 +10013,15 @@ function flashHit(side) {
     : 'drop-shadow(0 20px 8px rgba(0,0,0,0.55)) drop-shadow(0 0 15px rgba(0,212,255,0.3))';
 
   // Web Animations APIでマイルドな被弾演出
+  const dx = isEnemy ? -1 : 1;
   icon._hitAnim = icon.animate([
     { transform: base + ' translate(0, 0)', filter: 'brightness(1)', offset: 0 },
-    { transform: base + ' translate(-4px, -3px)', filter: 'brightness(1.6) drop-shadow(0 0 10px rgba(255,255,255,0.4))', offset: 0.15 },
-    { transform: base + ' translate(4px, 1px)', filter: 'brightness(1.3)', offset: 0.3 },
-    { transform: base + ' translate(-2px, 0)', filter: 'brightness(1)', offset: 0.5 },
-    { transform: base + ' translate(2px, 0)', filter: 'brightness(1)', offset: 0.7 },
+    { transform: base + ' translate(' + (-4 * dx) + 'px, -3px)', filter: 'brightness(1.6) drop-shadow(0 0 10px rgba(255,255,255,0.4))', offset: 0.15 },
+    { transform: base + ' translate(' + (4 * dx) + 'px, 1px)', filter: 'brightness(1.3)', offset: 0.3 },
+    { transform: base + ' translate(' + (-2 * dx) + 'px, 0)', filter: 'brightness(1)', offset: 0.5 },
+    { transform: base + ' translate(' + (2 * dx) + 'px, 0)', filter: 'brightness(1)', offset: 0.7 },
     { transform: base + ' translate(0, 0)', filter: baseFilter, offset: 1 }
   ], {
-    duration: 350,
-    easing: 'ease-out',
     fill: 'none'
   });
 }
@@ -11139,6 +11179,7 @@ function startBossRevenge() {
 
   currentGameMode = 'boss-revenge';
   currentEnemy = { ...HAOU_REVENGE_BOSS };
+
   goScreen('scouting');
 }
 
@@ -11324,11 +11365,18 @@ function taGenerateAllEnemyTeams() {
         }
       }
       
+      let mSprite = '';
+      let mClass = mName;
+      if (typeof ADDITIONAL_MONSTER_IMAGES !== 'undefined' && ADDITIONAL_MONSTER_IMAGES[mName]) {
+        mSprite = ADDITIONAL_MONSTER_IMAGES[mName];
+      }
       team.push({
         name: mName,
+        monsterClass: mClass,
         icon: typeObj.icon,
         systemType: typeObj.label,
         type: typeKey,
+        sprite: mSprite,
         stats: stats,
         skills: skillsObj
       });
@@ -11641,6 +11689,7 @@ function startP2PBattle() {
     const oppStats = opp.stats || { hp: 22, attack: 22, defense: 22, speed: 22, luck: 22 };
     const oppSkill = (opp.skills && opp.skills.active && opp.skills.active[0]) || 'none';
     currentEnemy = {
+
       name: p2pIsBotActive ? p2pBotName : (opp.name || '対戦相手'),
       monsterClass: opp.monsterClass || 'スライム',
       systemType: opp.systemType || 'ドラゴン系',
@@ -11673,6 +11722,7 @@ function startP2PTeamBout(boutIdx) {
   const oppSkill = (opp.skills && opp.skills.active && opp.skills.active[0]) || 'none';
   const boutNames = ['先鋒戦', '中堅戦', '大将戦'];
   currentEnemy = {
+
     name: opp.name || '対戦相手',
     monsterClass: opp.monsterClass || 'スライム',
     systemType: opp.systemType || 'ドラゴン系',
@@ -11967,6 +12017,7 @@ function taStartNextBout() {
   const skObj = SKILLS[chosenSkill] || SKILLS.none;
 
   currentEnemy = {
+    sprite: (typeof enemyData !== "undefined" && enemyData) ? (enemyData.sprite || enemyData.image || "") : "",
     name: enemyData.name,
     monsterClass: enemyData.monsterClass || enemyData.name,
     systemType: enemyData.systemType || enemyData.type,
@@ -13088,101 +13139,4 @@ if (document.readyState === 'complete' || document.readyState === 'interactive')
 </div>
 
 </body>
-</html>
-    card.onclick = () => {
-      if (window.soundManager && typeof window.soundManager.playSE === 'function') {
-        try { playSE('./SE1/senntaku_kettei.mp3'); } catch(e) {}
-      }
-      setTimeout(() => {
-        if (p2pFormat === 'single') {
-          p2pSelectedMonsters = [idx];
-        } else {
-          const existIdx = p2pSelectedMonsters.indexOf(idx);
-          if (existIdx !== -1) {
-            p2pSelectedMonsters.splice(existIdx, 1);
-          } else {
-            if (p2pSelectedMonsters.length < 3) {
-              p2pSelectedMonsters.push(idx);
-            } else {
-              alert('チームメンバーは最大3体まで選択可能です。');
-              return;
-            }
-          }
-        }
-        renderP2PMonsterSelection();
-        updateP2PMonsterNextBtn();
-      }, 500);
-    card.onclick = () => {
-      if (window.soundManager && typeof window.soundManager.playSE === 'function') {
-        try { playSE('./SE1/senntaku_kettei.mp3'); } catch(e) {}
-      }
-      setTimeout(() => {
-        if (p2pFormat === 'single') {
-          p2pSelectedMonsters = [idx];
-        } else {
-          const existIdx = p2pSelectedMonsters.indexOf(idx);
-          if (existIdx !== -1) {
-            p2pSelectedMonsters.splice(existIdx, 1);
-          } else {
-            if (p2pSelectedMonsters.length < 3) {
-              p2pSelectedMonsters.push(idx);
-            } else {
-              alert('チームメンバーは最大3体まで選択可能です。');
-              return;
-            }
-          }
-        }
-        renderP2PMonsterSelection();
-        updateP2PMonsterNextBtn();
-    <!-- RIGHT: Real-time preview window of the synthesis monster -->
-    <div class="cyber-card" style="flex: 0.9; max-width: 420px; display: flex; flex-direction: column; padding: 12px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; justify-content: space-between; position: relative; overflow-y: auto; max-height: 100%;">
-      <div style="display: flex; flex-direction: column; gap: 6px;">
-        <div style="font-size: 15px; font-weight: bold; color: var(--accent-cyan); text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">🔬 調合プレビュー</div>
-        
-        <!-- Monster Name & Class Header -->
-        <div style="text-align: center;">
-          <div id="cr-preview-name" style="font-size: 22px; font-weight: 900; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.1); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">-</div>
-          <div id="cr-preview-class" style="font-size: 13px; color: var(--text-dim); margin-top: 1px;">-</div>
-        </div>
-        
-        <!-- Visual Frame -->
-        <div onclick="zoomCreatorPreviewVisual()" style="height: 95px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.2); border: 1px dashed rgba(255,255,255,0.1); border-radius: 8px; margin: 2px 0; position: relative; overflow: hidden; cursor: pointer;" title="クリックで拡大表示">
-          <div id="cr-preview-visual"></div>
-        </div>
-        
-        <!-- Preview Stats Board -->
-        <div style="display: flex; flex-direction: column; gap: 4px; background: rgba(0,0,0,0.15); padding: 6px 8px; border-radius: 6px;">
-          <!-- HP -->
-          <div style="display: flex; flex-direction: column; gap: 1px;">
-            <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>HP</span><strong style="color: #fff;" id="cr-preview-val-hp">0</strong></div>
-            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div id="cr-preview-bar-hp" style="width: 0%; height: 100%; background: #a855f7; transition: width 0.3s ease-out;"></div></div>
-          </div>
-          <!-- ATK -->
-          <div style="display: flex; flex-direction: column; gap: 1px;">
-            <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>ATK</span><strong style="color: #fff;" id="cr-preview-val-attack">0</strong></div>
-            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div id="cr-preview-bar-attack" style="width: 0%; height: 100%; background: #ef4444; transition: width 0.3s ease-out;"></div></div>
-          </div>
-          <!-- DEF -->
-          <div style="display: flex; flex-direction: column; gap: 1px;">
-            <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>DEF</span><strong style="color: #fff;" id="cr-preview-val-defense">0</strong></div>
-            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div id="cr-preview-bar-defense" style="width: 0%; height: 100%; background: #3b82f6; transition: width 0.3s ease-out;"></div></div>
-          </div>
-          <!-- SPD -->
-          <div style="display: flex; flex-direction: column; gap: 1px;">
-            <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>SPD</span><strong style="color: #fff;" id="cr-preview-val-speed">0</strong></div>
-            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div id="cr-preview-bar-speed" style="width: 0%; height: 100%; background: #10b981; transition: width 0.3s ease-out;"></div></div>
-          </div>
-          <!-- LUK -->
-          <div style="display: flex; flex-direction: column; gap: 1px;">
-            <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>LUK</span><strong style="color: #fff;" id="cr-preview-val-luck">0</strong></div>
-            <div style="width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden;"><div id="cr-preview-bar-luck" style="width: 0%; height: 100%; background: #eab308; transition: width 0.3s ease-out;"></div></div>
-          </div>
-        </div>
-        
-        <!-- Skill Slot -->
-        <div style="background: rgba(0, 212, 255, 0.05); border: 1px solid rgba(0, 212, 255, 0.2); border-radius: 6px; padding: 8px 10px; margin-top: 2px;">
-          <div style="font-size: 14px; color: var(--accent-cyan); font-weight: bold; margin-bottom: 2px;">⚡ 装備スキル: <span id="cr-preview-skill-name" style="color: #fff; font-size: 13px; margin-left: 4px;">なし</span></div>
-          <div id="cr-preview-skill-desc" style="font-size: 12px; color: var(--text-dim); line-height: 1.35; max-height: 55px; overflow-y: auto;">スキルが選択されていません。</div>
-        </div>
-      </div>
-    </div>
+</html>
