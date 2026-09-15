@@ -5667,7 +5667,7 @@ function goScreen(name, immediate = false) {
   closeStoryDialog();
   const currentScreen = document.querySelector('.screen.active');
   const isFromMap = currentScreen && currentScreen.id === 'main-menu-screen';
-  const isFacility = ['lab', 'creator', 'scouting', 'reward-shop', 'free-battle-lobby', 'team-arena-menu', 'ta-party', 'ta-progress'].includes(name);
+  const isFacility = ['lab', 'scouting', 'reward-shop', 'free-battle-lobby', 'team-arena-menu'].includes(name);
 
   if (isFacility && isFromMap && !immediate) {
     if (window.soundManager && typeof window.soundManager.playSE === 'function') {
@@ -5677,12 +5677,6 @@ function goScreen(name, immediate = false) {
       goScreen(name, true);
     }, 500);
     return;
-  }
-
-  if (isFacility) {
-    if (window.soundManager && typeof window.soundManager.playSE === 'function') {
-      try { playSE('./SE1/MAP_idou.mp3'); } catch(e) {}
-    }
   }
   // Clear battle timers and logs if transitioning screens
   battleTimers.forEach(t => clearTimeout(t));
@@ -8713,7 +8707,6 @@ function selectCommand(playerCmd) {
     showConfirmModal('戦闘から撤退しますか？').then(result => {
       if (result) {
         addLog('🏃 ' + pState.name + ' は戦闘から撤退した！', 'log-miss');
-        if (window.soundManager) playSE('./SE1/OP_STRT.mp3');
         pState.cur = 0;
         setTimeout(() => {
           showResult();
