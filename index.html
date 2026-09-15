@@ -3464,7 +3464,13 @@
 <div id="skills-library-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; align-items:center; justify-content:center;">
   <div style="background:var(--bg-card); border:2px solid var(--border); border-radius:12px; width:95%; max-width:550px; height:80%; display:flex; flex-direction:column; padding:20px; box-shadow:var(--glow-gold);">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px;">
-      <div style="font-size:16px; font-weight:bold; color:var(--accent-gold);">📜 獲得スキル図鑑</div>
+      <div id="skills-library-header-title" style="font-size:15px; font-weight:bold; color:var(--accent-gold); display:flex; flex-direction:column; gap:2px;">
+        <div>📜 獲得スキル図鑑</div>
+        <div style="font-size:12px; font-weight:normal; color:var(--text-dim); display:flex; gap:12px;">
+          <span>🏆 コロッシアム景品: <strong style="color:var(--accent-gold);" id="skills-lib-prize-count">0 / 30</strong></span>
+          <span>📜 全スキル所持: <strong style="color:var(--accent-cyan);" id="skills-lib-total-count">16 / 46</strong></span>
+        </div>
+      </div>
       <button class="btn-secondary" style="padding:4px 12px; font-size:16px; border-color:var(--border);" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} setTimeout(() => closeSkillsLibrary(), 500)">✕ 閉じる</button>
     </div>
     
@@ -4285,10 +4291,11 @@
             <!-- Monster Unit Container (Visual + Under Bars) -->
             <div class="monster-unit-container" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 4px 0; min-height: 110px; overflow: visible; z-index: 5;">
               <span class="fighter-icon" id="fi-enemy" style="font-size: 85px; transform: scaleX(-1) scale(1.4); filter: drop-shadow(0 0 15px rgba(239,68,68,0.3)); transition: transform 0.1s;">👹</span>
-              <div id="buffs-e" style="position: absolute; bottom: 0; display: flex; gap: 4px; font-size: 14px;"></div>
+              
 
               <!-- 足元のHP/MP表示エリア（2段構成） -->
-              <div class="monster-bars-under" style="width: 100%; max-width: 220px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+              <div class="monster-bars-under" style="width: 100%; max-width: 220px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px; position: relative;">
+                <div id="buffs-e" style="position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; font-size: 13px; width: 100%; z-index: 10; margin-bottom: 6px; pointer-events: none;"></div>
                 <!-- 1段目：HPゲージ（上） -->
                 <div class="hp-bar-wrapper" style="position: relative; background: rgba(0,0,0,0.6); border: 1px solid #555; height: 16px; border-radius: 3px; overflow: hidden;">
                   <div class="hp-bar-fill cyber-hp-fill-enemy" id="hp-bar-e" style="width: 100%; height: 100%; background: linear-gradient(90deg, #ff4500, #ff8c00); transition: width 0.4s ease-out;"></div>
@@ -4338,10 +4345,11 @@
             <!-- Monster Unit Container (Visual + Under Bars) -->
             <div class="monster-unit-container" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 4px 0; min-height: 110px; overflow: visible; z-index: 5;">
               <span class="fighter-icon" id="fi-player" style="font-size: 85px; transform: scale(1.4); filter: drop-shadow(0 0 15px rgba(0,212,255,0.3)); transition: transform 0.1s;">🐉</span>
-              <div id="buffs-p" style="position: absolute; bottom: 0; display: flex; gap: 4px; font-size: 14px;"></div>
+              
 
               <!-- 足元のHP/MP表示エリア（2段構成） -->
-              <div class="monster-bars-under" style="width: 100%; max-width: 220px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px;">
+              <div class="monster-bars-under" style="width: 100%; max-width: 220px; margin-top: 8px; display: flex; flex-direction: column; gap: 4px; position: relative;">
+                <div id="buffs-p" style="position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); display: flex; flex-wrap: wrap; justify-content: center; gap: 4px; font-size: 13px; width: 100%; z-index: 10; margin-bottom: 6px; pointer-events: none;"></div>
                 <!-- 1段目：HPゲージ（上） -->
                 <div class="hp-bar-wrapper" style="position: relative; background: rgba(0,0,0,0.6); border: 1px solid #555; height: 16px; border-radius: 3px; overflow: hidden;">
                   <div class="hp-bar-fill cyber-hp-fill-player" id="hp-bar-p" style="width: 100%; height: 100%; background: linear-gradient(90deg, #ff4500, #ff8c00); transition: width 0.4s ease-out;"></div>
@@ -4599,6 +4607,10 @@ const SKILLS = {
   luckstrike: { name: '運頼みの一突き', icon: '🎯', desc: '攻撃力に自身の運の数値を固定追加ダメージとして上乗せする。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
   selfsatisfaction: { name: '自己満足', icon: '✨', desc: '（自動発動）敵モンスターを撃破した瞬間、自身のHPを1回復する。', type: 'パッシブ', cat: '回復系', badge: 'heal', scrollType: 'special' },
   blankshot: { name: '空砲', icon: '💨', desc: '1ターン目のみ発動可能。ダメージを与えない代わりに相手の防御力を5%下げる。', type: 'アクティブ', cat: '補助系', badge: 'support', scrollType: 'special' },
+      counter: { name: 'カウンターブロー', icon: '🛡️', desc: '（自動発動）相手の攻撃を耐えた直後に自動発動。受けたダメージの1.5倍をそのまま相手に撃ち返す。', type: 'パッシブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
+  haisui: { name: '背水の陣', icon: '🔥', desc: '自分のHPが最大HPの半分以下になったターンの攻撃時、1度だけ確定クリティカル（防御無視）になる。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
+  vampire: { name: '吸血の牙', icon: '🦇', desc: '攻撃と同時に発動。そのターン相手に与えたダメージの50%分、自分のHPを回復する。', type: 'アクティブ', cat: '回復系', badge: 'heal', scrollType: 'special' },
+  daibogyo: { name: '大防御', icon: '🔰', desc: '２ターン、相手から受けるすべてのダメージを「０」にする。', type: 'アクティブ', cat: '防御系', badge: 'defense', scrollType: 'defense' },
   glassshield: { name: 'ガラスの盾', icon: '🛡️', desc: '（自動発動）最初の被弾時のみ防御力1.2倍、以降は防御力10%減少。', type: 'パッシブ', cat: '防御系', badge: 'defense', scrollType: 'defense' },
 };
 
@@ -5651,8 +5663,27 @@ function updateCreatorPreview() {
   }
 }
 
-function goScreen(name) {
+function goScreen(name, immediate = false) {
   closeStoryDialog();
+  const currentScreen = document.querySelector('.screen.active');
+  const isFromMap = currentScreen && currentScreen.id === 'main-menu-screen';
+  const isFacility = ['lab', 'creator', 'scouting', 'reward-shop', 'free-battle-lobby', 'team-arena-menu', 'ta-party', 'ta-progress'].includes(name);
+
+  if (isFacility && isFromMap && !immediate) {
+    if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+      try { playSE('./SE1/MAP_idou.mp3'); } catch(e) {}
+    }
+    setTimeout(() => {
+      goScreen(name, true);
+    }, 500);
+    return;
+  }
+
+  if (isFacility) {
+    if (window.soundManager && typeof window.soundManager.playSE === 'function') {
+      try { playSE('./SE1/MAP_idou.mp3'); } catch(e) {}
+    }
+  }
   // Clear battle timers and logs if transitioning screens
   battleTimers.forEach(t => clearTimeout(t));
   battleTimers = [];
@@ -6525,7 +6556,7 @@ function showSkillSelectPopup(monster, labIndex) {
   const availableSkills = Object.keys(SKILLS).filter(id => {
     if (id === 'none') return false;
     const sk = SKILLS[id];
-    return sk.isInitial || unlockedSkills.includes(id);
+    return sk.isInitial || unlockedSkills.includes(id) || (typeof debugMode !== 'undefined' && debugMode);
   });
 
   const listEl = document.getElementById('skill-popup-list');
@@ -6674,7 +6705,7 @@ async function useLabItem(itemId) {
       const availableSkills = Object.keys(SKILLS).filter(id => {
         if (id === 'none') return false;
         const sk = SKILLS[id];
-        return sk.isInitial || unlockedSkills.includes(id);
+        return sk.isInitial || unlockedSkills.includes(id) || (typeof debugMode !== 'undefined' && debugMode);
       });
       if (availableSkills.length === 0) {
         alert('解放済みスキルがありません。�');
@@ -6727,6 +6758,16 @@ function openSkillsLibrary() {
   const content = document.getElementById('skills-library-content');
   if (!overlay || !content) return;
 
+  const prizeCountEl = document.getElementById('skills-lib-prize-count');
+  const totalCountEl = document.getElementById('skills-lib-total-count');
+  const isDebug = (typeof debugMode !== 'undefined' && debugMode);
+  const unlockedCount = isDebug ? 30 : (Array.isArray(unlockedSkills) ? unlockedSkills.length : 0);
+  const initialCount = 16;
+  const totalAvailable = initialCount + unlockedCount;
+  
+  if (prizeCountEl) prizeCountEl.textContent = unlockedCount + ' / 30';
+  if (totalCountEl) totalCountEl.textContent = totalAvailable + ' / 46';
+
   content.innerHTML = '';
   
   // Sort category order
@@ -6754,7 +6795,7 @@ function openSkillsLibrary() {
 
     list.forEach(sk => {
       // Check if unlocked (either initial or unlocked by scrolls)
-      const isUnlocked = sk.isInitial || unlockedSkills.includes(sk.id);
+      const isUnlocked = sk.isInitial || unlockedSkills.includes(sk.id) || (typeof debugMode !== 'undefined' && debugMode);
       
       const item = document.createElement('div');
       item.style = 'display:flex; align-items:flex-start; gap:10px; padding:8px; border-bottom:1px solid rgba(255,255,255,0.03); background:rgba(255,255,255,0.01); border-radius:6px;';
@@ -6778,10 +6819,8 @@ function openSkillsLibrary() {
         item.style.opacity = '0.5';
         let itemHtml = '<div style="font-size:24px; min-width:32px; text-align:center; color:var(--text-dim);">🔒</div>';
         itemHtml += '<div style="flex:1;">';
-        itemHtml += '<div style="font-weight:bold; font-size:16px; color:var(--text-dim);">？？？？';
-        itemHtml += '<span style="font-size:12px; background:rgba(255,255,255,0.04); color:var(--text-dim); border:1px solid var(--text-dim); padding:0px 3px; border-radius:3px; margin-left:4px; font-weight:normal;">' + sk.type + '</span>';
-        itemHtml += '</div>';
-        itemHtml += '<div style="font-size:14px; color:var(--text-dim); margin-top:2px;">（秘伝の書から解放すると表示されます）</div>';
+        itemHtml += '<div style="font-weight:bold; font-size:16px; color:var(--text-dim); display:flex; align-items:center; gap:6px;">🔒 ' + sk.name + '<span style="font-size:12px; background:rgba(255,255,255,0.04); color:var(--text-dim); border:1px solid var(--text-dim); padding:0px 3px; border-radius:3px; font-weight:normal;">' + sk.type + '</span></div>';
+        itemHtml += '<div style="font-size:14px; color:var(--text-dim); margin-top:2px; line-height:1.3;">' + sk.desc + '</div>';
         itemHtml += '</div>';
         item.innerHTML = itemHtml;
       }
@@ -7822,6 +7861,10 @@ function getAvailableSkills() {
   }
   
   // League/Story mode: initial 16 + unlocked prize skills
+  // Debug mode: all skills available
+  if (typeof debugMode !== 'undefined' && debugMode) {
+    return Object.keys(SKILLS);
+  }
   const available = [];
   Object.entries(SKILLS).forEach(([id, sk]) => {
     if (sk.isInitial) {
@@ -8646,6 +8689,7 @@ function calculateEvasionRate(attacker, defender) {
 
 function getGlassShieldDefense(state) {
   let def = state.defense;
+  
   if (state.teppekiTurns > 0) def *= 2;
   if (state.paperarmorTurns > 0) def = Math.floor(def / 2);
   
@@ -9035,7 +9079,7 @@ function _execSingleActionInner(actorSide, cmd, targetSide, targetCmd, onComplet
     if (getBattleRandom() * 100 < evasion) {
       const t = setTimeout(() => {
         target.evasionStreak = (target.evasionStreak || 0) + 1;
-        if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/MISS.mp3');}catch(e){}} addLog('💨 ' + target.name + ' は攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
+        showDmgFloat(targetSide, 'MISS', '#94a3b8'); if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/MISS.mp3');}catch(e){}} addLog('💨 ' + target.name + ' は攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
         actor.charged = false;
         actor.chargeMultiplier = null;
         updateBuffsUI(actorSide, actor);
@@ -9155,7 +9199,7 @@ function _execSingleActionInner(actorSide, cmd, targetSide, targetCmd, onComplet
 
       if (getBattleRandom() * 100 < evasion) {
         const t = setTimeout(() => {
-          if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/MISS.mp3');}catch(e){}} addLog('💨 ' + target.name + ' はスキルの攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
+          showDmgFloat(targetSide, 'MISS', '#94a3b8'); if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/MISS.mp3');}catch(e){}} addLog('💨 ' + target.name + ' はスキルの攻撃をかわした！（回避率:' + Math.round(evasion) + '%）', 'log-miss');
           actor.charged = false;
           actor.chargeMultiplier = null;
           updateBuffsUI(actorSide, actor);
@@ -9249,7 +9293,7 @@ function _execSingleActionInner(actorSide, cmd, targetSide, targetCmd, onComplet
         setHp(targetSide, target);
         onComplete();
       } else {
-        if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/MISS.mp3');}catch(e){}} addLog('⚡ 一撃必殺は外れた！', 'log-miss');
+        showDmgFloat(targetSide, 'MISS', '#94a3b8'); if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/MISS.mp3');}catch(e){}} addLog('⚡ 一撃必殺は外れた！', 'log-miss');
         actor.charged = false;
         actor.chargeMultiplier = null;
         updateBuffsUI(actorSide, actor);
@@ -9289,10 +9333,9 @@ function _execSingleActionInner(actorSide, cmd, targetSide, targetCmd, onComplet
       }
 
     } else if (sk === 'daibogyo') {
-      actor.defending = true;
-      actor.daibogyoActive = true;
       actor.daibogyoTurns = 2;
-      addLog('🛡️ ' + actor.name + ' は大防御の構え！ 2ターンの間、受けるダメージの80%をカット！', 'log-info');
+      addLog('🔰 ' + actor.name + ' は『大防御』を発動！ 2ターンの間、相手から受けるすべてのダメージを「0」にする！', 'log-info');
+      updateBuffsUI(actorSide, actor);
       onComplete();
     } else if (sk === 'teppeki') {
       actor.teppekiTurns = 3;
@@ -9523,29 +9566,13 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     return;
   }
 
-  // Check Daibogyo (大防御)
-  if (target.daibogyoActive) {
-    // 大防御: 80%カット (20%貫通)
-    const rawDmg = Math.max(1, actor.attack - getGlassShieldDefense(target));
-    const penDmg = Math.max(1, Math.floor(rawDmg * 0.2));
-    target.cur = Math.max(0, target.cur - penDmg);
-    setHp(target === pState ? 'p' : 'e', target);
-    flashHit(target === pState ? 'p' : 'e');
-    showDmgFloat(target === pState ? 'p' : 'e', penDmg, '#f59e0b');
-    addLog('🛡️ ' + target.name + ' は大防御の構え！ 大半を防いだが ' + penDmg + ' ダメージ貫通！', 'log-miss');
+  // Check Daibogyo (大防御) - 2ターン受けるすべてのダメージを「0」にする
+  if (target.daibogyoTurns > 0) {
+    if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/tate_bougyo.mp3');}catch(e){}}
+    addLog('🔰 ' + target.name + ' は「大防御」を展開中！ すべてのダメージを完全無効化（0）！', 'log-miss');
     if (actor.charged) actor.charged = false;
-    // target.daibogyoActive persists for daibogyoTurns duration
-    if (target.cur <= 0) {
-      // 自己満足 (撃破時回復)
-      const actorPassives = (actor.skillsList && Array.isArray(actor.skillsList.passive)) ? actor.skillsList.passive : [];
-      if (actor.skill === 'selfsatisfaction' || actorPassives.includes('selfsatisfaction')) {
-        actor.cur = Math.min(actor.max, actor.cur + 1);
-        addLog('✨ ' + actor.name + ' の「自己満足」！ 敵を撃破したためHPが 1 回復した！', 'log-skill');
-        setHp(actorSide, actor);
-      }
-      checkBattleEnd();
-      return;
-    }
+    actor.chargeMultiplier = null;
+    updateBuffsUI(actorSide, actor);
     onComplete();
     return;
   }
@@ -9601,6 +9628,8 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     if (finalDmg > 0) {
       flashHit(targetSide);
       showDmgFloat(targetSide, finalDmg, color);
+    } else if (finalDmg === 0) {
+      showDmgFloat(targetSide, 0, '#94a3b8');
     }
 
     if (isCrit) {
@@ -9608,6 +9637,8 @@ function processDamage(actorSide, actor, targetSide, target, rawDmg, isCrit, isS
     } else if (isScrap) {
       if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/kougeki_tujyouu.mp3');}catch(e){}}
       addLog('⚔️ かすり傷！ ' + target.name + ' に 1 のダメージ！', isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
+    } else if (finalDmg === 0) {
+      if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/tate_bougyo.mp3');}catch(e){}} addLog('🛡️ 守りが堅い！ ' + target.name + ' にダメージを与えられない！（0ダメージ）', isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
     } else {
       if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/kougeki_tujyouu.mp3');}catch(e){}} addLog('⚔️ ' + target.name + ' に ' + finalDmg + ' のダメージ！', isPlayerTarget ? 'log-dmg-p' : 'log-dmg-e');
     }
@@ -9765,23 +9796,30 @@ function updateBuffsUI(side, state) {
   container.innerHTML = '';
   
   const buffs = [];
-  if (state.charged) buffs.push('<span style="background:rgba(245,158,11,0.15); color:var(--accent-gold); border:1px solid rgba(245,158,11,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">⚡ ため</span>');
-  if (state.defending) buffs.push('<span style="background:rgba(61,155,233,0.15); color:var(--accent-blue); border:1px solid rgba(61,155,233,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🛡️ 防御</span>');
-  if (state.barrier > 0) buffs.push('<span style="background:rgba(168,85,247,0.15); color:var(--accent-purple); border:1px solid rgba(168,85,247,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🛡️ バリア(' + state.barrier + ')</span>');
-  if (state.regenTurns > 0) buffs.push('<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); border:1px solid rgba(16,185,129,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">💖 リジェネ(' + state.regenTurns + ')</span>');
-  if (state.teppekiTurns > 0) buffs.push('<span style="background:rgba(61,155,233,0.15); color:var(--accent-blue); border:1px solid rgba(61,155,233,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🧱 防御x2(' + state.teppekiTurns + ')</span>');
-  if (state.strengthenTurns > 0) buffs.push('<span style="background:rgba(239,68,68,0.15); color:var(--accent-red); border:1px solid rgba(239,68,68,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">💪 攻撃1.5倍</span>');
-  if (state.shadowstepTurns > 0) buffs.push('<span style="background:rgba(245,158,11,0.15); color:var(--accent-gold); border:1px solid rgba(245,158,11,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">👤 回避率+20%</span>');
-  if (state.reverseTurns > 0) buffs.push('<span style="background:rgba(168,85,247,0.15); color:var(--accent-purple); border:1px solid rgba(168,85,247,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🔄 リバース</span>');
-  if (state.fortressTurns > 0) buffs.push('<span style="background:rgba(16,185,129,0.15); color:var(--accent-green); border:1px solid rgba(16,185,129,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">🏰 無敵</span>');
+  if (state.charged) buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-gold); border:1px solid rgba(245,158,11,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">⚡ ため</span>');
+  if (state.defending) buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-blue); border:1px solid rgba(61,155,233,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">🛡️ 防御</span>');
+  if (state.barrier > 0) buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-purple); border:1px solid rgba(168,85,247,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">🛡️ バリア(' + state.barrier + ')</span>');
+  if (state.regenTurns > 0) buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-green); border:1px solid rgba(16,185,129,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">💖 リジェネ(' + state.regenTurns + ')</span>');
+  if (state.daibogyoTurns > 0) buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-gold); border:1px solid rgba(245,158,11,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">🔰 大防御(' + state.daibogyoTurns + ')</span>');
+  if (state.teppekiTurns > 0) buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-blue); border:1px solid rgba(61,155,233,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">🧱 防御x2(' + state.teppekiTurns + ')</span>');
+  if (state.strengthenTurns > 0) buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-red); border:1px solid rgba(239,68,68,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">💪 攻撃1.5倍</span>');
+  if (state.shadowstepTurns > 0) buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-gold); border:1px solid rgba(245,158,11,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">👤 回避率+20%</span>');
+  if (state.reverseTurns > 0) buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-purple); border:1px solid rgba(168,85,247,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">🔄 リバース</span>');
+  if (state.fortressTurns > 0) buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-green); border:1px solid rgba(16,185,129,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">🏰 無敵</span>');
 
   if (state.activeBuffs && state.activeBuffs.length > 0) {
     state.activeBuffs.forEach(b => {
-      buffs.push('<span style="background:rgba(0,212,255,0.15); color:var(--accent-cyan); border:1px solid rgba(0,212,255,0.3); padding:1px 4px; border-radius:3px; font-size:13px;">✨ ' + b.name + '(' + b.duration + ')</span>');
+      buffs.push('<span style="background:rgba(0,0,0,0.75); color:var(--accent-cyan); border:1px solid rgba(0,212,255,0.6); padding:2px 6px; border-radius:4px; backdrop-filter:blur(4px); font-size:13px;">✨ ' + b.name + '(' + b.duration + ')</span>');
     });
   }
 
-  container.innerHTML = buffs.join(' ');
+  if (buffs.length > 0) {
+    container.style.display = 'flex';
+    container.innerHTML = buffs.join(' ');
+  } else {
+    container.style.display = 'none';
+    container.innerHTML = '';
+  }
 }
 
 
@@ -10150,7 +10188,7 @@ function showDmgFloat(side, dmg, color) {
     }
     const pop = document.createElement('div');
     pop.className = 'damage-popup';
-    pop.textContent = '-' + dmg;
+    pop.textContent = (typeof dmg === 'number' && dmg > 0) ? ('-' + dmg) : ('' + dmg);
     if (color && color !== '#ef4444') {
       pop.style.color = color;
     }
@@ -11167,10 +11205,11 @@ function startBossRevenge() {
     return;
   }
   if (!gameProgress.bossRevengeUnlocked) {
-    alert('【ロック中】スキルを全解放（21/21）すると覇王リベンジマッチに挑戦できます！');
+    alert('【ロック中】スキルを全解放（30/30）すると覇王リベンジマッチに挑戦できます！');
     return;
   }
   
+  currentLabMode = 'story';
   const activeLab = getActiveLab();
   if (activeLab.length === 0) {
     alert('モンスターが必要です。ラボで作成してください。');
@@ -12169,6 +12208,8 @@ function toggleDebugMode() {
       btn.style.boxShadow = '0 0 12px rgba(252,163,17,0.5)';
     }
     bp = 9999;
+    const allPrizeIds = Object.keys(SKILLS).filter(id => id !== 'none' && !SKILLS[id].isInitial);
+    allPrizeIds.forEach(id => { if (!unlockedSkills.includes(id)) unlockedSkills.push(id); });
   alert('🐛 デバッグモード ON\n\n・全施設・全モードのロック解除\n・全スキル解放状態として調合可能\n・BP 9999状態でショップ購入可能\n・全シリーズ解放状態で調合可能');
   } else {
     // Reset button style
