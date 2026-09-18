@@ -11653,6 +11653,10 @@ function handleP2PMessage(msg) {
       }
       break;
 
+    case 'start-battle':
+      startP2PBattleScreen();
+      break;
+
     case 'battle-seed':
       setP2PSeed(msg.seed);
       break;
@@ -11690,11 +11694,27 @@ function toggleP2PMyReady() {
 function checkBothReady() {
   if (p2pMyReady && p2pOppReady) {
     // Both players ready → start P2P battle
-    setTimeout(() => startP2PBattle(), 500);
+    setTimeout(() => {
+      if (p2pIsBotActive) {
+        startP2PBattleScreen();
+      } else if (p2pIsHost) {
+        const seed = Math.floor(Math.random() * 1000000) + 1;
+        setP2PSeed(seed);
+        if (p2pConn && p2pConn.open) {
+          p2pConn.send({ type: 'battle-seed', seed: seed });
+          p2pConn.send({ type: 'start-battle' });
+        }
+        startP2PBattleScreen();
+      }
+    }, 500);
   }
 }
 
 function startP2PBattle() {
+  checkBothReady();
+}
+
+function startP2PBattleScreen() {
   if (p2pFormat === 'team') {
     if (!p2pOppMonsters || p2pOppMonsters.length < 3) {
       alert('相手のチーム情報がまだ届いていません。少しお待ちください。');
@@ -11770,9 +11790,10 @@ function startP2PTeamBout(boutIdx) {
   };
   const badge = document.getElementById('stage-display');
   if (badge) badge.innerHTML = '<span>フリー団体戦</span><span>' + boutNames[boutIdx] + '</span>';
-  if (p2pIsHost && p2pConn) {
-    p2pBattleSeed = Date.now();
-    p2pConn.send({ type: 'battle-seed', seed: p2pBattleSeed });
+  if (p2pIsHost) {
+    const seed = Math.floor(Math.random() * 1000000) + 1;
+    setP2PSeed(seed);
+    if (p2pConn) p2pConn.send({ type: 'battle-seed', seed: seed });
   }
   currentGameMode = 'free';
   goScreen('battle');
