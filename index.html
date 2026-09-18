@@ -4564,15 +4564,15 @@ const SKILLS = {
   // 初期解放スキル
   shuriken: { name: '魔力の手裏剣', icon: '🗡️', desc: '自身の攻撃力の75%相当の威力で、相手の防御を完全無視してダメージを与える。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', isInitial: true },
   midare: { name: 'みだれうち', icon: '🏹', desc: '自身の運に応じて確率で2連続攻撃を繰り出す。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', isInitial: true },
-  weakmaker: { name: 'ウィークメーカー', icon: '🎯', desc: '攻撃と同時に相手の最も高い能力を数ターン弱体化させる。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', isInitial: true },
+  weakmaker: { name: 'ウィークメーカー', icon: '🎯', desc: '攻撃と同時に相手の最も高い能力を3ターン20低下させる。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', isInitial: true },
   heal: { name: 'ヒール', icon: '💖', desc: '標準的な回復魔法。自身の最大HPの30%を回復する。', type: 'アクティブ', cat: '回復系', badge: 'heal', isInitial: true },
   regen: { name: 'リジェネレート', icon: '✨', desc: '3ターンの間、毎ターン最大HPの8%ずつ自動回復する。', type: 'アクティブ', cat: '回復系', badge: 'heal', isInitial: true },
   soulshare: { name: 'ソウルシェア', icon: '🩸', desc: '相手のHPが自分より高い時、生命力を10奪い取る。', type: 'アクティブ', cat: '回復系', badge: 'heal', isInitial: true },
-  teppeki: { name: '鉄壁の構え', icon: '🛡️', desc: '数ターンの間、自身の防御力を倍増させる。', type: 'アクティブ', cat: '防御系', badge: 'defense', isInitial: true },
-  enmaku: { name: '煙幕', icon: '💨', desc: '煙を巻き上げ、数ターンの間相手の命中率を半減させる。', type: 'アクティブ', cat: '防御系', badge: 'defense', isInitial: true },
-  paperarmor: { name: '紙装甲の呪い', icon: '📜', desc: '数ターンの間、相手の防御力を半減させる。', type: 'アクティブ', cat: '補助系', badge: 'support', isInitial: true },
-  strengthen: { name: '筋力強化', icon: '💪', desc: '数ターンの間、自身の攻撃力を1.5倍にする。', type: 'アクティブ', cat: '補助系', badge: 'support', isInitial: true },
-  slownurse: { name: '鈍足の呪い', icon: '🐌', desc: '数ターンの間、相手の素早さを大幅に下げる。', type: 'アクティブ', cat: '補助系', badge: 'support', isInitial: true },
+  teppeki: { name: '鉄壁の構え', icon: '🛡️', desc: '3ターンの間、自身の防御力を2倍にする。', type: 'アクティブ', cat: '防御系', badge: 'defense', isInitial: true },
+  enmaku: { name: '煙幕', icon: '💨', desc: '煙を巻き上げ、2ターンの間相手の命中率を大幅に低下させる。', type: 'アクティブ', cat: '防御系', badge: 'defense', isInitial: true },
+  paperarmor: { name: '紙装甲の呪い', icon: '📜', desc: '3ターンの間、相手の防御力を半減させる。', type: 'アクティブ', cat: '補助系', badge: 'support', isInitial: true },
+  strengthen: { name: '筋力強化', icon: '💪', desc: '2ターンの間、自身の攻撃力を1.5倍にする。', type: 'アクティブ', cat: '補助系', badge: 'support', isInitial: true },
+  slownurse: { name: '鈍足の呪い', icon: '🐌', desc: '3ターンの間、相手の素早さを20低下させる。', type: 'アクティブ', cat: '補助系', badge: 'support', isInitial: true },
   draw: { name: 'ドローイング', icon: '⏳', desc: 'このターンの互いの攻撃ダメージを無効化する。', type: 'アクティブ', cat: 'その他', badge: 'special', isInitial: true },
   toge: { name: 'トゲトゲの甲殻', icon: '🌵', desc: '（自動発動）ダメージを受けた際、相手の素早さを低下させる。', type: 'パッシブ', cat: '防御系', badge: 'defense', isInitial: true },
   secondwind: { name: 'セカンド風', icon: '🍃', desc: '（自動発動）HPが25%以下になった時、HPを10回復する。', type: 'パッシブ', cat: '回復系', badge: 'heal', isInitial: true },
@@ -4586,16 +4586,16 @@ const SKILLS = {
   ichigeki: { name: '一撃必殺', icon: '🎯', desc: '命中率は低いが、命中すれば相手を一撃で倒すか瀕死にする。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
   charge: { name: 'ハイパーチャージ', icon: '🔋', desc: '1ターン溜めて、次ターンの攻撃力を3倍に引き上げる。', type: 'アクティブ', cat: '攻撃系', badge: 'attack', scrollType: 'attack' },
   overclock: { name: 'オーバークロック', icon: '⚙️', desc: '2ターンの間素早さを2倍にするが、終了時にダメージを受ける。', type: 'アクティブ', cat: '補助系', badge: 'support', scrollType: 'special' },
-  shadowstep: { name: 'シャドーステップ', icon: '👤', desc: '数ターンの間、相手の攻撃を高確率で回避する。', type: 'アクティブ', cat: '補助系', badge: 'support', scrollType: 'special' },
+  shadowstep: { name: 'シャドーステップ', icon: '👤', desc: '3ターンの間、自身の回避率を20%増加させる。', type: 'アクティブ', cat: '補助系', badge: 'support', scrollType: 'special' },
   swap: { name: '等価交換', icon: '⚖️', desc: 'お互いの現在HPをそのまま入れ替える。', type: 'アクティブ', cat: 'その他', badge: 'special', scrollType: 'special' },
   jackpot: { name: 'ジャックポット', icon: '🎰', desc: '運が勝っている場合、このターンの攻撃を全てクリティカルにする。', type: 'アクティブ', cat: 'その他', badge: 'special', scrollType: 'special' },
   copy: { name: 'コピーキャット', icon: '🪞', desc: '相手が直前に発動したスキルを真似して発動する。', type: 'アクティブ', cat: 'その他', badge: 'special', scrollType: 'special' },
   amanajaku: { name: '天邪鬼', icon: '🎭', desc: '自身の力が弱いほど相手に与えるダメージが増大する。', type: 'アクティブ', cat: 'その他', badge: 'special', scrollType: 'special' },
   reverse: { name: 'リバースルーム', icon: '🌀', desc: '3ターンの間、素早さが遅い順に行動できるようになる。', type: 'アクティブ', cat: 'その他', badge: 'special', scrollType: 'special' },
-  parry: { name: 'パリィ', icon: '⚔️', desc: '（自動発動）相手より速い場合、最初の攻撃を受け流して無効化する。', type: 'パッシブ', cat: '防御系', badge: 'defense', scrollType: 'special' },
+  parry: { name: 'パリィ', icon: '⚔️', desc: '（自動発動）相手の素早さが自分より高い場合、最初の攻撃を受け流して無効化する。', type: 'パッシブ', cat: '防御系', badge: 'defense', scrollType: 'special' },
   fortress: { name: '最後の砦', icon: '🏰', desc: '（自動発動）HPが2割以下になった時、1ターン無敵状態になる。', type: 'パッシブ', cat: '防御系', badge: 'defense', scrollType: 'special' },
   recycle: { name: 'リサイクル', icon: '♻️', desc: '（自動発動）相手がスキルを放った直後、受けたダメージの半分を回復する。', type: 'パッシブ', cat: '回復系', badge: 'heal', scrollType: 'special' },
-  fdice: { name: 'フォーチュンダイス', icon: '🎲', desc: '（自動発動）戦闘開始時に運の数値が上下にランダム変動する。', type: 'パッシブ', cat: '補助系', badge: 'support', scrollType: 'special' },
+  fdice: { name: 'フォーチュンダイス', icon: '🎲', desc: '（自動発動）戦闘開始時に運の数値が-10〜+30の範囲でランダム変動する。', type: 'パッシブ', cat: '補助系', badge: 'support', scrollType: 'special' },
   pressure: { name: 'プレッシャー', icon: '👁️', desc: '（自動発動）相手より運が高い場合、相手の初手行動をパスさせる。', type: 'パッシブ', cat: '補助系', badge: 'support', scrollType: 'special' },
 
   // ハズレ枠スキル
@@ -8483,8 +8483,10 @@ function initBattle() {
 
       // 威嚇のポーズ
       if (sk === 'intimidate' || passives.includes('intimidate')) {
-        opp.attack = Math.max(1, opp.attack - 1);
-        addLog('🦁 ' + actor.name + ' の「威嚇のポーズ」！ ' + opp.name + ' の攻撃力を 1 減少させた！ (攻撃:' + opp.attack + ')', 'log-skill');
+        if (getBattleRandom() < 0.1) {
+          opp.attack = Math.max(1, opp.attack - 1);
+          addLog('🦁 ' + actor.name + ' の「威嚇のポーズ」発動！ ' + opp.name + ' の攻撃力を 1 減少させた！ (攻撃:' + opp.attack + ')', 'log-skill');
+        }
       }
 
       // ガラスの盾
