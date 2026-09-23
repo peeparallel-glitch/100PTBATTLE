@@ -3375,6 +3375,21 @@
 </head>
 <body>
 <div id="game-viewport">
+<!-- ============ RENAME MONSTER MODAL ============ -->
+<div id="rename-modal-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:16000; align-items:center; justify-content:center; backdrop-filter:blur(4px);">
+  <div class="cyber-card" style="width:90%; max-width:440px; padding:20px 24px; background:var(--bg-panel); border:2px solid var(--accent-gold); border-radius:14px; box-shadow:0 0 30px rgba(245,158,11,0.3); color:#fff; position:relative;">
+    <div style="font-size:18px; font-weight:bold; color:var(--accent-gold); text-align:center; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:14px;">
+      ✏️ モンスター名変更
+    </div>
+    <div style="font-size:13px; color:var(--text-dim); margin-bottom:10px; text-align:center;">新しい名前を入力してください</div>
+    <input type="text" id="rename-modal-input" maxlength="12" style="width:100%; padding:10px 14px; font-size:16px; background:rgba(0,0,0,0.5); border:1px solid var(--accent-gold); border-radius:8px; color:#fff; text-align:center; box-sizing:border-box; margin-bottom:16px; outline:none;" placeholder="モンスター名">
+    <div style="display:flex; gap:10px;">
+      <button id="rename-btn-confirm" class="title-btn" style="flex:1; padding:10px; font-size:15px; background:linear-gradient(135deg, #f59e0b, #d97706);">変更を保存</button>
+      <button class="btn-secondary" style="padding:10px 16px; font-size:14px;" onclick="closeRenameModal()">キャンセル</button>
+    </div>
+  </div>
+</div>
+
 <!-- ============ MONSTER SELECT MODAL (replaces prompt) ============ -->
 <div id="monster-select-modal" style="display:none;">
   <div class="monster-select-window">
@@ -3457,6 +3472,21 @@
     <div class="story-speaker" id="story-speaker">ナレーション</div>
     <div class="story-text" id="story-text"></div>
     <div class="story-next-hint">▼ タップで次へ</div>
+  </div>
+</div>
+
+<!-- ============ FACILITY HELP OVERLAY ============ -->
+<div id="facility-help-overlay" style="display:none; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:16000; align-items:center; justify-content:center; backdrop-filter:blur(4px);" onclick="closeHelp()">
+  <div class="cyber-card" style="width:90%; max-width:480px; padding:24px; background:var(--bg-panel); border:2px solid var(--accent-cyan); border-radius:14px; box-shadow:0 0 30px rgba(0,212,255,0.3); color:#fff; position:relative; white-space:pre-wrap; text-align:left;" onclick="event.stopPropagation()">
+    <button onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} closeHelp()" style="position:absolute; top:10px; right:14px; background:transparent; border:none; color:#fff; font-size:26px; cursor:pointer; opacity:0.8; z-index:10;" title="閉じる">&times;</button>
+    <div style="display:flex; align-items:center; gap:10px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:10px; margin-bottom:16px;">
+      <span id="help-icon" style="font-size:24px;">ℹ️</span>
+      <span id="help-title" style="font-size:18px; font-weight:bold; color:var(--accent-cyan);">施設ガイド</span>
+    </div>
+    <div id="help-text" style="font-size:14px; line-height:1.7; color:var(--text-primary); margin-bottom:16px; word-break:break-all;"></div>
+    <div style="text-align:right;">
+      <button class="title-btn" style="padding:6px 20px; font-size:14px;" onclick="if(window.soundManager && typeof window.soundManager.playSE==='function'){try{playSE('./SE1/senntaku_kettei.mp3');}catch(e){}} closeHelp()">閉じる</button>
+    </div>
   </div>
 </div>
 
@@ -4554,6 +4584,49 @@ window.onerror = function(message, source, lineno, colno, error) {
 };
 
 
+// ローカル環境（開発環境）かどうかを判定する関数
+function isLocalEnvironment() {
+  const hostname = window.location.hostname;
+  const protocol = window.location.protocol;
+
+  // 1. PCローカルファイル直接実行 (file:///)
+  if (protocol === 'file:') return true;
+
+  // 2. ローカルサーバー実行 (localhost, 127.0.0.1, 192.168.x.x 等)
+  if (
+    hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname.startsWith('192.168.') ||
+    hostname.endsWith('.local')
+  ) {
+    return true;
+  }
+
+  // それ以外（ウェブ公開版・スマホダウンロード版等）は false
+  return false;
+}
+
+// デバッグボタンの表示更新関数
+function updateDebugButtonDisplay(currentScene) {
+  const debugBtn = document.getElementById('debug-toggle-btn');
+  if (!debugBtn) return;
+
+  // 「ローカル環境」かつ「ラボ画面（モンスター研究所）」の場合のみ表示
+  if (isLocalEnvironment() && currentScene === 'lab') {
+    debugBtn.style.display = 'block';
+  } else {
+    // ウェブ版・スマホ版・他画面では完全に非表示
+    debugBtn.style.display = 'none';
+    
+    // 安全のため、本番環境ではデバッグモード自体を強制OFFに固定
+    if (!isLocalEnvironment() && typeof debugMode !== 'undefined' && debugMode) {
+      debugMode = false;
+      updateMenuFacilities();
+      updateSkillProgressUI();
+    }
+  }
+}
+
 // ============================================================
 //  CONSTANTS
 // ============================================================
@@ -5060,6 +5133,7 @@ function resetMemoryState() {
     tutorialStep: 0,
     bossRevengeUnlocked: false, // 初期状態ではロック
     bossDefeated: false,
+    bossRevengeAttempted: false,
   };
   bp = 0;
   unlockedSeries = [];
@@ -5083,7 +5157,7 @@ function loadSlot(slotId) {
     record = data.record || { win: 0, lose: 0, draw: 0 };
     unlockedSkills = Array.isArray(data.unlockedSkills) ? data.unlockedSkills : [];
     survivalBestRecord = typeof data.survivalBestRecord === 'number' ? data.survivalBestRecord : 0;
-    gameProgress = data.gameProgress ? { ...data.gameProgress } : { tutorialStep: 4, bossRevengeUnlocked: false, bossDefeated: false };
+    gameProgress = data.gameProgress ? { bossRevengeAttempted: false, ...data.gameProgress } : { tutorialStep: 4, bossRevengeUnlocked: false, bossDefeated: false, bossRevengeAttempted: false };
     bp = typeof data.bp === 'number' ? data.bp : 0;
     unlockedSeries = Array.isArray(data.unlockedSeries) ? data.unlockedSeries : [];
     maxMonsterSlots = typeof data.maxMonsterSlots === 'number' ? data.maxMonsterSlots : 6;
@@ -5116,7 +5190,7 @@ function migrateOldSaveDataIfNeeded() {
       const rec = JSON.parse(localStorage.getItem('100pt_v2_record') || '{"win":0,"lose":0,"draw":0}');
       const unl = JSON.parse(localStorage.getItem('100pt_v3_unlocked') || '[]');
       const surBest = parseInt(localStorage.getItem('100pt_v3_survivalBest') || '0', 10);
-      const prog = JSON.parse(localStorage.getItem('100pt_v3_progress') || '{"tutorialStep":4,"bossRevengeUnlocked":false,"bossDefeated":false}');
+      const prog = JSON.parse(localStorage.getItem('100pt_v3_progress') || '{"tutorialStep":4,"bossRevengeUnlocked":false,"bossDefeated":false,"bossRevengeAttempted":false}');
 
       const slot1Data = {
         updatedAt: formatDate(new Date()),
@@ -5515,6 +5589,7 @@ let gameProgress = {
   tutorialStep: 0,   // 0:新規 1:OP完了→ラボ誘導 2:初代作成完了→ボス誘導 3:初戦敗北→再挑戦 4:完了
   bossRevengeUnlocked: false,
   bossDefeated: false,
+  bossRevengeAttempted: false,
 };
 
 const TUTORIAL_BOSS = {
@@ -5943,11 +6018,24 @@ function goScreen(name, immediate = false) {
     if (currentGameMode === 'boss-revenge' && name === 'scouting' && !window._bossRevengeDialogShown) {
       window._bossRevengeDialogShown = true;
       setTimeout(() => {
-        showStoryDialog([
-          { speaker: '覇王ヴィクター', text: 'ほう、あのときの田舎者か。すべてのスキルを解明して舞い戻ってくるとはな。', color: '#ef4444', speakerTextColor: '#fff' },
-          { speaker: playerName || '研究員', text: 'あの日の借りを返しに来た！ これが僕たちの集大成のパーティだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
-          { speaker: '覇王ヴィクター', text: 'ハハハッ！ 良い面構えだ！ ならば全力で相手をしてやろう！ 行くぞ！', color: '#ef4444', speakerTextColor: '#fff' }
-        ], null);
+        if (gameProgress.bossDefeated) {
+          // EDクリア後
+          showStoryDialog([
+            { speaker: '覇王ヴィクター', text: '更なる高みを望むか、ならば私も力を貸してやろう。来るがいい！', color: '#ef4444', speakerTextColor: '#fff' }
+          ], null);
+        } else if (gameProgress.bossRevengeAttempted) {
+          // リベンジ敗北後の2回目以降挑戦
+          showStoryDialog([
+            { speaker: '覇王ヴィクター', text: '懲りずにまた来るとは、いいだろう、何度でも相手をしてやろう！お前の全てを見せてみろ！', color: '#ef4444', speakerTextColor: '#fff' }
+          ], null);
+        } else {
+          // リベンジ初挑戦時
+          showStoryDialog([
+            { speaker: '覇王ヴィクター', text: 'ほう、あのときの田舎者か。すべてのスキルを解明して舞い戻ってくるとはな。', color: '#ef4444', speakerTextColor: '#fff' },
+            { speaker: playerName || '研究員', text: 'あの日の借りを返しに来た！ これが僕たちの集大成のパーティだ！', color: 'var(--accent-cyan)', speakerTextColor: '#000' },
+            { speaker: '覇王ヴィクター', text: 'ハハハッ！ 良い面構えだ！ ならば全力で相手をしてやろう！ 行くぞ！', color: '#ef4444', speakerTextColor: '#fff' }
+          ], null);
+        }
       }, 100);
     }
   }
@@ -5976,6 +6064,11 @@ function goScreen(name, immediate = false) {
         stageDisplay.innerHTML = `<span>試練の塔</span><span>${survivalWins}階</span>`;
       }
     }
+  }
+
+  // デバッグボタンの表示・状態制御
+  if (typeof updateDebugButtonDisplay === 'function') {
+    updateDebugButtonDisplay(name);
   }
 
 // 1. Title -> Name input
@@ -6154,6 +6247,9 @@ function highlightLabIcon() {
 
 
 function renderLabGrid() {
+  if (typeof updateDebugButtonDisplay === 'function') {
+    updateDebugButtonDisplay('lab');
+  }
   const grid = document.getElementById('lab-grid-6');
   const countDisplay = document.getElementById('lab-monsters-count');
   const randomBtn = document.getElementById('btn-random-create');
@@ -6842,8 +6938,9 @@ function renameMonster(idx) {
   
   input.value = m.name;
   overlay.classList.add('active');
+  overlay.style.display = 'flex';
   
-  setTimeout(() => input.focus(), 50);
+  setTimeout(() => { input.focus(); input.select(); }, 50);
   
   const newConfirmBtn = confirmBtn.cloneNode(true);
   confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
@@ -6873,7 +6970,8 @@ function renameMonster(idx) {
 function closeRenameModal() {
   const overlay = document.getElementById('rename-modal-overlay');
   if (overlay) {
-    overlay.classList.remove('active'); // 繧ｯ繝ｩ繧ｹ繝吶�繧ｹ縺ｧ縺ｮ髱櫁｡ｨ遉ｺ蛻ｶ蠕｡
+    overlay.classList.remove('active');
+    overlay.style.display = 'none';
   }
 }
 
@@ -10350,6 +10448,7 @@ function showResult() {
     // ラストボス視察戦敗北時: 「次へ」ボタンを隠し、ボタン選択肢を「🔬 ラボへ」の1つにする
     if (currentGameMode === 'boss-revenge') {
       if (nextBtn) nextBtn.style.display = 'none';
+      gameProgress.bossRevengeAttempted = true;
       save();
       updateRecord();
       const modal = document.getElementById('battle-result-modal');
@@ -11213,6 +11312,7 @@ function startBossRevenge() {
 
   currentGameMode = 'boss-revenge';
   currentEnemy = { ...HAOU_REVENGE_BOSS };
+  window._bossRevengeDialogShown = false;
 
   goScreen('scouting');
 }
@@ -12207,6 +12307,60 @@ function openRewardShop() {
 //  DEBUG MODE
 // ============================================================
 
+
+
+// ローカル環境（開発環境）かどうかを判定する関数
+function isLocalEnvironment() {
+  try {
+    const hostname = (window.location && window.location.hostname) ? window.location.hostname : '';
+    const protocol = (window.location && window.location.protocol) ? window.location.protocol : '';
+
+    // 1. PCローカルファイル直接実行 (file: または hostname が空)
+    if (protocol.indexOf('file') !== -1 || protocol === 'file:' || hostname === '') return true;
+
+    // 2. ローカルサーバー実行 (localhost, 127.0.0.1, 192.168.x.x, 10.x.x.x, .local 等)
+    if (
+      hostname === 'localhost' ||
+      hostname === '127.0.0.1' ||
+      hostname.startsWith('192.168.') ||
+      hostname.startsWith('10.') ||
+      hostname.endsWith('.local')
+    ) {
+      return true;
+    }
+  } catch (e) {
+    console.error('isLocalEnvironment error:', e);
+  }
+
+  // それ以外（ウェブ公開版・スマホダウンロード版等）は false
+  return false;
+}
+
+// デバッグボタンの表示更新関数
+function updateDebugButtonDisplay(currentScene) {
+  const debugBtn = document.getElementById('debug-toggle-btn');
+  if (!debugBtn) return;
+
+  const labScreen = document.getElementById('lab-screen');
+  const isLabVisible = (currentScene === 'lab') || (labScreen && labScreen.style.display !== 'none');
+
+  // 「ローカル環境」かつ「ラボ画面（モンスター研究所）」の場合のみ表示
+  if (isLocalEnvironment() && isLabVisible) {
+    debugBtn.style.display = 'inline-block';
+    debugBtn.style.visibility = 'visible';
+  } else {
+    // ウェブ版・スマホ版・他画面では完全に非表示
+    debugBtn.style.display = 'none';
+    
+    // 安全のため、本番環境ではデバッグモード自体を強制OFFに固定
+    if (!isLocalEnvironment() && typeof debugMode !== 'undefined' && debugMode) {
+      debugMode = false;
+      if (typeof updateMenuFacilities === 'function') updateMenuFacilities();
+      if (typeof updateSkillProgressUI === 'function') updateSkillProgressUI();
+    }
+  }
+}
+
 let debugMode = false;
 let debugBackup = null; // stores original state before debug ON
 
@@ -12563,6 +12717,9 @@ function _execTaStartTournament() {
 
 function init() {
   updateGameScale();
+  if (typeof updateDebugButtonDisplay === 'function') {
+    updateDebugButtonDisplay('title');
+  }
   // 蛻晄悄隱ｭ縺ｿ霎ｼ縺ｿ譎ゅ√☆縺ｹ縺ｦ縺ｮ繝｢繝ｼ繝繝ｫ繧貞ｼｷ蛻ｶ髢牙悉
   if (typeof closeMonsterSelectModal === 'function') closeMonsterSelectModal();
   if (typeof closeLabDetailModal === 'function') closeLabDetailModal();
