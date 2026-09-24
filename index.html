@@ -804,11 +804,21 @@
       flex-shrink: 0;
     }
 
-    .monster-select-list { display:flex; flex-direction:column; gap:6px; flex:1; min-height:0; overflow-y:auto; }
+    .player-select-panel {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-sizing: border-box;
+    }
+    .player-select-header {
+      flex-shrink: 0;
+      margin-bottom: 4px;
+    }
+    .monster-select-list { display:flex; flex-direction:column; gap:6px; flex:1; height:100%; max-height:calc(100% - 30px); min-height:0; overflow-y:auto; padding:4px; box-sizing:border-box; }
     .monster-select-list::-webkit-scrollbar { width:4px; }
     .monster-select-list::-webkit-scrollbar-track { background:transparent; }
     .monster-select-list::-webkit-scrollbar-thumb { background:var(--border-bright); border-radius:2px; }
-    .monster-select-item { background:transparent !important; border:2px solid rgba(255, 255, 255, 0.6) !important; border-radius:10px; padding:4px 10px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:8px; box-shadow:none !important; }
+    .monster-select-item { background:transparent !important; border:2px solid rgba(255, 255, 255, 0.6) !important; border-radius:10px; padding:8px 10px; margin-bottom:6px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:8px; box-shadow:none !important; }
     .monster-select-item:hover { border-color:var(--accent-blue) !important; border-width: 2px !important; background:transparent !important; }
     .monster-select-item.chosen { border-color:var(--accent-cyan) !important; border-width: 2px !important; background:transparent !important; box-shadow:var(--glow-cyan) !important; }
     .sel-icon { font-size:20px; }
@@ -2167,7 +2177,8 @@
       grid-template-columns: repeat(2, 1fr);
       gap: 10px;
       margin-bottom: 20px;
-      max-height: 240px;
+      flex: 1;
+      max-height: calc(100% - 40px);
       overflow-y: auto;
       padding-right: 4px;
     }
@@ -3072,10 +3083,12 @@
     .target-list-container {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
+      flex: 1;
+      height: 100%;
+      max-height: calc(100% - 30px);
       overflow-x: hidden !important;
       overflow-y: auto !important;
-      max-height: 50vh;
       padding: 4px;
       padding-right: 6px !important;
       box-sizing: border-box !important;
